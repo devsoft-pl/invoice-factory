@@ -15,7 +15,7 @@ class ItemInline(admin.TabularInline):
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'nip')
+    list_display = ('name', 'nip', 'email')
 
 
 class InvoiceAdmin(admin.ModelAdmin):
