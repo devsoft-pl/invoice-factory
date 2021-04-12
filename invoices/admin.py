@@ -18,7 +18,7 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'nip', 'email')
 
 
-class InvoiceAdmin(admin.ModelAdmin):
+class InvoiceAdmin(admin.ModelbAdmin):
     list_display = ('invoice_number', 'company', 'payment_date', 'gross_amount', 'currency')
     list_filter = ('company__name', 'invoice_type')
     search_fields = ('invoice_number', 'company__name')
@@ -39,7 +39,11 @@ class InvoiceAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(VatRate)
+class VatRateAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
-admin.site.register(VatRate)
 admin.site.register(Currency)
