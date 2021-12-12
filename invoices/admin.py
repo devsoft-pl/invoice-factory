@@ -16,9 +16,10 @@ class ItemInline(admin.TabularInline):
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'nip', 'email')
+    search_fields = ('name', 'nip')
 
 
-class InvoiceAdmin(admin.ModelbAdmin):
+class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'company', 'payment_date', 'gross_amount', 'currency')
     list_filter = ('company__name', 'invoice_type')
     search_fields = ('invoice_number', 'company__name')
@@ -39,11 +40,15 @@ class InvoiceAdmin(admin.ModelbAdmin):
     )
 
 
-@admin.register(VatRate)
 class VatRateAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('rate',)
+
+
+class CurrencyAdmin(admin.ModelAdmin):
+    list_display = ('code', 'symbol')
 
 
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
-admin.site.register(Currency)
+admin.site.register(VatRate, VatRateAdmin)
+admin.site.register(Currency, CurrencyAdmin)

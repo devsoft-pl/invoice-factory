@@ -24,7 +24,8 @@ class Company(models.Model):
     zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10, null=True, blank=True)
     city = models.CharField(verbose_name=_('City'), max_length=60, null=True, blank=True)
     email = models.EmailField(verbose_name=_('Email'), null=True, blank=True)
-    default_currency = models.ForeignKey(Currency, verbose_name=_('Default currency'), on_delete=models.CASCADE, null=True, blank=True)
+    default_currency = models.ForeignKey(Currency, verbose_name=_('Default currency'), on_delete=models.CASCADE,
+                                         null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -49,7 +50,8 @@ class Invoice(models.Model):
 
     company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE)
     invoice_type = models.IntegerField(verbose_name=_('Invoice type'), choices=INVOICE_TYPES, null=True, blank=True)
-    payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD, null=True, blank=True)
+    payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD, null=True,
+                                         blank=True)
     create_date = models.DateField(verbose_name=_('Create date'), null=True, blank=True)
     sale_date = models.DateField(verbose_name=_('Sale date'), null=True, blank=True)
     payment_date = models.DateField(verbose_name=_('Payment date'), null=True, blank=True)
