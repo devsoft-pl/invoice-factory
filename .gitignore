@@ -2,3 +2,7 @@
 __pycache__/
 db.sqlite3
 venv/
+.env
+celerybeat-schedule
+media/
+static/
