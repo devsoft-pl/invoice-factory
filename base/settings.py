@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'invoices',
 
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

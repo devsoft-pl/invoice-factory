@@ -4,15 +4,15 @@ from django.utils.translation import gettext as _
 
 
 class VatRate(models.Model):
-    rate = models.PositiveIntegerField(verbose_name=_('Rate'))
+    rate = models.PositiveIntegerField(verbose_name=_('Rate'), unique=True)
 
     def __str__(self):
         return str(self.rate)
 
 
 class Currency(models.Model):
-    code = models.CharField(verbose_name=_('Code'), max_length=10)
-    symbol = models.CharField(verbose_name=_('Symbol'), max_length=10, null=True, blank=True)
+    code = models.CharField(verbose_name=_('Code'), max_length=10, unique=True)
+    symbol = models.CharField(verbose_name=_('Symbol'), max_length=10, null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.code
@@ -24,12 +24,11 @@ class Currency(models.Model):
 class Company(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     nip = models.CharField(verbose_name=_('NIP'), max_length=12, unique=True)
-    street = models.CharField(verbose_name=_('Street'), max_length=100)
-    street_number = models.CharField(verbose_name=_('Street number'), max_length=10)
-    apartment_number = models.CharField(verbose_name=_('Apartment number'), max_length=10, null=True, blank=True)
+    address = models.CharField(verbose_name=_('Address'), max_length=100)
     zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10)
     city = models.CharField(verbose_name=_('City'), max_length=60)
     email = models.EmailField(verbose_name=_('Email'))
+    phone_number = models.CharField(verbose_name=_('Phone number'), max_length=20, null=True, blank=True)
     default_currency = models.ForeignKey(Currency, verbose_name=_('Default currency'), on_delete=models.CASCADE,
                                          related_name='company')
 

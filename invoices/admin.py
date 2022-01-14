@@ -17,7 +17,7 @@ class ItemInline(admin.TabularInline):
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'nip', 'email')
+    list_display = ('name', 'nip', 'email', 'phone_number')
     search_fields = ('name', 'nip')
 
     fieldsets = (
@@ -27,8 +27,9 @@ class CompanyAdmin(admin.ModelAdmin):
         }),
         ('Address data', {
             'fields': (
-                ('street', 'street_number', 'apartment_number'),
+                ('address', ),
                 ('zip_code', 'city'),
+                ('phone_number', )
             )
         }),
         ('Advanced options', {
@@ -49,7 +50,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic information', {
             'fields': (
-                ('invoice_number', 'create_date'),
+                ('invoice_number', 'create_date', 'invoice_pdf'),
                 ('company', 'invoice_type'),
                 ('sale_date', 'payment_date'),
             )
