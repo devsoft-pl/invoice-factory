@@ -33,75 +33,51 @@ class UserSerializer(serializers.ModelSerializer):
 class VatRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = VatRate
-        fields = '__all__'
+        fields = ('id', 'rate')
+        extra_kwargs = {
+            'code': {'validators': []},
+        }
 
 
 class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
-        fields = ('id', 'code', 'symbol')
+        fields = ('id', 'code')
         extra_kwargs = {
             'code': {'validators': []},
-            'symbol': {'validators': []},
         }
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    default_currency = CurrencySerializer(many=False)
-
     class Meta:
         model = Company
-        fields = ['name', 'nip', 'address', 'zip_code', 'city', 'email', 'phone_number', 'default_currency']
-
-    def create(self, validated_data):
-        default_currency = validated_data.pop('default_currency')
-        code = default_currency['code']
-        symbol = default_currency['symbol']
-        default_currency, created = Currency.objects.get_or_create(code=code, symbol=symbol)
-        validated_data['default_currency'] = default_currency
-
-        company = Company.objects.create(**validated_data)
-        return company
+        fields = ['id', 'name', 'nip', 'address', 'zip_code', 'city', 'email', 'phone_number']
 
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['id', 'invoice', 'name', 'unit', 'amount', 'net_price', 'vat']
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(many=False)
-    currency = CurrencySerializer(many=False)
+    items = ItemSerializer(many=True)
 
     class Meta:
         model = Invoice
         fields = ['company', 'invoice_type', 'payment_method', 'create_date', 'sale_date', 'payment_date',
-                  'account_number', 'invoice_number', 'invoice_pdf', 'currency']
+                  'account_number', 'invoice_number', 'invoice_pdf', 'currency', 'items']
 
-    def create(self, validated_data):
-        company = validated_data.pop('company')
-        name = company['name']
-        nip = company['nip']
-        address = company['address']
-        zip_code = company['zip_code']
-        city = company['city']
-        email = company['email']
-        phone_number = company['phone_number']
-        default_currency = company['default_currency']
-        company, created = Company.objects.get_or_create(name=name, nip=nip, address=address, zip_code=zip_code,
-                                                         city=city, email=email, phone_number=phone_number,
-                                                         default_currency=default_currency)
-        validated_data['company'] = company
 
-        currency = validated_data.pop('currency')
-        code = currency['code']
-        symbol = currency['symbol']
-        currency, created = Currency.objects.get_or_create(code=code, symbol=symbol)
-        validated_data['currency'] = currency
 
-        invoice = Invoice.objects.create(**validated_data)
-        return invoice
+
+
+
+
+
+
+
+
 
 
 
