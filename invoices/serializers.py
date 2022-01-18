@@ -57,7 +57,7 @@ class CompanySerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['id', 'invoice', 'name', 'unit', 'amount', 'net_price', 'vat']
+        fields = ['id', 'name', 'unit', 'amount', 'net_price', 'vat']
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
@@ -67,6 +67,23 @@ class InvoiceSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = ['company', 'invoice_type', 'payment_method', 'create_date', 'sale_date', 'payment_date',
                   'account_number', 'invoice_number', 'invoice_pdf', 'currency', 'items']
+
+    def create(self, validated_data):
+        items = validated_data.pop('items')
+        invoice = Invoice.objects.create(**validated_data)
+
+        for item in items:
+            name = item['name']
+            unit = item['unit']
+            amount = item['amount']
+            net_price = item['net_price']
+            vat = item['vat']
+            item, created = Item.objects.create(name=name, unit=unit, amount=amount, net_price=net_price, vat=vat)
+            invoice.items.add(item)
+
+        return invoice
+
+
 
 
 
