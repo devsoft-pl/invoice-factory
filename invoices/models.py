@@ -71,21 +71,21 @@ class Invoice(models.Model):
     @property
     def net_amount(self):
         net_sum = 0
-        for item in self.item_set.all():
+        for item in self.items.all():
             net_sum = net_sum + item.net_amount
         return net_sum
 
     @property
     def tax_amount(self):
         tax_sum = 0
-        for item in self.item_set.all():
+        for item in self.items.all():
             tax_sum = tax_sum + item.tax_amount
         return tax_sum
 
     @property
     def gross_amount(self):
         gross_sum = 0
-        for item in self.item_set.all():
+        for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
 
@@ -106,7 +106,7 @@ class Item(models.Model):
 
     )
 
-    invoice = models.ForeignKey(Invoice, verbose_name=_('Invoice'), on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, verbose_name=_('Invoice'), on_delete=models.CASCADE, related_name="items")
     name = models.CharField(verbose_name=_('Name'), max_length=255)
     unit = models.IntegerField(verbose_name=_('Type of unit'), choices=UNIT_TYPES)
     amount = models.PositiveIntegerField(verbose_name=_('Amount'))
