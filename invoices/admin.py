@@ -34,7 +34,7 @@ class CompanyAdmin(admin.ModelAdmin):
         }),
         ('Advanced options', {
             'fields':
-                ('email', 'default_currency'),
+                ('email', ),
         }),
     )
 
@@ -77,11 +77,11 @@ class VatRateAdmin(admin.ModelAdmin):
 
 @admin.register(Currency)
 class CurrencyAdmin(admin.ModelAdmin):
-    list_display = ('code', 'symbol')
+    list_display = ('code', )
     fieldsets = (
         ('Basic information', {
             'fields':
-                ('code', 'symbol'),
+                ('code', ),
         }),
     )
 
