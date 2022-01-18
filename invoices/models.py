@@ -12,7 +12,6 @@ class VatRate(models.Model):
 
 class Currency(models.Model):
     code = models.CharField(verbose_name=_('Code'), max_length=10, unique=True)
-    symbol = models.CharField(verbose_name=_('Symbol'), max_length=10, null=True, blank=True, unique=True)
 
     def __str__(self):
         return self.code
@@ -29,8 +28,6 @@ class Company(models.Model):
     city = models.CharField(verbose_name=_('City'), max_length=60)
     email = models.EmailField(verbose_name=_('Email'))
     phone_number = models.CharField(verbose_name=_('Phone number'), max_length=20, null=True, blank=True)
-    default_currency = models.ForeignKey(Currency, verbose_name=_('Default currency'), on_delete=models.CASCADE,
-                                         related_name='company')
 
     def __str__(self):
         return self.name
