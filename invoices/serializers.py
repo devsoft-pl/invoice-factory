@@ -78,10 +78,17 @@ class InvoiceSerializer(serializers.ModelSerializer):
             amount = item['amount']
             net_price = item['net_price']
             vat = item['vat']
-            item, created = Item.objects.create(name=name, unit=unit, amount=amount, net_price=net_price, vat=vat)
-            invoice.items.add(item)
+            Item.objects.create(name=name, unit=unit, amount=amount, net_price=net_price, vat=vat, invoice=invoice)
 
         return invoice
+
+    def update(self, instance: Invoice, validated_data):
+        print(validated_data)
+
+
+
+
+
 
 
 

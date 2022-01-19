@@ -71,7 +71,7 @@ class Invoice(models.Model):
     @property
     def net_amount(self):
         net_sum = 0
-        for item in self.items.all():
+        for item in self.items.all():  # self.items ze wzgledy na related_name="items" w Item
             net_sum = net_sum + item.net_amount
         return net_sum
 
