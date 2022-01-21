@@ -53,9 +53,10 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     search_fields = ['invoice_number', 'company__name']
     filterset_fields = ['company__name', 'invoice_type', 'payment_date']
+    ordering_fields = ['invoice_number', 'sale_date', 'payment_date']
 
 
 class ItemViewSet(viewsets.ModelViewSet):
