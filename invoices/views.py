@@ -1,7 +1,12 @@
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
+from rest_framework import (
+    viewsets,
+    filters
+)
 from rest_framework import permissions
+
+
 from invoices.serializers import (
     UserSerializer,
 )
@@ -41,16 +46,16 @@ class CurrencyViewSet(viewsets.ModelViewSet):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    filter_backends = [DjangoFilterBackend]
-    # search_fields = ['name', 'nip']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['name', 'nip']
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['invoice_number', 'company__name']
     filterset_fields = ['company__name', 'invoice_type', 'payment_date']
-    # search_fields = ['invoice_number', 'company__name']
 
 
 class ItemViewSet(viewsets.ModelViewSet):
