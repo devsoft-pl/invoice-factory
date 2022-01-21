@@ -26,6 +26,15 @@ from invoices.serializers import (
 )
 
 
+class OwnedObjectsMixin:  # mxin domieszka, dodanie funkcjonalności do istniejącej klasy
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.is_staff:
+            return super().get_queryset()
+        else:
+            return super().get_queryset().filter(user_id=user.id)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -42,24 +51,10 @@ class VatRateViewSet(viewsets.ModelViewSet):
     queryset = VatRate.objects.all()
     serializer_class = VatRateSerializer
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_queryset()
-        else:
-            return super().get_queryset().filter(id=user.id)
-
 
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_queryset()
-        else:
-            return super().get_queryset().filter(id=user.id)
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -67,13 +62,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['name', 'nip']
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_queryset()
-        else:
-            return super().get_queryset().filter(id=user.id)
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -83,13 +71,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     search_fields = ['invoice_number', 'company__name']
     filterset_fields = ['company__name', 'invoice_type', 'payment_date']
     ordering_fields = ['invoice_number', 'sale_date', 'payment_date']
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return super().get_queryset()
-        else:
-            return super().get_queryset().filter(id=user.id)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
