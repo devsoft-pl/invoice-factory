@@ -5,7 +5,7 @@ from rest_framework import (
     filters
 )
 from rest_framework import permissions
-
+from rest_framework.authentication import TokenAuthentication
 
 from invoices.serializers import (
     UserSerializer,
