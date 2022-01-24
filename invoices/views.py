@@ -82,11 +82,27 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     search_fields = ['invoice_number', 'company__name']
     filterset_fields = ['company__name', 'invoice_type', 'payment_date']
     ordering_fields = ['invoice_number', 'sale_date', 'payment_date']
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return super().get_queryset()
+        else:
+            return super().get_queryset().filter(user_id=user.id)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return super().get_queryset()
+        else:
+            return super().get_queryset().filter(user_id=user.id)
 
 
 
