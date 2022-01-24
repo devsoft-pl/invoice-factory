@@ -31,6 +31,7 @@ class Company(models.Model):
     city = models.CharField(verbose_name=_('City'), max_length=60)
     email = models.EmailField(verbose_name=_('Email'))
     phone_number = models.CharField(verbose_name=_('Phone number'), max_length=20, null=True, blank=True)
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
