@@ -65,6 +65,14 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['name', 'nip']
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return super().get_queryset()
+        else:
+            return super().get_queryset().filter(user_id=user.id)
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
