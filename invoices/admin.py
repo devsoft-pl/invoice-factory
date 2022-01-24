@@ -66,11 +66,12 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 @admin.register(VatRate)
 class VatRateAdmin(admin.ModelAdmin):
-    list_display = ('rate',)
+    list_display = ('rate', 'user')
+    list_filter = ('user', )
     fieldsets = (
         ('Basic information', {
             'fields':
-                ('rate', ),
+                ('rate', 'user'),
         }),
     )
 
