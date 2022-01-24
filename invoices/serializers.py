@@ -33,7 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
 class VatRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = VatRate
-        fields = ('id', 'rate')
+        fields = ('id', 'rate', 'user')
         extra_kwargs = {
             'code': {'validators': []},
         }
