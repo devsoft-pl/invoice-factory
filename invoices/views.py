@@ -4,6 +4,7 @@ from rest_framework import (
     viewsets,
     filters
 )
+from rest_framework.permissions import IsAuthenticated
 
 from invoices.serializers import (
     UserSerializer,
@@ -50,6 +51,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class VatRateViewSet(viewsets.ModelViewSet):
     queryset = VatRate.objects.all()
     serializer_class = VatRateSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CurrencyViewSet(viewsets.ModelViewSet):
