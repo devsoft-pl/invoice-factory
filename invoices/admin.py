@@ -18,10 +18,14 @@ class ItemInline(admin.TabularInline):
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'nip', 'email', 'phone_number', 'user')
-    search_fields = ('name', 'nip')
+    search_fields = ('name', 'nip', 'user__username')
     list_filter = ('user', )
 
     fieldsets = (
+        ('User info', {
+            'fields':
+                ('user',),
+        }),
         ('Basic information', {
             'fields':
                 ('name', 'nip'),
@@ -33,22 +37,23 @@ class CompanyAdmin(admin.ModelAdmin):
                 ('email', 'phone_number')
             )
         }),
-        ('Additional info', {
-            'fields':
-                ('user', ),
-        }),
     )
 
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('invoice_number', 'company', 'payment_date', 'net_amount', 'gross_amount', 'currency')
-    list_filter = ('company__name', 'invoice_type', 'payment_date')
-    search_fields = ('invoice_number', 'company__name')
+    list_display = ('invoice_number', 'company', 'payment_date', 'net_amount', 'gross_amount', 'currency', 'user')
+    list_filter = ('company__name', 'invoice_type', 'payment_date', 'user')
+    search_fields = ('invoice_number', 'company__name', 'user__username')
     inlines = [
         ItemInline
     ]
     fieldsets = (
+        ('User info', {
+            'fields': (
+                ('user',),
+            )
+        }),
         ('Basic information', {
             'fields': (
                 ('invoice_number', 'create_date', 'invoice_pdf'),
