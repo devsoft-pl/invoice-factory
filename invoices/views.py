@@ -57,6 +57,7 @@ class VatRateViewSet(viewsets.ModelViewSet):
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
