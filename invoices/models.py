@@ -68,6 +68,7 @@ class Invoice(models.Model):
     invoice_pdf = models.FileField(verbose_name=_('Invoice pdf'), null=True, blank=True)
     currency = models.ForeignKey(Currency, verbose_name=_('Currency'), on_delete=models.CASCADE, null=True,
                                  related_name='invoice')
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.invoice_number or f'#{self.id}'
