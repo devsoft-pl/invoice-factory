@@ -78,11 +78,12 @@ class VatRateAdmin(admin.ModelAdmin):
 
 @admin.register(Currency)
 class CurrencyAdmin(admin.ModelAdmin):
-    list_display = ('code', )
+    list_display = ('code', 'user')
+    list_filter = ('user',)
     fieldsets = (
         ('Basic information', {
             'fields':
-                ('code', ),
+                ('code', 'user'),
         }),
     )
 
