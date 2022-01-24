@@ -51,7 +51,7 @@ class CurrencySerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['id', 'name', 'nip', 'address', 'zip_code', 'city', 'email', 'phone_number']
+        fields = ['id', 'name', 'nip', 'address', 'zip_code', 'city', 'email', 'phone_number', 'user']
 
 
 class ItemSerializer(serializers.ModelSerializer):
