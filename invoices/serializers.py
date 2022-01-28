@@ -90,12 +90,6 @@ class InvoiceSerializer(serializers.ModelSerializer):
             setattr(instance, key, values)  # ustawia wartosc atrybutu na instance
             # instance.currency = validated_data.get('currency') itd w całej instance
 
-        """
-        items = [
-        {"id": 3, "name": "usluga sprzatająca", "unit": 4, "amount": 1, "net_price": 5000, "vat": 1},
-        {"id": 4, "name": "usluga sprzedająca", "unit": 4, "amount": 1, "net_price": 3000, "vat": 1},
-        ]
-        """
         for item in items:
             item_id = item.pop('id')  # item.pop('id') = item['id'], zdejmuje id, bo nie można edytować id
             instance_item = Item.objects.get(pk=item_id)
