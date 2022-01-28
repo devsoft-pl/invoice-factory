@@ -11,6 +11,9 @@ class VatRate(models.Model):
     def __str__(self):
         return str(self.rate)
 
+    class Meta:
+        ordering = ['rate']
+
 
 class Currency(models.Model):
     code = models.CharField(verbose_name=_('Code'), max_length=10, unique=True)
@@ -76,7 +79,7 @@ class Invoice(models.Model):
     @property
     def net_amount(self):
         net_sum = 0
-        for item in self.items.all():  # self.items ze wzgledy na related_name="items" w Item
+        for item in self.items.all():  # self.items ze względy na related_name="items" w Item
             net_sum = net_sum + item.net_amount
         return net_sum
 
