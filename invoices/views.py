@@ -51,13 +51,11 @@ class UserViewSet(viewsets.ModelViewSet):
 class VatRateViewSet(viewsets.ModelViewSet):
     queryset = VatRate.objects.all()
     serializer_class = VatRateSerializer
-    permission_classes = (IsAuthenticated,)
 
 
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
-    permission_classes = (IsAuthenticated,)
 
 
 class CompanyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
@@ -65,7 +63,6 @@ class CompanyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     serializer_class = CompanySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['name', 'nip']
-    permission_classes = (IsAuthenticated,)
 
 
 class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
@@ -75,13 +72,11 @@ class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     search_fields = ['invoice_number', 'company__name']
     filterset_fields = ['company__name', 'invoice_type', 'payment_date']
     ordering_fields = ['invoice_number', 'sale_date', 'payment_date']
-    permission_classes = (IsAuthenticated,)
 
 
 class ItemViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = (IsAuthenticated,)
 
 
 
