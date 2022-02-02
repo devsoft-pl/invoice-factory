@@ -6,3 +6,4 @@ venv/
 celerybeat-schedule
 media/
 static/
+/logs
