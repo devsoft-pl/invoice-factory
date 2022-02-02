@@ -43,22 +43,22 @@ class CompanyAdmin(admin.ModelAdmin):
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'company', 'payment_date', 'net_amount', 'gross_amount', 'currency', 'user')
-    list_filter = ('company__name', 'invoice_type', 'payment_date', 'user')
+    list_filter = ('is_recurring', 'company__name', 'invoice_type', 'payment_date', 'user')
     search_fields = ('invoice_number', 'company__name', 'user__username')
     inlines = [
         ItemInline
     ]
     fieldsets = (
-        ('User info', {
+        ('User', {
             'fields': (
-                ('user',),
+                ('user', ),
             )
         }),
         ('Basic information', {
             'fields': (
-                ('invoice_number', 'create_date', 'invoice_pdf'),
-                ('company', 'invoice_type'),
-                ('sale_date', 'payment_date'),
+                ('invoice_number', 'invoice_pdf'),
+                ('company', 'invoice_type', 'is_recurring'),
+                ('create_date', 'sale_date', 'payment_date'),
             )
         }),
         ('Advanced options', {

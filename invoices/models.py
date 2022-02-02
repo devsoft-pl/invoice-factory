@@ -60,6 +60,7 @@ class Invoice(models.Model):
         (CASH_PAYMENT, 'Cash'),
     )
 
+    is_recurring = models.BooleanField(verbose_name=_('Recurring'), default=False)
     company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE, related_name='invoice')
     invoice_type = models.IntegerField(verbose_name=_('Invoice type'), choices=INVOICE_TYPES)
     payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD)
