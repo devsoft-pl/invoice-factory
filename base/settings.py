@@ -3,6 +3,8 @@ from pathlib import Path
 import environ
 import os
 
+from celery.schedules import crontab
+
 env = environ.Env(
     DEBUG=(bool, False),
     EMAIL_USE_TLS=(bool, False)
@@ -141,3 +143,11 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+
+CELERY_BEAT_SCHEDULE = {
+    # It occurs at 7 am on the day of creation
+    'reminder to create an invoice': {
+        'task': 'invoices.tasks.invoice_notification',
+        'schedule': crontab(minute=0, hour=7),
+    },
+}
