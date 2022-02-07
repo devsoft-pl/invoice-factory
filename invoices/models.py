@@ -60,19 +60,34 @@ class Invoice(models.Model):
         (CASH_PAYMENT, 'Cash'),
     )
 
-    is_recurring = models.BooleanField(verbose_name=_('Recurring'), default=False)
-    company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE, related_name='invoice')
+    WEEKLY = 0
+    BIWEEKLY = 1
+    MONTHLY = 2
+    THREE_MONTH = 3
+
+    FREQUENCY = (
+        (WEEKLY, 'Weekly'),
+        (BIWEEKLY, 'Biweekly'),
+        (MONTHLY, 'Monthly'),
+        (THREE_MONTH, 'Three month')
+
+    )
+
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    invoice_number = models.CharField(verbose_name=_('Invoice number'), max_length=30)
     invoice_type = models.IntegerField(verbose_name=_('Invoice type'), choices=INVOICE_TYPES)
-    payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD)
+    company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE, related_name='invoice')
+    recurring_frequency = models.IntegerField(verbose_name=_('Recurring_frequency'), choices=FREQUENCY, null=True,
+                                              blank=True)
+    is_recurring = models.BooleanField(verbose_name=_('Recurring'), default=False)
     create_date = models.DateField(verbose_name=_('Create date'), default=timezone.now, editable=True)
     sale_date = models.DateField(verbose_name=_('Sale date'), default=timezone.now, editable=True)
     payment_date = models.DateField(verbose_name=_('Payment date'), default=timezone.now, editable=True)
-    account_number = models.CharField(verbose_name=_('Account number'), max_length=50, null=True, blank=True)
-    invoice_number = models.CharField(verbose_name=_('Invoice number'), max_length=30)
-    invoice_pdf = models.FileField(verbose_name=_('Invoice pdf'), null=True, blank=True)
+    payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD)
     currency = models.ForeignKey(Currency, verbose_name=_('Currency'), on_delete=models.CASCADE, null=True,
                                  related_name='invoice')
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    account_number = models.CharField(verbose_name=_('Account number'), max_length=50, null=True, blank=True)
+    invoice_pdf = models.FileField(verbose_name=_('Invoice pdf'), null=True, blank=True)
 
     def __str__(self):
         return self.invoice_number or f'#{self.id}'
