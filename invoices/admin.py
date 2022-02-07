@@ -56,8 +56,9 @@ class InvoiceAdmin(admin.ModelAdmin):
         }),
         ('Basic information', {
             'fields': (
-                ('invoice_number', 'invoice_pdf'),
-                ('company', 'invoice_type', 'is_recurring'),
+                ('invoice_number', 'invoice_type'),
+                ('company', ),
+                ('recurring_frequency', 'is_recurring'),
                 ('create_date', 'sale_date', 'payment_date'),
             )
         }),
@@ -67,6 +68,10 @@ class InvoiceAdmin(admin.ModelAdmin):
                 ('account_number', ),
             )
         }),
+        ('Invoice pattern', {
+            'fields':
+                ('invoice_pdf', )
+        })
     )
 
 
