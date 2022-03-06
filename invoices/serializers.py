@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+
+from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
@@ -9,7 +11,6 @@ from invoices.models import (
     Invoice,
     Item,
 )
-from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -62,7 +63,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    items = ItemSerializer(many=True)  # FK i many=True, wiec create
+    items = ItemSerializer(many=True)  # FK i many=True
 
     class Meta:
         model = Invoice
