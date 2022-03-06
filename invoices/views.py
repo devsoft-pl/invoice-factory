@@ -34,6 +34,7 @@ class OwnedObjectsMixin:  # mxin domieszka, dodanie funkcjonalnoÅ›ci do istniejÄ
             return super().get_queryset()
         else:
             return super().get_queryset().filter(user_id=user.id)
+            # return super().get_queryset().filter(user=user)  inny zapis
 
 
 class UserViewSet(viewsets.ModelViewSet):
