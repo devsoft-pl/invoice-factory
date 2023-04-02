@@ -40,9 +40,9 @@ class Country(models.Model):
 class Company(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     nip = models.CharField(verbose_name=_('NIP'), max_length=12, unique=True)
-    regon = models.CharField(verbose_name=_('Regon'), max_length=12, unique=True)
+    regon = models.CharField(verbose_name=_('Regon'), max_length=12, unique=True, null=True)
     country = models.ForeignKey(Country, verbose_name=_('Country'), on_delete=models.CASCADE, null=True)
-    street = models.CharField(verbose_name=_('Address'), max_length=100)
+    address = models.CharField(verbose_name=_('Address'), max_length=100)
     zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10)
     city = models.CharField(verbose_name=_('City'), max_length=60)
     email = models.EmailField(verbose_name=_('Email'))
