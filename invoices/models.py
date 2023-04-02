@@ -26,11 +26,22 @@ class Currency(models.Model):
         verbose_name_plural = 'currencies'
 
 
+class Country(models.Model):
+    country = models.CharField(verbose_name=_('Country'), max_length=30, unique=True)
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.country
+
+    class Meta:
+        verbose_name_plural = 'countries'
+
+
 class Company(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     nip = models.CharField(verbose_name=_('NIP'), max_length=12, unique=True)
     regon = models.CharField(verbose_name=_('Regon'), max_length=12, unique=True)
-    country = models.CharField(verbose_name=_('Country'), max_length=12, unique=True)
+    country = models.ForeignKey(Country, verbose_name=_('Country'), on_delete=models.CASCADE, null=True)
     street = models.CharField(verbose_name=_('Address'), max_length=100)
     zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10)
     city = models.CharField(verbose_name=_('City'), max_length=60)
@@ -79,15 +90,13 @@ class Invoice(models.Model):
     invoice_number = models.CharField(verbose_name=_('Invoice number'), max_length=30)
     invoice_type = models.IntegerField(verbose_name=_('Invoice type'), choices=INVOICE_TYPES)
     company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE, related_name='invoice')
-    recurring_frequency = models.IntegerField(verbose_name=_('Recurring_frequency'), choices=FREQUENCY, null=True,
-                                              blank=True)
+    recurring_frequency = models.IntegerField(verbose_name=_('Recurring_frequency'), choices=FREQUENCY, null=True, blank=True)
     is_recurring = models.BooleanField(verbose_name=_('Recurring'), default=False)
     create_date = models.DateField(verbose_name=_('Create date'), default=timezone.now, editable=True)
     sale_date = models.DateField(verbose_name=_('Sale date'), default=timezone.now, editable=True)
     payment_date = models.DateField(verbose_name=_('Payment date'), default=timezone.now, editable=True)
     payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD)
-    currency = models.ForeignKey(Currency, verbose_name=_('Currency'), on_delete=models.CASCADE, null=True,
-                                 related_name='invoice')
+    currency = models.ForeignKey(Currency, verbose_name=_('Currency'), on_delete=models.CASCADE, null=True, related_name='invoice')
     account_number = models.CharField(verbose_name=_('Account number'), max_length=50, null=True, blank=True)
     invoice_pdf = models.FileField(verbose_name=_('Invoice pdf'), null=True, blank=True)
 
@@ -97,7 +106,7 @@ class Invoice(models.Model):
     @property
     def net_amount(self):
         net_sum = 0
-        for item in self.items.all():  # self.items ze względy na related_name="items" w Item
+        for item in self.items.all():
             net_sum = net_sum + item.net_amount
         return net_sum
 
@@ -143,7 +152,7 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-    @property  # dekorator tworzy atrybut o nazwie taka jak nazwa funkcji
+    @property
     def net_amount(self):
         return self.amount * self.net_price
 
