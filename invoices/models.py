@@ -166,36 +166,14 @@ class Invoice(models.Model):
 
 
 class Item(models.Model):
-    KG = 0
-    L = 1
-    KM = 2
-    HOUR = 3
-    ITEM = 4
-
-    UNIT_TYPES = (
-        (KG, "Kilogram"),
-        (L, "Liter"),
-        (KM, "Kilometer"),
-        (HOUR, "Hour"),
-        (ITEM, "Item"),
-    )
-
-    invoice = models.ForeignKey(
-        Invoice,
-        verbose_name=_("Invoice"),
-        on_delete=models.CASCADE,
-        related_name="items",
-    )
+    invoice = models.ForeignKey(Invoice, verbose_name=_("Invoice"), on_delete=models.CASCADE, related_name="items")
     name = models.CharField(verbose_name=_("Name"), max_length=255)
-    unit = models.IntegerField(verbose_name=_("Type of unit"), choices=UNIT_TYPES)
+    pkwiu = models.CharField(verbose_name=_("PWKiU"), max_length=50, null=True)
     amount = models.PositiveIntegerField(verbose_name=_("Amount"))
     net_price = models.PositiveIntegerField(verbose_name=_("Net price"))
-    vat = models.ForeignKey(
-        VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item"
-    )
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
-    )
+    vat = models.ForeignKey(VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item")
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, null=True)
+
 
     def __str__(self):
         return self.name
