@@ -29,7 +29,9 @@ class Currency(models.Model):
 class Company(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     nip = models.CharField(verbose_name=_('NIP'), max_length=12, unique=True)
-    address = models.CharField(verbose_name=_('Address'), max_length=100)
+    regon = models.CharField(verbose_name=_('Regon'), max_length=12, unique=True)
+    country = models.CharField(verbose_name=_('Country'), max_length=12, unique=True)
+    street = models.CharField(verbose_name=_('Address'), max_length=100)
     zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10)
     city = models.CharField(verbose_name=_('City'), max_length=60)
     email = models.EmailField(verbose_name=_('Email'))
