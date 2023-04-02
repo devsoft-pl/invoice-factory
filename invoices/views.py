@@ -1,30 +1,12 @@
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import (
-    viewsets,
-    filters
-)
+from rest_framework import filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from invoices.serializers import (
-    UserSerializer,
-)
-
-from invoices.models import (
-    VatRate,
-    Currency,
-    Company,
-    Invoice,
-    Item,
-)
-
-from invoices.serializers import (
-    VatRateSerializer,
-    CurrencySerializer,
-    CompanySerializer,
-    InvoiceSerializer,
-    ItemSerializer,
-)
+from invoices.models import Company, Currency, Invoice, Item, VatRate
+from invoices.serializers import (CompanySerializer, CurrencySerializer,
+                                  InvoiceSerializer, ItemSerializer,
+                                  UserSerializer, VatRateSerializer)
 
 
 class OwnedObjectsMixin:  # mxin domieszka, dodanie funkcjonalności do istniejącej klasy
@@ -63,21 +45,22 @@ class CompanyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['name', 'nip']
+    search_fields = ["name", "nip"]
 
 
 class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
-    search_fields = ['invoice_number', 'company__name']
-    filterset_fields = ['company__name', 'invoice_type', 'payment_date']
-    ordering_fields = ['invoice_number', 'sale_date', 'payment_date']
+    filter_backends = [
+        filters.SearchFilter,
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    search_fields = ["invoice_number", "company__name"]
+    filterset_fields = ["company__name", "invoice_type", "payment_date"]
+    ordering_fields = ["invoice_number", "sale_date", "payment_date"]
 
 
 class ItemViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-
-
-

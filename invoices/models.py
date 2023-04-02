@@ -5,55 +5,69 @@ from django.utils.translation import gettext as _
 
 
 class VatRate(models.Model):
-    rate = models.PositiveIntegerField(verbose_name=_('Rate'), unique=True)
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    rate = models.PositiveIntegerField(verbose_name=_("Rate"), unique=True)
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return str(self.rate)
 
     class Meta:
-        ordering = ['rate']
+        ordering = ["rate"]
 
 
 class Currency(models.Model):
-    code = models.CharField(verbose_name=_('Code'), max_length=10, unique=True)
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    code = models.CharField(verbose_name=_("Code"), max_length=10, unique=True)
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return self.code
 
     class Meta:
-        verbose_name_plural = 'currencies'
+        verbose_name_plural = "currencies"
 
 
 class Country(models.Model):
-    country = models.CharField(verbose_name=_('Country'), max_length=30, unique=True)
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    country = models.CharField(verbose_name=_("Country"), max_length=30, unique=True)
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return self.country
 
     class Meta:
-        verbose_name_plural = 'countries'
+        verbose_name_plural = "countries"
 
 
 class Company(models.Model):
-    name = models.CharField(verbose_name=_('Name'), max_length=100)
-    nip = models.CharField(verbose_name=_('NIP'), max_length=12, unique=True)
-    regon = models.CharField(verbose_name=_('Regon'), max_length=12, unique=True, null=True)
-    country = models.ForeignKey(Country, verbose_name=_('Country'), on_delete=models.CASCADE, null=True)
-    address = models.CharField(verbose_name=_('Address'), max_length=100)
-    zip_code = models.CharField(verbose_name=_('ZIP Code'), max_length=10)
-    city = models.CharField(verbose_name=_('City'), max_length=60)
-    email = models.EmailField(verbose_name=_('Email'))
-    phone_number = models.CharField(verbose_name=_('Phone number'), max_length=20, null=True, blank=True)
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    nip = models.CharField(verbose_name=_("NIP"), max_length=12, unique=True)
+    regon = models.CharField(
+        verbose_name=_("Regon"), max_length=12, unique=True, null=True
+    )
+    country = models.ForeignKey(
+        Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
+    )
+    address = models.CharField(verbose_name=_("Address"), max_length=100)
+    zip_code = models.CharField(verbose_name=_("ZIP Code"), max_length=10)
+    city = models.CharField(verbose_name=_("City"), max_length=60)
+    email = models.EmailField(verbose_name=_("Email"))
+    phone_number = models.CharField(
+        verbose_name=_("Phone number"), max_length=20, null=True, blank=True
+    )
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'companies'
+        verbose_name_plural = "companies"
 
 
 class Invoice(models.Model):
@@ -61,16 +75,16 @@ class Invoice(models.Model):
     INVOICE_PURCHASE = 1
 
     INVOICE_TYPES = (
-        (INVOICE_SALES, 'Sales'),
-        (INVOICE_PURCHASE, 'Purchase'),
+        (INVOICE_SALES, "Sales"),
+        (INVOICE_PURCHASE, "Purchase"),
     )
 
     BANK_TRANSFER = 0
     CASH_PAYMENT = 1
 
     PAYMENT_METHOD = (
-        (BANK_TRANSFER, 'Transfer'),
-        (CASH_PAYMENT, 'Cash'),
+        (BANK_TRANSFER, "Transfer"),
+        (CASH_PAYMENT, "Cash"),
     )
 
     WEEKLY = 0
@@ -79,29 +93,55 @@ class Invoice(models.Model):
     THREE_MONTH = 3
 
     FREQUENCY = (
-        (WEEKLY, 'Weekly'),
-        (BIWEEKLY, 'Biweekly'),
-        (MONTHLY, 'Monthly'),
-        (THREE_MONTH, 'Three month')
-
+        (WEEKLY, "Weekly"),
+        (BIWEEKLY, "Biweekly"),
+        (MONTHLY, "Monthly"),
+        (THREE_MONTH, "Three month"),
     )
 
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
-    invoice_number = models.CharField(verbose_name=_('Invoice number'), max_length=30)
-    invoice_type = models.IntegerField(verbose_name=_('Invoice type'), choices=INVOICE_TYPES)
-    company = models.ForeignKey(Company, verbose_name=_('Company'), on_delete=models.CASCADE, related_name='invoice')
-    recurring_frequency = models.IntegerField(verbose_name=_('Recurring_frequency'), choices=FREQUENCY, null=True, blank=True)
-    is_recurring = models.BooleanField(verbose_name=_('Recurring'), default=False)
-    create_date = models.DateField(verbose_name=_('Create date'), default=timezone.now, editable=True)
-    sale_date = models.DateField(verbose_name=_('Sale date'), default=timezone.now, editable=True)
-    payment_date = models.DateField(verbose_name=_('Payment date'), default=timezone.now, editable=True)
-    payment_method = models.IntegerField(verbose_name=_('Payment method'), choices=PAYMENT_METHOD)
-    currency = models.ForeignKey(Currency, verbose_name=_('Currency'), on_delete=models.CASCADE, null=True, related_name='invoice')
-    account_number = models.CharField(verbose_name=_('Account number'), max_length=50, null=True, blank=True)
-    invoice_pdf = models.FileField(verbose_name=_('Invoice pdf'), null=True, blank=True)
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
+    invoice_number = models.CharField(verbose_name=_("Invoice number"), max_length=30)
+    invoice_type = models.IntegerField(
+        verbose_name=_("Invoice type"), choices=INVOICE_TYPES
+    )
+    company = models.ForeignKey(
+        Company,
+        verbose_name=_("Company"),
+        on_delete=models.CASCADE,
+        related_name="invoice",
+    )
+    recurring_frequency = models.IntegerField(
+        verbose_name=_("Recurring_frequency"), choices=FREQUENCY, null=True, blank=True
+    )
+    is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
+    create_date = models.DateField(
+        verbose_name=_("Create date"), default=timezone.now, editable=True
+    )
+    sale_date = models.DateField(
+        verbose_name=_("Sale date"), default=timezone.now, editable=True
+    )
+    payment_date = models.DateField(
+        verbose_name=_("Payment date"), default=timezone.now, editable=True
+    )
+    payment_method = models.IntegerField(
+        verbose_name=_("Payment method"), choices=PAYMENT_METHOD
+    )
+    currency = models.ForeignKey(
+        Currency,
+        verbose_name=_("Currency"),
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="invoice",
+    )
+    account_number = models.CharField(
+        verbose_name=_("Account number"), max_length=50, null=True, blank=True
+    )
+    invoice_pdf = models.FileField(verbose_name=_("Invoice pdf"), null=True, blank=True)
 
     def __str__(self):
-        return self.invoice_number or f'#{self.id}'
+        return self.invoice_number or f"#{self.id}"
 
     @property
     def net_amount(self):
@@ -133,21 +173,29 @@ class Item(models.Model):
     ITEM = 4
 
     UNIT_TYPES = (
-        (KG, 'Kilogram'),
-        (L, 'Liter'),
-        (KM, 'Kilometer'),
-        (HOUR, 'Hour'),
-        (ITEM, 'Item')
-
+        (KG, "Kilogram"),
+        (L, "Liter"),
+        (KM, "Kilometer"),
+        (HOUR, "Hour"),
+        (ITEM, "Item"),
     )
 
-    invoice = models.ForeignKey(Invoice, verbose_name=_('Invoice'), on_delete=models.CASCADE, related_name="items")
-    name = models.CharField(verbose_name=_('Name'), max_length=255)
-    unit = models.IntegerField(verbose_name=_('Type of unit'), choices=UNIT_TYPES)
-    amount = models.PositiveIntegerField(verbose_name=_('Amount'))
-    net_price = models.PositiveIntegerField(verbose_name=_('Net price'))
-    vat = models.ForeignKey(VatRate, verbose_name=_('Vat'), on_delete=models.CASCADE, related_name='item')
-    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE, null=True)
+    invoice = models.ForeignKey(
+        Invoice,
+        verbose_name=_("Invoice"),
+        on_delete=models.CASCADE,
+        related_name="items",
+    )
+    name = models.CharField(verbose_name=_("Name"), max_length=255)
+    unit = models.IntegerField(verbose_name=_("Type of unit"), choices=UNIT_TYPES)
+    amount = models.PositiveIntegerField(verbose_name=_("Amount"))
+    net_price = models.PositiveIntegerField(verbose_name=_("Net price"))
+    vat = models.ForeignKey(
+        VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item"
+    )
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
+    )
 
     def __str__(self):
         return self.name
@@ -158,12 +206,8 @@ class Item(models.Model):
 
     @property
     def tax_amount(self):
-        return (self.net_amount * self.vat.rate)/100
+        return (self.net_amount * self.vat.rate) / 100
 
     @property
     def gross_amount(self):
         return self.net_amount + self.tax_amount
-
-
-
-
