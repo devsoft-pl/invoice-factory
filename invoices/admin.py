@@ -11,7 +11,7 @@ class ItemInline(admin.TabularInline):
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ("name", "nip", "email", "phone_number", "user")
-    search_fields = ("name", "nip", "user__username")
+    search_fields = ("name", "nip", "regon", "user__username")
     list_filter = ("user",)
 
     fieldsets = (
@@ -24,12 +24,19 @@ class CompanyAdmin(admin.ModelAdmin):
         (
             "Basic information",
             {
-                "fields": ("name", "nip"),
+                "fields": ("name", "nip", "regon"),
             },
         ),
         (
             "Address data",
-            {"fields": (("address",), ("zip_code", "city"), ("email", "phone_number"))},
+            {
+                "fields": (
+                    ("address",),
+                    ("zip_code", "city"),
+                    ("country",),
+                    ("email", "phone_number"),
+                )
+            },
         ),
     )
 
