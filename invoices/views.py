@@ -4,14 +4,9 @@ from rest_framework import filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from invoices.models import Company, Currency, Invoice, Item, VatRate
-from invoices.serializers import (
-    CompanySerializer,
-    CurrencySerializer,
-    InvoiceSerializer,
-    ItemSerializer,
-    UserSerializer,
-    VatRateSerializer,
-)
+from invoices.serializers import (CompanySerializer, CurrencySerializer,
+                                  InvoiceSerializer, ItemSerializer,
+                                  UserSerializer, VatRateSerializer)
 
 
 class OwnedObjectsMixin:  # mxin domieszka, dodanie funkcjonalności do istniejącej klasy
