@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Company, Currency, Invoice, Item, VatRate
+from .models import Company, Country, Currency, Invoice, Item, VatRate
 
 
 class ItemInline(admin.TabularInline):
@@ -115,6 +115,20 @@ class CurrencyAdmin(admin.ModelAdmin):
             "Basic information",
             {
                 "fields": ("code", "user"),
+            },
+        ),
+    )
+
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ("country", "user")
+    list_filter = ("user",)
+    fieldsets = (
+        (
+            "Basic information",
+            {
+                "fields": ("country", "user"),
             },
         ),
     )
