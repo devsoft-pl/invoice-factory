@@ -50,7 +50,7 @@ class CompanyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ["name", "nip"]
+    search_fields = ["name", "nip", "regon"]
 
 
 class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
