@@ -60,6 +60,8 @@ class CompanySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "nip",
+            "regon",
+            "country",
             "address",
             "zip_code",
             "city",
