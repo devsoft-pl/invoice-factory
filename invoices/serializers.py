@@ -74,10 +74,10 @@ class CompanySerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ["id", "name", "unit", "amount", "net_price", "vat", "user"]
+        fields = ["id", "name", "pkwiu", "amount", "net_price", "vat", "user"]
         extra_kwargs = {
             "id": {"read_only": False}
-        }  # zmieniamy na "nie tylko do odczytu" bo musimy miec id w PUT/PATCH
+        }
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
