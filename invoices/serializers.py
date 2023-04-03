@@ -75,13 +75,11 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ["id", "name", "pkwiu", "amount", "net_price", "vat", "user"]
-        extra_kwargs = {
-            "id": {"read_only": False}
-        }
+        extra_kwargs = {"id": {"read_only": False}}
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    items = ItemSerializer(many=True)  # FK i many=True
+    items = ItemSerializer(many=True)
 
     class Meta:
         model = Invoice
@@ -106,14 +104,14 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
         for item in items:
             name = item["name"]
-            unit = item["unit"]
+            pkwiu = item["pkwiu"]
             amount = item["amount"]
             net_price = item["net_price"]
             vat = item["vat"]
             Item.objects.create(
                 name=name,
-                unit=unit,
                 amount=amount,
+                pkwiu=pkwiu,
                 net_price=net_price,
                 vat=vat,
                 invoice=invoice,
@@ -122,18 +120,13 @@ class InvoiceSerializer(serializers.ModelSerializer):
         return invoice
 
     def update(self, instance: Invoice, validated_data):
-        items = validated_data.pop(
-            "items", []
-        )  # items jeśli jest to zdejmuje sie z validated_data, w innym ustawia []
+        items = validated_data.pop("items", [])
 
         for key, values in validated_data.items():
-            setattr(instance, key, values)  # ustawia wartosc atrybutu na instance
-            # instance.currency = validated_data.get('currency') itd w całej instance
+            setattr(instance, key, values)
 
         for item in items:
-            item_id = item.pop(
-                "id"
-            )  # item.pop('id') = item['id'], zdejmuje id, bo nie można edytować id
+            item_id = item.pop("id")
             instance_item = Item.objects.get(pk=item_id)
 
             for key, values in item.items():
