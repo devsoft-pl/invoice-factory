@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
-from rest_framework.permissions import IsAuthenticated
 
 from invoices.models import Company, Country, Currency, Invoice, Item, VatRate
 from invoices.serializers import (CompanySerializer, CountrySerializer,
