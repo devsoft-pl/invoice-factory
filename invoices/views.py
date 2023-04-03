@@ -3,20 +3,20 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from invoices.models import Company, Currency, Invoice, Item, VatRate
-from invoices.serializers import (CompanySerializer, CurrencySerializer,
-                                  InvoiceSerializer, ItemSerializer,
-                                  UserSerializer, VatRateSerializer)
+from invoices.models import Company, Country, Currency, Invoice, Item, VatRate
+from invoices.serializers import (CompanySerializer, CountrySerializer,
+                                  CurrencySerializer, InvoiceSerializer,
+                                  ItemSerializer, UserSerializer,
+                                  VatRateSerializer)
 
 
-class OwnedObjectsMixin:  # mxin domieszka, dodanie funkcjonalności do istniejącej klasy
+class OwnedObjectsMixin:
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
             return super().get_queryset()
         else:
             return super().get_queryset().filter(user_id=user.id)
-            # return super().get_queryset().filter(user=user)  inny zapis
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -39,6 +39,11 @@ class VatRateViewSet(viewsets.ModelViewSet):
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
+
+
+class CountryViewSet(viewsets.ModelViewSet):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
 
 
 class CompanyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
