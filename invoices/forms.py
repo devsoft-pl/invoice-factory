@@ -1,12 +1,6 @@
 from django import forms
 
-from invoices.models import (
-    VatRate,
-    Currency,
-    Country,
-    Company,
-    Invoice
-)
+from invoices.models import Company, Country, Currency, Invoice, Item, VatRate
 
 
 class VatRateForm(forms.ModelForm):
@@ -16,27 +10,52 @@ class VatRateForm(forms.ModelForm):
 
 
 class CurrencyForm(forms.ModelForm):
-
     class Meta:
         model = Currency
         fields = ["code"]
 
 
 class CountryForm(forms.ModelForm):
-
     class Meta:
         model = Country
         fields = ["country"]
 
-class CompanyForm(forms.ModelForm):
 
+class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ["name", "nip", "regon", "country", "address", "zip_code", "city", "email", "phone_number"]
+        fields = [
+            "name",
+            "nip",
+            "regon",
+            "country",
+            "address",
+            "zip_code",
+            "city",
+            "email",
+            "phone_number",
+        ]
 
 
 class InvoiceForm(forms.ModelForm):
-
     class Meta:
         model = Invoice
-        fields = ["invoice_number", "invoice_type", "company", "recurring_frequency", "is_recurring", "create_date", "sale_date", "payment_date", "payment_method", "currency", "account_number"]
+        fields = [
+            "invoice_number",
+            "invoice_type",
+            "company",
+            "recurring_frequency",
+            "is_recurring",
+            "create_date",
+            "sale_date",
+            "payment_date",
+            "payment_method",
+            "currency",
+            "account_number",
+        ]
+
+
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ["name", "pkwiu", "amount", "net_price", "vat"]
