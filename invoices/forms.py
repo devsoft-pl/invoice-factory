@@ -2,7 +2,8 @@ from django import forms
 
 from invoices.models import (
     VatRate,
-    Currency
+    Currency,
+    Country
 )
 
 
@@ -16,5 +17,11 @@ class CurrencyForm(forms.ModelForm):
 
     class Meta:
         model = Currency
-        fields = ["Currency"]
+        fields = ["code"]
 
+
+class CountryForm(forms.ModelForm):
+
+    class Meta:
+        model = Country
+        fields = ["country"]
