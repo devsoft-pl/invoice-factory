@@ -32,8 +32,14 @@ def update_invoice_view():
     pass
 
 
-def delete_invoice_view():
-    pass
+def delete_invoice_view(request, invoice_id):
+    invoice = Invoice.objects.filter(pk=invoice_id).first()
+    if not invoice:
+        raise Http404("Invoice does not exist")
+    context = {"invoice": invoice}
+    invoice.pop()
+    invoice.save()
+    return render(request, "delete_invoice.html", context)
 
 
 def invoice_pdf_view(request):
