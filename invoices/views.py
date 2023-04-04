@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -12,8 +12,12 @@ def invoices_view(request):
     return render(request, "invoices.html", context)
 
 
-def detail_invoice_view(request):
-    pass
+def detail_invoice_view(request, invoice_id):
+    invoice = Invoice.objects.filter(pk=invoice_id).first()
+    if not invoice:
+        raise Http404("Invoice does not exist")
+    context = {"invoice": invoice}
+    return render(request, "detail_invoice.html", context)
 
 
 def create_invoice_view():
