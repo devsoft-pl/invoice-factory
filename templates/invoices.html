@@ -1,0 +1,9 @@
+{% if invoices %}
+    <ul>
+    {% for invoice in invoices %}
+        <li>{{ invoice }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No invoices are available.</p>
+{% endif %}
