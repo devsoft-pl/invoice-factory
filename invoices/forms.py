@@ -4,7 +4,8 @@ from invoices.models import (
     VatRate,
     Currency,
     Country,
-    Company
+    Company,
+    Invoice
 )
 
 
@@ -32,3 +33,10 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ["name", "nip", "regon", "country", "address", "zip_code", "city", "email", "phone_number"]
+
+
+class InvoiceForm(forms.ModelForm):
+
+    class Meta:
+        model = Invoice
+        fields = ["invoice_number", "invoice_type", "company", "recurring_frequency", "is_recurring", "create_date", "sale_date", "payment_date", "payment_method", "currency", "account_number"]
