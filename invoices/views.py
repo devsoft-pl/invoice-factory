@@ -3,6 +3,10 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
+def index_view(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+
 def invoice_view(request):
     template_path = "invoice.html"
     context = {"myvar": "this is your template context"}
