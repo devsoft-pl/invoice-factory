@@ -1,9 +1,6 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.template.loader import get_template
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
-from xhtml2pdf import pisa
 
 from invoices.models import Company, Country, Currency, Invoice, Item, VatRate
 from invoices.serializers import (CompanySerializer, CountrySerializer,
@@ -71,21 +68,3 @@ class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
 class ItemViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-
-
-def invoice_view(request):
-    template_path = "invoice.html"
-    context = {"myvar": "this is your template context"}
-    # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="faktura.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render(context)
-
-    # create a pdf
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    # if error then show some funny view
-    if pisa_status.err:
-        return HttpResponse("We had some errors <pre>" + html + "</pre>")
-    return response
