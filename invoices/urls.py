@@ -10,9 +10,9 @@ urlpatterns = [
     path("invoices/", invoices_view, name="invoices"),
     path("invoices/<int:invoice_id>/", detail_invoice_view, name="detail"),
     path("invoices/create/", create_invoice_view, name="create"),
-    path("invoices/<int:invoice_id>/", replace_invoice_view, name="replace"),
-    path("invoices/<int:invoice_id>/", update_invoice_view, name="update"),
-    path("invoices/<int:invoice_id>/", delete_invoice_view, name="delete"),
+    path("invoices/replace/<int:invoice_id>/", replace_invoice_view, name="replace"),
+    path("invoices/update/<int:invoice_id>/", update_invoice_view, name="update"),
+    path("invoices/delete/<int:invoice_id>/", delete_invoice_view, name="delete"),
     path("invoices/pdf/", invoice_pdf_view, name="pdf"),
     # path("invoice/", invoice_view, name="invoice_view")
 ]
