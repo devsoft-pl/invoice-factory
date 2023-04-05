@@ -1,9 +1,17 @@
 from django.http import Http404, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import (
+    render,
+    redirect
+)
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+from invoices.forms import InvoiceForm
 from invoices.models import Invoice
+
+
+def index_view(requeste):
+    return render(requeste, "index.html")
 
 
 def invoices_view(request):
@@ -20,8 +28,17 @@ def detail_invoice_view(request, invoice_id):
     return render(request, "detail_invoice.html", context)
 
 
-def create_invoice_view():
-    pass
+def create_invoice_view(request):
+    if request.method != "POST":
+        form = InvoiceForm()
+    else:
+        form = InvoiceForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("invoices:invoices")
+
+    context = {"form": form}
+    return render(request, "create_invoice.html", context)
 
 
 def replace_invoice_view():
