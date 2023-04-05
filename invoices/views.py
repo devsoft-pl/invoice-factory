@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from invoices.forms import InvoiceForm
+from invoices.forms import CompanyForm, InvoiceForm
 from invoices.models import Invoice
 
 
@@ -32,10 +32,27 @@ def create_invoice_view(request):
         form = InvoiceForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect("invoices:invoices")
+            return redirect("invoices:list")
 
     context = {"form": form}
     return render(request, "create_invoice.html", context)
+
+
+def create_company_view(request):
+    if request.method != "POST":
+        initial = {"next": request.GET.get("next")}
+        form = CompanyForm(initial=initial)
+    else:
+        form = CompanyForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            next_url = form.cleaned_data["next"]
+            if next_url:
+                return redirect(next_url)
+
+    context = {"form": form}
+    return render(request, "create_company.html", context)
 
 
 def replace_invoice_view():
@@ -72,3 +89,22 @@ def pdf_invoice_view(request):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
+
+
+def create_company_view2(request, invoice_id):
+    invoice = Invoice.objects.filter(pk=invoice_id).first()
+    if not invoice:
+        raise Http404("Invoice does not exist")
+
+    if request.method != "post":
+        form = CompanyForm()
+    else:
+        form = CompanyForm(data=request.POST)
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.invoice = invoice
+            company.save()
+            return redirect("invoices:detail", invoice_id=invoice.pk)
+
+    context = {"invoice": invoice, "form": form}
+    return render(request, "create_company.html", context)
