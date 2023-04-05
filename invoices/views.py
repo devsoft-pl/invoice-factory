@@ -1,8 +1,5 @@
 from django.http import Http404, HttpResponse
-from django.shortcuts import (
-    render,
-    redirect
-)
+from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
@@ -14,10 +11,10 @@ def index_view(requeste):
     return render(requeste, "index.html")
 
 
-def invoices_view(request):
+def list_invoices_view(request):
     invoices = Invoice.objects.all()
     context = {"invoices": invoices}
-    return render(request, "invoices.html", context)
+    return render(request, "list_invoices.html", context)
 
 
 def detail_invoice_view(request, invoice_id):
@@ -59,8 +56,8 @@ def delete_invoice_view(request, invoice_id):
     return render(request, "delete_invoice.html", context)
 
 
-def invoice_pdf_view(request):
-    template_path = "invoice.html"
+def pdf_invoice_view(request):
+    template_path = "pdf.html"
     context = {"myvar": "this is your template context"}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
