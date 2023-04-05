@@ -22,9 +22,12 @@ class CountryForm(forms.ModelForm):
 
 
 class CompanyForm(forms.ModelForm):
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = Company
         fields = [
+            "next",
             "name",
             "nip",
             "regon",
@@ -53,6 +56,19 @@ class InvoiceForm(forms.ModelForm):
             "currency",
             "account_number",
         ]
+        labels = {
+            "invoice_number": "Numer faktury",
+            "invoice_type": "Typ faktury",
+            "company": "Nazwa firmy",
+            "recurring_frequency": "Częstotliwość faktury",
+            "is_recurring": "Czy powtarzalna",
+            "create_date": "Data utworzenia",
+            "sale_date": "Data sprzedaży",
+            "payment_date": "Data płatności",
+            "payment_method": "Forma płatności",
+            "currency": "Waluta",
+            "account_number": "Numer konta",
+        }
 
 
 class ItemForm(forms.ModelForm):
