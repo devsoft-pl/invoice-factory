@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>Lista faktur</p>
+
+{% if invoices %}
+    <ul>
+    {% for invoice in invoices %}
+        <li>
+          <a href="{% url 'invoices:detail' invoice.pk %}">{{ invoice }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No invoices are available.</p>
+{% endif %}
+
+{% endblock content %}
