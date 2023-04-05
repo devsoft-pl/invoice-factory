@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <ul>
   <li>Numer faktury: {{ invoice.invoice_number }}</li>
   <li>Typ faktury: {{ invoice.invoice_type }}</li>
@@ -11,3 +15,7 @@
   <li>Waluta: {{ invoice.currency }}</li>
   <li>Numer konta: {{ invoice.account_number }}</li>
 </ul>
+
+{% endblock content %}
+
+
