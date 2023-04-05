@@ -32,7 +32,7 @@ def create_invoice_view(request):
         form = InvoiceForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect("invoices:list")
+            return redirect("invoices:list_invoices")
 
     context = {"form": form}
     return render(request, "create_invoice.html", context)
@@ -90,21 +90,3 @@ def pdf_invoice_view(request):
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
 
-
-def create_company_view2(request, invoice_id):
-    invoice = Invoice.objects.filter(pk=invoice_id).first()
-    if not invoice:
-        raise Http404("Invoice does not exist")
-
-    if request.method != "post":
-        form = CompanyForm()
-    else:
-        form = CompanyForm(data=request.POST)
-        if form.is_valid():
-            company = form.save(commit=False)
-            company.invoice = invoice
-            company.save()
-            return redirect("invoices:detail", invoice_id=invoice.pk)
-
-    context = {"invoice": invoice, "form": form}
-    return render(request, "create_company.html", context)
