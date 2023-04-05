@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Nowa faktura</p>
+
+  <form action="{% url 'invoices:create_invoice' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Dodaj fakturę</button>
+  </form>
+
+  <a href="{% url 'invoices:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
+
+{% endblock content %}

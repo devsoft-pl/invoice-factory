@@ -2,18 +2,21 @@
 
 {% block content %}
 
-<p>Lista faktur</p>
+  <p>Lista faktur</p>
 
-{% if invoices %}
-    <ul>
-    {% for invoice in invoices %}
-        <li>
-          <a href="{% url 'invoices:detail' invoice.pk %}">{{ invoice }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No invoices are available.</p>
-{% endif %}
+  {% if invoices %}
+      <ul>
+      {% for invoice in invoices %}
+          <li>
+            <a href="{% url 'invoices:detail_invoice' invoice.pk %}">{{ invoice }}</a>
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak faktur</p>
+  {% endif %}
+
+  <a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a>
 
 {% endblock content %}
+
