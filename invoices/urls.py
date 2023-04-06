@@ -17,9 +17,10 @@ urlpatterns = [
     path("update/<int:invoice_id>/", update_invoice_view, name="update_invoice"),
     path("delete/<int:invoice_id>/", delete_invoice_view, name="delete_invoice"),
     path("pdf/", pdf_invoice_view, name="pdf_invoice"),
+
     path("companies/", list_companies_view, name="list_companies"),
-    path("companies/create/", create_company_view, name="create_company"),
     path("companies/<int:company_id>/", detail_company_view, name="detail_company"),
+    path("companies/create/", create_company_view, name="create_company"),
+
     path("currency/create/", create_currency_view, name="create_currency"),
-    # path("invoice/", invoice_view, name="invoice_view")
 ]

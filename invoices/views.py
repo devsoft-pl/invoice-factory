@@ -65,6 +65,8 @@ def create_company_view(request):
             if next_url:
                 return redirect(next_url)
 
+            return redirect("invoices:list_companies")
+
     context = {"form": form}
     return render(request, "create_company.html", context)
 
