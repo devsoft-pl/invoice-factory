@@ -3,7 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from companies.models import Company, Country
-from companies.serializers import CompanySerializer, CountrySerializer
+from companies.serializers import CompanySerializer
+from countries.serializers import CountrySerializer
 from invoices.models import Currency, Invoice, Item, VatRate
 from invoices.serializers import (CurrencySerializer, InvoiceSerializer,
                                   ItemSerializer, UserSerializer,
