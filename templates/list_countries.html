@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Lista krajów</p>
+
+  {% if countries %}
+      <ul>
+      {% for country in countries %}
+          <li>
+            <a href="{% url 'countries:detail_country' country.pk %}">{{ country }}</a>
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak krajów</p>
+  {% endif %}
+
+  <a href="{% url 'countries:create_country' %}">Dodaj kraj</a>
+
+{% endblock content %}

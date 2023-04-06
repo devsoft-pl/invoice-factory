@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul>
+    <li>Kraj: {{ country.country }}</li>
+  </ul>
+
+  <a href="{% url 'countries:list_countries' %}">Powrót</a>
+
+{% endblock content %}
