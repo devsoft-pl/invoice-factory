@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 from invoices.forms import CompanyForm, CurrencyForm, InvoiceForm
-from invoices.models import Invoice
+from invoices.models import Company, Invoice
 
 
 def index_view(requeste):
@@ -15,6 +15,12 @@ def list_invoices_view(request):
     invoices = Invoice.objects.all()
     context = {"invoices": invoices}
     return render(request, "list_invoices.html", context)
+
+
+def list_companies_view(request):
+    companies = Company.objects.all()
+    context = {"companies": companies}
+    return render(request, "list_companies.html", context)
 
 
 def detail_invoice_view(request, invoice_id):

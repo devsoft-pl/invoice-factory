@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Lista firm</p>
+
+  {% if companies %}
+      <ul>
+      {% for company in companies %}
+          <li>
+            {{ company }}
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak firm</p>
+  {% endif %}
+
+{% endblock content %}
