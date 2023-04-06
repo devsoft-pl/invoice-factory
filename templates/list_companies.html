@@ -8,7 +8,7 @@
       <ul>
       {% for company in companies %}
           <li>
-            <a href="{% url 'invoices:detail_company' company.pk %}">{{ company }}</a>
+            <a href="{% url 'companies:detail_company' company.pk %}">{{ company }}</a>
           </li>
       {% endfor %}
       </ul>
@@ -16,6 +16,6 @@
       <p>Brak firm</p>
   {% endif %}
 
-  <a href="{% url 'invoices:create_company' %}">Dodaj firmę</a>
+  <a href="{% url 'companies:create_company' %}">Dodaj firmę</a>
 
 {% endblock content %}
