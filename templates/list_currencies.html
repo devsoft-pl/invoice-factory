@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Lista walut</p>
+
+  {% if currencies %}
+      <ul>
+      {% for currency in currencies %}
+          <li>
+            {{ currency }}
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak walut</p>
+  {% endif %}
+
+  <a href="{% url 'invoices:create_currency' %}">Dodaj walutę</a>
+
+{% endblock content %}
