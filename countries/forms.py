@@ -4,6 +4,8 @@ from countries.models import Country
 
 
 class CountryForm(forms.ModelForm):
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = Country
-        fields = ["country"]
+        fields = ["next", "country"]
