@@ -14,7 +14,12 @@ class CurrencyForm(forms.ModelForm):
 
     class Meta:
         model = Currency
-        fields = ["next", "code"]
+        fields = [
+            "next",
+            "code"]
+        labels = {
+            "code": "Kod kraju"
+        }
 
 
 class CountryForm(forms.ModelForm):
@@ -40,7 +45,17 @@ class CompanyForm(forms.ModelForm):
             "email",
             "phone_number",
         ]
-
+        labels = {
+            "name": "Nazwa firmy",
+            "nip": "Nip",
+            "regon": "Regon",
+            "country": "Kraj",
+            "address": "Adres",
+            "zip_code": "Kod pocztowy",
+            "city": "Miasto",
+            "email": "Email",
+            "phone_number": "Numer telefonu",
+        }
 
 class InvoiceForm(forms.ModelForm):
     class Meta:
