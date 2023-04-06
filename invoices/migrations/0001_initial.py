@@ -42,7 +42,6 @@ class Migration(migrations.Migration):
                 ('sale_date', models.DateField(blank=True, null=True)),
                 ('payment_date', models.DateField(blank=True, null=True)),
                 ('invoice_number', models.CharField(blank=True, max_length=30, null=True)),
-                ('invoice_pdf', models.FileField(blank=True, null=True, upload_to='')),
                 ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='invoices.company')),
                 ('currency', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='invoices.currency')),
             ],

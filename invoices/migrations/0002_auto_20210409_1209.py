@@ -78,11 +78,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='invoice',
-            name='invoice_pdf',
-            field=models.FileField(blank=True, null=True, upload_to='', verbose_name='Invoice pdf'),
-        ),
-        migrations.AlterField(
-            model_name='invoice',
             name='invoice_type',
             field=models.IntegerField(blank=True, choices=[(0, 'Sales'), (1, 'Purchase')], null=True, verbose_name='Invoice type'),
         ),
