@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Nowa firma</p>
+
+  <form action="{% url 'invoices:create_currency' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Dodaj walutę</button>
+  </form>
+
+{% endblock content %}

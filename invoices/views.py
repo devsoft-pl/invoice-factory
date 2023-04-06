@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from invoices.forms import CompanyForm, InvoiceForm
+from invoices.forms import CompanyForm, CurrencyForm, InvoiceForm
 from invoices.models import Invoice
 
 
@@ -55,6 +55,23 @@ def create_company_view(request):
     return render(request, "create_company.html", context)
 
 
+def create_currency_view(request):
+    if request.method != "POST":
+        initial = {"next": request.GET.get("next")}
+        form = CurrencyForm(initial=initial)
+    else:
+        form = CurrencyForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            next_url = form.cleaned_data["next"]
+            if next_url:
+                return redirect(next_url)
+
+    context = {"form": form}
+    return render(request, "create_currency.html", context)
+
+
 def replace_invoice_view():
     pass
 
@@ -89,4 +106,3 @@ def pdf_invoice_view(request):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
-

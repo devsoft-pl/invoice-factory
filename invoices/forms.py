@@ -10,9 +10,11 @@ class VatRateForm(forms.ModelForm):
 
 
 class CurrencyForm(forms.ModelForm):
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = Currency
-        fields = ["code"]
+        fields = ["next", "code"]
 
 
 class CountryForm(forms.ModelForm):

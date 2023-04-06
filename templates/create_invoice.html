@@ -11,5 +11,6 @@
   </form>
 
   <a href="{% url 'invoices:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
+  <a href="{% url 'invoices:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
 
 {% endblock content %}

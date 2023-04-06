@@ -1,8 +1,9 @@
 from django.urls import path
 
-from invoices.views import (create_company_view, create_invoice_view,
-                            delete_invoice_view, detail_invoice_view,
-                            index_view, list_invoices_view, pdf_invoice_view,
+from invoices.views import (create_company_view, create_currency_view,
+                            create_invoice_view, delete_invoice_view,
+                            detail_invoice_view, index_view,
+                            list_invoices_view, pdf_invoice_view,
                             replace_invoice_view, update_invoice_view)
 
 app_name = "invoices"
@@ -16,5 +17,6 @@ urlpatterns = [
     path("delete/<int:invoice_id>/", delete_invoice_view, name="delete_invoice"),
     path("pdf/", pdf_invoice_view, name="pdf_invoice"),
     path("company/create/", create_company_view, name="create_company"),
+    path("currency/create/", create_currency_view, name="create_currency"),
     # path("invoice/", invoice_view, name="invoice_view")
 ]
