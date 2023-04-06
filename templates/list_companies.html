@@ -8,7 +8,7 @@
       <ul>
       {% for company in companies %}
           <li>
-            {{ company }}
+            <a href="{% url 'invoices:detail_company' company.pk %}">{{ company }}</a>
           </li>
       {% endfor %}
       </ul>

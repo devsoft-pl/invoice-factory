@@ -31,6 +31,14 @@ def detail_invoice_view(request, invoice_id):
     return render(request, "detail_invoice.html", context)
 
 
+def detail_company_view(request, company_id):
+    company = Company.objects.filter(pk=company_id).first()
+    if not company:
+        raise Http404("Invoice does not exist")
+    context = {"company": company}
+    return render(request, "detail_company.html", context)
+
+
 def create_invoice_view(request):
     if request.method != "POST":
         form = InvoiceForm()

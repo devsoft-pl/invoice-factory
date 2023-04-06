@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul>
+    <li>Nazwa firmy: {{ company.name }}</li>
+    <li>Nip: {{ company.nip }}</li>
+    <li>Regon: {{ company.regon }}</li>
+    <li>Kraj: {{ company.country }}</li>
+    <li>Adres: {{ company.address }}</li>
+    <li>Kod pocztowy: {{ company.zip_code }}</li>
+    <li>Miasto: {{ company.city }}</li>
+    <li>Email: {{ company.email }}</li>
+    <li>Numer telefonu: {{ company.phone_number }}</li>
+  </ul>
+
+  <a href="{% url 'invoices:list_companies' %}">Powrót</a>
+
+{% endblock content %}
