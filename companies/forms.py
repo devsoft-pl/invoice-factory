@@ -1,12 +1,6 @@
 from django import forms
 
-from companies.models import Company, Country
-
-
-class CountryForm(forms.ModelForm):
-    class Meta:
-        model = Country
-        fields = ["country"]
+from companies.models import Company
 
 
 class CompanyForm(forms.ModelForm):

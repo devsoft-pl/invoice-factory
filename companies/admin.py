@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from companies.models import Company, Country
+from companies.models import Company
 
 
 @admin.register(Company)
@@ -31,20 +31,6 @@ class CompanyAdmin(admin.ModelAdmin):
                     ("country",),
                     ("email", "phone_number"),
                 )
-            },
-        ),
-    )
-
-
-@admin.register(Country)
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ("country", "user")
-    list_filter = ("user",)
-    fieldsets = (
-        (
-            "Basic information",
-            {
-                "fields": ("country", "user"),
             },
         ),
     )
