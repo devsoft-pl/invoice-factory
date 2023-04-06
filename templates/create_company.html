@@ -10,4 +10,6 @@
     <button name="submit">Dodaj firmę</button>
   </form>
 
+  <a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a>
+
 {% endblock content %}
