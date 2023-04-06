@@ -1,44 +1,11 @@
 from django.contrib import admin
 
-from .models import Company, Country, Currency, Invoice, Item, VatRate
+from .models import Currency, Invoice, Item, VatRate
 
 
 class ItemInline(admin.TabularInline):
     model = Item
     extra = 1
-
-
-@admin.register(Company)
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = ("name", "nip", "email", "phone_number", "user")
-    search_fields = ("name", "nip", "regon", "user__username")
-    list_filter = ("user",)
-
-    fieldsets = (
-        (
-            "User info",
-            {
-                "fields": ("user",),
-            },
-        ),
-        (
-            "Basic information",
-            {
-                "fields": ("name", "nip", "regon"),
-            },
-        ),
-        (
-            "Address data",
-            {
-                "fields": (
-                    ("address",),
-                    ("zip_code", "city"),
-                    ("country",),
-                    ("email", "phone_number"),
-                )
-            },
-        ),
-    )
 
 
 @admin.register(Invoice)
@@ -88,7 +55,6 @@ class InvoiceAdmin(admin.ModelAdmin):
                 "fields": ("recurring_frequency", "is_recurring"),
             },
         ),
-        ("Invoice pattern", {"fields": ("invoice_pdf",)}),
     )
 
 
@@ -115,20 +81,6 @@ class CurrencyAdmin(admin.ModelAdmin):
             "Basic information",
             {
                 "fields": ("code", "user"),
-            },
-        ),
-    )
-
-
-@admin.register(Country)
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ("country", "user")
-    list_filter = ("user",)
-    fieldsets = (
-        (
-            "Basic information",
-            {
-                "fields": ("country", "user"),
             },
         ),
     )

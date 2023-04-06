@@ -3,12 +3,8 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from invoices.forms import CompanyForm, CurrencyForm, InvoiceForm
-from invoices.models import (
-    Company,
-    Invoice,
-    Currency
-)
+from invoices.forms import CurrencyForm, InvoiceForm
+from invoices.models import Currency, Invoice
 
 
 def index_view(requeste):
@@ -19,12 +15,6 @@ def list_invoices_view(request):
     invoices = Invoice.objects.all()
     context = {"invoices": invoices}
     return render(request, "list_invoices.html", context)
-
-
-def list_companies_view(request):
-    companies = Company.objects.all()
-    context = {"companies": companies}
-    return render(request, "list_companies.html", context)
 
 
 def list_currencies_view(request):
@@ -41,14 +31,6 @@ def detail_invoice_view(request, invoice_id):
     return render(request, "detail_invoice.html", context)
 
 
-def detail_company_view(request, company_id):
-    company = Company.objects.filter(pk=company_id).first()
-    if not company:
-        raise Http404("Invoice does not exist")
-    context = {"company": company}
-    return render(request, "detail_company.html", context)
-
-
 def create_invoice_view(request):
     if request.method != "POST":
         form = InvoiceForm()
@@ -60,25 +42,6 @@ def create_invoice_view(request):
 
     context = {"form": form}
     return render(request, "create_invoice.html", context)
-
-
-def create_company_view(request):
-    if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = CompanyForm(initial=initial)
-    else:
-        form = CompanyForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
-
-            return redirect("invoices:list_companies")
-
-    context = {"form": form}
-    return render(request, "create_company.html", context)
 
 
 def create_currency_view(request):
@@ -93,6 +56,8 @@ def create_currency_view(request):
             next_url = form.cleaned_data["next"]
             if next_url:
                 return redirect(next_url)
+
+            return redirect("invoices:list_currencies")
 
     context = {"form": form}
     return render(request, "create_currency.html", context)

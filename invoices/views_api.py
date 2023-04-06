@@ -2,9 +2,10 @@ from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
-from invoices.models import Company, Country, Currency, Invoice, Item, VatRate
-from invoices.serializers import (CompanySerializer, CountrySerializer,
-                                  CurrencySerializer, InvoiceSerializer,
+from companies.models import Company, Country
+from companies.serializers import CompanySerializer, CountrySerializer
+from invoices.models import Currency, Invoice, Item, VatRate
+from invoices.serializers import (CurrencySerializer, InvoiceSerializer,
                                   ItemSerializer, UserSerializer,
                                   VatRateSerializer)
 
