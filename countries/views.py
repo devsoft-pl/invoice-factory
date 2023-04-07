@@ -36,3 +36,20 @@ def create_country_view(request):
 
     context = {"form": form}
     return render(request, "create_country.html", context)
+
+
+def replace_country_view(request, country_id):
+    country = Country.objects.filter(pk=country_id).first()
+    if not country:
+        raise Http404("Invoice does not exist")
+
+    if request.method != "POST":
+        form = CountryForm(instance=country)
+    else:
+        form = CountryForm(instance=country, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("countries:list_countries")
+
+    context = {"country": country, "form": form}
+    return render(request, "replace_country.html", context)
