@@ -9,3 +9,4 @@ class CountryForm(forms.ModelForm):
     class Meta:
         model = Country
         fields = ["next", "country"]
+        labels = {"country": "Kraj"}
