@@ -14,5 +14,6 @@ urlpatterns = [
     path("countries/", include("countries.urls")),
     path("currencies/", include("currencies.urls")),
     path("invoices/", include("invoices.urls")),
+    path("items/", include("items.urls")),
     path("vat_rates/", include("vat_rates.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
