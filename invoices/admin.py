@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-from .models import Invoice, Item
-
-
-class ItemInline(admin.TabularInline):
-    model = Item
-    extra = 1
+from .models import Invoice
 
 
 @admin.register(Invoice)

@@ -1,6 +1,6 @@
 from django import forms
 
-from invoices.models import Invoice, Item
+from invoices.models import Invoice
 
 
 class InvoiceForm(forms.ModelForm):
@@ -32,9 +32,3 @@ class InvoiceForm(forms.ModelForm):
             "currency": "Waluta",
             "account_number": "Numer konta",
         }
-
-
-class ItemForm(forms.ModelForm):
-    class Meta:
-        model = Item
-        fields = ["name", "pkwiu", "amount", "net_price", "vat"]
