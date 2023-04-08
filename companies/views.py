@@ -36,3 +36,21 @@ def create_company_view(request):
 
     context = {"form": form}
     return render(request, "create_company.html", context)
+
+
+def replace_company_view(request, company_id):
+    company = Company.objects.filter(pk=company_id).first()
+    if not company:
+        raise Http404("Company does not exist")
+
+    if request.method != "POST":
+        form = CompanyForm(instance=company)
+    else:
+        form = CompanyForm(instance=company, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            return redirect("companies:list_companies")
+
+    context = {"company": company, "form": form}
+    return render(request, "replace_company.html", context)
