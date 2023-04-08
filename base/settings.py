@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "invoices",
     "companies",
     "countries",
+    "currencies",
+    "vat_rates",
 ]
 
 MIDDLEWARE = [
