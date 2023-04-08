@@ -12,5 +12,7 @@ urlpatterns = [
     path("api-token-auth/", obtain_auth_token),
     path("companies/", include("companies.urls")),
     path("countries/", include("countries.urls")),
+    path("currencies/", include("currencies.urls")),
     path("invoices/", include("invoices.urls")),
+    path("vat_rates/", include("vat_rates.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
