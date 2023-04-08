@@ -3,8 +3,8 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from invoices.forms import CurrencyForm, InvoiceForm
-from invoices.models import Currency, Invoice
+from invoices.forms import InvoiceForm
+from invoices.models import Invoice
 
 
 def index_view(requeste):
@@ -15,12 +15,6 @@ def list_invoices_view(request):
     invoices = Invoice.objects.all()
     context = {"invoices": invoices}
     return render(request, "list_invoices.html", context)
-
-
-def list_currencies_view(request):
-    currencies = Currency.objects.all()
-    context = {"currencies": currencies}
-    return render(request, "list_currencies.html", context)
 
 
 def detail_invoice_view(request, invoice_id):
@@ -42,25 +36,6 @@ def create_invoice_view(request):
 
     context = {"form": form}
     return render(request, "create_invoice.html", context)
-
-
-def create_currency_view(request):
-    if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = CurrencyForm(initial=initial)
-    else:
-        form = CurrencyForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
-
-            return redirect("invoices:list_currencies")
-
-    context = {"form": form}
-    return render(request, "create_currency.html", context)
 
 
 def replace_invoice_view():

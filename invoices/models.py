@@ -4,32 +4,8 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from companies.models import Company
-
-
-class VatRate(models.Model):
-    rate = models.PositiveIntegerField(verbose_name=_("Rate"), unique=True)
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
-    )
-
-    def __str__(self):
-        return str(self.rate)
-
-    class Meta:
-        ordering = ["rate"]
-
-
-class Currency(models.Model):
-    code = models.CharField(verbose_name=_("Code"), max_length=10, unique=True)
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
-    )
-
-    def __str__(self):
-        return self.code
-
-    class Meta:
-        verbose_name_plural = "currencies"
+from currencies.models import Currency
+from vat_rates.models import VatRate
 
 
 class Invoice(models.Model):

@@ -1,21 +1,5 @@
 from django import forms
-
-from invoices.models import Currency, Invoice, Item, VatRate
-
-
-class VatRateForm(forms.ModelForm):
-    class Meta:
-        model = VatRate
-        fields = ["rate"]
-
-
-class CurrencyForm(forms.ModelForm):
-    next = forms.CharField(widget=forms.HiddenInput(), required=False)
-
-    class Meta:
-        model = Currency
-        fields = ["next", "code"]
-        labels = {"code": "Kod kraju"}
+from invoices.models import Invoice, Item
 
 
 class InvoiceForm(forms.ModelForm):

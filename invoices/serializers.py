@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
-from invoices.models import Currency, Invoice, Item, VatRate
+from invoices.models import Invoice, Item
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,24 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         Token.objects.create(user=user)
         return user
-
-
-class VatRateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VatRate
-        fields = ("id", "rate", "user")
-        extra_kwargs = {
-            "code": {"validators": []},
-        }
-
-
-class CurrencySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Currency
-        fields = ("id", "code", "user")
-        extra_kwargs = {
-            "code": {"validators": []},
-        }
 
 
 class ItemSerializer(serializers.ModelSerializer):

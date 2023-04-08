@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Currency, Invoice, Item, VatRate
+from .models import Invoice, Item
 
 
 class ItemInline(admin.TabularInline):
@@ -53,34 +53,6 @@ class InvoiceAdmin(admin.ModelAdmin):
             "Recurring invoice",
             {
                 "fields": ("recurring_frequency", "is_recurring"),
-            },
-        ),
-    )
-
-
-@admin.register(VatRate)
-class VatRateAdmin(admin.ModelAdmin):
-    list_display = ("rate", "user")
-    list_filter = ("user",)
-    fieldsets = (
-        (
-            "Basic information",
-            {
-                "fields": ("rate", "user"),
-            },
-        ),
-    )
-
-
-@admin.register(Currency)
-class CurrencyAdmin(admin.ModelAdmin):
-    list_display = ("code", "user")
-    list_filter = ("user",)
-    fieldsets = (
-        (
-            "Basic information",
-            {
-                "fields": ("code", "user"),
             },
         ),
     )

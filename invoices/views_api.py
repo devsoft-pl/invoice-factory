@@ -2,13 +2,16 @@ from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
-from companies.models import Company, Country
+from companies.models import Company
 from companies.serializers import CompanySerializer
+from countries.models import Country
 from countries.serializers import CountrySerializer
-from invoices.models import Currency, Invoice, Item, VatRate
-from invoices.serializers import (CurrencySerializer, InvoiceSerializer,
-                                  ItemSerializer, UserSerializer,
-                                  VatRateSerializer)
+from currencies.models import Currency
+from currencies.serializers import CurrencySerializer
+from invoices.models import Invoice, Item, VatRate
+from invoices.serializers import (InvoiceSerializer, ItemSerializer,
+                                  UserSerializer)
+from vat_rates.serializers import VatRateSerializer
 
 
 class OwnedObjectsMixin:
