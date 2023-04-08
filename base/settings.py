@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "countries",
     "currencies",
     "vat_rates",
+    "items",
 ]
 
 MIDDLEWARE = [
