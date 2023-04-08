@@ -4,7 +4,7 @@
 
   <p>Nowa firma</p>
 
-  <form action="{% url 'invoices:create_currency' %}" method='post'>
+  <form action="{% url 'currencies:create_currency' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">Dodaj walutę</button>
