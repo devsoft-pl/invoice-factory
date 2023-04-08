@@ -1,11 +1,7 @@
 from django.urls import path
 
-from vat_rates.views import (
-    list_vates_view,
-    detail_vat_view,
-    create_vat_view,
-    replace_vat_view
-)
+from vat_rates.views import (create_vat_view, detail_vat_view, list_vates_view,
+                             replace_vat_view)
 
 app_name = "vat_rates"
 urlpatterns = [

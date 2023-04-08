@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def list_vates_view():
     pass
 
