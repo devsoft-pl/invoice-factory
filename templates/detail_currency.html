@@ -6,7 +6,7 @@
     <li>Waluta: {{ currency.currency }}</li>
   </ul>
 
-  <a href="{% url 'currencies:list_currensies' %}">Powrót</a>
+  <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
   <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
 
 {% endblock content %}
