@@ -8,7 +8,7 @@ from vat_rates.models import VatRate
 def list_vates_view(request):
     vat_rates = VatRate.objects.all()
     context = {"vat_rates": vat_rates}
-    return render(request, "list_vat_rates.html", context)
+    return render(request, "list_vates.html", context)
 
 
 def detail_vat_view(request, vat_id):
@@ -17,7 +17,7 @@ def detail_vat_view(request, vat_id):
         raise Http404("Invoice does not exist")
 
     context = {"vat_rate": vat_rate}
-    return render(request, "detail_vat_rate.html", context)
+    return render(request, "detail_vat.html", context)
 
 
 def create_vat_view(request):
@@ -33,10 +33,10 @@ def create_vat_view(request):
             if next_url:
                 return redirect(next_url)
 
-            return redirect("vat_rates:list_countries")
+            return redirect("vat_rates:list_vates")
 
     context = {"form": form}
-    return render(request, "create_vat_rate.html", context)
+    return render(request, "create_vat.html", context)
 
 
 def replace_vat_view(request, vat_rate_id):
@@ -50,7 +50,7 @@ def replace_vat_view(request, vat_rate_id):
         form = VatRateForm(instance=vat_rate, data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect("vat_rates:list_vat_rates")
+            return redirect("vat_rates:list_vates")
 
     context = {"vat_rate": vat_rate, "form": form}
-    return render(request, "replace_vat_rate.html", context)
+    return render(request, "replace_vat.html", context)
