@@ -39,8 +39,8 @@ def create_vat_view(request):
     return render(request, "create_vat.html", context)
 
 
-def replace_vat_view(request, vat_rate_id):
-    vat_rate = VatRate.objects.filter(pk=vat_rate_id).first()
+def replace_vat_view(request, vat_id):
+    vat_rate = VatRate.objects.filter(pk=vat_id).first()
     if not vat_rate:
         raise Http404("Vat rate does not exist")
 
