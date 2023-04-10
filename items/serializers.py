@@ -6,5 +6,14 @@ from items.models import Item
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ["id", "name", "pkwiu", "amount", "net_price", "vat", "user"]
+        fields = [
+            "id",
+            "invoice",
+            "name",
+            "pkwiu",
+            "amount",
+            "net_price",
+            "vat",
+            "user",
+        ]
         extra_kwargs = {"id": {"read_only": False}}
