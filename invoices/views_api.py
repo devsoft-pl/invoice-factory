@@ -8,9 +8,11 @@ from countries.models import Country
 from countries.serializers import CountrySerializer
 from currencies.models import Currency
 from currencies.serializers import CurrencySerializer
-from invoices.models import Invoice, Item, VatRate
+from invoices.models import Invoice
 from invoices.serializers import (InvoiceSerializer, ItemSerializer,
                                   UserSerializer)
+from items.models import Item
+from vat_rates.models import VatRate
 from vat_rates.serializers import VatRateSerializer
 
 
