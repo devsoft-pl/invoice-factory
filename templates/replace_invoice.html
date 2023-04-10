@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Edytuj fakturę: {{ invoice }}</p>
+
+  <form action="{% url 'invoices:replace_invoice' invoice.pk %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Zapisz zmiany</button>
+  </form>
+
+{% endblock content %}
