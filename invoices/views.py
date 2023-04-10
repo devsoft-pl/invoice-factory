@@ -38,8 +38,22 @@ def create_invoice_view(request):
     return render(request, "create_invoice.html", context)
 
 
-def replace_invoice_view():
-    pass
+def replace_invoice_view(request, invoice_id):
+    invoice = Invoice.objects.filter(pk=invoice_id).first()
+    if not invoice:
+        raise Http404("Invoice does not exist")
+
+    if request.method != "POST":
+        form = InvoiceForm(instance=invoice)
+    else:
+        form = InvoiceForm(instance=invoice, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            return redirect("invoices:list_invoices")
+
+    context = {"invoice": invoice, "form": form}
+    return render(request, "replace_invoice.html", context)
 
 
 def update_invoice_view():
