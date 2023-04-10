@@ -33,7 +33,7 @@ def create_currency_view(request):
             if next_url:
                 return redirect(next_url)
 
-            return redirect("invoices:list_currencies")
+            return redirect("currencies:list_currencies")
 
     context = {"form": form}
     return render(request, "create_currency.html", context)
