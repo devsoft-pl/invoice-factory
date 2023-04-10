@@ -4,7 +4,7 @@
 
   <p>Nowy stawka vat</p>
 
-  <form action="{% url 'rat_vates:create_vat_rate' %}" method='post'>
+  <form action="{% url 'vat_rates:create_vat' %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">Dodaj stawkę vat</button>

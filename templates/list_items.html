@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <p>Lista walut</p>
+  <p>Lista przedmiotów</p>
 
   {% if items %}
       <ul>
@@ -13,7 +13,9 @@
       {% endfor %}
       </ul>
   {% else %}
-      <p>Brak</p>
+      <p>Brak przedmiotów</p>
   {% endif %}
+
+  <a href="{% url 'items:create_item' %}">Dodaj przedmiot</a>
 
 {% endblock %}

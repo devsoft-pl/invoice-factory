@@ -4,7 +4,7 @@
 
   <p>Edytuj: {{ item }}</p>
 
-  <form action="{% url 'vat_rates:replace_vat_rate' vat_rate.pk %}" method='post'>
+  <form action="{% url 'vat_rates:replace_vat' vat_rate.pk %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">Zapisz zmiany</button>
