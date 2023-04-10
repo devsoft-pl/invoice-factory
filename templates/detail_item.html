@@ -3,7 +3,12 @@
 {% block content %}
 
   <ul>
-    <li>Przedmiot: {{ item.name }}</li>
+    <li>Numer faktury: {{ item.invoice }}</li>
+    <li>Nazwa: {{ item.name }}</li>
+    <li>PKWiU: {{ item.pkwiu }}</li>
+    <li>Ilość: {{ item.amount }}</li>
+    <li>Cena netto: {{ item.net_price }}</li>
+    <li>Stawka vat: {{ item.vat }}</li>
   </ul>
 
   <a href="{% url 'items:list_items' %}">Powrót</a>
