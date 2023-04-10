@@ -6,7 +6,7 @@ from items.models import Item
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ["name", "pkwiu", "amount", "net_price", "vat"]
+        fields = ["invoice", "name", "pkwiu", "amount", "net_price", "vat"]
         labels = {
             "name": "Nazwa",
             "pkwiu": "PKWiU",
