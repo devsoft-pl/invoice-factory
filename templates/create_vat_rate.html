@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Nowy stawka vat</p>
+
+  <form action="{% url 'rat_vates:create_vat_rate' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Dodaj stawkę vat</button>
+  </form>
+
+{% endblock content %}

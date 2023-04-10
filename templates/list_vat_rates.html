@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Lista stawek vat</p>
+
+  {% if vat_rates %}
+      <ul>
+      {% for vat_rate in vat_rates %}
+          <li>
+            <a href="{% url 'vat_rates:detail_vat_rate' vat_rate.pk %}">{{ vat_rate }}</a>
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak stawek vat</p>
+  {% endif %}
+
+{% endblock %}
