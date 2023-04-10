@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from items.admin import ItemInline
+
 from .models import Invoice
 
 
