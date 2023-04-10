@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul>
+    <li>Item: {{ item.name }}</li>
+  </ul>
+
+  <a href="{% url 'items:list_items' %}">Powrót</a>
+  <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+
+{% endblock content %}

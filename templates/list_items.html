@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Lista walut</p>
+
+  {% if items %}
+      <ul>
+      {% for item in items %}
+          <li>
+            <a href="{% url 'items:detail_item' item.pk %}">{{ item }}</a>
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>Brak</p>
+  {% endif %}
+
+{% endblock %}

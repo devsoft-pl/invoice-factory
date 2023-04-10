@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p>Nowa pozycja</p>
+
+  <form action="{% url 'items:create_item' %}" method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit">Dodaj pozycję</button>
+  </form>
+
+{% endblock content %}
