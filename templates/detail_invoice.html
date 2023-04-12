@@ -4,13 +4,13 @@
 
   <ul>
     <li>Numer faktury: {{ invoice.invoice_number }}</li>
-    <li>Typ faktury: {{ invoice.invoice_type }}</li>
-    <li>Firma:{{ invoice.company }}</li>
-    <li>Częstotliwość faktury: {{ invoice.recurring_frequency }}</li>
-    <li>Powtarzalność faktury: {{ invoice.is_recurring }}</li>
     <li>Data utworzenia: {{ invoice.create_date }}</li>
     <li>Data sprzedaży: {{ invoice.sale_date }}</li>
-    <li>Rodzaj płatności: {{ invoice.payment_date }}</li>
+    <li>Data płatności: {{ invoice.payment_date }}</li>
+    <li>Typ faktury: {{ invoice.invoice_type }}</li>
+    <li>Częstotliwość faktury: {{ invoice.recurring_frequency }}</li>
+    <li>Powtarzalność faktury: {{ invoice.is_recurring }}</li>
+    <li>Firma:{{ invoice.company }}</li>
     <li>Sposób płatności: {{ invoice.payment_method }}</li>
     <li>Waluta: {{ invoice.currency }}</li>
     <li>Numer konta: {{ invoice.account_number }}</li>
@@ -19,6 +19,7 @@
   <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
   <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
   <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+  <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Wygeneruj fakturę pdf</a>
 
 {% endblock content %}
 
