@@ -55,3 +55,12 @@ def replace_currency_view(request, currency_id):
 
     context = {"currency": currency, "form": form}
     return render(request, "replace_currency.html", context)
+
+
+def delete_currency_view(request, currency_id):
+    currency = Currency.objects.filter(pk=currency_id).first()
+    if not currency:
+        raise Http404("Currency does not exist")
+
+    currency.delete()
+    return redirect("invoices:list_currencies")

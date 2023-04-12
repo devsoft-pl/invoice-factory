@@ -54,3 +54,12 @@ def replace_vat_view(request, vat_id):
 
     context = {"vat_rate": vat_rate, "form": form}
     return render(request, "replace_vat.html", context)
+
+
+def delete_vat_view(request, vat_id):
+    var_rate = VatRate.objects.filter(pk=vat_id).first()
+    if not var_rate:
+        raise Http404("Vat rate does not exist")
+
+    var_rate.delet()
+    return redirect("vat_rates:list_vates")

@@ -53,3 +53,12 @@ def replace_item_view(request, item_id):
 
     context = {"item": item, "form": form}
     return render(request, "replace_item.html", context)
+
+
+def delete_item_view(request, item_id):
+    item = Item.objects.filter(pk=item_id).first()
+    if not item:
+        raise Http404("Item does not exist")
+
+    item.delet()
+    return redirect("items:list_items")

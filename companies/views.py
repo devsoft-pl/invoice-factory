@@ -54,3 +54,12 @@ def replace_company_view(request, company_id):
 
     context = {"company": company, "form": form}
     return render(request, "replace_company.html", context)
+
+
+def delete_company_view(request, company_id):
+    company = Company.objects.filter(pk=company_id).first()
+    if not company:
+        raise Http404("Company does not exist")
+
+    company.delete()
+    return redirect("companies:list_companies")

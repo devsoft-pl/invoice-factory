@@ -53,3 +53,12 @@ def replace_country_view(request, country_id):
 
     context = {"country": country, "form": form}
     return render(request, "replace_country.html", context)
+
+
+def delete_country_view(request, country_id):
+    country = Country.objects.filter(pk=country_id).first()
+    if not country:
+        raise Http404("Country does not exist")
+
+    country.delete()
+    return redirect("countries:list_countries")
