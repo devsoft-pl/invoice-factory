@@ -68,9 +68,14 @@ def delete_invoice_view(request, invoice_id):
     return redirect("invoices:list_invoices")
 
 
-def pdf_invoice_view(request):
+def pdf_invoice_view(request, invoice_id):
+    invoice = Invoice.objects.filter(pk=invoice_id).first()
+    if not invoice:
+        raise Http404("Invoice does not exist")
     template_path = "pdf.html"
-    context = {"myvar": "this is your template context"}
+    context = {
+        "invoice": invoice
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="faktura.pdf"'
