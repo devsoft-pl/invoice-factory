@@ -13,5 +13,6 @@
 
   <a href="{% url 'items:list_items' %}">Powrót</a>
   <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+  <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
 
 {% endblock content %}
