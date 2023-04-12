@@ -14,7 +14,7 @@ def list_companies_view(request):
 def detail_company_view(request, company_id):
     company = Company.objects.filter(pk=company_id).first()
     if not company:
-        raise Http404("Invoice does not exist")
+        raise Http404("Company does not exist")
     context = {"company": company}
     return render(request, "detail_company.html", context)
 

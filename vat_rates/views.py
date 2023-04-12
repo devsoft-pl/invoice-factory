@@ -14,7 +14,7 @@ def list_vates_view(request):
 def detail_vat_view(request, vat_id):
     vat_rate = VatRate.objects.filter(pk=vat_id).first()
     if not vat_rate:
-        raise Http404("Invoice does not exist")
+        raise Http404("Vat rate does not exist")
 
     context = {"vat_rate": vat_rate}
     return render(request, "detail_vat.html", context)

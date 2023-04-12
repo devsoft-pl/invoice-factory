@@ -14,7 +14,7 @@ def list_countries_view(request):
 def detail_country_view(request, country_id):
     country = Country.objects.filter(pk=country_id).first()
     if not country:
-        raise Http404("Invoice does not exist")
+        raise Http404("Country does not exist")
     context = {"country": country}
     return render(request, "detail_country.html", context)
 
