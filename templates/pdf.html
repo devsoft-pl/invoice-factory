@@ -1,3 +1,72 @@
-<h1>
-  hello word {{ myvar }}
-</h1>
+
+<h1>Numer faktury: {{ invoice.invoice_number }}</h1>
+
+<p>Data utworzenia: {{ invoice.create_date }}</p>
+<p>Data sprzedazy: {{ invoice.sale_date }}</p>
+
+<table>
+  <tr>
+    <th>Sprzedawca:</th>
+    <th>Nabywca: </th>
+  </tr>
+  <tr>
+    <td>sprzedawca</td>
+    <td>{{ invoice.company }}</td>
+  </tr>
+  <tr>
+    <td>adres</td>
+    <td>{{ invoice.company.address }}</td>
+  </tr>
+  <tr>
+    <td>kod pocztowy miasto</td>
+    <td>{{ invoice.comapny.zip_code }} {{ invoice.company.city }}</td>
+  </tr>
+  <tr>
+    <td>kraj</td>
+    <td>{{ invoice.company.country }}</td>
+  </tr>
+  <tr>
+    <td>nip</td>
+    <td>NIP: {{ invoice.company.nip }}</td>
+  </tr>
+</table>
+
+<hr>
+
+<table>
+  <tr>
+    <th>Lp</th>
+    <th>Nazwa towaru lub uslugi</th>
+    <th>PKWiU</th>
+    <th>ILosc</th>
+    <th>Cena netto</th>
+    <th>Wartosc netto</th>
+    <th>Stawka vat</th>
+    <th>Wartosc vat</th>
+    <th>Wartosc brutto</th>
+  </tr>
+  <tr>
+    <td>lp</td>
+    <td>{{ invoice.name }}</td>
+    <td>{{ invoice.pkwiu }}</td>
+    <td>{{ invoice.amount }}</td>
+    <td>{{ invoice.net_price }}</td>
+    <td>{{ invoice.net_amount }}</td>
+    <td>{{ invoice.vat }}</td>
+    <td>{{ invoice.tax_amount }}</td>
+    <td>{{ invoice.gross_amount }}</td>
+  </tr>
+</table>
+
+
+<p>Typ faktury: {{ invoice.invoice_type  }}</p>
+<p>Sposob platnosci: {{ invoice.payment_method }}</p>
+<p>Data platnosci: {{ invoice.payment_date }}</p>
+<p>Waluta: {{ invoice.currency}}</p>
+<p>Numer konta: {{ invoice.account_number }}</p>
+
+
+
+
+
+
