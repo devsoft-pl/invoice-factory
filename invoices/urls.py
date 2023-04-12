@@ -14,5 +14,5 @@ urlpatterns = [
     path("replace/<int:invoice_id>/", replace_invoice_view, name="replace_invoice"),
     path("update/<int:invoice_id>/", update_invoice_view, name="update_invoice"),
     path("delete/<int:invoice_id>/", delete_invoice_view, name="delete_invoice"),
-    path("pdf/", pdf_invoice_view, name="pdf_invoice"),
+    path("pdf/<int:invoice_id>/", pdf_invoice_view, name="pdf_invoice"),
 ]
