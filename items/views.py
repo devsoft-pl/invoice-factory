@@ -60,5 +60,5 @@ def delete_item_view(request, item_id):
     if not item:
         raise Http404("Item does not exist")
 
-    item.delet()
+    item.delete()
     return redirect("items:list_items")
