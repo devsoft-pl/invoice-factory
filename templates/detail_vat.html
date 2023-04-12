@@ -3,10 +3,11 @@
 {% block content %}
 
   <ul>
-    <li>{{ vat_rate }}</li>
+    <li>{{ vat_rate }} %</li>
   </ul>
 
   <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
   <a href="{% url 'vat_rates:replace_vat' vat_rate.pk %}">Edytuj</a>
+  <a href="{% url 'vat_rates:delete_vat' vat_rate.pk %}">Usuń</a>
 
 {% endblock content %}

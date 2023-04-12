@@ -8,5 +8,6 @@
 
   <a href="{% url 'countries:list_countries' %}">Powrót</a>
   <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
+  <a href="{% url 'countries:delete_country' country.pk %}">Usuń</a>
 
 {% endblock content %}

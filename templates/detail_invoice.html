@@ -18,6 +18,7 @@
 
   <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
   <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
+  <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
 
 {% endblock content %}
 

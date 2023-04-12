@@ -16,5 +16,6 @@
 
   <a href="{% url 'companies:list_companies' %}">Powrót</a>
   <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+  <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
 
 {% endblock content %}
