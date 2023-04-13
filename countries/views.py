@@ -10,7 +10,7 @@ from countries.models import Country
 def list_countries_view(request):
     countries = Country.objects.filter(user=request.user)
     context = {"countries": countries}
-    return render(request, "list_countries.html", context)
+    return render(request, "countries/list_countries.html", context)
 
 
 @login_required
@@ -21,7 +21,7 @@ def detail_country_view(request, country_id):
         raise Http404("Country does not exist")
 
     context = {"country": country}
-    return render(request, "detail_country.html", context)
+    return render(request, "countries/detail_country.html", context)
 
 
 @login_required
@@ -41,7 +41,7 @@ def create_country_view(request):
             return redirect("countries:list_countries")
 
     context = {"form": form}
-    return render(request, "create_country.html", context)
+    return render(request, "countries/create_country.html", context)
 
 
 @login_required
@@ -60,7 +60,7 @@ def replace_country_view(request, country_id):
             return redirect("countries:list_countries")
 
     context = {"country": country, "form": form}
-    return render(request, "replace_country.html", context)
+    return render(request, "countries/replace_country.html", context)
 
 
 @login_required
