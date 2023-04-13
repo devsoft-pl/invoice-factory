@@ -10,7 +10,7 @@ from vat_rates.models import VatRate
 def list_vates_view(request):
     vat_rates = VatRate.objects.filter(user=request.user)
     context = {"vat_rates": vat_rates}
-    return render(request, "list_vates.html", context)
+    return render(request, "vat_rates/list_vates.html", context)
 
 
 @login_required
@@ -21,7 +21,7 @@ def detail_vat_view(request, vat_id):
         raise Http404("Vat rate does not exist")
 
     context = {"vat_rate": vat_rate}
-    return render(request, "detail_vat.html", context)
+    return render(request, "vat_rates/detail_vat.html", context)
 
 
 @login_required
@@ -41,7 +41,7 @@ def create_vat_view(request):
             return redirect("vat_rates:list_vates")
 
     context = {"form": form}
-    return render(request, "create_vat.html", context)
+    return render(request, "vat_rates/create_vat.html", context)
 
 
 @login_required
@@ -60,7 +60,7 @@ def replace_vat_view(request, vat_id):
             return redirect("vat_rates:list_vates")
 
     context = {"vat_rate": vat_rate, "form": form}
-    return render(request, "replace_vat.html", context)
+    return render(request, "vat_rates/replace_vat.html", context)
 
 
 @login_required
