@@ -26,7 +26,7 @@ def detail_invoice_view(request, invoice_id):
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
-    context = {"invoices": invoice}
+    context = {"invoice": invoice}
     return render(request, "invoices/detail_invoice.html", context)
 
 
