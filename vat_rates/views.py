@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from vat_rates.forms import VatRateForm
 from vat_rates.models import VatRate
@@ -15,8 +15,9 @@ def list_vates_view(request):
 
 @login_required
 def detail_vat_view(request, vat_id):
-    vat_rate = VatRate.objects.filter(pk=vat_id).first()
-    if not vat_rate:
+    vat_rate = get_object_or_404(VatRate, pk=vat_id)
+
+    if vat_rate.user != request.user:
         raise Http404("Vat rate does not exist")
 
     context = {"vat_rate": vat_rate}
@@ -45,8 +46,9 @@ def create_vat_view(request):
 
 @login_required
 def replace_vat_view(request, vat_id):
-    vat_rate = VatRate.objects.filter(pk=vat_id).first()
-    if not vat_rate:
+    vat_rate = get_object_or_404(VatRate, pk=vat_id)
+
+    if vat_rate.user != request.user:
         raise Http404("Vat rate does not exist")
 
     if request.method != "POST":
@@ -63,9 +65,10 @@ def replace_vat_view(request, vat_id):
 
 @login_required
 def delete_vat_view(request, vat_id):
-    var_rate = VatRate.objects.filter(pk=vat_id).first()
-    if not var_rate:
+    var_rate = get_object_or_404(VatRate, pk=vat_id)
+
+    if var_rate.user != request.user:
         raise Http404("Vat rate does not exist")
 
-    var_rate.delet()
+    var_rate.delete()
     return redirect("vat_rates:list_vates")

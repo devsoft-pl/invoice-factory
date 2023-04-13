@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from items.forms import ItemForm
 from items.models import Item
@@ -15,9 +15,11 @@ def list_items_view(request):
 
 @login_required
 def detail_item_view(request, item_id):
-    item = Item.objects.filter(pk=item_id).first()
-    if not item:
+    item = get_object_or_404(Item, pk=item_id)
+
+    if item.user != request.user:
         raise Http404("Item does not exist")
+
     context = {"item": item}
     return render(request, "detail_item.html", context)
 
@@ -44,8 +46,9 @@ def create_item_view(request):
 
 @login_required
 def replace_item_view(request, item_id):
-    item = Item.objects.filter(pk=item_id).first()
-    if not item:
+    item = get_object_or_404(Item, pk=item_id)
+
+    if item.user != request.user:
         raise Http404("Item does not exist")
 
     if request.method != "POST":
@@ -62,8 +65,9 @@ def replace_item_view(request, item_id):
 
 @login_required
 def delete_item_view(request, item_id):
-    item = Item.objects.filter(pk=item_id).first()
-    if not item:
+    item = get_object_or_404(Item, pk=item_id)
+
+    if item.user != request.user:
         raise Http404("Item does not exist")
 
     item.delete()

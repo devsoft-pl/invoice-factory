@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
@@ -21,9 +21,11 @@ def list_invoices_view(request):
 
 @login_required
 def detail_invoice_view(request, invoice_id):
-    invoice = Invoice.objects.filter(pk=invoice_id).first()
-    if not invoice:
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.user != request.user:
         raise Http404("Invoice does not exist")
+
     context = {"invoice": invoice}
     return render(request, "detail_invoice.html", context)
 
@@ -44,8 +46,9 @@ def create_invoice_view(request):
 
 @login_required
 def replace_invoice_view(request, invoice_id):
-    invoice = Invoice.objects.filter(pk=invoice_id).first()
-    if not invoice:
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
     if request.method != "POST":
@@ -63,18 +66,22 @@ def replace_invoice_view(request, invoice_id):
 
 @login_required
 def delete_invoice_view(request, invoice_id):
-    invoice = Invoice.objects.filter(pk=invoice_id).first()
-    if not invoice:
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.user != request.user:
         raise Http404("Invoice does not exist")
+
     invoice.delete()
     return redirect("invoices:list_invoices")
 
 
 @login_required
 def pdf_invoice_view(request, invoice_id):
-    invoice = Invoice.objects.filter(pk=invoice_id).first()
-    if not invoice:
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.user != request.user:
         raise Http404("Invoice does not exist")
+
     template_path = "pdf.html"
     context = {"invoice": invoice}
     # Create a Django response object, and specify content_type as pdf
