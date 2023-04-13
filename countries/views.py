@@ -8,7 +8,7 @@ from countries.models import Country
 
 @login_required
 def list_countries_view(request):
-    countries = Country.objects.all()
+    countries = Country.objects.filter(user=request.user)
     context = {"countries": countries}
     return render(request, "list_countries.html", context)
 

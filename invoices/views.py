@@ -14,7 +14,7 @@ def index_view(requeste):
 
 @login_required
 def list_invoices_view(request):
-    invoices = Invoice.objects.all()
+    invoices = Invoice.objects.filter(user=request.user)
     context = {"invoices": invoices}
     return render(request, "list_invoices.html", context)
 

@@ -8,7 +8,7 @@ from vat_rates.models import VatRate
 
 @login_required
 def list_vates_view(request):
-    vat_rates = VatRate.objects.all()
+    vat_rates = VatRate.objects.filter(user=request.user)
     context = {"vat_rates": vat_rates}
     return render(request, "list_vates.html", context)
 

@@ -8,7 +8,7 @@ from currencies.models import Currency
 
 @login_required
 def list_currencies_view(request):
-    currencies = Currency.objects.all()
+    currencies = Currency.objects.filter(user=request.user)
     context = {"currencies": currencies}
     return render(request, "list_currencies.html", context)
 

@@ -1,10 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import (
-    redirect,
-    render,
-    get_object_or_404
-)
+from django.shortcuts import get_object_or_404, redirect, render
 
 from companies.forms import CompanyForm
 from companies.models import Company

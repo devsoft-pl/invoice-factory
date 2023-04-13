@@ -8,7 +8,7 @@ from items.models import Item
 
 @login_required
 def list_items_view(request):
-    items = Item.objects.all()
+    items = Item.objects.filter(user=request.user)
     context = {"items": items}
     return render(request, "list_items.html", context)
 
