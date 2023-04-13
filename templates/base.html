@@ -6,6 +6,15 @@
   <a href="{% url 'currencies:list_currencies' %}">Waluty</a> /
   <a href="{% url 'vat_rates:list_vates' %}">Stawka vat</a> /
   <a href="{% url 'items:list_items' %}">Przedmioty</a> /
+
+  {% if user.is_authenticated %}
+    Witaj, {{ user.username }}
+    <a href="{% url 'users:logout' %}">Wyloguj</a>
+  {% else %}
+    <a href="{% url 'users:register_user' %}">Rejestruj</a>
+    <a href="{% url 'users:login' %}">Zaloguj</a>
+  {% endif %}
+
 </p>
 
 {% block content %}{% endblock content %}
