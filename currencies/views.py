@@ -10,7 +10,7 @@ from currencies.models import Currency
 def list_currencies_view(request):
     currencies = Currency.objects.filter(user=request.user)
     context = {"currencies": currencies}
-    return render(request, "list_currencies.html", context)
+    return render(request, "currencies/list_currencies.html", context)
 
 
 @login_required
@@ -21,7 +21,7 @@ def detail_currency_view(request, currency_id):
         raise Http404("Currency does not exist")
 
     context = {"currency": currency}
-    return render(request, "detail_currency.html", context)
+    return render(request, "currencies/detail_currency.html", context)
 
 
 @login_required
@@ -41,7 +41,7 @@ def create_currency_view(request):
             return redirect("currencies:list_currencies")
 
     context = {"form": form}
-    return render(request, "create_currency.html", context)
+    return render(request, "currencies/create_currency.html", context)
 
 
 @login_required
@@ -61,7 +61,7 @@ def replace_currency_view(request, currency_id):
             return redirect("invoices:list_currencies")
 
     context = {"currency": currency, "form": form}
-    return render(request, "replace_currency.html", context)
+    return render(request, "currencies/replace_currency.html", context)
 
 
 @login_required
