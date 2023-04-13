@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 
 
 class Country(models.Model):
-    country = models.CharField(verbose_name=_("Country"), max_length=30, unique=True)
+    country = models.CharField(verbose_name=_("Country"), max_length=30)
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )

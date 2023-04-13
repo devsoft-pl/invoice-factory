@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 
 
 class Currency(models.Model):
-    code = models.CharField(verbose_name=_("Code"), max_length=10, unique=True)
+    code = models.CharField(verbose_name=_("Code"), max_length=10)
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
