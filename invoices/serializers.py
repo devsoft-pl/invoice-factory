@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
 from invoices.models import Invoice
+from items.models import Item
 from items.serializers import ItemSerializer
 
 
