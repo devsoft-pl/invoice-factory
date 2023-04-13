@@ -10,7 +10,7 @@ from items.models import Item
 def list_items_view(request):
     items = Item.objects.filter(user=request.user)
     context = {"items": items}
-    return render(request, "list_items.html", context)
+    return render(request, "items/list_items.html", context)
 
 
 @login_required
@@ -21,7 +21,7 @@ def detail_item_view(request, item_id):
         raise Http404("Item does not exist")
 
     context = {"item": item}
-    return render(request, "detail_item.html", context)
+    return render(request, "items/detail_item.html", context)
 
 
 @login_required
@@ -41,7 +41,7 @@ def create_item_view(request):
             return redirect("items:list_items")
 
     context = {"form": form}
-    return render(request, "create_item.html", context)
+    return render(request, "items/create_item.html", context)
 
 
 @login_required
@@ -60,7 +60,7 @@ def replace_item_view(request, item_id):
             return redirect("items:list_items")
 
     context = {"item": item, "form": form}
-    return render(request, "replace_item.html", context)
+    return render(request, "items/replace_item.html", context)
 
 
 @login_required
