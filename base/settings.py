@@ -149,3 +149,5 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute=0, hour=7),
     },
 }
+
+LOGIN_URL = "users:login"

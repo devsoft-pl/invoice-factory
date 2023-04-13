@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -5,12 +6,14 @@ from currencies.forms import CurrencyForm
 from currencies.models import Currency
 
 
+@login_required
 def list_currencies_view(request):
     currencies = Currency.objects.all()
     context = {"currencies": currencies}
     return render(request, "list_currencies.html", context)
 
 
+@login_required
 def detail_currency_view(request, currency_id):
     currency = Currency.objects.filter(pk=currency_id).first()
     if not currency:
@@ -20,6 +23,7 @@ def detail_currency_view(request, currency_id):
     return render(request, "detail_currency.html", context)
 
 
+@login_required
 def create_currency_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
@@ -39,6 +43,7 @@ def create_currency_view(request):
     return render(request, "create_currency.html", context)
 
 
+@login_required
 def replace_currency_view(request, currency_id):
     currency = Currency.objects.filter(pk=currency_id).first()
     if not currency:
@@ -57,6 +62,7 @@ def replace_currency_view(request, currency_id):
     return render(request, "replace_currency.html", context)
 
 
+@login_required
 def delete_currency_view(request, currency_id):
     currency = Currency.objects.filter(pk=currency_id).first()
     if not currency:

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -5,12 +6,14 @@ from items.forms import ItemForm
 from items.models import Item
 
 
+@login_required
 def list_items_view(request):
     items = Item.objects.all()
     context = {"items": items}
     return render(request, "list_items.html", context)
 
 
+@login_required
 def detail_item_view(request, item_id):
     item = Item.objects.filter(pk=item_id).first()
     if not item:
@@ -19,6 +22,7 @@ def detail_item_view(request, item_id):
     return render(request, "detail_item.html", context)
 
 
+@login_required
 def create_item_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
@@ -38,6 +42,7 @@ def create_item_view(request):
     return render(request, "create_item.html", context)
 
 
+@login_required
 def replace_item_view(request, item_id):
     item = Item.objects.filter(pk=item_id).first()
     if not item:
@@ -55,6 +60,7 @@ def replace_item_view(request, item_id):
     return render(request, "replace_item.html", context)
 
 
+@login_required
 def delete_item_view(request, item_id):
     item = Item.objects.filter(pk=item_id).first()
     if not item:

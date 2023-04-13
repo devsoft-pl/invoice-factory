@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -5,12 +6,14 @@ from countries.forms import CountryForm
 from countries.models import Country
 
 
+@login_required
 def list_countries_view(request):
     countries = Country.objects.all()
     context = {"countries": countries}
     return render(request, "list_countries.html", context)
 
 
+@login_required
 def detail_country_view(request, country_id):
     country = Country.objects.filter(pk=country_id).first()
     if not country:
@@ -19,6 +22,7 @@ def detail_country_view(request, country_id):
     return render(request, "detail_country.html", context)
 
 
+@login_required
 def create_country_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
@@ -38,6 +42,7 @@ def create_country_view(request):
     return render(request, "create_country.html", context)
 
 
+@login_required
 def replace_country_view(request, country_id):
     country = Country.objects.filter(pk=country_id).first()
     if not country:
@@ -55,6 +60,7 @@ def replace_country_view(request, country_id):
     return render(request, "replace_country.html", context)
 
 
+@login_required
 def delete_country_view(request, country_id):
     country = Country.objects.filter(pk=country_id).first()
     if not country:

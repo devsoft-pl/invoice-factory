@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 
@@ -5,12 +6,14 @@ from vat_rates.forms import VatRateForm
 from vat_rates.models import VatRate
 
 
+@login_required
 def list_vates_view(request):
     vat_rates = VatRate.objects.all()
     context = {"vat_rates": vat_rates}
     return render(request, "list_vates.html", context)
 
 
+@login_required
 def detail_vat_view(request, vat_id):
     vat_rate = VatRate.objects.filter(pk=vat_id).first()
     if not vat_rate:
@@ -20,6 +23,7 @@ def detail_vat_view(request, vat_id):
     return render(request, "detail_vat.html", context)
 
 
+@login_required
 def create_vat_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
@@ -39,6 +43,7 @@ def create_vat_view(request):
     return render(request, "create_vat.html", context)
 
 
+@login_required
 def replace_vat_view(request, vat_id):
     vat_rate = VatRate.objects.filter(pk=vat_id).first()
     if not vat_rate:
@@ -56,6 +61,7 @@ def replace_vat_view(request, vat_id):
     return render(request, "replace_vat.html", context)
 
 
+@login_required
 def delete_vat_view(request, vat_id):
     var_rate = VatRate.objects.filter(pk=vat_id).first()
     if not var_rate:
