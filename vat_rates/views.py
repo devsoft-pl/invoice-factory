@@ -32,7 +32,9 @@ def create_vat_view(request):
     else:
         form = VatRateForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            vat_rate = form.save(commit=False)
+            vat_rate.user = request.user
+            vat_rate.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:

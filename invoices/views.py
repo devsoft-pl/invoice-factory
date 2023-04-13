@@ -37,7 +37,9 @@ def create_invoice_view(request):
     else:
         form = InvoiceForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            invoice = form.save(commit=False)
+            invoice.user = request.user
+            invoice.save()
             return redirect("invoices:list_invoices")
 
     context = {"form": form}

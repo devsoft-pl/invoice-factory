@@ -32,7 +32,9 @@ def create_country_view(request):
     else:
         form = CountryForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            country = form.save(commit=False)
+            country.user = request.user
+            country.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:

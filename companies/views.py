@@ -33,7 +33,9 @@ def create_company_view(request):
     else:
         form = CompanyForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            company = form.save(commit=False)
+            company.user = request.user
+            company.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:

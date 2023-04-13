@@ -32,7 +32,9 @@ def create_currency_view(request):
     else:
         form = CurrencyForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            currency = form.save(commit=False)
+            currency.user = request.user
+            currency.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:

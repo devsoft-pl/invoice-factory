@@ -32,7 +32,9 @@ def create_item_view(request):
     else:
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            item = form.save(commit=False)
+            item.user = request.user
+            item.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:
