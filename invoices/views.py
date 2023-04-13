@@ -16,7 +16,7 @@ def index_view(requeste):
 def list_invoices_view(request):
     invoices = Invoice.objects.filter(user=request.user)
     context = {"invoices": invoices}
-    return render(request, "list_invoices.html", context)
+    return render(request, "invoices/list_invoices.html", context)
 
 
 @login_required
@@ -26,8 +26,8 @@ def detail_invoice_view(request, invoice_id):
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
-    context = {"invoice": invoice}
-    return render(request, "detail_invoice.html", context)
+    context = {"invoices": invoice}
+    return render(request, "invoices/detail_invoice.html", context)
 
 
 @login_required
@@ -41,7 +41,7 @@ def create_invoice_view(request):
             return redirect("invoices:list_invoices")
 
     context = {"form": form}
-    return render(request, "create_invoice.html", context)
+    return render(request, "invoices/create_invoice.html", context)
 
 
 @login_required
@@ -61,7 +61,7 @@ def replace_invoice_view(request, invoice_id):
             return redirect("invoices:list_invoices")
 
     context = {"invoice": invoice, "form": form}
-    return render(request, "replace_invoice.html", context)
+    return render(request, "invoices/replace_invoice.html", context)
 
 
 @login_required
@@ -82,7 +82,7 @@ def pdf_invoice_view(request, invoice_id):
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
-    template_path = "pdf.html"
+    template_path = "pdf_invoice.html"
     context = {"invoice": invoice}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
