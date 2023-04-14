@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul>
+    <li>Login: {{ user.username }}</li>
+    <li>Imię: {{ user.first_name }}</li>
+    <li>Nazwisko: {{ user.last_name }}</li>
+    <li>Hasło: {{ user.password }}</li>
+    <li>Email: {{ user.email }}</li>
+  </ul>
+
+
+  <a href="{% url 'invoices:index' %}">Powrót</a>
+  <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
+  <a href="{% url 'users:delete_user' user.pk %}">Usuń</a>
+
+{% endblock content %}
