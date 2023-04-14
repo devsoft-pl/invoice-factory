@@ -87,7 +87,7 @@ def pdf_invoice_view(request, invoice_id):
     template_path = "invoices/pdf_invoice.html"
     context = {"invoice": invoice}
     # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type="application/pdf_invoice")
+    response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
     # find the template and render it.
     template = get_template(template_path)
