@@ -4,7 +4,7 @@
 
   <p>Nowa firma</p>
 
-  <form action="{% url 'companies:create_company' %}" method='post'>
+  <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
     {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">Dodaj firmę</button>
