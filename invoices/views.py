@@ -84,11 +84,11 @@ def pdf_invoice_view(request, invoice_id):
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
-    template_path = "pdf_invoice.html"
+    template_path = "invoices/pdf_invoice.html"
     context = {"invoice": invoice}
     # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="faktura.pdf"'
+    response = HttpResponse(content_type="application/pdf_invoice")
+    response["Content-Disposition"] = 'filename="invoice.pdf"'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
