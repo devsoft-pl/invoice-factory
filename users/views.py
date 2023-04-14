@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
+from companies.models import Company
+
 
 def register_user_view(request):
     if request.method != "POST":
@@ -27,7 +29,9 @@ def detail_user_view(request, user_id):
     if user.id != request.user.id:
         raise Http404("User does not exist")
 
-    context = {"user": user}
+    my_companies = Company.objects.filter(user=request.user, is_my_company=True)
+
+    context = {"user": user, "my_companies": my_companies}
     return render(request, "registration/detail_user.html", context)
 
 
