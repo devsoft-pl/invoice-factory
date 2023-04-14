@@ -1,10 +1,6 @@
 from django.urls import include, path
 
-from users.views import (
-    register_user_view,
-    detail_user_view,
-    replace_user_view
-)
+from users.views import detail_user_view, register_user_view, replace_user_view
 
 app_name = "users"
 urlpatterns = [
