@@ -43,6 +43,9 @@ def create_company_view(request, create_my_company=False):
             if next_url:
                 return redirect(next_url)
 
+            if create_my_company:
+                return redirect("users:list_my_companies")
+
             return redirect("companies:list_companies")
 
     context = {"form": form}
