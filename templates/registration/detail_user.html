@@ -11,7 +11,15 @@
     <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
 
     <p>
-        <a href="{% url 'companies:create_my_company' %}">Dodaj swoją firmę</a>
+    <a href="{% url 'companies:create_my_company' %}">Dodaj swoją firmę</a>
     </p>
+
+    <ul>
+    {% for my_company in my_companies %}
+        <li>
+        {{ my_company }}
+        </li>
+    {% endfor %}
+    </ul>
 
 {% endblock content %}
