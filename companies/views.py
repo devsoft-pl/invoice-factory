@@ -44,11 +44,11 @@ def create_company_view(request, create_my_company=False):
                 return redirect(next_url)
 
             if create_my_company:
-                return redirect("users:list_my_companies")
+                return redirect("users:detail_user", request.user.pk)
 
             return redirect("companies:list_companies")
 
-    context = {"form": form}
+    context = {"form": form, "create_my_company": create_my_company}
     return render(request, "companies/create_company.html", context)
 
 
