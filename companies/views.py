@@ -26,7 +26,7 @@ def detail_company_view(request, company_id):
 
 
 @login_required
-def create_company_view(request, is_my_company=False):
+def create_company_view(request, create_my_company=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = CompanyForm(initial=initial)
@@ -35,7 +35,7 @@ def create_company_view(request, is_my_company=False):
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
-            if is_my_company:
+            if create_my_company:
                 company.is_my_company = True
             company.save()
 
