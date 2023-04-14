@@ -9,6 +9,12 @@ urlpatterns = [
     path("", list_companies_view, name="list_companies"),
     path("<int:company_id>/", detail_company_view, name="detail_company"),
     path("create/", create_company_view, name="create_company"),
+    path(
+        "create_my_company/",
+        create_company_view,
+        name="create_my_company",
+        kwargs={"create_my_company": True},
+    ),
     path("replace/<int:company_id>/", replace_company_view, name="replace_company"),
     path("delete/<int:company_id>/", delete_company_view, name="delete_company"),
 ]
