@@ -66,6 +66,9 @@ def replace_company_view(request, company_id):
         if form.is_valid():
             form.save()
 
+            if company.is_my_company:
+                return redirect("users:detail_user", request.user.pk)
+
             return redirect("companies:list_companies")
 
     context = {"company": company, "form": form}
