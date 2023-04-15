@@ -2,20 +2,24 @@
 
 {% block content %}
 
-  <ul>
-    <li>Nazwa firmy: {{ company.name }}</li>
-    <li>Nip: {{ company.nip }}</li>
-    <li>Regon: {{ company.regon }}</li>
-    <li>Kraj: {{ company.country }}</li>
-    <li>Adres: {{ company.address }}</li>
-    <li>Kod pocztowy: {{ company.zip_code }}</li>
-    <li>Miasto: {{ company.city }}</li>
-    <li>Email: {{ company.email }}</li>
-    <li>Numer telefonu: {{ company.phone_number }}</li>
-  </ul>
+    <ul>
+        <li>Nazwa firmy: {{ company.name }}</li>
+        <li>Nip: {{ company.nip }}</li>
+        <li>Regon: {{ company.regon }}</li>
+        <li>Kraj: {{ company.country }}</li>
+        <li>Adres: {{ company.address }}</li>
+        <li>Kod pocztowy: {{ company.zip_code }}</li>
+        <li>Miasto: {{ company.city }}</li>
+        <li>Email: {{ company.email }}</li>
+        <li>Numer telefonu: {{ company.phone_number }}</li>
+    </ul>
 
-  <a href="{% url 'companies:list_companies' %}">Powrót</a>
-  <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-  <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+    {% if company.is_my_company %}
+        <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+    {% else %}
+        <a href="{% url 'companies:list_companies' %}">Powrót</a>
+    {% endif %}
+    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+    <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
 
 {% endblock content %}
