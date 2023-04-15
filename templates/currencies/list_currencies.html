@@ -2,20 +2,31 @@
 
 {% block content %}
 
-  <p>Lista walut</p>
+    <p><a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a></p>
 
-  {% if currencies %}
-      <ul>
-      {% for currency in currencies %}
-          <li>
-            <a href="{% url 'currencies:detail_currency' currency.pk %}">{{ currency }}</a>
-          </li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>Brak walut</p>
-  {% endif %}
+    <p>Lista walut</p>
 
-  <a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a>
+    {% if currencies %}
+        <table>
+            <tr>
+                <th>Lp</th>
+                <th>Waluta</th>
+                <th>Opcje</th>
+            </tr>
+            {% for currency in currencies %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ country }}</td>
+                    <td>
+                        <a href="{% url 'currencies:detail_currency' currency.pk %}">Więcej</a>
+                        <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
+                        <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Brak walut</p>
+    {% endif %}
 
 {% endblock content %}

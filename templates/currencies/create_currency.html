@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <p>Nowa firma</p>
+    <p>Nowa waluta</p>
 
-  <form action="{% url 'currencies:create_currency' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj walutę</button>
-  </form>
+    <form action="{% url 'currencies:create_currency' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Dodaj</button>
+    </form>
 
 {% endblock content %}

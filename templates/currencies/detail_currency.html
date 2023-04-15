@@ -2,12 +2,14 @@
 
 {% block content %}
 
-  <ul>
-    <li>Waluta: {{ currency.currency }}</li>
-  </ul>
+    <p>Szczegóły waluty</p>
 
-  <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
-  <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
-  <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
+    <ul>
+        <li>Waluta: {{ currency }}</li>
+    </ul>
+
+    <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
+    <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
+    <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
 
 {% endblock content %}
