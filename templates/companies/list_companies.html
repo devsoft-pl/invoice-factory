@@ -2,20 +2,39 @@
 
 {% block content %}
 
-  <p>Lista firm</p>
+    <p><a href="{% url 'companies:create_company' %}">Dodaj firmę</a></p>
 
-  {% if companies %}
-      <ul>
-      {% for company in companies %}
-          <li>
-            <a href="{% url 'companies:detail_company' company.pk %}">{{ company }}</a>
-          </li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>Brak firm</p>
-  {% endif %}
+    <p>Lista firm</p>
 
-  <a href="{% url 'companies:create_company' %}">Dodaj firmę</a>
+    {% if companies %}
+        <table>
+            <tr>
+                <th>Lp</th>
+                <th>Nazwa</th>
+                <th>NIP</th>
+                <th>Kraj</th>
+                <th>Email</th>
+                <th>Numer telefonu</th>
+                <th>Opcje</th>
+            </tr>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.nip }}</td>
+                    <td>{{ company.country }}</td>
+                    <td>{{ company.email }}</td>
+                    <td>{{ company.phone_number }}</td>
+                    <td>
+                        <a href="{% url 'companies:detail_company' company.pk %}">Więcej</a>
+                        <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                        <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Brak firm</p>
+    {% endif %}
 
 {% endblock content %}

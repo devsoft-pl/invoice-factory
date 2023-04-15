@@ -2,14 +2,15 @@
 
 {% block content %}
 
-  <p>Nowa firma</p>
+    <p>Nowa firma</p>
 
-  <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj firmę</button>
-  </form>
+    <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
 
-  <a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a>
+        <a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a>
+
+        <p><button name="submit">Dodaj</button></p>
+    </form>
 
 {% endblock content %}
