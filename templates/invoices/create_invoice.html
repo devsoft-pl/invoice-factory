@@ -2,16 +2,17 @@
 
 {% block content %}
 
-  <p>Nowa faktura</p>
+    <p>Nowa faktura</p>
 
-  <form action="{% url 'invoices:create_invoice' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj fakturę</button>
-  </form>
+    <form action="{% url 'invoices:create_invoice' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
 
-  <a href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
-  <a href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
-  <a href="{% url 'items:create_item' %}?next={% url 'invoices:create_invoice' %}">Dodaj przedmiot</a>
+        <a href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
+        <a href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
+        <a href="{% url 'items:create_item' %}?next={% url 'invoices:create_invoice' %}">Dodaj przedmiot</a>
+
+        <p><button name="submit">Dodaj</button></p>
+    </form>
 
 {% endblock content %}
