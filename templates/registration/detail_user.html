@@ -16,7 +16,9 @@
 
     <ul>
     {% for my_company in my_companies %}
-        <li>{{ my_company }}</li>
+        <li>
+            <a href="{% url 'companies:detail_company' my_company.pk %}">{{ my_company }}</a>
+        </li>
     {% endfor %}
     </ul>
 
