@@ -100,27 +100,10 @@ class Invoice(models.Model):
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
 
-    @property
-    def amount(self):
-        for item in self.items.all():
-            return item.amount
-
-    @property
-    def net_price(self):
-        for item in self.items.all():
-            return item.net_price
 
     @property
     def vat(self):
         for item in self.items.all():
             return item.vat
 
-    @property
-    def pkwiu(self):
-        for item in self.items.all():
-            return item.pkwiu
 
-    @property
-    def name(self):
-        for item in self.items.all():
-            return item.name
