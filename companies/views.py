@@ -80,4 +80,7 @@ def delete_company_view(request, company_id):
         raise Http404("Company does not exist")
 
     company.delete()
+    if company.is_my_company:
+        return redirect("users:detail_user", request.user.pk)
+
     return redirect("companies:list_companies")
