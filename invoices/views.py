@@ -7,6 +7,7 @@ from xhtml2pdf import pisa
 from companies.models import Company
 from invoices.forms import InvoiceForm
 from invoices.models import Invoice
+from items.models import Item
 
 
 def index_view(requeste):
@@ -82,12 +83,13 @@ def delete_invoice_view(request, invoice_id):
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     company = Company.objects.filter(user=request.user, is_my_company=True).first()
+    items = Item.objects.filter(user=request.user)
 
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
     template_path = "invoices/pdf_invoice.html"
-    context = {"invoice": invoice, "company": company}
+    context = {"invoice": invoice, "company": company, "items": items}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
