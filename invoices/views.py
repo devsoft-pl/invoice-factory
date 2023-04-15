@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
+from companies.models import Company
 from invoices.forms import InvoiceForm
 from invoices.models import Invoice
 
@@ -80,12 +81,13 @@ def delete_invoice_view(request, invoice_id):
 @login_required
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
+    company = Company.objects.filter(user=request.user, is_my_company=True).first()
 
     if invoice.user != request.user:
         raise Http404("Invoice does not exist")
 
     template_path = "invoices/pdf_invoice.html"
-    context = {"invoice": invoice}
+    context = {"invoice": invoice, "company": company}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
