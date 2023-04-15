@@ -99,11 +99,3 @@ class Invoice(models.Model):
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
-
-
-    @property
-    def vat(self):
-        for item in self.items.all():
-            return item.vat
-
-
