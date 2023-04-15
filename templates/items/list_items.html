@@ -2,20 +2,39 @@
 
 {% block content %}
 
-  <p>Lista przedmiotów</p>
+    <a href="{% url 'items:create_item' %}">Dodaj przedmiot</a>
 
-  {% if items %}
-      <ul>
-      {% for item in items %}
-          <li>
-            <a href="{% url 'items:detail_item' item.pk %}">{{ item }}</a>
-          </li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>Brak przedmiotów</p>
-  {% endif %}
+    <p>Lista przedmiotów</p>
 
-  <a href="{% url 'items:create_item' %}">Dodaj przedmiot</a>
+    {% if items %}
+        <table>
+            <tr>
+                <th>Lp</th>
+                <th>Nazwa</th>
+                <th>PKWiU</th>
+                <th>Ilość</th>
+                <th>Cena netto</th>
+                <th>Vat</th>
+                <th>Opcje</th>
+            </tr>
+            {% for item in items %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.pkwiu }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.net_price }}</td>
+                    <td>{{ item.vat }}</td>
+                    <td>
+                        <a href="{% url 'items:detail_item' item.pk %}">Więcej</a>
+                        <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+                        <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Brak przedmiotów</p>
+    {% endif %}
 
 {% endblock %}
