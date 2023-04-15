@@ -10,23 +10,23 @@
     <th>Nabywca: </th>
   </tr>
   <tr>
-    <td>sprzedawca</td>
+    <td>{{ company.name }}</td>
     <td>{{ invoice.company }}</td>
   </tr>
   <tr>
-    <td>adres</td>
+    <td>{{ company.address }}</td>
     <td>{{ invoice.company.address }}</td>
   </tr>
   <tr>
-    <td>kod pocztowy miasto</td>
+    <td>{{ company.zip_code }} {{ company.city }}</td>
     <td>{{ invoice.comapny.zip_code }} {{ invoice.company.city }}</td>
   </tr>
   <tr>
-    <td>kraj</td>
+    <td>{{ company.country }}</td>
     <td>{{ invoice.company.country }}</td>
   </tr>
   <tr>
-    <td>nip</td>
+    <td>NIP: {{ company.nip }}</td>
     <td>NIP: {{ invoice.company.nip }}</td>
   </tr>
 </table>
