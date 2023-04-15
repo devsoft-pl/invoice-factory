@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <p>Nowy stawka vat</p>
+    <p>Nowa stawka vat</p>
 
-  <form action="{% url 'vat_rates:create_vat' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj stawkę vat</button>
-  </form>
+    <form action="{% url 'vat_rates:create_vat' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Dodaj</button>
+    </form>
 
 {% endblock content %}

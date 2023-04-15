@@ -2,12 +2,14 @@
 
 {% block content %}
 
-  <ul>
-    <li>{{ vat_rate }} %</li>
-  </ul>
+    <p>Szczegóły stawki vat</p>
 
-  <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
-  <a href="{% url 'vat_rates:replace_vat' vat_rate.pk %}">Edytuj</a>
-  <a href="{% url 'vat_rates:delete_vat' vat_rate.pk %}">Usuń</a>
+    <ul>
+        <li>Stawka vat: {{ vat_rate }} %</li>
+    </ul>
+
+    <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
+    <a href="{% url 'vat_rates:replace_vat' vat_rate.pk %}">Edytuj</a>
+    <a href="{% url 'vat_rates:delete_vat' vat_rate.pk %}">Usuń</a>
 
 {% endblock content %}

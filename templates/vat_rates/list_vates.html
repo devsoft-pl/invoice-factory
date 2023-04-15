@@ -2,20 +2,33 @@
 
 {% block content %}
 
-  <p>Lista stawek vat</p>
+    <p>
+        <a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a>
+    </p>
 
-  {% if vat_rates %}
-      <ul>
-      {% for vat_rate in vat_rates %}
-          <li>
-            <a href="{% url 'vat_rates:detail_vat' vat_rate.pk %}">{{ vat_rate }}</a>
-          </li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>Brak stawek vat</p>
-  {% endif %}
+    <p>Lista stawek vat</p>
 
-  <a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a>
+    {% if vat_rates %}
+        <table>
+            <tr>
+                <th>Lp</th>
+                <th>Stawka vat</th>
+                <th>Opcje</th>
+            </tr>
+            {% for vat in vat_rates %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ vat }} %</td>
+                    <td>
+                        <a href="{% url 'vat_rates:detail_vat' vat.pk %}">Więcej</a>
+                        <a href="{% url 'vat_rates:replace_vat' vat.pk %}">Edytuj</a>
+                        <a href="{% url 'vat_rates:delete_vat' vat.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Brak stawek vat</p>
+    {% endif %}
 
 {% endblock content %}
