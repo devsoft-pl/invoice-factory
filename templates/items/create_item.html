@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <p>Nowa przedmiot</p>
+    <p>Nowa przedmiot</p>
 
-  <form action="{% url 'items:create_item' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj przedmiot</button>
-  </form>
+    <form action="{% url 'items:create_item' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Dodaj przedmiot</button>
+    </form>
 
 {% endblock content %}
