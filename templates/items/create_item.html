@@ -7,7 +7,10 @@
     <form action="{% url 'items:create_item' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-        <button name="submit">Dodaj przedmiot</button>
+
+        <a href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' %}">Dodaj vat</a>
+
+        <p><button name="submit">Dodaj</button></p>
     </form>
 
 {% endblock content %}
