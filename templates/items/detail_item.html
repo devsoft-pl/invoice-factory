@@ -2,17 +2,20 @@
 
 {% block content %}
 
-  <ul>
-    <li>Numer faktury: {{ item.invoice }}</li>
-    <li>Nazwa: {{ item.name }}</li>
-    <li>PKWiU: {{ item.pkwiu }}</li>
-    <li>Ilość: {{ item.amount }}</li>
-    <li>Cena netto: {{ item.net_price }}</li>
-    <li>Stawka vat: {{ item.vat }}</li>
-  </ul>
+    <ul>
+        <li>Numer faktury: {{ item.invoice }}</li>
+        <li>Nazwa: {{ item.name }}</li>
+        <li>PKWiU: {{ item.pkwiu }}</li>
+        <li>Ilość: {{ item.amount }}</li>
+        <li>Cena netto: {{ item.net_price }}</li>
+        <li>Wartość netto: {{ item.net_amount }}</li>
+        <li>Stawka vat: {{ item.vat }}</li>
+        <li>Wartość vat: {{ item.tax_amount }}</li>
+        <li>Wartość brutto: {{ item.gross_amount }}</li>
+    </ul>
 
-  <a href="{% url 'items:list_items' %}">Powrót</a>
-  <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
-  <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
+    <a href="{% url 'items:list_items' %}">Powrót</a>
+    <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+    <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
 
 {% endblock content %}
