@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <p>Nowy kraj</p>
+    <p>Nowy kraj</p>
 
-  <form action="{% url 'countries:create_country' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Dodaj kraj</button>
-  </form>
+    <form action="{% url 'countries:create_country' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Dodaj</button>
+    </form>
 
 {% endblock content %}

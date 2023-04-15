@@ -2,12 +2,14 @@
 
 {% block content %}
 
-  <ul>
-    <li>Kraj: {{ country.country }}</li>
-  </ul>
+    <p>Szczegóły kraju</p>
 
-  <a href="{% url 'countries:list_countries' %}">Powrót</a>
-  <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
-  <a href="{% url 'countries:delete_country' country.pk %}">Usuń</a>
+    <ul>
+        <li>Kraj: {{ country.country }}</li>
+    </ul>
+
+    <a href="{% url 'countries:list_countries' %}">Powrót</a>
+    <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
+    <a href="{% url 'countries:delete_country' country.pk %}">Usuń</a>
 
 {% endblock content %}

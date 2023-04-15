@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <p>Edytuj kraj: {{ country }}</p>
+    <p>Edytuj kraj</p>
 
-  <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Zapisz zmiany</button>
-  </form>
+    <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Zapisz</button>
+    </form>
 
 {% endblock content %}

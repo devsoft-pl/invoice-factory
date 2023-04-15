@@ -2,20 +2,33 @@
 
 {% block content %}
 
-  <p>Lista krajów</p>
+    <p>
+        <a href="{% url 'countries:create_country' %}">Dodaj kraj</a>
+    </p>
 
-  {% if countries %}
-      <ul>
-      {% for country in countries %}
-          <li>
-            <a href="{% url 'countries:detail_country' country.pk %}">{{ country }}</a>
-          </li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>Brak krajów</p>
-  {% endif %}
+    <p>Lista krajów</p>
 
-  <a href="{% url 'countries:create_country' %}">Dodaj kraj</a>
+    {% if countries %}
+        <table>
+            <tr>
+                <th>Lp</th>
+                <th>Kraj</th>
+                <th>Opcje</th>
+            </tr>
+            {% for country in countries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ country }}</td>
+                    <td>
+                        <a href="{% url 'countries:detail_country' country.pk %}">Więcej</a>
+                        <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
+                        <a href="{% url 'countries:delete_country' country.pk%}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Brak krajów</p>
+    {% endif %}
 
 {% endblock content %}
