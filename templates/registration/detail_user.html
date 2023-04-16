@@ -2,9 +2,11 @@
 
 {% block content %}
 
+    <p>Szczegóły użytkownika</p>
+
     <ul>
         <li>Login: {{ user.username }}</li>
-        <li>Hasło: {{ user.password }}</li>
+        <li>Email: {{ user.email }}</li>
     </ul>
 
     <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
