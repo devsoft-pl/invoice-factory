@@ -9,6 +9,7 @@ class UserForm(forms.ModelForm):
         label=_("password"),
         help_text=_("Hasło jest szyfrowane, więc nie można je zobaczyć."),
     )
+
     class Meta:
         model = User
         fields = ["username", "password", "email"]
