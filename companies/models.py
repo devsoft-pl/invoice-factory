@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext as _
 
+from companies.managers import MyClientsManager
 from countries.models import Country
 
 
@@ -25,6 +26,9 @@ class Company(models.Model):
     is_my_company = models.BooleanField(
         verbose_name=_("Is my company"), default=False, editable=False
     )
+
+    objects = models.Manager()
+    my_clients = MyClientsManager()
 
     def __str__(self):
         return self.name
