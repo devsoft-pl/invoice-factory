@@ -7,7 +7,6 @@
         <li>Hasło: {{ user.password }}</li>
     </ul>
 
-    <a href="{% url 'invoices:index' %}">Powrót</a>
     <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
 
     <p>
@@ -21,5 +20,7 @@
         </li>
     {% endfor %}
     </ul>
+
+    <a href="{% url 'invoices:index' %}">Powrót</a>
 
 {% endblock content %}
