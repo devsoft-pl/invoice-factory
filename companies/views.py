@@ -8,7 +8,7 @@ from companies.models import Company
 
 @login_required
 def list_companies_view(request):
-    companies = Company.objects.filter(user=request.user).exclude(is_my_company=True)
+    companies = Company.my_clients.filter(user=request.user)
 
     context = {"companies": companies}
     return render(request, "companies/list_companies.html", context)
