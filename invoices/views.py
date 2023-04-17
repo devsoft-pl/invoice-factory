@@ -1,7 +1,10 @@
+import decimal
+
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
+from num2words import num2words
 from xhtml2pdf import pisa
 
 from companies.models import Company
@@ -89,17 +92,26 @@ def pdf_invoice_view(request, invoice_id):
         raise Http404("Invoice does not exist")
 
     template_path = "invoices/pdf_invoice.html"
-    context = {"invoice": invoice, "company": company, "items": items}
-    # Create a Django response object, and specify content_type as pdf
+
+    gross_whole = invoice.gross_amount.quantize(decimal.Decimal("1"))
+
+    gross_whole_amount = num2words(gross_whole, lang="pl")
+    gross_frac_amount = num2words(invoice.gross_amount - gross_whole, lang="pl")
+    context = {
+        "invoice": invoice,
+        "company": company,
+        "items": items,
+        "gross_whole_amount": gross_whole_amount,
+        "gross_frac_amount": gross_frac_amount,
+    }
+
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render(context)
 
-    # create a pdf
+    html = render_to_string(template_path, context)
+
     pisa_status = pisa.CreatePDF(html, dest=response)
-    # if error then show some funny view
+
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
