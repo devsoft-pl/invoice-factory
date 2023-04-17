@@ -1,3 +1,5 @@
+import decimal
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext as _
@@ -37,4 +39,4 @@ class Item(models.Model):
 
     @property
     def gross_amount(self):
-        return self.net_amount + self.tax_amount
+        return decimal.Decimal(self.net_amount + self.tax_amount)
