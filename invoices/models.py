@@ -1,3 +1,5 @@
+import decimal
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -95,7 +97,7 @@ class Invoice(models.Model):
 
     @property
     def gross_amount(self):
-        gross_sum = 0
+        gross_sum = decimal.Decimal("0")
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
