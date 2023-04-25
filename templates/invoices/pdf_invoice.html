@@ -21,8 +21,8 @@
         font-size: 25px;
     }
     p {
-      font-size: 12px;
-        text-align: right;
+        font-size: 12px;
+        text-align: left;
     }
     .information {
         color: gray;
@@ -160,17 +160,18 @@
             </tr>
         {% endfor %}
         <tr class="no-border">
-            <td colspan="7" class="summary-title"></td>
+            <td colspan="7" class="summary-title"><b>Podsumowanie</b></td>
         </tr>
-        <tr>
-            <td colspan="3" class="summary-title items-background-color"></td>
+        <tr class="no-border">
+            <td colspan="2"></td>
+            <td class="items-background-color"></td>
             <th class="items-background-color">Stawka VAT</th>
             <th class="items-background-color">Wartość netto</th>
             <th class="items-background-color">VAT</th>
             <th class="items-background-color">Wartość brutto</th>
         </tr>
         <tr class="no-border">
-            <td colspan="3" class="summary-title" >Razem:</td>
+            <td colspan="3" class="summary-title" ><b>Razem:</b></td>
             {% for item in items %}
                 <td>{{ item.vat }} %</td>
             {% endfor %}
