@@ -11,17 +11,12 @@
     p    {color: blue;}
     b    {color: gray;}
     .items {
-        border:1px solid black;
         border-collapse: collapse;
         text-align: center;
     }
     .item-description {
         text-align: left;
         margin-left: 5px;
-    }
-    .items-summary {
-        border:1px solid black;
-        border-collapse: collapse;
     }
     .items td {
         padding-top: 5px;
@@ -31,11 +26,21 @@
         text-align: left;
         margin-left: 5px;
     }
+    .items-background-color {
+        background-color: lightskyblue
+    }
+    .items tr {
+        border: 1px solid cornflowerblue;
+    }
+    .items tr.no-border {
+        border: 0;
+    }
+
 </style>
 <h1>Faktura</h1>
 <p>Nr {{ invoice.invoice_number }}</p>
 
-<table style="width:100%">
+<table>
     <tr>
         <td><b>SPRZEDAWCA: </b>{{ company.name }}</td>
         <td><b>NABYWCA: </b>{{ invoice.company }}</td>
@@ -56,7 +61,7 @@
 
 <hr>
 
-<table style="width:100%">
+<table>
     <tr>
         <th></th>
         <th></th>
@@ -79,15 +84,15 @@
 <h2>Pozycje faktury</h2>
 
 {% if items %}
-    <table style="width:100%" class="items">
+    <table class="items">
         <tr>
-            <th style="width:5%">Lp.</th>
-            <th style="width:50%">Nazwa towaru lub uslugi</th>
-            <th>PKWiU</th>
-            <th>Ilość</th>
-            <th>Cena netto</th>
-            <th>Wartość netto</th>
-            <th>Stawka VAT</th>
+            <th class="items-background-color" style="width:5%">Lp.</th>
+            <th class="items-background-color" style="width:50%">Nazwa towaru lub uslugi</th>
+            <th class="items-background-color">PKWiU</th>
+            <th class="items-background-color">Ilość</th>
+            <th class="items-background-color">Cena netto</th>
+            <th class="items-background-color">Wartość netto</th>
+            <th class="items-background-color">Stawka VAT</th>
         </tr>
         {% for item in items %}
             <tr>
@@ -100,15 +105,15 @@
                 <td >{{ item.vat }} %</td>
             </tr>
         {% endfor %}
-        <tr>
-            <td colspan="7" class="summary-title" >Podsumowanie: </td>
+        <tr class="no-border">
+            <td colspan="7" class="summary-title"></td>
         </tr>
         <tr>
-            <td colspan="3" class="summary-title" ></td>
-            <th>Stawka VAT</th>
-            <th>Wartość netto</th>
-            <th>VAT</th>
-            <th>Wartość brutto</th>
+            <td colspan="3" class="summary-title items-background-color"></td>
+            <th class="items-background-color">Stawka VAT</th>
+            <th class="items-background-color">Wartość netto</th>
+            <th class="items-background-color">VAT</th>
+            <th class="items-background-color">Wartość brutto</th>
         </tr>
         <tr>
             <td colspan="3" class="summary-title" >Razem </td>
@@ -132,7 +137,7 @@
 <hr>
 
 {% if items %}
-    <table style="width:100%">
+    <table>
         <tr>
             <th>imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu</th>
             <th>imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</th>
