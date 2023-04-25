@@ -1,42 +1,63 @@
-<p style="text-align: right">Data utworzenia: {{ invoice.create_date }}</p>
-<p style="text-align: right">Data sprzedazy: {{ invoice.sale_date }}</p>
+{% load static %}
+<style>
+    @font-face {
+        font-family: "Open Sans"; src: url("static/OpenSans-Regular.ttf");
+    }
+    * {
+        font-family: "Open Sans";
+    }
+    h1   {color: blue;}
+    h2   {color: blue;}
+    p    {color: blue;}
+    b    {color: gray;}
+</style>
+<h1>Faktura</h1>
+<p>Nr {{ invoice.invoice_number }}</p>
 
-<h1>Numer faktury: {{ invoice.invoice_number }}</h1>
-<p>Typ faktury: {{ invoice.get_invoice_type_display }}</p>
-
-<table>
+<table style="width:100%">
     <tr>
-        <th><u>Sprzedawca</u></th>
-        <th><u>Nabywca</u></th>
+        <td><b>SPRZEDAWCA: </b>{{ company.name }}</td>
+        <td><b>NABYWCA: </b>{{ invoice.company }}</td>
     </tr>
     <tr>
-        <td>{{ company.name }}</td>
-        <td>{{ invoice.company }}</td>
+        <td><b>ADRES: </b>{{ company.address }}</td>
+        <td><b>ADRES: </b>{{ invoice.company.address }}</td>
     </tr>
     <tr>
-        <td>{{ company.address }}</td>
-        <td>{{ invoice.company.address }}</td>
+        <td>{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
+        <td>{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
     </tr>
     <tr>
-        <td>{{ company.zip_code }} {{ company.city }}</td>
-        <td>{{ invoice.comapny.zip_code }} {{ invoice.company.city }}</td>
-    </tr>
-    <tr>
-        <td>{{ company.country }}</td>
-        <td>{{ invoice.company.country }}</td>
-    </tr>
-    <tr>
-        <td>NIP: {{ company.nip }}</td>
-        <td>NIP: {{ invoice.company.nip }}</td>
+        <td><b>NIP: </b>{{ company.nip }}</td>
+        <td><b>NIP: </b>{{ invoice.company.nip }}</td>
     </tr>
 </table>
 
 <hr>
 
-<p>Waluta: {{ invoice.currency }}</p>
-<p>Numer konta: {{ invoice.account_number }}</p>
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td><b>DATA WYSTAWIENIA: </b>{{ invoice.create_date }}</td>
+        <td><b>SPOSÓB PŁATNOŚCI: </b>{{ invoice.get_payment_method_display }}</td>
+    </tr>
+    <tr>
+        <td><b>DATA SPRZEDAŻY: </b>{{ invoice.sale_date }}</td>
+        <td><b>WALUTA: </b>{{ invoice.currency }}</td>
+    </tr>
+    <tr>
+        <td><b>TERMIN PŁATNOŚCI </b>{{ invoice.payment_date }}</td>
+        <td><b>NUMER KONTA: </b>{{ invoice.account_number }}</td>
+    </tr>
+
+</table>
 
 <hr>
+
+<h2>Pozycje faktury</h2>
 
 {% if items %}
     <table>
@@ -44,12 +65,10 @@
             <th>Lp</th>
             <th>Nazwa towaru lub uslugi</th>
             <th>PKWiU</th>
-            <th>ILosc</th>
+            <th>Ilość</th>
             <th>Cena netto</th>
-            <th>Wartosc netto</th>
-            <th>Stawka vat</th>
-            <th>Wartosc vat</th>
-            <th>Wartosc brutto</th>
+            <th>Wartość netto</th>
+            <th>Stawka VAT</th>
         </tr>
         {% for item in items %}
             <tr>
@@ -60,8 +79,6 @@
                 <td>{{ item.net_price }}</td>
                 <td>{{ item.net_amount }}</td>
                 <td>{{ item.vat }}</td>
-                <td>{{ item.tax_amount }}</td>
-                <td>{{ item.gross_amount }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -71,18 +88,54 @@
 
 <hr>
 
+<h2>Podsumowanie</h2>
+
 {% if items %}
     <table>
         <tr>
-            <th>Suma Netto</th>
-            <th>Suma Vat</th>
-            <th>Suma Brutto</th>
+            <th></th>
+            <th>Stawka VAT</th>
+            <th>Wartość netto</th>
+            <th>VAT</th>
+            <th>Wartość brutto</th>
         </tr>
+        {% for item in items %}
             <tr>
-                <td>{{ invoice.net_amount }}</td>
-                <td>{{ invoice.tax_amount }}</td>
-                <td>{{ invoice.gross_amount }}</td>
+                <td></td>
+                <td>{{ item.vat }} %</td>
+                <td>{{ item.net_amount|floatformat:"2g"}}</td>
+                <td>{{ item.tax_amount|floatformat:"2g" }}</td>
+                <td>{{ item.gross_amount|floatformat:"2g" }}</td>
             </tr>
+        {% endfor %}
+        <tr>
+            <td>Razem:</td>
+            <td></td>
+            <td>{{ invoice.net_amount|floatformat:"2g"}}</td>
+            <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
+            <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+        </tr>
+        <tr>
+            <td>Zapłacono:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>0.00</td>
+        </tr>
+        <tr>
+            <td>Pozostało do zapłaty:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+        </tr>
+        <tr>
+            <td>Słownie:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</td>
+        </tr>
     </table>
 {% else %}
     <p>Brak pozycji</p>
@@ -90,10 +143,12 @@
 
 <hr>
 
-<p style="text-align: right">Sposob platnosci: {{ invoice.get_payment_method_display }}</p>
-<p style="text-align: right">Data platnosci: {{ invoice.payment_date }}</p>
+
+
 
 <h1 style="text-align: right"><u>Razem do zapłaty: {{ invoice.gross_amount }} {{ invoice.currency }}</u></h1>
+
+
 
 
 
