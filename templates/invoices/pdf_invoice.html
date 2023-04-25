@@ -10,6 +10,27 @@
     h2   {color: blue;}
     p    {color: blue;}
     b    {color: gray;}
+    .items {
+        border:1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+    .item-description {
+        text-align: left;
+        margin-left: 5px;
+    }
+    .items-summary {
+        border:1px solid black;
+        border-collapse: collapse;
+    }
+    .items td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .summary-title {
+        text-align: left;
+        margin-left: 5px;
+    }
 </style>
 <h1>Faktura</h1>
 <p>Nr {{ invoice.invoice_number }}</p>
@@ -35,7 +56,7 @@
 
 <hr>
 
-<table>
+<table style="width:100%">
     <tr>
         <th></th>
         <th></th>
@@ -55,15 +76,13 @@
 
 </table>
 
-<hr>
-
 <h2>Pozycje faktury</h2>
 
 {% if items %}
-    <table>
+    <table style="width:100%" class="items">
         <tr>
-            <th>Lp</th>
-            <th>Nazwa towaru lub uslugi</th>
+            <th style="width:5%">Lp.</th>
+            <th style="width:50%">Nazwa towaru lub uslugi</th>
             <th>PKWiU</th>
             <th>Ilość</th>
             <th>Cena netto</th>
@@ -73,80 +92,52 @@
         {% for item in items %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ item.name }}</td>
+                <td class="item-description">{{ item.name }}</td>
                 <td>{{ item.pkwiu }}</td>
                 <td>{{ item.amount }}</td>
-                <td>{{ item.net_price }}</td>
-                <td>{{ item.net_amount }}</td>
-                <td>{{ item.vat }}</td>
+                <td>{{ item.net_price|floatformat:"2g" }}</td>
+                <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                <td >{{ item.vat }} %</td>
             </tr>
         {% endfor %}
-    </table>
-{% else %}
-    <p>Brak pozycji</p>
-{% endif %}
-
-<hr>
-
-<h2>Podsumowanie</h2>
-
-{% if items %}
-    <table>
         <tr>
-            <th></th>
+            <td colspan="7" class="summary-title" >Podsumowanie: </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="summary-title" ></td>
             <th>Stawka VAT</th>
             <th>Wartość netto</th>
             <th>VAT</th>
             <th>Wartość brutto</th>
         </tr>
-        {% for item in items %}
-            <tr>
-                <td></td>
-                <td>{{ item.vat }} %</td>
-                <td>{{ item.net_amount|floatformat:"2g"}}</td>
-                <td>{{ item.tax_amount|floatformat:"2g" }}</td>
-                <td>{{ item.gross_amount|floatformat:"2g" }}</td>
-            </tr>
-        {% endfor %}
         <tr>
-            <td>Razem:</td>
-            <td></td>
+            <td colspan="3" class="summary-title" >Razem </td>
+            {% for item in items %}
+                <td>{{ item.vat }} %</td>
+            {% endfor %}
             <td>{{ invoice.net_amount|floatformat:"2g"}}</td>
             <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
             <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-        </tr>
-        <tr>
-            <td>Zapłacono:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>0.00</td>
-        </tr>
-        <tr>
-            <td>Pozostało do zapłaty:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-        </tr>
-        <tr>
-            <td>Słownie:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</td>
         </tr>
     </table>
 {% else %}
     <p>Brak pozycji</p>
 {% endif %}
 
+<h3 style="text-align: right">Zapłacono: 0.00 {{ invoice.currency }}</h3>
+<h3 style="text-align: right">Pozostało do zapłaty: {{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</h3>
+<h3 style="text-align: right">Słownie: {{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</h3>
+<h1 style="text-align: right"><u>Razem do zapłaty: {{ invoice.gross_amount }} {{ invoice.currency }}</u></h1>
+
 <hr>
 
-
-
-
-<h1 style="text-align: right"><u>Razem do zapłaty: {{ invoice.gross_amount }} {{ invoice.currency }}</u></h1>
+{% if items %}
+    <table style="width:100%">
+        <tr>
+            <th>imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu</th>
+            <th>imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</th>
+        </tr>
+{% endif %}
 
 
 
