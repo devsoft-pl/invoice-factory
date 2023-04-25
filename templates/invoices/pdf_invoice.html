@@ -1,92 +1,146 @@
 {% load static %}
+
 <style>
     @font-face {
         font-family: "Open Sans"; src: url("static/OpenSans-Regular.ttf");
+        font-weight: normal;
+    }
+    @font-face {
+        font-family: "Open Sans"; src: url("static/OpenSans-Bold.ttf");
+        font-weight: bold;
     }
     * {
         font-family: "Open Sans";
     }
-    h1   {color: blue;}
-    h2   {color: blue;}
-    p    {color: blue;}
-    b    {color: gray;}
+    h1 {
+        color: deepskyblue;
+        font-size: 35px;
+    }
+    h2 {
+        color: deepskyblue;
+        font-size: 25px;
+    }
+    p {
+      font-size: 12px;
+        text-align: right;
+    }
+    .information {
+        color: gray;
+        font-size: 12px;
+        text-align: right;
+    }
+    .specific-information {
+        font-size: 12px;
+        margin-left: 5px;
+    }
     .items {
         border-collapse: collapse;
         text-align: center;
     }
-    .item-description {
-        text-align: left;
-        margin-left: 5px;
+
+    .items tr {
+        border: 1px solid deepskyblue;
+    }
+    .items tr.no-border {
+        border: 0;
     }
     .items td {
         padding-top: 5px;
         padding-bottom: 5px;
     }
-    .summary-title {
+    .items-background-color {
+        background-color: lightskyblue;
+    }
+    .item-description {
         text-align: left;
         margin-left: 5px;
     }
-    .items-background-color {
-        background-color: lightskyblue
+    .item-summary {
+        background-color: lightskyblue;
+        font-size: 15px;
+        text-align: right;
+        margin-right: 5px;
     }
-    .items tr {
-        border: 1px solid cornflowerblue;
+    .footer {
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 9px;
     }
-    .items tr.no-border {
+    .footer td{
+        padding-top: 50px;
+        padding-bottom: 5px;
+        border: 1px solid deepskyblue;
+    }
+    .footer td.no-border {
         border: 0;
+        width: 5%;
     }
-
+    .summary-title {
+        font-size: 12px;
+        margin-right: 5px;
+        text-align: right;
+    }
 </style>
+
 <h1>Faktura</h1>
-<p>Nr {{ invoice.invoice_number }}</p>
+<h2>Nr {{ invoice.invoice_number }}</h2>
 
 <table>
     <tr>
-        <td><b>SPRZEDAWCA: </b>{{ company.name }}</td>
-        <td><b>NABYWCA: </b>{{ invoice.company }}</td>
+        <td class="information" style="width:18%">SPRZEDAWCA:</td>
+        <td class="specific-information">{{ company.name }}</td>
+        <td class="information" style="width:18%">NABYWCA:</td>
+        <td class="specific-information">{{ invoice.company }}</td>
     </tr>
     <tr>
-        <td><b>ADRES: </b>{{ company.address }}</td>
-        <td><b>ADRES: </b>{{ invoice.company.address }}</td>
+        <td class="information" style="width:18%">ADRES:</td>
+        <td class="specific-information">{{ company.address }}</td>
+        <td class="information" style="width:18%">ADRES:</td>
+        <td class="specific-information">{{ invoice.company.address }}</td>
     </tr>
     <tr>
-        <td>{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
-        <td>{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
+        <td style="width:15%"></td>
+        <td class="specific-information">{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
+        <td style="width:15%"></td>
+        <td class="specific-information">{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
     </tr>
     <tr>
-        <td><b>NIP: </b>{{ company.nip }}</td>
-        <td><b>NIP: </b>{{ invoice.company.nip }}</td>
+        <td class="information" style="width:18%">NIP:</td>
+        <td class="specific-information">{{ company.nip }}</td>
+        <td class="information" style="width:18%">NIP:</td>
+        <td class="specific-information">{{ invoice.company.nip }}</td>
     </tr>
 </table>
 
-<hr>
+<hr color="lightskyblue">
 
 <table>
     <tr>
-        <th></th>
-        <th></th>
+        <td class="information" style="width:18%">DATA WYSTAWIENIA:</td>
+        <td class="specific-information">{{ invoice.create_date }}</td>
+        <td class="information" style="width:18%">SPOSÓB PŁATNOŚCI:</td>
+        <td class="specific-information">{{ invoice.get_payment_method_display }}</td>
     </tr>
     <tr>
-        <td><b>DATA WYSTAWIENIA: </b>{{ invoice.create_date }}</td>
-        <td><b>SPOSÓB PŁATNOŚCI: </b>{{ invoice.get_payment_method_display }}</td>
+        <td class="information" style="width:18%">DATA SPRZEDAŻY:</td>
+        <td class="specific-information">{{ invoice.sale_date }}</td>
+        <td class="information" style="width:18%">WALUTA:</td>
+        <td class="specific-information">{{ invoice.currency }}</td>
     </tr>
     <tr>
-        <td><b>DATA SPRZEDAŻY: </b>{{ invoice.sale_date }}</td>
-        <td><b>WALUTA: </b>{{ invoice.currency }}</td>
+        <td class="information" style="width:18%">TERMIN PŁATNOŚCI:</td>
+        <td class="specific-information">{{ invoice.payment_date }}</td>
+        <td class="information" style="width:18%">NUMER KONTA:</td>
+        <td class="specific-information">{{ invoice.account_number }}</td>
     </tr>
-    <tr>
-        <td><b>TERMIN PŁATNOŚCI </b>{{ invoice.payment_date }}</td>
-        <td><b>NUMER KONTA: </b>{{ invoice.account_number }}</td>
-    </tr>
-
 </table>
 
-<h2>Pozycje faktury</h2>
+<hr color="lightskyblue">
 
 {% if items %}
     <table class="items">
         <tr>
-            <th class="items-background-color" style="width:5%">Lp.</th>
+            <th class="items-background-color" style="width:4%">Lp.</th>
             <th class="items-background-color" style="width:50%">Nazwa towaru lub uslugi</th>
             <th class="items-background-color">PKWiU</th>
             <th class="items-background-color">Ilość</th>
@@ -115,8 +169,8 @@
             <th class="items-background-color">VAT</th>
             <th class="items-background-color">Wartość brutto</th>
         </tr>
-        <tr>
-            <td colspan="3" class="summary-title" >Razem </td>
+        <tr class="no-border">
+            <td colspan="3" class="summary-title" >Razem:</td>
             {% for item in items %}
                 <td>{{ item.vat }} %</td>
             {% endfor %}
@@ -124,32 +178,27 @@
             <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
             <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
         </tr>
+        <tr class="no-border">
+            <td colspan="2"></td>
+            <td colspan="5" class="item-summary">Razem do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></td>
+        </tr>
     </table>
 {% else %}
     <p>Brak pozycji</p>
 {% endif %}
 
-<h3 style="text-align: right">Zapłacono: 0.00 {{ invoice.currency }}</h3>
-<h3 style="text-align: right">Pozostało do zapłaty: {{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</h3>
-<h3 style="text-align: right">Słownie: {{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</h3>
-<h1 style="text-align: right"><u>Razem do zapłaty: {{ invoice.gross_amount }} {{ invoice.currency }}</u></h1>
+<p>Zapłacono: <b>0,00 {{ invoice.currency }}</b></p>
+<p>Pozostało do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></p>
+<p>Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b></p>
 
-<hr>
+<hr color="lightskyblue">
 
 {% if items %}
-    <table>
+    <table class="footer">
         <tr>
-            <th>imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu</th>
-            <th>imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</th>
+            <td>imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu</td>
+            <td class="no-border"></td>
+            <td>imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</td>
         </tr>
+    </table>
 {% endif %}
-
-
-
-
-
-
-
-
-
-
