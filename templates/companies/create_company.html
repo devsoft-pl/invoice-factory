@@ -12,13 +12,13 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-        <p><button name="submit">Dodaj</button></p>
-    </form>
+        {% if company.is_my_company %}
+            <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+        {% else %}
+            <a href="{% url 'companies:list_companies' %}">Powrót</a>
+        {% endif %}
 
-    {% if company.is_my_company %}
-        <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
-    {% else %}
-        <a href="{% url 'companies:list_companies' %}">Powrót</a>
-    {% endif %}
+        <button name="submit">Dodaj</button>
+    </form>
 
 {% endblock content %}
