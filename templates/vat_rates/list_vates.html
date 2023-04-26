@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static %}
 
 {% block content %}
 
-    <p>
-        <a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a>
-    </p>
+    <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
+
+    <p><a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a></p>
 
     <p>Lista stawek vat</p>
 
