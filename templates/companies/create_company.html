@@ -4,13 +4,13 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
-    <p>Nowa firma</p>
+    <h1>Nowa firma</h1>
 
     <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
 
-        <a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a>
+        <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
 
         <p><button name="submit">Dodaj</button></p>
     </form>
