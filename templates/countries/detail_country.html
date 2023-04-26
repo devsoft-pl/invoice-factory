@@ -4,10 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
-    <p>Szczegóły kraju</p>
+    <h1>Szczegóły kraju</h1>
 
-    <ul>
-        <li>Kraj: {{ country.country }}</li>
+    <ul style="list-style-type:none;">
+        <li><b>Kraj:</b> {{ country.country }}</li>
     </ul>
 
     <a href="{% url 'countries:list_countries' %}">Powrót</a>

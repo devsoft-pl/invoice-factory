@@ -4,11 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
-    <p>Edytuj kraj</p>
+    <h1>Edytuj kraj</h1>
 
     <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
+
+        <a href="{% url 'countries:list_countries' %}">Powrót</a>
+
         <button name="submit">Zapisz</button>
     </form>
 

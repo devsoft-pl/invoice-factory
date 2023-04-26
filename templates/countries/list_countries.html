@@ -4,16 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
-    <p>
-        <a href="{% url 'countries:create_country' %}">Dodaj kraj</a>
-    </p>
+    <h3><a href="{% url 'countries:create_country' %}">Dodaj kraj</a></h3>
 
-    <p>Lista krajów</p>
+    <h1>Lista krajów</h1>
 
     {% if countries %}
-        <table>
+        <table class="items">
             <tr>
-                <th>Lp</th>
+                <th style="width:5%">Lp.</th>
                 <th>Kraj</th>
                 <th>Opcje</th>
             </tr>
@@ -30,7 +28,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Brak krajów</p>
+        <h3>Brak krajów</h3>
     {% endif %}
 
 {% endblock content %}
