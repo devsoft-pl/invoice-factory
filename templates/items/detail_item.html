@@ -4,18 +4,18 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-    <p>Szczegóły pozycji</p>
+    <h1>Szczegóły pozycji</h1>
 
-    <ul>
-        <li>Numer faktury: {{ item.invoice }}</li>
-        <li>Nazwa: {{ item.name }}</li>
-        <li>PKWiU: {{ item.pkwiu }}</li>
-        <li>Ilość: {{ item.amount }}</li>
-        <li>Cena netto: {{ item.net_price }}</li>
-        <li>Wartość netto: {{ item.net_amount }}</li>
-        <li>Stawka vat: {{ item.vat }}</li>
-        <li>Wartość vat: {{ item.tax_amount }}</li>
-        <li>Wartość brutto: {{ item.gross_amount }}</li>
+    <ul style="list-style-type:none;">
+        <li><b>Numer faktury:</b> {{ item.invoice }}</li>
+        <li><b>Nazwa:</b> {{ item.name }}</li>
+        <li><b>PKWiU:</b> {{ item.pkwiu }}</li>
+        <li><b>Ilość:</b> {{ item.amount }}</li>
+        <li><b>Cena netto:</b> {{ item.net_price }}</li>
+        <li><b>Wartość netto:</b> {{ item.net_amount }}</li>
+        <li><b>Stawka vat:</b> {{ item.vat }}</li>
+        <li><b>Wartość vat:</b> {{ item.tax_amount }}</li>
+        <li><b>Wartość brutto:</b> {{ item.gross_amount }}</li>
     </ul>
 
     <a href="{% url 'items:list_items' %}">Powrót</a>

@@ -4,20 +4,20 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-    <a href="{% url 'items:create_item' %}">Dodaj pozycję</a>
+    <h3><a href="{% url 'items:create_item' %}">Dodaj pozycję</a></h3>
 
-    <p>Lista pozycji</p>
+    <h1>Lista pozycji</h1>
 
     {% if items %}
-        <table>
+        <table class="items">
             <tr>
-                <th>Lp</th>
-                <th>Nazwa</th>
-                <th>PKWiU</th>
-                <th>Ilość</th>
-                <th>Cena netto</th>
-                <th>Vat</th>
-                <th>Opcje</th>
+                <th style="width:5%">Lp.</th>
+                <th style="width:35%">Nazwa</th>
+                <th style="width:10%">PKWiU</th>
+                <th style="width:5%">Ilość</th>
+                <th style="width:10%">Cena netto</th>
+                <th style="width:5%">Vat</th>
+                <th style="width:15%">Opcje</th>
             </tr>
             {% for item in items %}
                 <tr>
@@ -36,7 +36,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Brak pozycji</p>
+        <h3>Brak pozycji</h3>
     {% endif %}
 
 {% endblock %}

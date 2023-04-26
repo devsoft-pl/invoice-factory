@@ -4,11 +4,16 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-    <p>Edytuj pozycję</p>
+    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
+
+    <h1>Edytuj pozycję</h1>
 
     <form action="{% url 'items:replace_item' item.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
+
+        <a href="{% url 'items:list_items' %}">Powrót</a>
+
         <button name="submit">Zapisz</button>
     </form>
 
