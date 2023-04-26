@@ -4,15 +4,21 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
+    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
+
     <h1>Nowa firma</h1>
 
     <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
 
-        <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
-
         <p><button name="submit">Dodaj</button></p>
     </form>
+
+    {% if company.is_my_company %}
+        <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+    {% else %}
+        <a href="{% url 'companies:list_companies' %}">Powrót</a>
+    {% endif %}
 
 {% endblock content %}
