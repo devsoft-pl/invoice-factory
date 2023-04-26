@@ -9,4 +9,4 @@ class CurrencyForm(forms.ModelForm):
     class Meta:
         model = Currency
         fields = ["next", "code"]
-        labels = {"code": "Kod kraju"}
+        labels = {"code": "Kod walutę"}
