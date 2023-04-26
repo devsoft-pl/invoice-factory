@@ -4,10 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'currencies.css' %}">
 
-    <p>Szczegóły waluty</p>
+    <h1>Szczegóły waluty</h1>
 
-    <ul>
-        <li>Waluta: {{ currency }}</li>
+    <ul style="list-style-type:none;">
+        <li><b>Waluta:</b> {{ currency }}</li>
     </ul>
 
     <a href="{% url 'currencies:list_currencies' %}">Powrót</a>

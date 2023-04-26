@@ -4,11 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'currencies.css' %}">
 
-    <p>Nowa waluta</p>
+    <h1>Nowa waluta</h1>
 
     <form action="{% url 'currencies:create_currency' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
+
+        <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
+
         <button name="submit">Dodaj</button>
     </form>
 

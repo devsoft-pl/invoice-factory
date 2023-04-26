@@ -4,21 +4,21 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'currencies.css' %}">
 
-    <p><a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a></p>
+    <h3><a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a></h3>
 
-    <p>Lista walut</p>
+    <h1>Lista walut</h1>
 
     {% if currencies %}
-        <table>
+        <table class="items">
             <tr>
-                <th>Lp</th>
+                <th style="width:5%">Lp.</th>
                 <th>Waluta</th>
                 <th>Opcje</th>
             </tr>
             {% for currency in currencies %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ country }}</td>
+                    <td>{{ currency }}</td>
                     <td>
                         <a href="{% url 'currencies:detail_currency' currency.pk %}">Więcej</a>
                         <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
@@ -28,7 +28,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Brak walut</p>
+        <h3>Brak walut</h3>
     {% endif %}
 
 {% endblock content %}
