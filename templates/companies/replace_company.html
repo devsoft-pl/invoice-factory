@@ -4,7 +4,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
-    <p>Edytuj firmę</p>
+    <h1>Edytuj firmę</h1>
 
     <form action="{% url 'companies:replace_company' company.pk %}" method='post'>
         {% csrf_token %}
