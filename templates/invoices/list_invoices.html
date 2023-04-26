@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static %}
 
 {% block content %}
 
-    <p>
-        <a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a>
-    </p>
+    <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
+
+    <p><a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a></p>
 
     <p>Lista faktur</p>
 
