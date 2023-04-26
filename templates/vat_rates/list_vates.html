@@ -4,14 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
 
-    <p><a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a></p>
+    <h3><a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a></h3>
 
-    <p>Lista stawek vat</p>
+    <h1>Lista stawek vat</h1>
 
     {% if vat_rates %}
-        <table>
+        <table class="items">
             <tr>
-                <th>Lp</th>
+                <th style="width:5%">Lp.</th>
                 <th>Stawka vat</th>
                 <th>Opcje</th>
             </tr>
@@ -28,7 +28,7 @@
             {% endfor %}
         </table>
     {% else %}
-        <p>Brak stawek vat</p>
+        <h3>Brak stawek vat</h3>
     {% endif %}
 
 {% endblock content %}
