@@ -4,11 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
-    <p>Edycja faktury</p>
+    <h1>Edycja faktury</h1>
 
     <form action="{% url 'invoices:replace_invoice' invoice.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
+
+        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
+
         <button name="submit">Zapisz</button>
     </form>
 

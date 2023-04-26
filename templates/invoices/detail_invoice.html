@@ -4,20 +4,20 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
-    <p>Szczegóły faktury</p>
+    <h1>Szczegóły faktury</h1>
 
-    <ul>
-        <li>Numer faktury: {{ invoice.invoice_number }}</li>
-        <li>Data utworzenia: {{ invoice.create_date }}</li>
-        <li>Data sprzedaży: {{ invoice.sale_date }}</li>
-        <li>Data płatności: {{ invoice.payment_date }}</li>
-        <li>Typ faktury: {{ invoice.get_invoice_type_display }}</li>
-        <li>Częstotliwość faktury: {{ invoice.recurring_frequency }}</li>
-        <li>Powtarzalność faktury: {{ invoice.is_recurring }}</li>
-        <li>Firma:{{ invoice.company }}</li>
-        <li>Sposób płatności: {{ invoice.get_payment_method_display }}</li>
-        <li>Waluta: {{ invoice.currency }}</li>
-        <li>Numer konta: {{ invoice.account_number }}</li>
+    <ul style="list-style-type:none">
+        <li><b>Numer faktury:</b> {{ invoice.invoice_number }}</li>
+        <li><b>Data utworzenia:</b> {{ invoice.create_date }}</li>
+        <li><b>Data sprzedaży:</b> {{ invoice.sale_date }}</li>
+        <li><b>Data płatności:</b> {{ invoice.payment_date }}</li>
+        <li><b>Typ faktury:</b> {{ invoice.get_invoice_type_display }}</li>
+        <li><b>Częstotliwość faktury:</b> {{ invoice.recurring_frequency }}</li>
+        <li><b>Powtarzalność faktury:</b> {{ invoice.is_recurring }}</li>
+        <li><b>Firma:</b> {{ invoice.company }}</li>
+        <li><b>Sposób płatności:</b> {{ invoice.get_payment_method_display }}</li>
+        <li><b>Waluta:</b> {{ invoice.currency }}</li>
+        <li><b>Numer konta:</b> {{ invoice.account_number }}</li>
     </ul>
 
     <a href="{% url 'invoices:list_invoices' %}">Powrót</a>

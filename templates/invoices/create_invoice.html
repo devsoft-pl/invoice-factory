@@ -4,17 +4,19 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
-    <p>Nowa faktura</p>
+    <h3><a href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a></h3>
+    <h3><a href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a></h3>
+    <h3><a href="{% url 'items:create_item' %}?next={% url 'invoices:create_invoice' %}">Dodaj przedmiot</a></h3>
+
+    <h1>Nowa faktura</h1>
 
     <form action="{% url 'invoices:create_invoice' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
 
-        <a href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
-        <a href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
-        <a href="{% url 'items:create_item' %}?next={% url 'invoices:create_invoice' %}">Dodaj przedmiot</a>
+        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
 
-        <p><button name="submit">Dodaj</button></p>
+        <button name="submit">Dodaj</button>
     </form>
 
 {% endblock content %}
