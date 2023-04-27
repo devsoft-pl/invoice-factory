@@ -4,27 +4,56 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'users.css' %}">
 
-    <p>Szczegóły użytkownika</p>
+    <div class="user-detail">
+        <h1>Dane użytkownika</h1>
 
-    <ul>
-        <li>Login: {{ user.username }}</li>
-        <li>Email: {{ user.email }}</li>
-    </ul>
+        <ul style="list-style-type:none">
+            <li><b>Login:</b> {{ user.username }}</li>
+            <li><b>Email:</b> {{ user.email }}</li>
+        </ul>
 
-    <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
+        <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
 
-    <p>
-    <a href="{% url 'companies:create_my_company' %}">Dodaj swoją firmę</a>
-    </p>
+    </div>
 
-    <ul>
-    {% for my_company in my_companies %}
-        <li>
-            <a href="{% url 'companies:detail_company' my_company.pk %}">{{ my_company }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+    <hr>
 
-    <a href="{% url 'invoices:index' %}">Powrót</a>
+    <h1>Lista swoich firm</h1>
+
+    <h3><a href="{% url 'companies:create_my_company' %}">Dodaj firmę</a></h3>
+
+
+    {% if my_companies %}
+        <table class="items">
+            <tr>
+                <th style="width:5%">Lp.</th>
+                <th style="width:30%">Nazwa</th>
+                <th style="width:10%">NIP</th>
+                <th style="width:10%">Regon</th>
+                <th style="width:20%">Email</th>
+                <th style="width:10%">Numer telefonu</th>
+                <th style="width:15%">Opcje</th>
+            </tr>
+            {% for my_company in my_companies %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ my_company.name }}</td>
+                    <td>{{ my_company.nip }}</td>
+                    <td>{{ my_company.regon }}</td>
+                    <td>{{ my_company.email }}</td>
+                    <td>{{ my_company.phone_number }}</td>
+                    <td>
+                        <a href="{% url 'companies:detail_company' my_company.pk %}">Więcej</a>
+                        <a href="{% url 'companies:replace_company' my_company.pk %}">Edytuj</a>
+                        <a href="{% url 'companies:delete_company' my_company.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Brak firmy</h3>
+    {% endif %}
+
+    <p><a href="{% url 'invoices:index' %}">Powrót</a></p>
 
 {% endblock content %}

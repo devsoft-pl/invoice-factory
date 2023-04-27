@@ -4,11 +4,14 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'users.css' %}">
 
-    <p>Edytuj użytkownika</p>
+    <h1>Edytuj użytkownika</h1>
 
     <form action="{% url 'users:replace_user' user.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
+
+        <a href="{% url 'users:detail_user' user.pk %}">Powrót</a>
+
         <button name="submit">Zapisz</button>
     </form>
 
