@@ -25,7 +25,7 @@ def detail_country_view(request, country_id):
 
 
 @login_required
-def create_country_view(request):
+def create_country_view(request, create_my_country=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = CountryForm(initial=initial)
@@ -34,15 +34,20 @@ def create_country_view(request):
         if form.is_valid():
             country = form.save(commit=False)
             country.user = request.user
+            if create_my_country:
+                country.is_my_country = True
             country.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:
                 return redirect(next_url)
 
+            if create_my_country:
+                return redirect("users:detail_user", request.user.pk)
+
             return redirect("countries:list_countries")
 
-    context = {"form": form}
+    context = {"form": form, "create_my_country": create_my_country}
     return render(request, "countries/create_country.html", context)
 
 
@@ -59,6 +64,10 @@ def replace_country_view(request, country_id):
         form = CountryForm(instance=country, data=request.POST)
         if form.is_valid():
             form.save()
+
+            if country.is_my_country:
+                return redirect("users:detail_user", request.user.pk)
+
             return redirect("countries:list_countries")
 
     context = {"country": country, "form": form}
@@ -73,4 +82,7 @@ def delete_country_view(request, country_id):
         raise Http404("Country does not exist")
 
     country.delete()
+    if country.is_my_country:
+        return redirect("users:detail_user", request.user.pk)
+
     return redirect("countries:list_countries")
