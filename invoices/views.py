@@ -38,13 +38,14 @@ def detail_invoice_view(request, invoice_id):
 @login_required
 def create_invoice_view(request):
     if request.method != "POST":
-        form = InvoiceForm()
+        form = InvoiceForm(current_user=request.user)
     else:
-        form = InvoiceForm(data=request.POST)
+        form = InvoiceForm(data=request.POST, current_user=request.user)
         if form.is_valid():
             invoice = form.save(commit=False)
             invoice.user = request.user
             invoice.save()
+
             return redirect("invoices:list_invoices")
 
     context = {"form": form}
@@ -59,9 +60,11 @@ def replace_invoice_view(request, invoice_id):
         raise Http404("Invoice does not exist")
 
     if request.method != "POST":
-        form = InvoiceForm(instance=invoice)
+        form = InvoiceForm(instance=invoice, current_user=request.user)
     else:
-        form = InvoiceForm(instance=invoice, data=request.POST)
+        form = InvoiceForm(
+            instance=invoice, data=request.POST, current_user=request.user
+        )
         if form.is_valid():
             form.save()
 

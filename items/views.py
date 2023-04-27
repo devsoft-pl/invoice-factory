@@ -28,9 +28,9 @@ def detail_item_view(request, item_id):
 def create_item_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
-        form = ItemForm(initial=initial)
+        form = ItemForm(initial=initial, current_user=request.user)
     else:
-        form = ItemForm(data=request.POST)
+        form = ItemForm(data=request.POST, current_user=request.user)
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
@@ -54,9 +54,9 @@ def replace_item_view(request, item_id):
         raise Http404("Item does not exist")
 
     if request.method != "POST":
-        form = ItemForm(instance=item)
+        form = ItemForm(instance=item, current_user=request.user)
     else:
-        form = ItemForm(instance=item, data=request.POST)
+        form = ItemForm(instance=item, data=request.POST, current_user=request.user)
         if form.is_valid():
             form.save()
             return redirect("items:list_items")
