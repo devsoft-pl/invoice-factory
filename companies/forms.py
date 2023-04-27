@@ -1,6 +1,7 @@
 from django import forms
 
 from companies.models import Company
+from countries.models import Country
 
 
 class CompanyForm(forms.ModelForm):
@@ -31,3 +32,7 @@ class CompanyForm(forms.ModelForm):
             "email": "Email",
             "phone_number": "Numer telefonu",
         }
+
+    def __init__(self, *args, current_user, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["country"].queryset = Country.objects.filter(user=current_user)
