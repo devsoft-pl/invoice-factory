@@ -6,9 +6,10 @@
 
     <h3><a href="{% url 'companies:create_company' %}">Dodaj firmę</a></h3>
 
-    <h1>Lista firm</h1>
-
     {% if companies %}
+
+        <h1>Lista firm</h1>
+
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>

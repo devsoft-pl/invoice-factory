@@ -6,9 +6,10 @@
 
     <h3><a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a></h3>
 
-    <h1>Lista stawek vat</h1>
-
     {% if vat_rates %}
+
+        <h1>Lista stawek vat</h1>
+
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>

@@ -6,9 +6,10 @@
 
     <h3><a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a></h3>
 
-    <h1>Lista walut</h1>
-
     {% if currencies %}
+
+        <h1>Lista walut</h1>
+
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>

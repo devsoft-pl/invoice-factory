@@ -6,9 +6,10 @@
 
     <h3><a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a></h3>
 
-    <h1>Lista faktur</h1>
-
     {% if invoices %}
+
+        <h1>Lista faktur</h1>
+
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>

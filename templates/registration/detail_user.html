@@ -18,12 +18,13 @@
 
     <hr>
 
-    <h1>Lista swoich firm</h1>
-
     <h3><a href="{% url 'companies:create_my_company' %}">Dodaj firmę</a></h3>
 
 
     {% if my_companies %}
+
+        <h1>Lista swoich firm</h1>
+
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>
