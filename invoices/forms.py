@@ -1,5 +1,7 @@
 from django import forms
 
+from companies.models import Company
+from currencies.models import Currency
 from invoices.models import Invoice
 
 
@@ -32,3 +34,8 @@ class InvoiceForm(forms.ModelForm):
             "currency": "Waluta",
             "account_number": "Numer konta",
         }
+
+    def __init__(self, *args, current_user, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["company"].queryset = Company.objects.filter(user=current_user)
+        self.fields["currency"].queryset = Currency.objects.filter(user=current_user)
