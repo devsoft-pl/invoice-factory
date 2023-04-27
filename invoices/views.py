@@ -20,6 +20,7 @@ def index_view(requeste):
 @login_required
 def list_invoices_view(request):
     invoices = Invoice.objects.filter(user=request.user)
+
     context = {"invoices": invoices}
     return render(request, "invoices/list_invoices.html", context)
 
@@ -36,15 +37,23 @@ def detail_invoice_view(request, invoice_id):
 
 
 @login_required
-def create_invoice_view(request):
+def create_invoice_view(request, create_my_invoice=False):
     if request.method != "POST":
         form = InvoiceForm(current_user=request.user)
     else:
         form = InvoiceForm(data=request.POST, current_user=request.user)
+
         if form.is_valid():
             invoice = form.save(commit=False)
             invoice.user = request.user
+
+            if create_my_invoice:
+                invoice.is_my_invoice = True
+
             invoice.save()
+
+            if create_my_invoice:
+                return redirect("users:detail_user", request.user.pk)
 
             return redirect("invoices:list_invoices")
 
@@ -65,8 +74,12 @@ def replace_invoice_view(request, invoice_id):
         form = InvoiceForm(
             instance=invoice, data=request.POST, current_user=request.user
         )
+
         if form.is_valid():
             form.save()
+
+            if invoice.is_my_invoice:
+                return redirect("users:detail_user", request.user.pk)
 
             return redirect("invoices:list_invoices")
 
@@ -82,6 +95,10 @@ def delete_invoice_view(request, invoice_id):
         raise Http404("Invoice does not exist")
 
     invoice.delete()
+
+    if invoice.is_my_invoice:
+        return redirect("users:detail_user", request.user.pk)
+
     return redirect("invoices:list_invoices")
 
 
@@ -97,9 +114,9 @@ def pdf_invoice_view(request, invoice_id):
     template_path = "invoices/pdf_invoice.html"
 
     gross_whole = invoice.gross_amount.quantize(decimal.Decimal("1"))
-
     gross_whole_amount = num2words(gross_whole, lang="pl")
     gross_frac_amount = num2words(invoice.gross_amount - gross_whole, lang="pl")
+
     context = {
         "invoice": invoice,
         "company": company,

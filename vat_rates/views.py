@@ -9,6 +9,7 @@ from vat_rates.models import VatRate
 @login_required
 def list_vates_view(request):
     vat_rates = VatRate.objects.filter(user=request.user)
+
     context = {"vat_rates": vat_rates}
     return render(request, "vat_rates/list_vates.html", context)
 
@@ -25,20 +26,28 @@ def detail_vat_view(request, vat_id):
 
 
 @login_required
-def create_vat_view(request):
+def create_vat_view(request, create_my_vat=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = VatRateForm(initial=initial)
     else:
         form = VatRateForm(data=request.POST)
+
         if form.is_valid():
             vat_rate = form.save(commit=False)
             vat_rate.user = request.user
+
+            if create_my_vat:
+                vat_rate.is_my_vat = True
+
             vat_rate.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:
                 return redirect(next_url)
+
+            if create_my_vat:
+                return redirect("users:detail_user", request.user.pk)
 
             return redirect("vat_rates:list_vates")
 
@@ -57,8 +66,13 @@ def replace_vat_view(request, vat_id):
         form = VatRateForm(instance=vat_rate)
     else:
         form = VatRateForm(instance=vat_rate, data=request.POST)
+
         if form.is_valid():
             form.save()
+
+            if vat_rate.is_my_vat:
+                return redirect("users:detail_user", request.user.pk)
+
             return redirect("vat_rates:list_vates")
 
     context = {"vat_rate": vat_rate, "form": form}
@@ -73,4 +87,8 @@ def delete_vat_view(request, vat_id):
         raise Http404("Vat rate does not exist")
 
     var_rate.delete()
+
+    if var_rate.is_my_vat:
+        return redirect("users:detail_user", request.user.pk)
+
     return redirect("vat_rates:list_vates")

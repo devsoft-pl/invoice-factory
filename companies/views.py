@@ -32,11 +32,14 @@ def create_company_view(request, create_my_company=False):
         form = CompanyForm(initial=initial, current_user=request.user)
     else:
         form = CompanyForm(data=request.POST, current_user=request.user)
+
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
+
             if create_my_company:
                 company.is_my_company = True
+
             company.save()
 
             next_url = form.cleaned_data["next"]
@@ -65,6 +68,7 @@ def replace_company_view(request, company_id):
         form = CompanyForm(
             instance=company, data=request.POST, current_user=request.user
         )
+
         if form.is_valid():
             form.save()
 
@@ -85,6 +89,7 @@ def delete_company_view(request, company_id):
         raise Http404("Company does not exist")
 
     company.delete()
+
     if company.is_my_company:
         return redirect("users:detail_user", request.user.pk)
 

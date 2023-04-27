@@ -9,6 +9,7 @@ from countries.models import Country
 @login_required
 def list_countries_view(request):
     countries = Country.objects.filter(user=request.user)
+
     context = {"countries": countries}
     return render(request, "countries/list_countries.html", context)
 
@@ -31,11 +32,14 @@ def create_country_view(request, create_my_country=False):
         form = CountryForm(initial=initial)
     else:
         form = CountryForm(data=request.POST)
+
         if form.is_valid():
             country = form.save(commit=False)
             country.user = request.user
+
             if create_my_country:
                 country.is_my_country = True
+
             country.save()
 
             next_url = form.cleaned_data["next"]
@@ -62,6 +66,7 @@ def replace_country_view(request, country_id):
         form = CountryForm(instance=country)
     else:
         form = CountryForm(instance=country, data=request.POST)
+
         if form.is_valid():
             form.save()
 
@@ -82,6 +87,7 @@ def delete_country_view(request, country_id):
         raise Http404("Country does not exist")
 
     country.delete()
+
     if country.is_my_country:
         return redirect("users:detail_user", request.user.pk)
 
