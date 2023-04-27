@@ -29,9 +29,9 @@ def detail_company_view(request, company_id):
 def create_company_view(request, create_my_company=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
-        form = CompanyForm(initial=initial)
+        form = CompanyForm(initial=initial, current_user=request.user)
     else:
-        form = CompanyForm(data=request.POST)
+        form = CompanyForm(data=request.POST, current_user=request.user)
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
@@ -60,9 +60,11 @@ def replace_company_view(request, company_id):
         raise Http404("Company does not exist")
 
     if request.method != "POST":
-        form = CompanyForm(instance=company)
+        form = CompanyForm(instance=company, current_user=request.user)
     else:
-        form = CompanyForm(instance=company, data=request.POST)
+        form = CompanyForm(
+            instance=company, data=request.POST, current_user=request.user
+        )
         if form.is_valid():
             form.save()
 
