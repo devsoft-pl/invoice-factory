@@ -77,6 +77,9 @@ class Invoice(models.Model):
     account_number = models.CharField(
         verbose_name=_("Account number"), max_length=50, null=True, blank=True
     )
+    is_my_invoice = models.BooleanField(
+        verbose_name=_("Is my invoice"), default=False, editable=False
+    )
 
     def __str__(self):
         return self.invoice_number or f"#{self.id}"
