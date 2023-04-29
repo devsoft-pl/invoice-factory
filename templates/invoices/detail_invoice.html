@@ -25,6 +25,23 @@
     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
     <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
 
+    <h1>Szczegóły pozycji</h1>
+
+    <ul style="list-style-type:none">
+        <li><b>Nazwa:</b> {{ invoice.name_item }}</li>
+        <li><b>PKWiU:</b> {{ invoice.pkwiu_item }}</li>
+        <li><b>Ilość:</b> {{ invoice.amount_item }}</li>
+        <li><b>Cena netto:</b> {{ invoice.price_item }}</li>
+        <li><b>Wartość netto:</b> {{ invoice.net_amount }}</li>
+        <li><b>Stawka vat:</b> {{ invoice.vat_item }} %</li>
+        <li><b>Wartość vat:</b> {{ invoice.tax_amount }}</li>
+        <li><b>Wartość brutto:</b> {{ invoice.gross_amount }}</li>
+    </ul>
+
+{#    <a href="{% url 'items:list_items' %}">Powrót</a>#}
+{#    <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>#}
+{#    <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>#}
+
 {% endblock content %}
 
 
