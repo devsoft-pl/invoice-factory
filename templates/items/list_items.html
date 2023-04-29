@@ -13,20 +13,24 @@
         <table class="items">
             <tr>
                 <th style="width:5%">Lp.</th>
-                <th style="width:35%">Nazwa</th>
+                <th style="width:10%">Faktura</th>
+                <th style="width:30%">Nazwa</th>
                 <th style="width:10%">PKWiU</th>
                 <th style="width:5%">Ilość</th>
                 <th style="width:10%">Cena netto</th>
+                <th style="width:10%">Wartość netto</th>
                 <th style="width:5%">Vat</th>
                 <th style="width:15%">Opcje</th>
             </tr>
             {% for item in items %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
+                    <td>{{ item.invoice }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.pkwiu }}</td>
                     <td>{{ item.amount }}</td>
                     <td>{{ item.net_price }}</td>
+                    <td>{{ item.net_amount }}</td>
                     <td>{{ item.vat }}</td>
                     <td>
                         <a href="{% url 'items:detail_item' item.pk %}">Więcej</a>
