@@ -25,7 +25,44 @@
     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
     <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
 
+    {% if invoice.items.exists %}
 
+        <h1>Lista pozycji</h1>
+
+        <table class="items">
+            <tr>
+                <th style="width:5%">Lp.</th>
+                <th style="width:25%">Nazwa</th>
+                <th style="width:10%">PKWiU</th>
+                <th style="width:5%">Ilość</th>
+                <th style="width:10%">Cena netto</th>
+                <th style="width:10%">Wartość netto</th>
+                <th style="width:5%">Vat</th>
+                <th style="width:10%">Wartość vat</th>
+                <th style="width:10%">Wartość brutto</th>
+                <th style="width:10%">Opcje</th>
+            </tr>
+            {% for item in invoice.items.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.pkwiu }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.net_price|floatformat:"2g" }}</td>
+                    <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                    <td>{{ item.vat }} %</td>
+                    <td>{{ item.tax_amount }}</td>
+                    <td>{{ item.gross_amount }}</td>
+                    <td>
+                        <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+                        <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>Brak pozycji</h3>
+    {% endif %}
 
 {% endblock content %}
 
