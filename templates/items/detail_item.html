@@ -11,11 +11,11 @@
         <li><b>Nazwa:</b> {{ item.name }}</li>
         <li><b>PKWiU:</b> {{ item.pkwiu }}</li>
         <li><b>Ilość:</b> {{ item.amount }}</li>
-        <li><b>Cena netto:</b> {{ item.net_price }}</li>
-        <li><b>Wartość netto:</b> {{ item.net_amount }}</li>
+        <li><b>Cena netto:</b> {{ item.net_price|floatformat:"2g" }}</li>
+        <li><b>Wartość netto:</b> {{ item.net_amount|floatformat:"2g" }}</li>
         <li><b>Stawka vat:</b> {{ item.vat }}</li>
-        <li><b>Wartość vat:</b> {{ item.tax_amount }}</li>
-        <li><b>Wartość brutto:</b> {{ item.gross_amount }}</li>
+        <li><b>Wartość vat:</b> {{ item.tax_amount|floatformat:"2g" }}</li>
+        <li><b>Wartość brutto:</b> {{ item.gross_amount|floatformat:"2g" }}</li>
     </ul>
 
     <a href="{% url 'items:list_items' %}">Powrót</a>
