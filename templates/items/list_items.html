@@ -34,8 +34,8 @@
                     <td>{{ item.net_price|floatformat:"2g" }}</td>
                     <td>{{ item.net_amount|floatformat:"2g" }}</td>
                     <td>{{ item.vat }} %</td>
-                    <td>{{ item.tax_amount }}</td>
-                    <td>{{ item.gross_amount }}</td>
+                    <td>{{ item.tax_amount|floatformat:"2g" }}</td>
+                    <td>{{ item.gross_amount|floatformat:"2g" }}</td>
                     <td>
                         <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
                         <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
