@@ -21,7 +21,6 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ country }}</td>
                     <td>
-                        <a href="{% url 'countries:detail_country' country.pk %}">Więcej</a>
                         <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
                         <a href="{% url 'countries:delete_country' country.pk%}">Usuń</a>
                     </td>

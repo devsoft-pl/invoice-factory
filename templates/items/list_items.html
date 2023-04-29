@@ -14,13 +14,15 @@
             <tr>
                 <th style="width:5%">Lp.</th>
                 <th style="width:10%">Faktura</th>
-                <th style="width:30%">Nazwa</th>
-                <th style="width:10%">PKWiU</th>
+                <th style="width:20%">Nazwa</th>
+                <th style="width:5%">PKWiU</th>
                 <th style="width:5%">Ilość</th>
                 <th style="width:10%">Cena netto</th>
                 <th style="width:10%">Wartość netto</th>
                 <th style="width:5%">Vat</th>
-                <th style="width:15%">Opcje</th>
+                <th style="width:10%">Wartość vat</th>
+                <th style="width:10%">Wartość brutto</th>
+                <th style="width:10%">Opcje</th>
             </tr>
             {% for item in items %}
                 <tr>
@@ -32,8 +34,9 @@
                     <td>{{ item.net_price|floatformat:"2g" }}</td>
                     <td>{{ item.net_amount|floatformat:"2g" }}</td>
                     <td>{{ item.vat }} %</td>
+                    <td>{{ item.tax_amount }}</td>
+                    <td>{{ item.gross_amount }}</td>
                     <td>
-                        <a href="{% url 'items:detail_item' item.pk %}">Więcej</a>
                         <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
                         <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
                     </td>

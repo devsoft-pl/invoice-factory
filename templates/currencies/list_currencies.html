@@ -21,7 +21,6 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ currency }}</td>
                     <td>
-                        <a href="{% url 'currencies:detail_currency' currency.pk %}">Więcej</a>
                         <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
                         <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
                     </td>

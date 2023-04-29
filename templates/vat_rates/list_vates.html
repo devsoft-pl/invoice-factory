@@ -21,7 +21,6 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ vat }} %</td>
                     <td>
-                        <a href="{% url 'vat_rates:detail_vat' vat.pk %}">Więcej</a>
                         <a href="{% url 'vat_rates:replace_vat' vat.pk %}">Edytuj</a>
                         <a href="{% url 'vat_rates:delete_vat' vat.pk %}">Usuń</a>
                     </td>
