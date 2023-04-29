@@ -26,8 +26,8 @@
                     <td>{{ invoice }}</td>
                     <td>{{ invoice.company.name }}</td>
                     <td>{{ invoice.payment_date }}</td>
-                    <td>{{ invoice.net_amount }}</td>
-                    <td>{{ invoice.gross_amount }}</td>
+                    <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
+                    <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
                     <td>
                         <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                         <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
