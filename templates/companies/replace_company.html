@@ -6,6 +6,8 @@
 
     <h1>Edytuj firmę</h1>
 
+    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:replace_company' company.pk %}">Dodaj kraj</a></h3>
+
     <form action="{% url 'companies:replace_company' company.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
