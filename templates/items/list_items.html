@@ -29,9 +29,9 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.pkwiu }}</td>
                     <td>{{ item.amount }}</td>
-                    <td>{{ item.net_price }}</td>
-                    <td>{{ item.net_amount }}</td>
-                    <td>{{ item.vat }}</td>
+                    <td>{{ item.net_price|floatformat:"2g" }}</td>
+                    <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                    <td>{{ item.vat }} %</td>
                     <td>
                         <a href="{% url 'items:detail_item' item.pk %}">Więcej</a>
                         <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
