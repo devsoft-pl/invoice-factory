@@ -137,56 +137,50 @@
 
 <hr color="lightskyblue">
 
-{% if items %}
-    <table class="items">
+
+<table class="items">
+    <tr>
+        <th class="items-background-color" style="width:4%">Lp.</th>
+        <th class="items-background-color" style="width:50%">Nazwa towaru lub uslugi</th>
+        <th class="items-background-color">PKWiU</th>
+        <th class="items-background-color">Ilość</th>
+        <th class="items-background-color">Cena netto</th>
+        <th class="items-background-color">Wartość netto</th>
+        <th class="items-background-color">Stawka VAT</th>
+    </tr>
+    {% for item in items %}
         <tr>
-            <th class="items-background-color" style="width:4%">Lp.</th>
-            <th class="items-background-color" style="width:50%">Nazwa towaru lub uslugi</th>
-            <th class="items-background-color">PKWiU</th>
-            <th class="items-background-color">Ilość</th>
-            <th class="items-background-color">Cena netto</th>
-            <th class="items-background-color">Wartość netto</th>
-            <th class="items-background-color">Stawka VAT</th>
+            <td>{{ forloop.counter }}</td>
+            <td class="item-description">{{ item.name }}</td>
+            <td>{{ item.pkwiu }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.net_price|floatformat:"2g" }}</td>
+            <td>{{ item.net_amount|floatformat:"2g" }}</td>
+            <td >{{ item.vat }} %</td>
         </tr>
-        {% for item in items %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td class="item-description">{{ item.name }}</td>
-                <td>{{ item.pkwiu }}</td>
-                <td>{{ item.amount }}</td>
-                <td>{{ item.net_price|floatformat:"2g" }}</td>
-                <td>{{ item.net_amount|floatformat:"2g" }}</td>
-                <td >{{ item.vat }} %</td>
-            </tr>
-        {% endfor %}
-        <tr class="no-border">
-            <td colspan="7" class="summary-title"><b>Podsumowanie</b></td>
-        </tr>
-        <tr class="no-border">
-            <td colspan="2"></td>
-            <td class="items-background-color"></td>
-            <th class="items-background-color">Stawka VAT</th>
-            <th class="items-background-color">Wartość netto</th>
-            <th class="items-background-color">VAT</th>
-            <th class="items-background-color">Wartość brutto</th>
-        </tr>
-        <tr class="no-border">
-            <td colspan="3" class="summary-title" ><b>Razem:</b></td>
-            {% for item in items %}
-                <td>{{ item.vat }} %</td>
-            {% endfor %}
-            <td>{{ invoice.net_amount|floatformat:"2g"}}</td>
-            <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
-            <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-        </tr>
-        <tr class="no-border">
-            <td colspan="2"></td>
-            <td colspan="5" class="item-summary">Razem do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></td>
-        </tr>
-    </table>
-{% else %}
-    <p>Brak pozycji</p>
-{% endif %}
+    {% endfor %}
+    <tr class="no-border">
+        <td colspan="7" class="summary-title"><b>Podsumowanie</b></td>
+    </tr>
+    <tr class="no-border">
+        <td colspan="3"></td>
+        <td class="items-background-color"></td>
+        <th class="items-background-color">Wartość netto</th>
+        <th class="items-background-color">VAT</th>
+        <th class="items-background-color">Wartość brutto</th>
+    </tr>
+    <tr class="no-border">
+        <td colspan="4" class="summary-title" ><b>Razem:</b></td>
+        <td>{{ invoice.net_amount|floatformat:"2g"}}</td>
+        <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
+        <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+    </tr>
+    <tr class="no-border">
+        <td colspan="3"></td>
+        <td colspan="4" class="item-summary">Razem do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></td>
+    </tr>
+</table>
+
 
 <p>Zapłacono: <b>0,00 {{ invoice.currency }}</b></p>
 <p>Pozostało do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></p>
