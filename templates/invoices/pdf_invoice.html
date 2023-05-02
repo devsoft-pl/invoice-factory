@@ -33,11 +33,14 @@
         font-size: 12px;
         margin-left: 5px;
     }
+    .top {
+        margin-top: 12px;
+    }
     .items {
         border-collapse: collapse;
         text-align: center;
+        margin-top: 11px;
     }
-
     .items tr {
         border: 1px solid deepskyblue;
     }
@@ -47,9 +50,12 @@
     .items td {
         padding-top: 5px;
         padding-bottom: 5px;
+        font-size: 12px;
     }
     .items-background-color {
         background-color: lightskyblue;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
     .item-description {
         text-align: left;
@@ -65,6 +71,7 @@
         border-collapse: collapse;
         text-align: center;
         font-size: 9px;
+        margin-top: 18px;
     }
     .footer td{
         padding-top: 50px;
@@ -82,7 +89,7 @@
     }
 </style>
 
-<h1>Faktura</h1>
+<h1>Faktura VAT</h1>
 <h2>Nr {{ invoice.invoice_number }}</h2>
 
 <table>
@@ -93,16 +100,16 @@
         <td class="specific-information">{{ invoice.company }}</td>
     </tr>
     <tr>
-        <td class="information" style="width:18%">ADRES:</td>
-        <td class="specific-information">{{ company.address }}</td>
-        <td class="information" style="width:18%">ADRES:</td>
-        <td class="specific-information">{{ invoice.company.address }}</td>
+        <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
+        <td class="specific-information" >{{ company.address }} <br />{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
+        <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
+        <td class="specific-information">{{ invoice.company.address }} <br />{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
     </tr>
     <tr>
         <td style="width:15%"></td>
-        <td class="specific-information">{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
+        <td></td>
         <td style="width:15%"></td>
-        <td class="specific-information">{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
+        <td></td>
     </tr>
     <tr>
         <td class="information" style="width:18%">NIP:</td>
@@ -114,7 +121,7 @@
 
 <hr color="lightskyblue">
 
-<table>
+<table class="top">
     <tr>
         <td class="information" style="width:18%">DATA WYSTAWIENIA:</td>
         <td class="specific-information">{{ invoice.create_date| date:"d.m.Y" }}</td>
@@ -135,18 +142,15 @@
     </tr>
 </table>
 
-<hr color="lightskyblue">
-
-
 <table class="items">
-    <tr>
-        <th class="items-background-color" style="width:4%">Lp.</th>
-        <th class="items-background-color" style="width:50%">Nazwa towaru lub uslugi</th>
-        <th class="items-background-color">PKWiU</th>
-        <th class="items-background-color">Ilość</th>
-        <th class="items-background-color">Cena netto</th>
-        <th class="items-background-color">Wartość netto</th>
-        <th class="items-background-color">Stawka VAT</th>
+    <tr class="items-background-color">
+        <th style="width:4%">Lp.</th>
+        <th style="width:40%">Nazwa towaru lub uslugi</th>
+        <th>PKWiU</th>
+        <th>Ilość</th>
+        <th>Cena netto</th>
+        <th>Wartość netto</th>
+        <th>Stawka VAT</th>
     </tr>
     {% for item in items %}
         <tr>
@@ -160,7 +164,7 @@
         </tr>
     {% endfor %}
     <tr class="no-border">
-        <td colspan="7" class="summary-title"><b>Podsumowanie</b></td>
+        <td colspan="7" style="padding-top: 6px;" class="summary-title"><b>Podsumowanie</b></td>
     </tr>
     <tr class="no-border">
         <td colspan="3"></td>
@@ -181,12 +185,13 @@
     </tr>
 </table>
 
+<div style="line-height: 20px; font-size: 12px; margin-top: 16px">
+    Zapłacono: <b>0,00 {{ invoice.currency }}</b><br>
+    Pozostało do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
+    Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+</div>
 
-<p>Zapłacono: <b>0,00 {{ invoice.currency }}</b></p>
-<p>Pozostało do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b></p>
-<p>Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b></p>
-
-<hr color="lightskyblue">
+<hr style="margin-top: 10px;" color="lightskyblue">
 
 {% if items %}
     <table class="footer">
