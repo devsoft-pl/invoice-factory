@@ -68,7 +68,7 @@
                         <td>{{ item.gross_amount|floatformat:"2g" }}</td>
                         <td>
                             <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
-                            <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
+                            <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
                         </td>
                     </tr>
                 {% endfor %}
