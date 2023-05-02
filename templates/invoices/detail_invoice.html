@@ -6,63 +6,79 @@
 
     <h1>Szczegóły faktury</h1>
 
-    <ul style="list-style-type:none">
-        <li><b>Numer faktury:</b> {{ invoice.invoice_number }}</li>
-        <li><b>Data utworzenia:</b> {{ invoice.create_date }}</li>
-        <li><b>Data sprzedaży:</b> {{ invoice.sale_date }}</li>
-        <li><b>Data płatności:</b> {{ invoice.payment_date }}</li>
-        <li><b>Typ faktury:</b> {{ invoice.get_invoice_type_display }}</li>
-        <li><b>Częstotliwość faktury:</b> {{ invoice.recurring_frequency }}</li>
-        <li><b>Powtarzalność faktury:</b> {{ invoice.is_recurring }}</li>
-        <li><b>Firma:</b> {{ invoice.company }}</li>
-        <li><b>Sposób płatności:</b> {{ invoice.get_payment_method_display }}</li>
-        <li><b>Waluta:</b> {{ invoice.currency }}</li>
-        <li><b>Numer konta:</b> {{ invoice.account_number }}</li>
-    </ul>
+    <table class="items">
+        <tr>
+            <th style="width:10%">Nr faktury</th>
+            <th style="width:10%">Data utworzenia</th>
+            <th style="width:10%">Data sprzedaży</th>
+            <th style="width:10%">Data płatności</th>
+            <th style="width:5%">Typ faktury</th>
+            <th style="width:20%">Firma</th>
+            <th style="width:5%">Sposób płatności</th>
+            <th style="width:5%">Waluta</th>
+            <th style="width:20%">Numer konta</th>
+            <th style="width:5%">Opcje</th>
+        </tr>
+        <tr>
+            <td>{{ invoice.invoice_number }}</td>
+            <td>{{ invoice.create_date }}</td>
+            <td>{{ invoice.sale_date }}</td>
+            <td>{{ invoice.payment_date }}</td>
+            <td>{{ invoice.get_invoice_type_display }}</td>
+            <td>{{ invoice.company }}</td>
+            <td>{{ invoice.get_payment_method_display }}</td>
+            <td>{{ invoice.currency }}</td>
+            <td>{{ invoice.account_number }}</td>
+            <td>
+                <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="items-border">
+        {% if invoice.items.exists %}
+
+            <h1>Lista pozycji faktury</h1>
+
+            <table class="items">
+                <tr>
+                    <th style="width:5%">Lp.</th>
+                    <th style="width:25%">Nazwa</th>
+                    <th style="width:10%">PKWiU</th>
+                    <th style="width:5%">Ilość</th>
+                    <th style="width:10%">Cena netto</th>
+                    <th style="width:10%">Wartość netto</th>
+                    <th style="width:5%">Vat</th>
+                    <th style="width:10%">Wartość vat</th>
+                    <th style="width:10%">Wartość brutto</th>
+                    <th style="width:10%">Opcje</th>
+                </tr>
+                {% for item in invoice.items.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.pkwiu }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.net_price|floatformat:"2g" }}</td>
+                        <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                        <td>{{ item.vat }} %</td>
+                        <td>{{ item.tax_amount|floatformat:"2g" }}</td>
+                        <td>{{ item.gross_amount|floatformat:"2g" }}</td>
+                        <td>
+                            <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
+                            <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h3>Brak pozycji</h3>
+        {% endif %}
+    </div>
 
     <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
-    <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
     <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-
-    {% if invoice.items.exists %}
-
-        <h1>Lista pozycji</h1>
-
-        <table class="items">
-            <tr>
-                <th style="width:5%">Lp.</th>
-                <th style="width:25%">Nazwa</th>
-                <th style="width:10%">PKWiU</th>
-                <th style="width:5%">Ilość</th>
-                <th style="width:10%">Cena netto</th>
-                <th style="width:10%">Wartość netto</th>
-                <th style="width:5%">Vat</th>
-                <th style="width:10%">Wartość vat</th>
-                <th style="width:10%">Wartość brutto</th>
-                <th style="width:10%">Opcje</th>
-            </tr>
-            {% for item in invoice.items.all %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.pkwiu }}</td>
-                    <td>{{ item.amount }}</td>
-                    <td>{{ item.net_price|floatformat:"2g" }}</td>
-                    <td>{{ item.net_amount|floatformat:"2g" }}</td>
-                    <td>{{ item.vat }} %</td>
-                    <td>{{ item.tax_amount }}</td>
-                    <td>{{ item.gross_amount }}</td>
-                    <td>
-                        <a href="{% url 'items:replace_item' item.pk %}">Edytuj</a>
-                        <a href="{% url 'items:delete_item' item.pk %}">Usuń</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <h3>Brak pozycji</h3>
-    {% endif %}
 
 {% endblock content %}
 
