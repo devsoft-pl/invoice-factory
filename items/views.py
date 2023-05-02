@@ -88,10 +88,15 @@ def replace_item_view(request, item_id):
 def delete_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
+
     if item.user != request.user:
         raise Http404("Item does not exist")
 
     item.delete()
+
+    next_url = request.GET.get("next")
+    if next_url:
+        return redirect(next_url)
 
     if item.is_my_item:
         return redirect("users:detail_user", request.user.pk)
