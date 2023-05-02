@@ -26,7 +26,7 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ invoice }}</td>
                     <td>{{ invoice.company.name }}</td>
-                    <td>{{ invoice.payment_date }}</td>
+                    <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
                     <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
                     <td>{{ invoice.tax_amount|floatformat:"2g" }}</td>
                     <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
