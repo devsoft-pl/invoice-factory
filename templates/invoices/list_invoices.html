@@ -32,7 +32,6 @@
                     <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
                     <td>
                         <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
-                        <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
                         <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
                         <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                     </td>
