@@ -63,12 +63,17 @@ def replace_item_view(request, item_id):
         raise Http404("Item does not exist")
 
     if request.method != "POST":
-        form = ItemForm(instance=item, current_user=request.user)
+        initial = {"next": request.GET.get("next")}
+        form = ItemForm(initial=initial, instance=item, current_user=request.user)
     else:
         form = ItemForm(instance=item, data=request.POST, current_user=request.user)
 
         if form.is_valid():
             form.save()
+
+            next_url = form.cleaned_data["next"]
+            if next_url:
+                return redirect(next_url)
 
             if item.is_my_item:
                 return redirect("users:detail_user", request.user.pk)
