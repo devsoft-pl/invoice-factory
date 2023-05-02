@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext as _
 
 from items.admin import ItemInline
 
@@ -28,7 +29,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     fieldsets = (
         ("User", {"fields": (("user",),)}),
         (
-            "Basic information",
+            _("Basic information"),
             {
                 "fields": (
                     ("invoice_number", "invoice_type"),
@@ -38,7 +39,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "Advanced options",
+            _("Advanced options"),
             {
                 "fields": (
                     ("payment_method", "currency"),
@@ -47,7 +48,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "Recurring invoice",
+            _("Recurring invoice"),
             {
                 "fields": ("recurring_frequency", "is_recurring"),
             },

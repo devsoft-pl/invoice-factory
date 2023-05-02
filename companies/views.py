@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from companies.forms import CompanyForm
 from companies.models import Company
@@ -19,7 +20,7 @@ def detail_company_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
 
     if company.user != request.user:
-        raise Http404("Company does not exist")
+        raise Http404(_("Company does not exist"))
 
     context = {"company": company}
     return render(request, "companies/detail_company.html", context)
@@ -60,7 +61,7 @@ def replace_company_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
 
     if company.user != request.user:
-        raise Http404("Company does not exist")
+        raise Http404(_("Company does not exist"))
 
     if request.method != "POST":
         form = CompanyForm(instance=company, current_user=request.user)
@@ -86,7 +87,7 @@ def delete_company_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
 
     if company.user != request.user:
-        raise Http404("Company does not exist")
+        raise Http404(_("Company does not exist"))
 
     company.delete()
 

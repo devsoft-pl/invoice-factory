@@ -21,17 +21,17 @@ class CompanyForm(forms.ModelForm):
             "email",
             "phone_number",
         ]
-        labels = {
-            "name": "Nazwa firmy",
-            "nip": "Nip",
-            "regon": "Regon",
-            "country": "Kraj",
-            "address": "Adres",
-            "zip_code": "Kod pocztowy",
-            "city": "Miasto",
-            "email": "Email",
-            "phone_number": "Numer telefonu",
-        }
+        # labels = {
+        #     "name": "Nazwa firmy",
+        #     "nip": "Nip",
+        #     "regon": "Regon",
+        #     "country": "Kraj",
+        #     "address": "Adres",
+        #     "zip_code": "Kod pocztowy",
+        #     "city": "Miasto",
+        #     "email": "Email",
+        #     "phone_number": "Numer telefonu",
+        # }
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)

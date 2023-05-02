@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from currencies.forms import CurrencyForm
 from currencies.models import Currency
@@ -19,7 +20,7 @@ def detail_currency_view(request, currency_id):
     currency = get_object_or_404(Currency, pk=currency_id)
 
     if currency.user != request.user:
-        raise Http404("Currency does not exist")
+        raise Http404(_("Currency does not exist"))
 
     context = {"currency": currency}
     return render(request, "currencies/detail_currency.html", context)
@@ -60,7 +61,7 @@ def replace_currency_view(request, currency_id):
     currency = get_object_or_404(Currency, pk=currency_id)
 
     if currency.user != request.user:
-        raise Http404("Currency does not exist")
+        raise Http404(_("Currency does not exist"))
 
     if request.method != "POST":
         form = CurrencyForm(instance=currency)
@@ -84,7 +85,7 @@ def delete_currency_view(request, currency_id):
     currency = get_object_or_404(Currency, pk=currency_id)
 
     if currency.user != request.user:
-        raise Http404("Currency does not exist")
+        raise Http404(_("Currency does not exist"))
 
     currency.delete()
 

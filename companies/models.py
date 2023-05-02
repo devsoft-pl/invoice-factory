@@ -34,4 +34,4 @@ class Company(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "companies"
+        verbose_name_plural = _("companies")

@@ -11,13 +11,13 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ["next", "invoice", "name", "pkwiu", "amount", "net_price", "vat"]
-        labels = {
-            "name": "Nazwa",
-            "pkwiu": "PKWiU",
-            "amount": "Ilość",
-            "net_price": "Cena netto",
-            "vat": "Vat",
-        }
+        # labels = {
+        #     "name": "Nazwa",
+        #     "pkwiu": "PKWiU",
+        #     "amount": "Ilość",
+        #     "net_price": "Cena netto",
+        #     "vat": "Vat",
+        # }
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)

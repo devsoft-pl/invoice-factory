@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext as _
 
 from companies.models import Company
 
@@ -11,19 +12,19 @@ class CompanyAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (
-            "User info",
+            _("User info"),
             {
                 "fields": ("user",),
             },
         ),
         (
-            "Basic information",
+            _("Basic information"),
             {
                 "fields": ("name", "nip", "regon"),
             },
         ),
         (
-            "Address data",
+            _("Address data"),
             {
                 "fields": (
                     ("address",),

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from items.forms import ItemForm
 from items.models import Item
@@ -19,7 +20,7 @@ def detail_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
     if item.user != request.user:
-        raise Http404("Item does not exist")
+        raise Http404(_("Item does not exist"))
 
     context = {"item": item}
     return render(request, "items/detail_item.html", context)
@@ -60,7 +61,7 @@ def replace_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
     if item.user != request.user:
-        raise Http404("Item does not exist")
+        raise Http404(_("Item does not exist"))
 
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
@@ -88,9 +89,8 @@ def replace_item_view(request, item_id):
 def delete_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-
     if item.user != request.user:
-        raise Http404("Item does not exist")
+        raise Http404(_("Item does not exist"))
 
     item.delete()
 

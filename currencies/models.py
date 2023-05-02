@@ -16,4 +16,4 @@ class Currency(models.Model):
         return self.code
 
     class Meta:
-        verbose_name_plural = "currencies"
+        verbose_name_plural = _("currencies")

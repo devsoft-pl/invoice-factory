@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from companies.models import Company
 from users.forms import UserForm
@@ -28,7 +29,7 @@ def detail_user_view(request, user_id):
     user = get_object_or_404(User, pk=user_id)
 
     if user.id != request.user.id:
-        raise Http404("User does not exist")
+        raise Http404(_("User does not exist"))
 
     my_companies = Company.objects.filter(user=request.user, is_my_company=True)
 
@@ -41,7 +42,7 @@ def replace_user_view(request, user_id):
     user = get_object_or_404(User, pk=user_id)
 
     if user.id != request.user.id:
-        raise Http404("User does not exist")
+        raise Http404(_("User does not exist"))
 
     if request.method != "POST":
         form = UserForm(instance=user)

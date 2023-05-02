@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext as _
 
 from vat_rates.models import VatRate
 
@@ -9,7 +10,7 @@ class VatRateAdmin(admin.ModelAdmin):
     list_filter = ("user",)
     fieldsets = (
         (
-            "Basic information",
+            _("Basic information"),
             {
                 "fields": ("rate", "user"),
             },

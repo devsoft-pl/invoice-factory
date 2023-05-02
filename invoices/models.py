@@ -14,16 +14,16 @@ class Invoice(models.Model):
     INVOICE_PURCHASE = 1
 
     INVOICE_TYPES = (
-        (INVOICE_SALES, "Sales"),
-        (INVOICE_PURCHASE, "Purchase"),
+        (INVOICE_SALES, _("Sales")),
+        (INVOICE_PURCHASE, _("Purchase")),
     )
 
     BANK_TRANSFER = 0
     CASH_PAYMENT = 1
 
     PAYMENT_METHOD = (
-        (BANK_TRANSFER, "Transfer"),
-        (CASH_PAYMENT, "Cash"),
+        (BANK_TRANSFER, _("Transfer")),
+        (CASH_PAYMENT, _("Cash")),
     )
 
     WEEKLY = 0
@@ -32,10 +32,10 @@ class Invoice(models.Model):
     THREE_MONTH = 3
 
     FREQUENCY = (
-        (WEEKLY, "Weekly"),
-        (BIWEEKLY, "Biweekly"),
-        (MONTHLY, "Monthly"),
-        (THREE_MONTH, "Three month"),
+        (WEEKLY, _("Weekly")),
+        (BIWEEKLY, _("Biweekly")),
+        (MONTHLY, _("Monthly")),
+        (THREE_MONTH, _("Three month")),
     )
 
     user = models.ForeignKey(
@@ -128,6 +128,3 @@ class Invoice(models.Model):
     def price_item(self):
         for item in self.items.all():
             return item.net_price
-
-
-

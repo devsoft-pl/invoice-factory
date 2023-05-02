@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 14:37+0200\n"
+"POT-Creation-Date: 2023-05-02 16:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: companies/admin.py:15
+msgid "User info"
+msgstr "Informacje o użytkowniku"
+
+#: companies/admin.py:21 countries/admin.py:13 currencies/admin.py:13
+#: invoices/admin.py:32 vat_rates/admin.py:13
+msgid "Basic information"
+msgstr "Podstawowe informacje"
+
+#: companies/admin.py:27
+#, fuzzy
+#| msgid "Address"
+msgid "Address data"
+msgstr "Adres"
 
 #: companies/models.py:10 items/models.py:18
 msgid "Name"
@@ -46,7 +61,7 @@ msgstr "Kod pocztowy"
 
 #: companies/models.py:18
 msgid "City"
-msgstr ""
+msgstr "Miasto"
 
 #: companies/models.py:19
 msgid "Email"
@@ -54,28 +69,78 @@ msgstr ""
 
 #: companies/models.py:21
 msgid "Phone number"
-msgstr ""
+msgstr "Numer telefonu"
 
 #: companies/models.py:24 countries/models.py:9 currencies/models.py:9
 #: invoices/models.py:42 items/models.py:26 vat_rates/models.py:9
 msgid "User"
-msgstr ""
+msgstr "Użytkownik"
 
 #: companies/models.py:27
 msgid "Is my company"
-msgstr ""
+msgstr "Czy moja firma"
+
+#: companies/models.py:37
+msgid "companies"
+msgstr "firmy"
+
+#: companies/views.py:23 companies/views.py:64 companies/views.py:90
+msgid "Company does not exist"
+msgstr "Firma nie istnieje"
 
 #: countries/models.py:12
 msgid "Is my country"
-msgstr ""
+msgstr "Czy mój kraj"
+
+#: countries/models.py:19
+#, fuzzy
+#| msgid "Country"
+msgid "countries"
+msgstr "Kraj"
+
+#: countries/views.py:23 countries/views.py:64 countries/views.py:88
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "Country does not exist"
+msgstr "Firma nie istnieje"
 
 #: currencies/models.py:7
 msgid "Code"
-msgstr ""
+msgstr "Kod"
 
 #: currencies/models.py:12
 msgid "Is my currency"
-msgstr ""
+msgstr "Czy moja waluta"
+
+#: currencies/models.py:19
+#, fuzzy
+#| msgid "Currency"
+msgid "currencies"
+msgstr "Waluta"
+
+#: currencies/views.py:23 currencies/views.py:64 currencies/views.py:88
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "Currency does not exist"
+msgstr "Firma nie istnieje"
+
+#: invoices/admin.py:42
+msgid "Advanced options"
+msgstr "Zaawansowane opcje"
+
+#: invoices/admin.py:51
+#, fuzzy
+#| msgid "Recurring"
+msgid "Recurring invoice"
+msgstr "Powtarza się"
+
+#: invoices/models.py:17
+msgid "Sales"
+msgstr "Sprzedaż"
+
+#: invoices/models.py:18
+msgid "Purchase"
+msgstr "Zakupy"
 
 #: invoices/models.py:25
 msgid "Transfer"
@@ -83,59 +148,90 @@ msgstr "Przelew"
 
 #: invoices/models.py:26
 msgid "Cash"
-msgstr ""
+msgstr "Gotówka"
+
+#: invoices/models.py:35
+msgid "Weekly"
+msgstr "Co tydzień"
+
+#: invoices/models.py:36
+msgid "Biweekly"
+msgstr "Co dwa tygodnie"
+
+#: invoices/models.py:37
+msgid "Monthly"
+msgstr "Co miesiąc"
+
+#: invoices/models.py:38
+msgid "Three month"
+msgstr "Co trzy miesiące"
 
 #: invoices/models.py:44
 msgid "Invoice number"
-msgstr ""
+msgstr "Numer faktury"
 
 #: invoices/models.py:46
 msgid "Invoice type"
-msgstr ""
+msgstr "Typ faktury"
 
 #: invoices/models.py:50
 msgid "Company"
-msgstr ""
+msgstr "Firma"
 
 #: invoices/models.py:55
 msgid "Recurring_frequency"
-msgstr ""
+msgstr "Cykliczna częstotliwość"
 
 #: invoices/models.py:57
 msgid "Recurring"
-msgstr ""
+msgstr "Powtarza się"
 
 #: invoices/models.py:59
 msgid "Create date"
-msgstr ""
+msgstr "Data utworzenia"
 
 #: invoices/models.py:62
 msgid "Sale date"
-msgstr ""
+msgstr "Data sprzedaży"
 
 #: invoices/models.py:65
 msgid "Payment date"
-msgstr ""
+msgstr "Data płatności"
 
 #: invoices/models.py:68
 msgid "Payment method"
-msgstr ""
+msgstr "Rodzaj płatności"
 
 #: invoices/models.py:72
 msgid "Currency"
-msgstr ""
+msgstr "Waluta"
 
 #: invoices/models.py:78
 msgid "Account number"
-msgstr ""
+msgstr "Numer konta"
 
 #: invoices/models.py:81
 msgid "Is my invoice"
-msgstr ""
+msgstr "Czt moja faktura"
+
+#: invoices/receivers.py:11
+msgid "Welcome in Invoice Manager"
+msgstr "Witamy w Menedżerze Faktur"
+
+#: invoices/receivers.py:30
+msgid "Goodbye in Invoice Manager"
+msgstr "Do widzenia w Menedżerze Faktur"
+
+#: invoices/views.py:34 invoices/views.py:70 invoices/views.py:96
+#: invoices/views.py:113
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "Invoice does not exist"
+msgstr "Firma nie istnieje"
 
 #: items/models.py:14
 msgid "Invoice"
-msgstr ""
+msgstr "Faktura"
 
 #: items/models.py:19
 msgid "PWKiU"
@@ -143,11 +239,11 @@ msgstr ""
 
 #: items/models.py:20
 msgid "Amount"
-msgstr ""
+msgstr "Ilość"
 
 #: items/models.py:21
 msgid "Net price"
-msgstr ""
+msgstr "Kwota netto"
 
 #: items/models.py:23
 msgid "Vat"
@@ -155,23 +251,41 @@ msgstr ""
 
 #: items/models.py:29
 msgid "Is my item"
-msgstr ""
+msgstr "Czy moja pozycja"
+
+#: items/views.py:23 items/views.py:64 items/views.py:93
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "Item does not exist"
+msgstr "Firma nie istnieje"
 
 #: users/forms.py:9
 msgid "password"
-msgstr ""
+msgstr "hasło"
 
 #: users/forms.py:10
 msgid "Hasło jest szyfrowane, więc nie można je zobaczyć."
 msgstr ""
 
+#: users/views.py:32 users/views.py:45
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "User does not exist"
+msgstr "Firma nie istnieje"
+
 #: vat_rates/models.py:7
 msgid "Rate"
-msgstr ""
+msgstr "Stawka vat"
 
 #: vat_rates/models.py:12
 msgid "Is my vat"
-msgstr ""
+msgstr "Czy mój vat"
+
+#: vat_rates/views.py:23 vat_rates/views.py:64 vat_rates/views.py:88
+#, fuzzy
+#| msgid "Company does not exist"
+msgid "Vat rate does not exist"
+msgstr "Firma nie istnieje"
 
 #: venv/lib/python3.10/site-packages/click/_termui_impl.py:496
 #, python-brace-format

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext as _
 
 from countries.forms import CountryForm
 from countries.models import Country
@@ -19,7 +20,7 @@ def detail_country_view(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
 
     if country.user != request.user:
-        raise Http404("Country does not exist")
+        raise Http404(_("Country does not exist"))
 
     context = {"country": country}
     return render(request, "countries/detail_country.html", context)
@@ -60,7 +61,7 @@ def replace_country_view(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
 
     if country.user != request.user:
-        raise Http404("Country does not exist")
+        raise Http404(_("Country does not exist"))
 
     if request.method != "POST":
         form = CountryForm(instance=country)
@@ -84,7 +85,7 @@ def delete_country_view(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
 
     if country.user != request.user:
-        raise Http404("Country does not exist")
+        raise Http404(_("Country does not exist"))
 
     country.delete()
 

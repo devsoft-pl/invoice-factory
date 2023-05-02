@@ -16,4 +16,4 @@ class Country(models.Model):
         return self.country
 
     class Meta:
-        verbose_name_plural = "countries"
+        verbose_name_plural = _("countries")

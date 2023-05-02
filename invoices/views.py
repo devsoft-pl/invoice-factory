@@ -3,7 +3,8 @@ import decimal
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
+from django.utils.translation import gettext as _
 from num2words import num2words
 from xhtml2pdf import pisa
 
@@ -30,7 +31,7 @@ def detail_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.user != request.user:
-        raise Http404("Invoice does not exist")
+        raise Http404(_("Invoice does not exist"))
 
     context = {"invoice": invoice}
     return render(request, "invoices/detail_invoice.html", context)
@@ -66,7 +67,7 @@ def replace_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.user != request.user:
-        raise Http404("Invoice does not exist")
+        raise Http404(_("Invoice does not exist"))
 
     if request.method != "POST":
         form = InvoiceForm(instance=invoice, current_user=request.user)
@@ -92,7 +93,7 @@ def delete_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.user != request.user:
-        raise Http404("Invoice does not exist")
+        raise Http404(_("Invoice does not exist"))
 
     invoice.delete()
 
@@ -109,7 +110,7 @@ def pdf_invoice_view(request, invoice_id):
     items = Item.objects.filter(user=request.user)
 
     if invoice.user != request.user:
-        raise Http404("Invoice does not exist")
+        raise Http404(_("Invoice does not exist"))
 
     template_path = "invoices/pdf_invoice.html"
 
