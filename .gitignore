@@ -6,3 +6,4 @@ celerybeat-schedule
 media/
 static/
 /logs
+*.mo
