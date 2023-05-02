@@ -81,7 +81,7 @@ def replace_invoice_view(request, invoice_id):
             if invoice.is_my_invoice:
                 return redirect("users:detail_user", request.user.pk)
 
-            return redirect("invoices:list_invoices")
+            return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": invoice, "form": form}
     return render(request, "invoices/replace_invoice.html", context)
