@@ -9,9 +9,6 @@
     <form action="{% url 'currencies:replace_currency' currency.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-
-        <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
-
         <button name="submit">Zapisz</button>
     </form>
 
