@@ -75,7 +75,7 @@ def replace_company_view(request, company_id):
             if company.is_my_company:
                 return redirect("users:detail_user", request.user.pk)
 
-            return redirect("companies:detail_company", company.pk)
+            return redirect("companies:list_companies")
 
     context = {"company": company, "form": form}
     return render(request, "companies/replace_company.html", context)
