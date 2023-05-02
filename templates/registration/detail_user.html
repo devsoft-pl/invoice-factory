@@ -7,12 +7,18 @@
     <div class="user-detail">
         <h1>Dane użytkownika</h1>
 
-        <ul style="list-style-type:none">
-            <li><b>Login:</b> {{ user.username }}</li>
-            <li><b>Email:</b> {{ user.email }}</li>
-        </ul>
-
-        <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
+        <table class="items">
+            <tr>
+                <th style="width:40%">Login</th>
+                <th style="width:45%">Email</th>
+                <th style="width:15%">Opcje</th>
+            </tr>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td><a href="{% url 'users:replace_user' user.pk %}">Edytuj</a></td>
+            </tr>
+        </table>
 
     </div>
 
@@ -54,7 +60,5 @@
     {% else %}
         <h3>Brak firmy</h3>
     {% endif %}
-
-    <p><a href="{% url 'invoices:index' %}">Powrót</a></p>
 
 {% endblock content %}
