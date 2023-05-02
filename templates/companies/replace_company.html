@@ -11,11 +11,6 @@
     <form action="{% url 'companies:replace_company' company.pk %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-
-        {% if company.is_my_company %}
-            <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
-        {% endif %}
-
         <button name="submit">Zapisz</button>
     </form>
 
