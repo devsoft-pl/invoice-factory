@@ -40,6 +40,8 @@
 
             <h1>Lista pozycji faktury</h1>
 
+            <h3><a href="{% url 'items:create_item' %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Dodaj pozycję</a></h3>
+
             <table class="items">
                 <tr>
                     <th style="width:5%">Lp.</th>
