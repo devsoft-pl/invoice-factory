@@ -117,19 +117,19 @@
 <table>
     <tr>
         <td class="information" style="width:18%">DATA WYSTAWIENIA:</td>
-        <td class="specific-information">{{ invoice.create_date }}</td>
+        <td class="specific-information">{{ invoice.create_date| date:"d.m.Y" }}</td>
         <td class="information" style="width:18%">SPOSÓB PŁATNOŚCI:</td>
         <td class="specific-information">{{ invoice.get_payment_method_display }}</td>
     </tr>
     <tr>
         <td class="information" style="width:18%">DATA SPRZEDAŻY:</td>
-        <td class="specific-information">{{ invoice.sale_date }}</td>
+        <td class="specific-information">{{ invoice.sale_date| date:"d.m.Y" }}</td>
         <td class="information" style="width:18%">WALUTA:</td>
         <td class="specific-information">{{ invoice.currency }}</td>
     </tr>
     <tr>
         <td class="information" style="width:18%">TERMIN PŁATNOŚCI:</td>
-        <td class="specific-information">{{ invoice.payment_date }}</td>
+        <td class="specific-information">{{ invoice.payment_date| date:"d.m.Y" }}</td>
         <td class="information" style="width:18%">NUMER KONTA:</td>
         <td class="specific-information">{{ invoice.account_number }}</td>
     </tr>
