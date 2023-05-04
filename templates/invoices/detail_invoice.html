@@ -74,7 +74,8 @@
                 {% endfor %}
             </table>
         {% else %}
-            <h3>Brak pozycji</h3>
+            <h1>Brak pozycji</h1>
+            <h3><a href="{% url 'items:create_item' %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Dodaj pozycję</a></h3>
         {% endif %}
     </div>
 
