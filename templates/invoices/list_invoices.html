@@ -42,5 +42,7 @@
         <h3>Brak faktur</h3>
     {% endif %}
 
+    <br>
+    {% include "pagination.html" with page=invoices %}
 {% endblock content %}
 
