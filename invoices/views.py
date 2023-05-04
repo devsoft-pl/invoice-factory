@@ -10,7 +10,7 @@ from num2words import num2words
 from xhtml2pdf import pisa
 
 from companies.models import Company
-from invoices.forms import InvoiceForm
+from invoices.forms import InvoiceFilterForm, InvoiceForm
 from invoices.models import Invoice
 from items.models import Item
 
@@ -22,6 +22,22 @@ def index_view(requeste):
 @login_required
 def list_invoices_view(request):
     invoices_list = Invoice.objects.filter(user=request.user)
+
+    filter_form = InvoiceFilterForm(request.GET)
+    if filter_form.is_valid():
+        invoice_number = filter_form.cleaned_data["invoice_number"]
+        invoice_type = filter_form.cleaned_data["invoice_type"]
+        company = filter_form.cleaned_data["company"]
+
+        if invoice_number:
+            invoices_list = invoices_list.filter(
+                invoice_number__contains=invoice_number
+            )
+        if invoice_type:
+            invoices_list = invoices_list.filter(invoice_type=invoice_type)
+        if company:
+            invoices_list = invoices_list.filter(company__name__contains=company)
+
     paginator = Paginator(invoices_list, 10)
     page = request.GET.get("page")
     try:
@@ -31,7 +47,7 @@ def list_invoices_view(request):
     except EmptyPage:
         invoices = paginator.page(paginator.num_pages)
 
-    context = {"invoices": invoices}
+    context = {"invoices": invoices, "filter_form": filter_form}
     return render(request, "invoices/list_invoices.html", context)
 
 
