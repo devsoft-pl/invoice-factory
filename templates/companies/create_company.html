@@ -12,10 +12,20 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-        {% if company.is_my_company %}
-            <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+{#        {% if request.GET.next %}#}
+{#            <a href="{{ request.GET.next }}">Powrót</a>#}
+{#        {% else %}#}
+{#            <a href="{% url 'currencies:list_currencies' %}">Powrót</a>#}
+{#        {% endif %}#}
+
+        {% if request.GET.next %}
+            <a href="{{ request.GET.next }}">Powrót</a>
         {% else %}
-            <a href="{% url 'companies:list_companies' %}">Powrót</a>
+            {% if company.is_my_company %}
+                <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+            {% else %}
+                <a href="{% url 'companies:list_companies' %}">Powrót</a>
+            {% endif %}
         {% endif %}
 
         <button name="submit">Dodaj</button>
