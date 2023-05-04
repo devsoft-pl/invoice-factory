@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext as _
 
 from companies.models import Company
 from countries.models import Country
@@ -28,6 +29,6 @@ class CompanyForm(forms.ModelForm):
 
 
 class CompanyFilterForm(forms.Form):
-    name = forms.CharField(required=False)
+    name = forms.CharField(label=_("Name"), required=False)
     nip = forms.CharField(required=False)
     regon = forms.CharField(required=False)
