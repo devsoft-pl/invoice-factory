@@ -12,12 +12,6 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-{#        {% if request.GET.next %}#}
-{#            <a href="{{ request.GET.next }}">Powrót</a>#}
-{#        {% else %}#}
-{#            <a href="{% url 'currencies:list_currencies' %}">Powrót</a>#}
-{#        {% endif %}#}
-
         {% if request.GET.next %}
             <a href="{{ request.GET.next }}">Powrót</a>
         {% else %}
