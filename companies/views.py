@@ -14,7 +14,6 @@ def list_companies_view(request):
 
     filter_form = CompanyFilterForm(request.GET)
     if filter_form.is_valid():
-        print(filter_form.cleaned_data)
         name = filter_form.cleaned_data["name"]
         nip = filter_form.cleaned_data["nip"]
         regon = filter_form.cleaned_data["regon"]
