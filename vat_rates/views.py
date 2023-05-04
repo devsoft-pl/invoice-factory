@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -9,7 +10,15 @@ from vat_rates.models import VatRate
 
 @login_required
 def list_vates_view(request):
-    vat_rates = VatRate.objects.filter(user=request.user)
+    vat_list = VatRate.objects.filter(user=request.user)
+    paginator = Paginator(vat_list, 10)
+    page = request.GET.get("page")
+    try:
+        vat_rates = paginator.page(page)
+    except PageNotAnInteger:
+        vat_rates = paginator.page(1)
+    except EmptyPage:
+        vat_rates = paginator.page(paginator.num_pages)
 
     context = {"vat_rates": vat_rates}
     return render(request, "vat_rates/list_vates.html", context)

@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -9,7 +10,15 @@ from currencies.models import Currency
 
 @login_required
 def list_currencies_view(request):
-    currencies = Currency.objects.filter(user=request.user)
+    currencies_list = Currency.objects.filter(user=request.user)
+    paginator = Paginator(currencies_list, 10)
+    page = request.GET.get("page")
+    try:
+        currencies = paginator.page(page)
+    except PageNotAnInteger:
+        currencies = paginator.page(1)
+    except EmptyPage:
+        currencies = paginator.page(paginator.num_pages)
 
     context = {"currencies": currencies}
     return render(request, "currencies/list_currencies.html", context)

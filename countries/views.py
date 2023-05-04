@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -9,7 +10,15 @@ from countries.models import Country
 
 @login_required
 def list_countries_view(request):
-    countries = Country.objects.filter(user=request.user)
+    countries_list = Country.objects.filter(user=request.user)
+    paginator = Paginator(countries_list, 10)
+    page = request.GET.get("page")
+    try:
+        countries = paginator.page(page)
+    except PageNotAnInteger:
+        countries = paginator.page(1)
+    except EmptyPage:
+        countries = paginator.page(paginator.num_pages)
 
     context = {"countries": countries}
     return render(request, "countries/list_countries.html", context)

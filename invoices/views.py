@@ -1,6 +1,7 @@
 import decimal
 
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -20,7 +21,15 @@ def index_view(requeste):
 
 @login_required
 def list_invoices_view(request):
-    invoices = Invoice.objects.filter(user=request.user)
+    invoices_list = Invoice.objects.filter(user=request.user)
+    paginator = Paginator(invoices_list, 10)
+    page = request.GET.get("page")
+    try:
+        invoices = paginator.page(page)
+    except PageNotAnInteger:
+        invoices = paginator.page(1)
+    except EmptyPage:
+        invoices = paginator.page(paginator.num_pages)
 
     context = {"invoices": invoices}
     return render(request, "invoices/list_invoices.html", context)

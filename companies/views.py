@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -9,7 +10,15 @@ from companies.models import Company
 
 @login_required
 def list_companies_view(request):
-    companies = Company.my_clients.filter(user=request.user)
+    companies_list = Company.my_clients.filter(user=request.user)
+    paginator = Paginator(companies_list, 10)
+    page = request.GET.get("page")
+    try:
+        companies = paginator.page(page)
+    except PageNotAnInteger:
+        companies = paginator.page(1)
+    except EmptyPage:
+        companies = paginator.page(paginator.num_pages)
 
     context = {"companies": companies}
     return render(request, "companies/list_companies.html", context)

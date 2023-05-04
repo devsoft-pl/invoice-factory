@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
@@ -9,7 +10,15 @@ from items.models import Item
 
 @login_required
 def list_items_view(request):
-    items = Item.objects.filter(user=request.user)
+    items_list = Item.objects.filter(user=request.user)
+    paginator = Paginator(items_list, 10)
+    page = request.GET.get("page")
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
 
     context = {"items": items}
     return render(request, "items/list_items.html", context)
