@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext as _
 
 from companies.models import Company
 from currencies.models import Currency
@@ -19,19 +20,16 @@ class InvoiceForm(forms.ModelForm):
             "currency",
             "account_number",
         ]
-        # labels = {
-        #     "invoice_number": "Numer faktury",
-        #     "invoice_type": "Typ faktury",
-        #     "company": "Nazwa firmy",
-        #     "create_date": "Data utworzenia",
-        #     "sale_date": "Data sprzedaży",
-        #     "payment_date": "Data płatności",
-        #     "payment_method": "Forma płatności",
-        #     "currency": "Waluta",
-        #     "account_number": "Numer konta",
-        # }
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["company"].queryset = Company.objects.filter(user=current_user)
         self.fields["currency"].queryset = Currency.objects.filter(user=current_user)
+
+
+class InvoiceFilterForm(forms.Form):
+    invoice_number = forms.CharField(label=_("Invoice number"), required=False)
+    invoice_type = forms.ChoiceField(
+        label=_("Invoice type"), required=False, choices=Invoice.INVOICE_TYPES
+    )
+    company = forms.CharField(label=_("Company"), required=False)
