@@ -10,7 +10,11 @@
         {% csrf_token %}
         {{ form.as_p }}
 
-        <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
+        {% if request.GET.next %}
+            <a href="{{ request.GET.next }}">Powrót</a>
+        {% else %}
+            <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
+        {% endif %}
 
         <button name="submit">Dodaj</button>
     </form>
