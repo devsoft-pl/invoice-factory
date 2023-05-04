@@ -4,13 +4,28 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
-from companies.forms import CompanyForm
+from companies.forms import CompanyFilterForm, CompanyForm
 from companies.models import Company
 
 
 @login_required
 def list_companies_view(request):
     companies_list = Company.my_clients.filter(user=request.user)
+
+    filter_form = CompanyFilterForm(request.GET)
+    if filter_form.is_valid():
+        print(filter_form.cleaned_data)
+        name = filter_form.cleaned_data["name"]
+        nip = filter_form.cleaned_data["nip"]
+        regon = filter_form.cleaned_data["regon"]
+
+        if name:
+            companies_list = companies_list.filter(name__contains=name)
+        if nip:
+            companies_list = companies_list.filter(nip=nip)
+        if regon:
+            companies_list = companies_list.filter(regon=regon)
+
     paginator = Paginator(companies_list, 10)
     page = request.GET.get("page")
     try:
@@ -20,7 +35,7 @@ def list_companies_view(request):
     except EmptyPage:
         companies = paginator.page(paginator.num_pages)
 
-    context = {"companies": companies}
+    context = {"companies": companies, "filter_form": filter_form}
     return render(request, "companies/list_companies.html", context)
 
 
