@@ -4,6 +4,12 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
+    <form action="{% url 'companies:list_companies' %}" method='get'>
+        {{ filter_form.as_p }}
+        <button>Szukaj</button>
+        <a href="{% url 'companies:list_companies' %}">Wyczyść</a>
+    </form>
+
     <h3><a href="{% url 'companies:create_company' %}">Dodaj firmę</a></h3>
 
     {% if companies %}
