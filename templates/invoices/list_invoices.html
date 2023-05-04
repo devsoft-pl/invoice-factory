@@ -4,6 +4,12 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
+    <form action="{% url 'invoices:list_invoices' %}" method='get'>
+        {{ filter_form.as_p }}
+        <button>Szukaj</button>
+        <a href="{% url 'invoices:list_invoices' %}">Wyczyść</a>
+    </form>
+
     <h3><a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a></h3>
 
     {% if invoices %}
