@@ -1,6 +1,6 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -22,6 +22,24 @@ def register_user_view(request):
 
     context = {"form": form}
     return render(request, "registration/register.html", context)
+
+
+def password_change_user_view(request):
+    if not request.user.is_authenticated:
+        raise Http404(_("User does not authenticated"))
+
+    if request.method != "POST":
+        form = PasswordChangeForm(user=request.user)
+    else:
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+            return redirect("users:detail_user", request.user.pk)
+
+    context = {"user": request.user, "form": form}
+    return render(request, "registration/password_change_user.html", context)
 
 
 @login_required
