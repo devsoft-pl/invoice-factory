@@ -16,7 +16,10 @@
             <tr>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td><a href="{% url 'users:replace_user' user.pk %}">Edytuj</a></td>
+                <td>
+                    <a href="{% url 'users:replace_user' user.pk %}">Edytuj</a>
+                    <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>
+                </td>
             </tr>
         </table>
 
