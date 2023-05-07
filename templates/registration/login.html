@@ -14,6 +14,7 @@
 
         <button name="submit">Zaloguj</button>
         <input type="hidden" name="next" value="{% url 'invoices:index' %}"/>
+        <p>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></p>
     </form>
 
 {% endblock content %}
