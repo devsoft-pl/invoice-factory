@@ -25,17 +25,6 @@ def list_countries_view(request):
 
 
 @login_required
-def detail_country_view(request, country_id):
-    country = get_object_or_404(Country, pk=country_id)
-
-    if country.user != request.user:
-        raise Http404(_("Country does not exist"))
-
-    context = {"country": country}
-    return render(request, "countries/detail_country.html", context)
-
-
-@login_required
 def create_country_view(request, create_my_country=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
