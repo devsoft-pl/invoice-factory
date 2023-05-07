@@ -4,6 +4,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
+    <h1>Lista kontrahentów</h1>
+
     <form action="{% url 'companies:list_companies' %}" method='get'>
         <div class="filters">
             {{ filter_form.as_div }}
@@ -13,8 +15,6 @@
             </div>
         </div>
     </form>
-
-    <h1>Lista kontrahentów</h1>
 
     <h3><a href="{% url 'companies:create_company' %}">Dodaj kontrahenta</a></h3>
 

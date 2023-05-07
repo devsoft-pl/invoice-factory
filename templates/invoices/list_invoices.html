@@ -4,6 +4,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
+    <h1>Lista faktur</h1>
+
     <form action="{% url 'invoices:list_invoices' %}" method='get'>
         <div class="filters">
             {{ filter_form.as_div }}
@@ -13,8 +15,6 @@
             </div>
         </div>
     </form>
-
-    <h1>Lista faktur</h1>
 
     <h3><a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a></h3>
 
