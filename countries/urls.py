@@ -1,7 +1,7 @@
 from django.urls import path
 
-from countries.views import (create_country_view, delete_country_view, list_countries_view,
-                             replace_country_view)
+from countries.views import (create_country_view, delete_country_view,
+                             list_countries_view, replace_country_view)
 
 app_name = "countries"
 urlpatterns = [
