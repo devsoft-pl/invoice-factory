@@ -6,7 +6,7 @@
 
     <h1>Edytuj użytkownika</h1>
 
-    <form action="{% url 'users:replace_user' user.pk %}" method='post'>
+    <form action="{% url 'users:replace_user' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
 

@@ -1,9 +1,8 @@
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
-from django.contrib.auth.models import User
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 
 from companies.models import Company
@@ -36,7 +35,7 @@ def password_change_user_view(request):
             form.save()
             update_session_auth_hash(request, form.user)
 
-            return redirect("users:detail_user", request.user.pk)
+            return redirect("users:detail_user")
 
     context = {"user": request.user, "form": form}
     return render(request, "registration/password_change_user.html", context)
@@ -51,12 +50,8 @@ def detail_user_view(request):
 
 
 @login_required
-def replace_user_view(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-
-    if user.id != request.user.id:
-        raise Http404(_("User does not exist"))
-
+def replace_user_view(request):
+    user = request.user
     if request.method != "POST":
         form = UserForm(instance=user)
     else:
@@ -64,7 +59,7 @@ def replace_user_view(request, user_id):
         if form.is_valid():
             form.save()
 
-            return redirect("users:detail_user", request.user.pk)
+            return redirect("users:detail_user")
 
     context = {"user": user, "form": form}
     return render(request, "registration/replace_user.html", context)

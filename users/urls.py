@@ -37,5 +37,5 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("me/", detail_user_view, name="detail_user"),
-    path("replace/<int:user_id>/", replace_user_view, name="replace_user"),
+    path("replace/", replace_user_view, name="replace_user"),
 ]
