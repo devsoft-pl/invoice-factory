@@ -4,11 +4,11 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
+    <h1>Lista krajów</h1>
+
     <h3><a href="{% url 'countries:create_country' %}">Dodaj kraj</a></h3>
 
     {% if countries %}
-
-        <h1>Lista krajów</h1>
 
         <table class="items">
             <tr>

@@ -14,11 +14,11 @@
         </div>
     </form>
 
-    <h3><a href="{% url 'companies:create_company' %}">Dodaj firmę</a></h3>
+    <h1>Lista kontrahentów</h1>
+
+    <h3><a href="{% url 'companies:create_company' %}">Dodaj kontrahenta</a></h3>
 
     {% if companies %}
-
-        <h1>Lista firm</h1>
 
         <table class="items">
             <tr>
