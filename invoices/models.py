@@ -80,6 +80,15 @@ class Invoice(models.Model):
     is_my_invoice = models.BooleanField(
         verbose_name=_("Is my invoice"), default=False, editable=False
     )
+    client = models.ForeignKey(
+        Company,
+        verbose_name=_("Client"),
+        on_delete=models.CASCADE,
+        related_name="client_invoice",
+    )
+
+    class Meta:
+        ordering = ["sale_date"]
 
     def __str__(self):
         return self.invoice_number or f"#{self.id}"
