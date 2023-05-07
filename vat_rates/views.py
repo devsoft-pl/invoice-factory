@@ -25,17 +25,6 @@ def list_vates_view(request):
 
 
 @login_required
-def detail_vat_view(request, vat_id):
-    vat_rate = get_object_or_404(VatRate, pk=vat_id)
-
-    if vat_rate.user != request.user:
-        raise Http404(_("Vat rate does not exist"))
-
-    context = {"vat_rate": vat_rate}
-    return render(request, "vat_rates/detail_vat.html", context)
-
-
-@login_required
 def create_vat_view(request, create_my_vat=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}

@@ -6,7 +6,6 @@ from vat_rates.views import (create_vat_view, delete_vat_view, detail_vat_view,
 app_name = "vat_rates"
 urlpatterns = [
     path("", list_vates_view, name="list_vates"),
-    path("<int:vat_id>/", detail_vat_view, name="detail_vat"),
     path("create/", create_vat_view, name="create_vat"),
     path(
         "create_my_vat/",
