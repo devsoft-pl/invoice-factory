@@ -9,10 +9,8 @@ from django.utils.translation import gettext as _
 from num2words import num2words
 from xhtml2pdf import pisa
 
-from companies.models import Company
 from invoices.forms import InvoiceFilterForm, InvoiceForm
 from invoices.models import Invoice
-from items.models import Item
 
 
 def index_view(requeste):
@@ -36,7 +34,7 @@ def list_invoices_view(request):
         if invoice_type:
             invoices_list = invoices_list.filter(invoice_type=invoice_type)
         if company:
-            invoices_list = invoices_list.filter(company__name__contains=company)
+            invoices_list = invoices_list.filter(client__name__contains=company)
 
     paginator = Paginator(invoices_list, 10)
     page = request.GET.get("page")
