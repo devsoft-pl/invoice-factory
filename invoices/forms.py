@@ -21,11 +21,15 @@ class InvoiceForm(forms.ModelForm):
             "currency",
             "account_number",
         ]
-        labels = {"client": "Kontrahent"}
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["company"].queryset = Company.objects.filter(user=current_user)
+        self.fields["company"].queryset = Company.objects.filter(
+            user=current_user, is_my_company=True
+        )
+        self.fields["client"].queryset = Company.objects.filter(
+            user=current_user, is_my_company=False
+        )
         self.fields["currency"].queryset = Currency.objects.filter(user=current_user)
 
 
@@ -34,4 +38,4 @@ class InvoiceFilterForm(forms.Form):
     invoice_type = forms.ChoiceField(
         label=_("Invoice type"), required=False, choices=Invoice.INVOICE_TYPES
     )
-    company = forms.CharField(label=_("Company"), required=False)
+    company = forms.CharField(label=_("Client"), required=False)
