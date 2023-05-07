@@ -13,6 +13,7 @@ class InvoiceForm(forms.ModelForm):
             "invoice_number",
             "invoice_type",
             "company",
+            "client",
             "create_date",
             "sale_date",
             "payment_date",
@@ -20,6 +21,7 @@ class InvoiceForm(forms.ModelForm):
             "currency",
             "account_number",
         ]
+        labels = {"client": "Kontrahent"}
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
