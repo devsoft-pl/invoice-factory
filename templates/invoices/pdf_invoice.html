@@ -95,15 +95,15 @@
 <table>
     <tr>
         <td class="information" style="width:18%">SPRZEDAWCA:</td>
-        <td class="specific-information">{{ company.name }}</td>
+        <td class="specific-information">{{ invoice.company.name }}</td>
         <td class="information" style="width:18%">NABYWCA:</td>
-        <td class="specific-information">{{ invoice.company }}</td>
+        <td class="specific-information">{{ invoice.client.name }}</td>
     </tr>
     <tr>
         <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
-        <td class="specific-information" >{{ company.address }} <br />{{ company.zip_code }} {{ company.city }}, {{ company.country }}</td>
+        <td class="specific-information" >{{ invoice.company.address }} <br />{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
         <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
-        <td class="specific-information">{{ invoice.company.address }} <br />{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
+        <td class="specific-information">{{ invoice.client.address }} <br />{{ invoice.client.zip_code }} {{ invoice.client.city }}, {{ invoice.client.country }}</td>
     </tr>
     <tr>
         <td style="width:15%"></td>
@@ -112,10 +112,10 @@
         <td></td>
     </tr>
     <tr>
-        <td class="information" style="width:18%">NIP:</td>
-        <td class="specific-information">{{ company.nip }}</td>
         <td class="information" style="width:18%">NIP:</td>
         <td class="specific-information">{{ invoice.company.nip }}</td>
+        <td class="information" style="width:18%">NIP:</td>
+        <td class="specific-information">{{ invoice.client.nip }}</td>
     </tr>
 </table>
 
