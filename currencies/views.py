@@ -25,17 +25,6 @@ def list_currencies_view(request):
 
 
 @login_required
-def detail_currency_view(request, currency_id):
-    currency = get_object_or_404(Currency, pk=currency_id)
-
-    if currency.user != request.user:
-        raise Http404(_("Currency does not exist"))
-
-    context = {"currency": currency}
-    return render(request, "currencies/detail_currency.html", context)
-
-
-@login_required
 def create_currency_view(request, create_my_currency=False):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
