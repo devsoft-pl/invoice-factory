@@ -131,11 +131,10 @@ def delete_invoice_view(request, invoice_id):
 @login_required
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
-    company = Company.objects.filter(user=request.user, is_my_company=True).first()
-    items = Item.objects.filter(user=request.user)
-
     if invoice.user != request.user:
         raise Http404(_("Invoice does not exist"))
+
+    items = invoice.items.all()
 
     template_path = "invoices/pdf_invoice.html"
 
@@ -145,7 +144,6 @@ def pdf_invoice_view(request, invoice_id):
 
     context = {
         "invoice": invoice,
-        "company": company,
         "items": items,
         "gross_whole_amount": gross_whole_amount,
         "gross_frac_amount": gross_frac_amount,
