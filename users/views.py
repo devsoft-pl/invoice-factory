@@ -43,15 +43,10 @@ def password_change_user_view(request):
 
 
 @login_required
-def detail_user_view(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-
-    if user.id != request.user.id:
-        raise Http404(_("User does not exist"))
-
+def detail_user_view(request):
     my_companies = Company.objects.filter(user=request.user, is_my_company=True)
 
-    context = {"user": user, "my_companies": my_companies}
+    context = {"user": request.user, "my_companies": my_companies}
     return render(request, "registration/detail_user.html", context)
 
 

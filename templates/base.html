@@ -9,7 +9,7 @@
 
 
     {% if user.is_authenticated %}
-        Witaj, <a href="{% url 'users:detail_user' user.pk %}">{{ user.username }}</a>
+        Witaj, <a href="{% url 'users:detail_user' %}">{{ user.username }}</a>
         <a href="{% url 'users:logout' %}">Wyloguj</a>
     {% else %}
         <a href="{% url 'users:register_user' %}">Rejestruj</a>
