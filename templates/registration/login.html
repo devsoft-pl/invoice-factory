@@ -13,7 +13,7 @@
         {{ form.as_p }}
 
         <button name="submit">Zaloguj</button>
-        <input type="hidden" name="next" value="{% url 'invoices:index' %}"/>
+        <input type="hidden" name="next" value="{% url 'users:detail_user' %}"/>
         <p>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></p>
     </form>
 
