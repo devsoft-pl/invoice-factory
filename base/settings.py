@@ -156,3 +156,5 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 LOGIN_URL = "users:login"
+
+TEST_RUNNER = "base.runner.PytestTestRunner"
