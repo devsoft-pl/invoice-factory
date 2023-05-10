@@ -19,6 +19,7 @@ django-extensions = "^3.2.1"
 mysqlclient = "^2.1.1"
 xhtml2pdf = "^0.2.9"
 num2words = "^0.5.12"
+pytest-django = "^4.5.2"
 
 
 [build-system]
