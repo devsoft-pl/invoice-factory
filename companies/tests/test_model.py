@@ -1,17 +1,19 @@
 import pytest
 
 from companies.models import Company
+from countries.models import Country
 
 
 @pytest.mark.django_db
-class CompanyModelTest:
+class TestCompanyModel:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
-        self.company_1 = Company.objects.create(
+        country = Country.objects.create(country="pln")
+        self.company = Company.objects.create(
             name="Test Firma",
             nip="1111111111",
             regon="1111111",
-            country="pln",
+            country=country,
             address="Testowa 1",
             zip_code="11-111",
             city="Testowa",
@@ -20,4 +22,4 @@ class CompanyModelTest:
         )
 
     def test_str_returns_company_name(self):
-        assert self.company_1.__str__() == self.company_1.name
+        assert self.company.__str__() == self.company.name
