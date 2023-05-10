@@ -7,3 +7,5 @@ media/
 static/
 /logs
 *.mo
+.coverage
+htmlcov/
