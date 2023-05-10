@@ -5,6 +5,7 @@ from countries.models import Country
 
 @pytest.mark.django_db
 class TestCountryModel:
+
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.country = Country.objects.create(country="Polska")
