@@ -8,7 +8,7 @@ from countries.models import Country
 class TestCompanyModel:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
-        country = Country.objects.create(country="pln")
+        country = Country.objects.create(country="Polska")
         self.company = Company.objects.create(
             name="Test Firma",
             nip="1111111111",
