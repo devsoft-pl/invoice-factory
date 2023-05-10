@@ -1,5 +1,7 @@
 import pytest
+
 from countries.models import Country
+
 
 @pytest.mark.django_db
 class TestCountryModels:
@@ -9,5 +11,3 @@ class TestCountryModels:
 
     def test_str_returns_country_name(self):
         assert self.country_1.__str__() == self.country_1.country
-
-
