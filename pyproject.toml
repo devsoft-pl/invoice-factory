@@ -21,6 +21,7 @@ xhtml2pdf = "^0.2.9"
 num2words = "^0.5.12"
 pytest-django = "^4.5.2"
 coverage = "^7.2.5"
+factory-boy = "^3.2.1"
 
 
 [build-system]
