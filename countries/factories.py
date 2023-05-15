@@ -3,7 +3,7 @@ import factory
 from countries.models import Country
 
 
-class CountryFactory(factory.Factory):
+class CountryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Country
 
