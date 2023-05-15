@@ -1,9 +1,10 @@
 import pytest
+
 from vat_rates.models import VatRate
+
 
 @pytest.mark.django_db
 class TestVatRateModel:
-
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.vat_rate = VatRate.objects.create(rate="23")

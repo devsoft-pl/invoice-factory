@@ -1,9 +1,10 @@
 import pytest
+
 from currencies.models import Currency
+
 
 @pytest.mark.django_db
 class TestCurrencyModel:
-
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.currency = Currency.objects.create(code="pln")
