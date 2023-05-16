@@ -1,4 +1,5 @@
 import pytest
+from decimal import Decimal
 
 from invoices.factories import InvoiceFactory
 from items.factories import ItemFactory
@@ -9,6 +10,7 @@ class TestInvoiceModel:
     @pytest.fixture(autouse=True)
     def set_up(self):
         self.invoice = InvoiceFactory.create()
+        self.invoice_2 = InvoiceFactory.create()
         self.item = ItemFactory.create(invoice=self.invoice)
         self.item_2 = ItemFactory.create(invoice=self.invoice)
 
@@ -19,3 +21,9 @@ class TestInvoiceModel:
         net_amount_1 = self.item.amount * self.item.net_price
         nut_amount_2 = self.item_2.amount * self.item_2.net_price
         assert self.invoice.net_amount == net_amount_1 + nut_amount_2
+
+    def test_returns_zero_net_sum_if_no_items(self):
+        assert self.invoice_2.net_amount == Decimal("0")
+
+
+
