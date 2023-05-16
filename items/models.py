@@ -18,7 +18,9 @@ class Item(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=255)
     pkwiu = models.CharField(verbose_name=_("PWKiU"), max_length=50, null=True)
     amount = models.PositiveIntegerField(verbose_name=_("Amount"))
-    net_price = models.PositiveIntegerField(verbose_name=_("Net price"))
+    net_price = models.DecimalField(
+        verbose_name=_("Net price"), max_digits=9, decimal_places=2
+    )
     vat = models.ForeignKey(
         VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item"
     )
