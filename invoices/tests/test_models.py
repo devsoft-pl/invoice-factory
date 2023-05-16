@@ -25,5 +25,9 @@ class TestInvoiceModel:
     def test_returns_zero_net_sum_if_no_items(self):
         assert self.invoice_2.net_amount == Decimal("0")
 
+    def test_returns_tax_amount(self):
+        tax_amount_1 = (self.item.net_amount * self.item.vat.rate) / 100
+        tax_amount_2 = (self.item_2.net_amount * self.item_2.vat.rate) / 100
+        assert self.invoice.tax_amount == tax_amount_1 + tax_amount_2
 
 
