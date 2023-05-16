@@ -1,5 +1,6 @@
-import pytest
 from decimal import Decimal
+
+import pytest
 
 from invoices.factories import InvoiceFactory
 from items.factories import ItemFactory
@@ -30,5 +31,28 @@ class TestInvoiceModel:
         tax_amount_2 = (self.item_2.net_amount * self.item_2.vat.rate) / 100
         assert self.invoice.tax_amount == tax_amount_1 + tax_amount_2
 
-    def test_returns_gross_amount(self):
-        pass
+    def test_returns_zero_tax_amount_if_no_items(self):
+        assert self.invoice_2.tax_amount == Decimal("0")
+
+    def test_returns_gross_amount_sum(self):
+        gross_amount_1 = Decimal(self.item.net_amount + self.item.tax_amount)
+        gross_amount_2 = Decimal(self.item_2.net_amount + self.item_2.tax_amount)
+        assert self.invoice.gross_amount == gross_amount_1 + gross_amount_2
+
+    def test_returns_zero_gross_amount_if_no_items(self):
+        assert self.invoice_2.gross_amount == Decimal("0")
+
+    def test_returns_name_item(self):
+        assert self.invoice.name_item == self.item.name
+
+    def test_returns_pkwiu_item(self):
+        assert self.invoice.pkwiu_item == self.item.pkwiu
+
+    def test_returns_amount_item(self):
+        assert self.invoice.amount_item == self.item.amount
+
+    def test_returns_vat_item(self):
+        assert self.invoice.vat_item == self.item.vat
+
+    def test_returns_price_item(self):
+        assert self.invoice.price_item() == self.item.net_price
