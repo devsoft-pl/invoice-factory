@@ -71,7 +71,7 @@ def create_company_view(request, create_my_company=False):
                 return redirect(next_url)
 
             if create_my_company:
-                return redirect("users:detail_user", request.user.pk)
+                return redirect("users:detail_user")
 
             return redirect("companies:list_companies")
 
@@ -97,7 +97,7 @@ def replace_company_view(request, company_id):
             form.save()
 
             if company.is_my_company:
-                return redirect("users:detail_user", request.user.pk)
+                return redirect("users:detail_user")
 
             return redirect("companies:list_companies")
 
@@ -115,6 +115,6 @@ def delete_company_view(request, company_id):
     company.delete()
 
     if company.is_my_company:
-        return redirect("users:detail_user", request.user.pk)
+        return redirect("users:detail_user")
 
     return redirect("companies:list_companies")
