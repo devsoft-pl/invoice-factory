@@ -4,9 +4,9 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-    <h3><a href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' %}">Dodaj vat</a></h3>
-
     <h1>Nowa przedmiot</h1>
+
+    <h3><a href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' %}">Dodaj vat</a></h3>
 
     <form action="{% url 'items:create_item' %}" method='post'>
         {% csrf_token %}
