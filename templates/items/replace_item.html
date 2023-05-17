@@ -4,9 +4,9 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
-
     <h1>Edytuj pozycję</h1>
+
+    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
 
     <form action="{% url 'items:replace_item' item.pk %}" method='post'>
         {% csrf_token %}
