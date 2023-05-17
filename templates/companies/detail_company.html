@@ -4,26 +4,42 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
-    <h1>Szczegóły firmy</h1>
+    <h1>Szczegóły firmy: <span style="color: black">{{ company.name }}</span></h1>
 
-    <ul style="list-style-type:none">
-        <li><b>Nazwa firmy:</b> {{ company.name }}</li>
-        <li><b>Nip:</b> {{ company.nip }}</li>
-        <li><b>Regon:</b> {{ company.regon }}</li>
-        <li><b>Kraj:</b> {{ company.country }}</li>
-        <li><b>Adres:</b> {{ company.address }}</li>
-        <li><b>Kod pocztowy:</b> {{ company.zip_code }}</li>
-        <li><b>Miasto:</b> {{ company.city }}</li>
-        <li><b>Email:</b> {{ company.email }}</li>
-        <li><b>Numer telefonu:</b> {{ company.phone_number }}</li>
-    </ul>
+    <table class="items" style="margin-top: 35px">
+        <tr>
+            <th style="width:10%">NIP</th>
+            <th style="width:10%">Regon</th>
+            <th style="width:10%">Kraj</th>
+            <th style="width:20%">Adres</th>
+            <th style="width:10%">Kod pocztowy</th>
+            <th style="width:10%">Miasto</th>
+            <th style="width:10%">Email</th>
+            <th style="width:10%">Telefon</th>
+            <th style="width:10%">Opcje</th>
+        </tr>
+        <tr>
+            <td>{{ company.nip }}</td>
+            <td>{{ company.regon }}</td>
+            <td>{{ company.country}}</td>
+            <td>{{ company.address }}</td>
+            <td>{{ company.zip_code }}</td>
+            <td>{{ company.city }}</td>
+            <td>{{ company.email }}</td>
+            <td>{{ company.phone_number }}</td>
+            <td>
+                <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+            </td>
+        </tr>
+    </table>
+
+    <br>
 
     {% if company.is_my_company %}
-        <a href="{% url 'users:detail_user' request.user.pk %}">Powrót</a>
+        <a href="{% url 'users:detail_user' %}">Powrót</a>
     {% else %}
         <a href="{% url 'companies:list_companies' %}">Powrót</a>
     {% endif %}
-    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-    <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
 
 {% endblock content %}
