@@ -10,9 +10,8 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        fields = ["next", "invoice", "name", "pkwiu", "amount", "net_price", "vat"]
+        fields = ["next", "name", "pkwiu", "amount", "net_price", "vat"]
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["vat"].queryset = VatRate.objects.filter(user=current_user)
-        self.fields["invoice"].queryset = Invoice.objects.filter(user=current_user)
