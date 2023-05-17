@@ -9,4 +9,3 @@ class VatRateForm(forms.ModelForm):
     class Meta:
         model = VatRate
         fields = ["next", "rate"]
-
