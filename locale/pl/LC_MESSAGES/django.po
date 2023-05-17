@@ -265,7 +265,7 @@ msgstr "Firma nie istnieje"
 
 #: users/forms.py:9
 msgid "password"
-msgstr "hasło"
+msgstr "Hasło"
 
 #: users/forms.py:10
 msgid "Hasło jest szyfrowane, więc nie można je zobaczyć."
