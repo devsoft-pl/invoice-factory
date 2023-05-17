@@ -4,21 +4,18 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
-    <h1>Szczegóły faktury: {{ invoice.invoice_number }}</h1>
+    <h1>Szczegóły faktury: <span style="color: black">{{ invoice.invoice_number }}</span> dla kontahenta: <span style="color: black">{{ invoice.client.name }}</span></h1>
 
-    <h2>Firma: {{ invoice.company.name }}</h2>
-    <h2>Kontrahent: {{ invoice.client.name }}</h2>
-
-    <table class="items">
+    <table class="items" style="margin-top: 35px">
         <tr>
-            <th style="width:13%">Data utworzenia</th>
-            <th style="width:13%">Data sprzedaży</th>
-            <th style="width:13%">Data płatności</th>
-            <th style="width:11%">Typ faktury</th>
+            <th style="width:12%">Data utworzenia</th>
+            <th style="width:12%">Data sprzedaży</th>
+            <th style="width:12%">Data płatności</th>
+            <th style="width:12%">Typ faktury</th>
             <th style="width:10%">Sposób płatności</th>
             <th style="width:10%">Waluta</th>
-            <th style="width:25%">Numer konta</th>
-            <th style="width:5%">Opcje</th>
+            <th style="width:20%">Numer konta</th>
+            <th style="width:12%">Opcje</th>
         </tr>
         <tr>
             <td>{{ invoice.create_date| date:"d.m.Y" }}</td>
@@ -30,6 +27,7 @@
             <td>{{ invoice.account_number }}</td>
             <td>
                 <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
+                <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
             </td>
         </tr>
     </table>
@@ -80,7 +78,6 @@
 
     <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
-    <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
 
 {% endblock content %}
 
