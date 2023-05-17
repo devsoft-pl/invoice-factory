@@ -1,6 +1,7 @@
 import factory
 
 from currencies.models import Currency
+from users.factories import UserFactory
 
 
 class CurrencyFactory(factory.django.DjangoModelFactory):
@@ -8,3 +9,4 @@ class CurrencyFactory(factory.django.DjangoModelFactory):
         model = Currency
 
     code = factory.Sequence(lambda n: "Code %03d" % n)
+    user = user = factory.SubFactory(UserFactory)
