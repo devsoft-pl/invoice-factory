@@ -9,7 +9,6 @@
     <h3>
         <a href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
         <a href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
-        <a href="{% url 'items:create_item' %}?next={% url 'invoices:create_invoice' %}">Dodaj przedmiot</a>
     </h3>
 
     <form action="{% url 'invoices:create_invoice' %}" method='post'>
