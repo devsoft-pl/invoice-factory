@@ -1,42 +1,16 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
+from invoices.models import Invoice
 from items.forms import ItemForm
 from items.models import Item
 
 
 @login_required
-def list_items_view(request):
-    items_list = Item.objects.filter(user=request.user)
-    paginator = Paginator(items_list, 10)
-    page = request.GET.get("page")
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
-
-    context = {"items": items}
-    return render(request, "items/list_items.html", context)
-
-
-@login_required
-def detail_item_view(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-
-    if item.user != request.user:
-        raise Http404(_("Item does not exist"))
-
-    context = {"item": item}
-    return render(request, "items/detail_item.html", context)
-
-
-@login_required
-def create_item_view(request, create_my_item=False):
+def create_item_view(request, invoice_id):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = ItemForm(initial=initial, current_user=request.user)
@@ -46,9 +20,7 @@ def create_item_view(request, create_my_item=False):
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
-
-            if create_my_item:
-                item.is_my_item = True
+            item.invoice = invoice
 
             item.save()
 
@@ -56,12 +28,9 @@ def create_item_view(request, create_my_item=False):
             if next_url:
                 return redirect(next_url)
 
-            if create_my_item:
-                return redirect("users:detail_user", request.user.pk)
+            return redirect("invoices:detail_invoice", invoice.pk)
 
-            return redirect("items:list_items")
-
-    context = {"form": form}
+    context = {"form": form, "invoice": invoice}
     return render(request, "items/create_item.html", context)
 
 
@@ -85,10 +54,7 @@ def replace_item_view(request, item_id):
             if next_url:
                 return redirect(next_url)
 
-            if item.is_my_item:
-                return redirect("users:detail_user", request.user.pk)
-
-            return redirect("items:list_items")
+            return redirect("invoices:detail_invoice", item.invoice.pk)
 
     context = {"item": item, "form": form}
     return render(request, "items/replace_item.html", context)
@@ -107,7 +73,4 @@ def delete_item_view(request, item_id):
     if next_url:
         return redirect(next_url)
 
-    if item.is_my_item:
-        return redirect("users:detail_user", request.user.pk)
-
-    return redirect("items:list_items")
+    return redirect("invoices:detail_invoice", item.invoice.pk)
