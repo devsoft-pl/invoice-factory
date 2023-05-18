@@ -32,3 +32,17 @@ class CompanyFilterForm(forms.Form):
     name = forms.CharField(label=_("Name"), required=False)
     nip = forms.CharField(required=False)
     regon = forms.CharField(required=False)
+
+    def get_filtered_companies(self, companies_list):
+        name = self.cleaned_data["name"]
+        nip = self.cleaned_data["nip"]
+        regon = self.cleaned_data["regon"]
+
+        if name:
+            companies_list = companies_list.filter(name__contains=name)
+        if nip:
+            companies_list = companies_list.filter(nip=nip)
+        if regon:
+            companies_list = companies_list.filter(regon=regon)
+
+        return companies_list
