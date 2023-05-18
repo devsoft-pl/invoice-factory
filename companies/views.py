@@ -14,16 +14,7 @@ def list_companies_view(request):
 
     filter_form = CompanyFilterForm(request.GET)
     if filter_form.is_valid():
-        name = filter_form.cleaned_data["name"]
-        nip = filter_form.cleaned_data["nip"]
-        regon = filter_form.cleaned_data["regon"]
-
-        if name:
-            companies_list = companies_list.filter(name__contains=name)
-        if nip:
-            companies_list = companies_list.filter(nip=nip)
-        if regon:
-            companies_list = companies_list.filter(regon=regon)
+        companies_list = filter_form.get_filtered_companies(companies_list)
 
     paginator = Paginator(companies_list, 10)
     page = request.GET.get("page")
