@@ -1,7 +1,7 @@
 import pytest
 from django.test import RequestFactory
 
-from companies.factories import ClientCompanyFactory
+from companies.factories import CompanyFactory
 from companies.views import list_companies_view
 from users.factories import UserFactory
 
@@ -12,7 +12,7 @@ class TestCompanyView:
     def set_up(self) -> None:
         self.rf = RequestFactory()
         self.user = UserFactory()
-        self.company = ClientCompanyFactory.create(user=self.user)
+        self.company = CompanyFactory.create(user=self.user)
 
     def test_list_companies_view_returns_200(self):
         request = self.rf.get("/companies/")

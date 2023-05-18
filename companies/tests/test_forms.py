@@ -1,6 +1,6 @@
 import pytest
 
-from companies.factories import ClientCompanyFactory
+from companies.factories import CompanyFactory
 from companies.forms import CompanyFilterForm
 from companies.models import Company
 from users.factories import UserFactory
@@ -11,8 +11,8 @@ class TestCompanyForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.user = UserFactory.create()
-        self.company_1 = ClientCompanyFactory.create(name="Devsoft", user=self.user)
-        self.company_2 = ClientCompanyFactory.create(name="Microsoft", user=self.user)
+        self.company_1 = CompanyFactory.create(name="Devsoft", user=self.user)
+        self.company_2 = CompanyFactory.create(name="Microsoft", user=self.user)
 
     def test_return_company_with_name_startswith(self):
         request_get = {"name": "Dev"}
