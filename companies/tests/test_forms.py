@@ -1,8 +1,10 @@
 import pytest
 
 from companies.factories import CompanyFactory
-from companies.forms import CompanyFilterForm
+from companies.forms import CompanyFilterForm, CompanyForm
 from companies.models import Company
+from countries.factories import CountryFactory
+from countries.models import Country
 from users.factories import UserFactory
 
 
@@ -11,6 +13,8 @@ class TestCompanyForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.user = UserFactory.create()
+        self.country_1 = CountryFactory.create(user=self.user)
+        self.country_2 = CountryFactory.create()
         self.company_1 = CompanyFactory.create(
             name="Devsoft", nip="1111111111", regon="1111111", user=self.user
         )
@@ -85,3 +89,14 @@ class TestCompanyForm:
         companies_list = Company.my_clients.filter(user=self.user)
         companies_list = self.form.get_filtered_companies(companies_list)
         assert len(companies_list) == 0
+
+    def test_filtered_countries_current_user(self):
+        self.form = CompanyForm(current_user=self.user)
+        form_countries_ids = self.form.fields["country"].queryset.values_list(
+            "id", flat=True
+        )
+        user_countries_ids = Country.objects.filter(user=self.user).values_list(
+            "id", flat=True
+        )
+        assert set(form_countries_ids) == set(user_countries_ids)
+        assert len(form_countries_ids) == len(user_countries_ids)
