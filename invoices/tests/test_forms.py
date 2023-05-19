@@ -106,3 +106,20 @@ class TestInvoiceForm:
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
+    def test_return_filtered_client_with_name_startswith(self):
+        request_get = {"client": "Fakt"}
+        self.form = InvoiceFilterForm(request_get)
+        self.form.is_valid()
+        invoices_list = Invoice.objects.filter(user=self.user)
+        filtered_list = self.form.get_filtered_invoices(invoices_list)
+        assert self.invoice_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
+
+    def test_return_filtered_client_with_exact_name(self):
+        request_get = {"client": "Faktoria"}
+        self.form = InvoiceFilterForm(request_get)
+        self.form.is_valid()
+        invoices_list = Invoice.objects.filter(user=self.user)
+        filtered_list = self.form.get_filtered_invoices(invoices_list)
+        assert self.invoice_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
