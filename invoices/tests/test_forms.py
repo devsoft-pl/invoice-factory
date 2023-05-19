@@ -2,8 +2,9 @@ import pytest
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
+from currencies.models import Currency
 from invoices.factories import InvoiceFactory
-from invoices.forms import InvoiceFilterForm
+from invoices.forms import InvoiceFilterForm, InvoiceForm
 from invoices.models import Invoice
 from users.factories import UserFactory
 
@@ -123,3 +124,14 @@ class TestInvoiceForm:
         filtered_list = self.form.get_filtered_invoices(invoices_list)
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
+
+    def test_filtered_currency_current_user(self):
+        self.form = InvoiceForm(current_user=self.user)
+        form_currencies_ids = self.form.fields["currency"].queryset.values_list(
+            "id", flat=True
+        )
+        user_currencies_ids = Currency.objects.filter(user=self.user).values_list(
+            "id", flat=True
+        )
+        assert set(form_currencies_ids) == set(user_currencies_ids)
+        assert form_currencies_ids.count() == user_currencies_ids.count()
