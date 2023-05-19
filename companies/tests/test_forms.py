@@ -27,68 +27,68 @@ class TestCompanyForm:
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert self.company_1.id == companies_list[0].id
-        assert companies_list.count() == 1
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert self.company_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
 
     def test_return_filtered_company_with_exact_name(self):
         request_get = {"name": "Devsoft"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert self.company_1.id == companies_list[0].id
-        assert companies_list.count() == 1
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert self.company_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
 
     def test_returns_filtered_companies_with_similar_name(self):
         request_get = {"name": "soft"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert companies_list.count() == 2
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert filtered_list.count() == 2
 
     def test_return_filtered_empty_list_when_company_name_not_exist(self):
         request_get = {"name": "Faktoria"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert companies_list.count() == 0
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert filtered_list.count() == 0
 
     def test_return_filtered_company_with_nip(self):
         request_get = {"nip": "1111111111"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert self.company_1.id == companies_list[0].id
-        assert companies_list.count() == 1
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert self.company_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
 
     def test_return_filtered_empty_list_when_company_nip_not_exist(self):
         request_get = {"nip": "3333333333"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert companies_list.count() == 0
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert filtered_list.count() == 0
 
     def test_return_filtered_company_with_regon(self):
         request_get = {"regon": "1111111"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert self.company_1.id == companies_list[0].id
-        assert companies_list.count() == 1
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert self.company_1.id == filtered_list[0].id
+        assert filtered_list.count() == 1
 
     def test_return_filtered_empty_list_when_company_regon_not_exist(self):
         request_get = {"nip": "3333333"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
         companies_list = Company.my_clients.filter(user=self.user)
-        companies_list = self.form.get_filtered_companies(companies_list)
-        assert companies_list.count() == 0
+        filtered_list = self.form.get_filtered_companies(companies_list)
+        assert filtered_list.count() == 0
 
     def test_filtered_countries_current_user(self):
         self.form = CompanyForm(current_user=self.user)
