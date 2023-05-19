@@ -44,7 +44,7 @@ class TestCompanyForm:
         companies_list = self.form.get_filtered_companies(companies_list)
         assert len(companies_list) == 2
 
-    def test_return_empty_list_when_company_not_exist(self):
+    def test_return_empty_list_when_company_name_not_exist(self):
         request_get = {"name": "Faktoria"}
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
@@ -61,6 +61,14 @@ class TestCompanyForm:
         assert self.company_1.id == companies_list[0].id
         assert len(companies_list) == 1
 
+    def test_return_empty_list_when_company_nip_not_exist(self):
+        request_get = {"nip": "3333333333"}
+        self.form = CompanyFilterForm(request_get)
+        self.form.is_valid()
+        companies_list = Company.my_clients.filter(user=self.user)
+        companies_list = self.form.get_filtered_companies(companies_list)
+        assert len(companies_list) == 0
+
     def test_return_company_with_regon(self):
         request_get = {"regon": "1111111"}
         self.form = CompanyFilterForm(request_get)
@@ -69,3 +77,11 @@ class TestCompanyForm:
         companies_list = self.form.get_filtered_companies(companies_list)
         assert self.company_1.id == companies_list[0].id
         assert len(companies_list) == 1
+
+    def test_return_empty_list_when_company_regon_not_exist(self):
+        request_get = {"nip": "3333333"}
+        self.form = CompanyFilterForm(request_get)
+        self.form.is_valid()
+        companies_list = Company.my_clients.filter(user=self.user)
+        companies_list = self.form.get_filtered_companies(companies_list)
+        assert len(companies_list) == 0
