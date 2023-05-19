@@ -3,7 +3,7 @@ import datetime
 import factory
 from factory import fuzzy
 
-from companies.factories import ClientCompanyFactory, MyCompanyFactory
+from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import Invoice
 from users.factories import UserFactory
@@ -17,7 +17,7 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
     invoice_type = factory.fuzzy.FuzzyChoice(
         Invoice.INVOICE_TYPES, getter=lambda i: i[0]
     )
-    company = factory.SubFactory(MyCompanyFactory)
+    company = factory.SubFactory(CompanyFactory)
     create_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     payment_date = factory.Faker(
@@ -28,5 +28,5 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
     )
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
-    client = factory.SubFactory(ClientCompanyFactory)
+    client = factory.SubFactory(CompanyFactory)
     user = factory.SubFactory(UserFactory)
