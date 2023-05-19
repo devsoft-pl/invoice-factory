@@ -23,18 +23,7 @@ def list_invoices_view(request):
 
     filter_form = InvoiceFilterForm(request.GET)
     if filter_form.is_valid():
-        invoice_number = filter_form.cleaned_data["invoice_number"]
-        invoice_type = filter_form.cleaned_data["invoice_type"]
-        company = filter_form.cleaned_data["company"]
-
-        if invoice_number:
-            invoices_list = invoices_list.filter(
-                invoice_number__contains=invoice_number
-            )
-        if invoice_type:
-            invoices_list = invoices_list.filter(invoice_type=invoice_type)
-        if company:
-            invoices_list = invoices_list.filter(client__name__contains=company)
+        invoices_list = filter_form.get_filtered_invoices(invoices_list)
 
     paginator = Paginator(invoices_list, 10)
     page = request.GET.get("page")
