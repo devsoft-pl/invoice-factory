@@ -1,6 +1,7 @@
 import pytest
 
 from companies.factories import CompanyFactory
+from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
 from invoices.factories import InvoiceFactory
@@ -135,3 +136,14 @@ class TestInvoiceForm:
         )
         assert set(form_currencies_ids) == set(user_currencies_ids)
         assert form_currencies_ids.count() == user_currencies_ids.count()
+
+    def test_filtered_company_current_user(self):
+        self.form = InvoiceForm(current_user=self.user)
+        form_companies_ids = self.form.fields["company"].queryset.values_list(
+            "id", flat=True
+        )
+        user_companies_ids = Company.objects.filter(
+            user=self.user, is_my_company=True
+        ).values_list("id", flat=True)
+        assert set(form_companies_ids) == set(user_companies_ids)
+        assert form_companies_ids.count() == user_companies_ids.count()
