@@ -38,4 +38,24 @@ class InvoiceFilterForm(forms.Form):
     invoice_type = forms.ChoiceField(
         label=_("Invoice type"), required=False, choices=Invoice.INVOICE_TYPES
     )
-    company = forms.CharField(label=_("Client"), required=False)
+    client = forms.CharField(label=_("Client"), required=False)
+    company = forms.CharField(label=_("Company"), required=False)
+
+    def get_filtered_invoices(self, invoices_list):
+        invoice_number = self.cleaned_data["invoice_number"]
+        invoice_type = self.cleaned_data["invoice_type"]
+        company = self.cleaned_data["company"]
+        client = self.cleaned_data["client"]
+
+        if invoice_number:
+            invoices_list = invoices_list.filter(
+                invoice_number__contains=invoice_number
+            )
+        if invoice_type:
+            invoices_list = invoices_list.filter(invoice_type=invoice_type)
+        if client:
+            invoices_list = invoices_list.filter(client__name__contains=client)
+        if company:
+            invoices_list = invoices_list.filter(company__name__contains=company)
+
+        return invoices_list
