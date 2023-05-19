@@ -147,3 +147,14 @@ class TestInvoiceForm:
         ).values_list("id", flat=True)
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
+
+    def test_filtered_client_current_user(self):
+        self.form = InvoiceForm(current_user=self.user)
+        form_companies_ids = self.form.fields["client"].queryset.values_list(
+            "id", flat=True
+        )
+        user_companies_ids = Company.objects.filter(
+            user=self.user, is_my_company=False
+        ).values_list("id", flat=True)
+        assert set(form_companies_ids) == set(user_companies_ids)
+        assert form_companies_ids.count() == user_companies_ids.count()
