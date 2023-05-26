@@ -4,7 +4,15 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
 
-    <h1>Szczegóły firmy: <span style="color: black">{{ company.name }}</span></h1>
+    <div class="top_actions">
+        {% if company.is_my_company %}
+        <a href="{% url 'users:detail_user' %}">Powrót</a>
+    {% else %}
+        <a href="{% url 'companies:list_companies' %}">Powrót</a>
+    {% endif %}
+    </div>
+
+    <h1>Szczegóły firmy: <span class="black">{{ company.name }}</span></h1>
 
     <table class="items" style="margin-top: 35px">
         <tr>
@@ -33,13 +41,5 @@
             </td>
         </tr>
     </table>
-
-    <br>
-
-    {% if company.is_my_company %}
-        <a href="{% url 'users:detail_user' %}">Powrót</a>
-    {% else %}
-        <a href="{% url 'companies:list_companies' %}">Powrót</a>
-    {% endif %}
 
 {% endblock content %}
