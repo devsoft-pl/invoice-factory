@@ -4,18 +4,19 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
-    <h1>Nowy kraj</h1>
-
-    <form action="{% url 'countries:create_country' %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-
+    <div class="top_actions">
         {% if request.GET.next %}
             <a href="{{ request.GET.next }}">Powrót</a>
         {% else %}
             <a href="{% url 'countries:list_countries' %}">Powrót</a>
         {% endif %}
+    </div>
 
+    <h1>Nowy kraj</h1>
+
+    <form action="{% url 'countries:create_country' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
         <button name="submit">Dodaj</button>
     </form>
 

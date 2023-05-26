@@ -4,6 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
 
+    <div class="top_actions">
+        <a href="{% url 'countries:list_countries' %}">Powrót</a>
+    </div>
+
     <h1>Edytuj kraj</h1>
 
     <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
