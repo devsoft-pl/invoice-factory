@@ -4,6 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
 
+    <div class="top_actions">
+        <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
+    </div>
+
     <h1>Edytuj stawkę vat</h1>
 
     <form action="{% url 'vat_rates:replace_vat' vat_rate.pk %}" method='post'>

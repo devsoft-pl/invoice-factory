@@ -4,18 +4,19 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
 
-    <h1>Nowa stawka vat</h1>
-
-    <form action="{% url 'vat_rates:create_vat' %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-
+    <div class="top_actions">
         {% if request.GET.next %}
             <a href="{{ request.GET.next }}">Powrót</a>
         {% else %}
             <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
         {% endif %}
+    </div>
 
+    <h1>Nowa stawka vat</h1>
+
+    <form action="{% url 'vat_rates:create_vat' %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
         <button name="submit">Dodaj</button>
     </form>
 
