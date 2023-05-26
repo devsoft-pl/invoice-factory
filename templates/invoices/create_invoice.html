@@ -4,6 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
+    <div class="top_actions">
+        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
+    </div>
+
     <h1>Nowa faktura</h1>
 
     <h3>
@@ -14,9 +18,6 @@
     <form action="{% url 'invoices:create_invoice' %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}
-
-        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
-
         <button name="submit">Dodaj</button>
     </form>
 

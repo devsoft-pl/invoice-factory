@@ -4,6 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
+    <div class="top_actions">
+        <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+    </div>
+
     <h1>Edycja faktury</h1>
 
     <form action="{% url 'invoices:replace_invoice' invoice.pk %}" method='post'>

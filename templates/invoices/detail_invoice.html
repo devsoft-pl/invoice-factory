@@ -4,7 +4,12 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
 
-    <h1>Szczegóły faktury: <span style="color: black">{{ invoice.invoice_number }}</span> dla kontahenta: <span style="color: black">{{ invoice.client.name }}</span></h1>
+    <div class="top_actions">
+        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
+        <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+    </div>
+
+    <h1>Szczegóły faktury: <span class="black">{{ invoice.invoice_number }}</span> dla kontahenta: <span class="black">{{ invoice.client.name }}</span></h1>
 
     <table class="items" style="margin-top: 35px">
         <tr>
@@ -75,9 +80,6 @@
             <h3><a href="{% url 'items:create_item' invoice.pk %}">Dodaj pozycję</a></h3>
         {% endif %}
     </div>
-
-    <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
-    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
 
 {% endblock content %}
 
