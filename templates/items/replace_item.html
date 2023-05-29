@@ -4,13 +4,13 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
 
-{#    <div class="top_actions">#}
-{#        <a href="{% url 'companies:detail_company' company.pk %}">Powrót</a>#}
-{#    </div>#}
+    <div class="top_actions">
+        {% if request.GET.next %}
+            <a href="{{ request.GET.next }}">Powrót</a>
+        {% endif %}
+    </div>
 
     <h1>Edytuj pozycję</h1>
-
-    <h3><a href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a></h3>
 
     <form action="{% url 'items:replace_item' item.pk %}" method='post'>
         {% csrf_token %}

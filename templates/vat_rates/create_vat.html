@@ -5,11 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
 
     <div class="top_actions">
-        {% if request.GET.next %}
-            <a href="{{ request.GET.next }}">Powrót</a>
-        {% else %}
-            <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
-        {% endif %}
+        <a href="{% url 'vat_rates:list_vates' %}">Powrót</a>
     </div>
 
     <h1>Nowa stawka vat</h1>
