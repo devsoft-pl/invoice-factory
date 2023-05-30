@@ -9,7 +9,7 @@ from vat_rates.models import VatRate
 
 
 @login_required
-def list_vates_view(request):
+def list_vat_rates_view(request):
     vat_list = VatRate.objects.filter(user=request.user)
     paginator = Paginator(vat_list, 10)
     page = request.GET.get("page")
@@ -21,7 +21,7 @@ def list_vates_view(request):
         vat_rates = paginator.page(paginator.num_pages)
 
     context = {"vat_rates": vat_rates}
-    return render(request, "vat_rates/list_vates.html", context)
+    return render(request, "vat_rates/list_vat_rates.html", context)
 
 
 @login_required
@@ -48,7 +48,7 @@ def create_vat_view(request, create_my_vat=False):
             if create_my_vat:
                 return redirect("users:detail_user", request.user.pk)
 
-            return redirect("vat_rates:list_vates")
+            return redirect("vat_rates:list_vat_rates")
 
     context = {"form": form}
     return render(request, "vat_rates/create_vat.html", context)
@@ -72,7 +72,7 @@ def replace_vat_view(request, vat_id):
             if vat_rate.is_my_vat:
                 return redirect("users:detail_user", request.user.pk)
 
-            return redirect("vat_rates:list_vates")
+            return redirect("vat_rates:list_vat_rates")
 
     context = {"vat_rate": vat_rate, "form": form}
     return render(request, "vat_rates/replace_vat.html", context)
@@ -90,4 +90,4 @@ def delete_vat_view(request, vat_id):
     if var_rate.is_my_vat:
         return redirect("users:detail_user", request.user.pk)
 
-    return redirect("vat_rates:list_vates")
+    return redirect("vat_rates:list_vat_rates")

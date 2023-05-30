@@ -5,7 +5,7 @@ from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 
 
-class TestCurrency(TestCase):
+class TestVatRate(TestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
         self.user.set_password("test")
@@ -16,27 +16,31 @@ class TestCurrency(TestCase):
         )
         self.user_rate = VatRateFactory()
 
-    def test_list_vates_if_not_logged(self):
-        url = reverse("vat_rates:list_vates")
-        response = self.client.get(url, follow=True)
-        self.assertRedirects(response, "/users/login/?next=/vat_rates/")
 
-    def test_list_vates_if_logged(self):
-        url = reverse("vat_rates:list_vates")
+class TestListVatRates(TestVatRate):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("vat_rates:list_vat_rates")
+
+    def test_list_vat_rates_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_list_vat_rates_if_logged(self):
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         object_list = response.context["vat_rates"]
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "vat_rates/list_vates.html")
+        self.assertTemplateUsed(response, "vat_rates/list_vat_rates.html")
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_rates[:10])
 
-    def test_list_vates_second_pag(self):
-        url = reverse("vat_rates:list_vates")
+    def test_list_vat_rates_second_pag(self):
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{url}?page=2")
+        response = self.client.get(f"{self.url}?page=2")
 
         object_list = response.context["vat_rates"]
 
