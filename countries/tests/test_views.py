@@ -11,17 +11,22 @@ class TestCountry(TestCase):
         self.user.set_password("test")
         self.user.save()
         self.user_countries = CountryFactory.create_batch(12, user=self.user)
-        self.user_country = CountryFactory()
+        self.other_country = CountryFactory()
+
+
+class TestListCountries(TestCountry):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("countries:list_countries")
 
     def test_list_countries_if_not_logged(self):
-        url = reverse("countries:list_countries")
-        response = self.client.get(url, follow=True)
-        self.assertRedirects(response, "/users/login/?next=/countries/")
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_countries_if_logged(self):
-        url = reverse("countries:list_countries")
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         object_list = response.context["countries"]
 
@@ -31,9 +36,8 @@ class TestCountry(TestCase):
         self.assertListEqual(list(object_list), self.user_countries[:10])
 
     def test_list_countries_second_pag(self):
-        url = reverse("countries:list_countries")
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{url}?page=2")
+        response = self.client.get(f"{self.url}?page=2")
 
         object_list = response.context["countries"]
 
