@@ -18,12 +18,13 @@ class TestInvoice(TestCase):
 
 
 class TestListInvoices(TestInvoice):
-
     def setUp(self) -> None:
         super().setUp()
         self.url = reverse("invoices:list_invoices")
+
     def test_list_invoices_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
+
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_invoices_if_logged(self):
@@ -48,8 +49,27 @@ class TestListInvoices(TestInvoice):
 
 
 class TestDetailInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_invoices[0]
+        self.url = reverse("invoices:detail_invoice", args=[self.invoice.pk])
+
     def test_detail_invoice_if_not_logged(self):
-        invoice = self.user_invoices[0]
-        url = reverse("invoices:detail_invoice", args=[invoice.pk])
-        response = self.client.get(url, follow=True)
-        self.assertRedirects(response, f"/users/login/?next={url}")
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_detail_invoice_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/detail_invoice.html")
+        self.assertEqual(self.invoice.pk, response.context["invoice"].pk)
+
+    def rest_return_404_if_not_my_invoice(self):
+        url = reverse("invoices:detail_invoice", args=[self.other_invoice.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
