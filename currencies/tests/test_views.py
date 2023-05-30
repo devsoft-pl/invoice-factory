@@ -13,15 +13,20 @@ class TestCurrency(TestCase):
         self.user_currencies = CurrencyFactory.create_batch(12, user=self.user)
         self.user_currency = CurrencyFactory()
 
+
+class TestListCurrencies(TestCurrency):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("currencies:list_currencies")
+
     def test_list_currencies_if_not_logged(self):
-        url = reverse("currencies:list_currencies")
-        response = self.client.get(url, follow=True)
-        self.assertRedirects(response, "/users/login/?next=/currencies/")
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_currencies_if_logged(self):
-        url = reverse("currencies:list_currencies")
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         object_list = response.context["currencies"]
 
@@ -31,9 +36,8 @@ class TestCurrency(TestCase):
         self.assertListEqual(list(object_list), self.user_currencies[:10])
 
     def test_list_currencies_second_pag(self):
-        url = reverse("currencies:list_currencies")
         self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{url}?page=2")
+        response = self.client.get(f"{self.url}?page=2")
 
         object_list = response.context["currencies"]
 
