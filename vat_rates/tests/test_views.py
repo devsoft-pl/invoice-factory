@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from currencies.factories import CurrencyFactory
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 
