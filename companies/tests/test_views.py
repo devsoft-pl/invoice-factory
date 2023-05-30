@@ -2,11 +2,10 @@ from django.test import TestCase
 from django.urls import reverse
 
 from companies.factories import CompanyFactory
-from countries.factories import CountryFactory
 from users.factories import UserFactory
 
 
-class TestComapny(TestCase):
+class TestCompany(TestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
         self.user.set_password("test")
@@ -14,6 +13,7 @@ class TestComapny(TestCase):
         self.user_companies = CompanyFactory.create_batch(12, user=self.user)
         self.user_company = CompanyFactory()
 
+class TestListCompanies(TestCompany):
     def test_list_companies_if_not_logged(self):
         url = reverse("companies:list_companies")
         response = self.client.get(url, follow=True)
