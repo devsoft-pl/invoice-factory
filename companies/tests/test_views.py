@@ -21,6 +21,7 @@ class TestListCompanies(TestCompany):
 
     def test_list_companies_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
+
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_companies_if_logged(self):
@@ -52,6 +53,7 @@ class TestDetailCompany(TestCompany):
 
     def test_detail_company_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
+
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_detail_company_if_logged(self):
@@ -66,4 +68,5 @@ class TestDetailCompany(TestCompany):
         url = reverse("companies:detail_company", args=[self.other_company.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
+
         self.assertEqual(response.status_code, 404)
