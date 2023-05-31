@@ -58,6 +58,7 @@ class TestDeleteCountry(TestCountry):
 
     def test_delete_country_if_logged(self):
         self.client.login(username=self.user.username, password="test")
+
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
 
