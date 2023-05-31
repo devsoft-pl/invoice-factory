@@ -44,6 +44,30 @@ class TestListCountries(TestCountry):
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_countries[10:])
 
+
+class TestDeleteCountry(TestCountry):
+    def setUp(self) -> None:
+        super().setUp()
+        self.country = self.user_countries[0]
+        self.url = reverse("countries:delete_country", args=[self.country.pk])
+
+    def test_delete_country_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_country_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+
+    def rest_return_404_if_not_my_countries(self):
+        url = reverse("countries:delete_country", args=[self.other_country.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
     # def test_call_view_fail_blank(self):
     #     self.client.login(username='user', password='test')
     #     response = self.client.post('/url/to/view', {}) # blank data dictionary
