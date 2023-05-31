@@ -70,3 +70,28 @@ class TestDetailCompany(TestCompany):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+
+class TestDeleteCompany(TestCompany):
+    def setUp(self) -> None:
+        super().setUp()
+        self.company = self.user_companies[0]
+        self.url = reverse("companies:delete_company", args=[self.company.pk])
+
+    def test_delete_company_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_company_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_return_404_if_not_my_company(self):
+        url = reverse("companies:delete_company", args=[self.other_company.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
