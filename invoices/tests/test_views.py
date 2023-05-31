@@ -73,3 +73,28 @@ class TestDetailInvoice(TestInvoice):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+
+class TestDeleteInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_invoices[0]
+        self.url = reverse("invoices:delete_invoice", args=[self.invoice.pk])
+
+    def test_delete_invoice_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_invoice_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+
+    def rest_return_404_if_not_my_invoice(self):
+        url = reverse("invoices:delete_invoice", args=[self.other_invoice.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
