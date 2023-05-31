@@ -14,7 +14,7 @@ class TestVatRate(TestCase):
             VatRateFactory.create_batch(12, user=self.user),
             key=lambda vat_rate: vat_rate.rate,
         )
-        self.user_rate = VatRateFactory()
+        self.other_rate = VatRateFactory()
 
 
 class TestListVatRates(TestVatRate):
@@ -46,3 +46,28 @@ class TestListVatRates(TestVatRate):
 
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_rates[10:])
+
+
+class TestDeleteVatRate(TestVatRate):
+    def setUp(self) -> None:
+        super().setUp()
+        self.vat_rate = self.user_rates[0]
+        self.url = reverse("vat_rates:delete_vat", args=[self.vat_rate.pk])
+
+    def test_delete_vat_rate_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_vat_rate_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+
+    def rest_return_404_if_not_my_vat_rate(self):
+        url = reverse("countries:delete_country", args=[self.other_rate.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
