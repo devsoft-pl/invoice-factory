@@ -1,7 +1,9 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
 from companies.factories import CompanyFactory
+from companies.models import Company
 from users.factories import UserFactory
 
 
@@ -87,6 +89,8 @@ class TestDeleteCompany(TestCompany):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
+        with self.assertRaises(ObjectDoesNotExist):
+            Company.objects.get(pk=self.company.pk)
         self.assertEqual(response.status_code, 302)
 
     def test_return_404_if_not_my_company(self):

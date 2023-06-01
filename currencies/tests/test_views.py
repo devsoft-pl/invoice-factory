@@ -1,7 +1,9 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
 from currencies.factories import CurrencyFactory
+from currencies.models import Currency
 from users.factories import UserFactory
 
 
@@ -58,8 +60,10 @@ class TestDeleteCurrency(TestCurrency):
 
     def test_delete_country_if_logged(self):
         self.client.login(username=self.user.username, password="test")
-
         response = self.client.get(self.url)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            Currency.objects.get(pk=self.currency.pk)
         self.assertEqual(response.status_code, 302)
 
     def rest_return_404_if_not_my_countries(self):

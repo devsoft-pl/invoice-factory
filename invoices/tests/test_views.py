@@ -1,7 +1,9 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
 from invoices.factories import InvoiceFactory
+from invoices.models import Invoice
 from users.factories import UserFactory
 
 
@@ -90,6 +92,8 @@ class TestDeleteInvoice(TestInvoice):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
+        with self.assertRaises(ObjectDoesNotExist):
+            Invoice.objects.get(pk=self.invoice.pk)
         self.assertEqual(response.status_code, 302)
 
     def rest_return_404_if_not_my_invoice(self):

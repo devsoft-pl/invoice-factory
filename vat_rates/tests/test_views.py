@@ -1,8 +1,10 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
+from vat_rates.models import VatRate
 
 
 class TestVatRate(TestCase):
@@ -61,8 +63,10 @@ class TestDeleteVatRate(TestVatRate):
 
     def test_delete_vat_rate_if_logged(self):
         self.client.login(username=self.user.username, password="test")
-
         response = self.client.get(self.url)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            VatRate.objects.get(pk=self.vat_rate.pk)
         self.assertEqual(response.status_code, 302)
 
     def rest_return_404_if_not_my_vat_rate(self):
