@@ -25,7 +25,7 @@ def list_currencies_view(request):
 
 
 @login_required
-def create_currency_view(request, create_my_currency=False):
+def create_currency_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = CurrencyForm(initial=initial)
@@ -36,17 +36,11 @@ def create_currency_view(request, create_my_currency=False):
             currency = form.save(commit=False)
             currency.user = request.user
 
-            if create_my_currency:
-                currency.is_my_currency = True
-
             currency.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:
                 return redirect(next_url)
-
-            if create_my_currency:
-                return redirect("users:detail_user", request.user.pk)
 
             return redirect("currencies:list_currencies")
 
