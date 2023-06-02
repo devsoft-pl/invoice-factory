@@ -63,9 +63,6 @@ def replace_currency_view(request, currency_id):
         if form.is_valid():
             form.save()
 
-            if currency.is_my_currency:
-                return redirect("users:detail_user", request.user.pk)
-
             return redirect("currencies:list_currencies")
 
     context = {"currency": currency, "form": form}
@@ -80,8 +77,5 @@ def delete_currency_view(request, currency_id):
         raise Http404(_("Currency does not exist"))
 
     currency.delete()
-
-    if currency.is_my_currency:
-        return redirect("users:detail_user", request.user.pk)
 
     return redirect("currencies:list_currencies")
