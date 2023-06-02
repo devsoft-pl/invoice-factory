@@ -46,7 +46,7 @@ def create_country_view(request, create_my_country=False):
                 return redirect(next_url)
 
             if create_my_country:
-                return redirect("users:detail_user", request.user.pk)
+                return redirect("users:detail_user")
 
             return redirect("countries:list_countries")
 
