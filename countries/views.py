@@ -63,9 +63,6 @@ def replace_country_view(request, country_id):
         if form.is_valid():
             form.save()
 
-            if country.is_my_country:
-                return redirect("users:detail_user", request.user.pk)
-
             return redirect("countries:list_countries")
 
     context = {"country": country, "form": form}
@@ -80,8 +77,5 @@ def delete_country_view(request, country_id):
         raise Http404(_("Country does not exist"))
 
     country.delete()
-
-    if country.is_my_country:
-        return redirect("users:detail_user", request.user.pk)
 
     return redirect("countries:list_countries")
