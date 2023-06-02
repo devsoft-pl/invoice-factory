@@ -13,8 +13,8 @@ from invoices.forms import InvoiceFilterForm, InvoiceForm
 from invoices.models import Invoice
 
 
-def index_view(requeste):
-    return render(requeste, "index.html")
+def index_view(request):
+    return render(request, "index.html")
 
 
 @login_required
@@ -127,7 +127,7 @@ def pdf_invoice_view(request, invoice_id):
 
     gross_whole = invoice.gross_amount.quantize(decimal.Decimal("1"))
     gross_whole_amount = num2words(gross_whole, lang="pl")
-    gross_frac_amount = num2words(invoice.gross_amount - gross_whole, lang="pl")
+    gross_frac_amount = num2words(int(invoice.gross_amount - gross_whole), lang="pl")
 
     context = {
         "invoice": invoice,
