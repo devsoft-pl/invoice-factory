@@ -73,8 +73,39 @@ class TestDeleteCountry(TestCountry):
 
         self.assertEqual(response.status_code, 404)
 
+
+class TestCreateCountry(TestCountry):
+    def setUp(self) -> None:
+        super().setUp()
+        self.country = self.user_countries[0]
+        self.url = reverse("countries:create_country")
+
+    def test_create_country_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, "form", "country", "To pole jest wymagane.")
+        self.assertTemplateUsed(response, "countries/create_country.html")
+
+    def test_valid_form_redirects_to_list(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {"country": "Polska"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("countries:list_countries"))
+        self.assertTrue(
+            Country.objects.filter(country="Polska", user=self.user).exists()
+        )
+
     # def test_call_view_fail_blank(self):
     #     self.client.login(username='user', password='test')
+
     #     response = self.client.post('/url/to/view', {}) # blank data dictionary
     #     self.assertFormError(response, 'form', 'some_field', 'This field is required.')
     #     # etc. ...
