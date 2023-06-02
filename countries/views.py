@@ -25,7 +25,7 @@ def list_countries_view(request):
 
 
 @login_required
-def create_country_view(request, create_my_country=False):
+def create_country_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
         form = CountryForm(initial=initial)
@@ -36,21 +36,15 @@ def create_country_view(request, create_my_country=False):
             country = form.save(commit=False)
             country.user = request.user
 
-            if create_my_country:
-                country.is_my_country = True
-
             country.save()
 
             next_url = form.cleaned_data["next"]
             if next_url:
                 return redirect(next_url)
 
-            if create_my_country:
-                return redirect("users:detail_user")
-
             return redirect("countries:list_countries")
 
-    context = {"form": form, "create_my_country": create_my_country}
+    context = {"form": form}
     return render(request, "countries/create_country.html", context)
 
 
