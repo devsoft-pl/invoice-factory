@@ -23,7 +23,6 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "currency",
             "items",
             "user",
-            "is_my_invoice",
         ]
 
     def create(self, validated_data):
