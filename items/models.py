@@ -27,9 +27,6 @@ class Item(models.Model):
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
-    is_my_item = models.BooleanField(
-        verbose_name=_("Is my item"), default=False, editable=False
-    )
 
     def __str__(self):
         return self.name
