@@ -63,9 +63,6 @@ def replace_vat_view(request, vat_id):
         if form.is_valid():
             form.save()
 
-            if vat_rate.is_my_vat:
-                return redirect("users:detail_user", request.user.pk)
-
             return redirect("vat_rates:list_vat_rates")
 
     context = {"vat_rate": vat_rate, "form": form}
@@ -80,8 +77,5 @@ def delete_vat_view(request, vat_id):
         raise Http404(_("Vat rate does not exist"))
 
     var_rate.delete()
-
-    if var_rate.is_my_vat:
-        return redirect("users:detail_user", request.user.pk)
 
     return redirect("vat_rates:list_vat_rates")
