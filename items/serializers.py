@@ -15,6 +15,5 @@ class ItemSerializer(serializers.ModelSerializer):
             "net_price",
             "vat",
             "user",
-            "is_my_item",
         ]
         extra_kwargs = {"id": {"read_only": False}}
