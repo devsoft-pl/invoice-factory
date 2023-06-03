@@ -7,12 +7,6 @@ app_name = "vat_rates"
 urlpatterns = [
     path("", list_vat_rates_view, name="list_vat_rates"),
     path("create/", create_vat_view, name="create_vat"),
-    path(
-        "create_my_vat/",
-        create_vat_view,
-        name="create_my_vat",
-        kwargs={"create_my_vat": True},
-    ),
     path("replace/<int:vat_id>/", replace_vat_view, name="replace_vat"),
     path("delete/<int:vat_id>/", delete_vat_view, name="delete_vat"),
 ]
