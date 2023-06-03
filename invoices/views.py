@@ -50,7 +50,7 @@ def detail_invoice_view(request, invoice_id):
 
 
 @login_required
-def create_invoice_view(request, create_my_invoice=False):
+def create_invoice_view(request):
     if request.method != "POST":
         form = InvoiceForm(current_user=request.user)
     else:
@@ -60,13 +60,7 @@ def create_invoice_view(request, create_my_invoice=False):
             invoice = form.save(commit=False)
             invoice.user = request.user
 
-            if create_my_invoice:
-                invoice.is_my_invoice = True
-
             invoice.save()
-
-            if create_my_invoice:
-                return redirect("users:detail_user", request.user.pk)
 
             return redirect("invoices:list_invoices")
 
