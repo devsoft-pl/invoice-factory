@@ -9,8 +9,11 @@ from companies.models import Company
 
 
 @login_required
-def list_companies_view(request):
-    companies_list = Company.my_clients.filter(user=request.user)
+def list_companies_view(request, my_companies=False):
+    if my_companies:
+        companies_list = Company.objects.filter(user=request.user, is_my_company=True)
+    else:
+        companies_list = Company.my_clients.filter(user=request.user)
 
     filter_form = CompanyFilterForm(request.GET)
     if filter_form.is_valid():
@@ -26,7 +29,13 @@ def list_companies_view(request):
         companies = paginator.page(paginator.num_pages)
 
     context = {"companies": companies, "filter_form": filter_form}
-    return render(request, "companies/list_companies.html", context)
+
+    if my_companies:
+        template_name = "companies/list_my_companies.html"
+    else:
+        template_name = "companies/list_companies.html"
+
+    return render(request, template_name, context)
 
 
 @login_required
@@ -62,7 +71,7 @@ def create_company_view(request, create_my_company=False):
                 return redirect(next_url)
 
             if create_my_company:
-                return redirect("users:detail_user")
+                return redirect("companies:list_my_companies")
 
             return redirect("companies:list_companies")
 
@@ -88,7 +97,7 @@ def replace_company_view(request, company_id):
             form.save()
 
             if company.is_my_company:
-                return redirect("users:detail_user")
+                return redirect("companies:list_my_companies")
 
             return redirect("companies:list_companies")
 
@@ -106,6 +115,6 @@ def delete_company_view(request, company_id):
     company.delete()
 
     if company.is_my_company:
-        return redirect("users:detail_user")
+        return redirect("companies:list_my_companies")
 
     return redirect("companies:list_companies")
