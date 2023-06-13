@@ -7,6 +7,12 @@ from companies.views import (create_company_view, delete_company_view,
 app_name = "companies"
 urlpatterns = [
     path("", list_companies_view, name="list_companies"),
+    path(
+        "my_companies/",
+        list_companies_view,
+        name="list_my_companies",
+        kwargs={"my_companies": True},
+    ),
     path("<int:company_id>/", detail_company_view, name="detail_company"),
     path("create/", create_company_view, name="create_company"),
     path(
