@@ -43,9 +43,7 @@ def password_change_user_view(request):
 
 @login_required
 def detail_user_view(request):
-    my_companies = Company.objects.filter(user=request.user, is_my_company=True)
-
-    context = {"user": request.user, "my_companies": my_companies}
+    context = {"user": request.user}
     return render(request, "registration/detail_user.html", context)
 
 
