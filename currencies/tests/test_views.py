@@ -99,6 +99,7 @@ class TestCreateCurrency(TestCurrency):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("currencies:list_currencies"))
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).exists())
+        self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
 
 
 class TestReplaceCurrency(TestCurrency):
@@ -107,7 +108,7 @@ class TestReplaceCurrency(TestCurrency):
         self.currency = self.user_currencies[0]
         self.url = reverse("currencies:replace_currency", args=[self.currency.pk])
 
-    def test_create_currency_if_not_logged(self):
+    def test_replace_currency_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")

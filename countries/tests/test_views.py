@@ -103,6 +103,9 @@ class TestCreateCountry(TestCountry):
         self.assertTrue(
             Country.objects.filter(country="Polska", user=self.user).exists()
         )
+        self.assertTrue(
+            Country.objects.filter(country="Polska", user=self.user).count(), 1
+        )
 
 
 class TestReplaceCountry(TestCountry):
