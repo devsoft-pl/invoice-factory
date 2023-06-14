@@ -103,3 +103,42 @@ class TestCreateCountry(TestCountry):
         self.assertTrue(
             Country.objects.filter(country="Polska", user=self.user).exists()
         )
+
+
+class TestReplaceCountry(TestCountry):
+    def setUp(self) -> None:
+        super().setUp()
+        self.country = self.user_countries[0]
+        self.url = reverse("countries:replace_country", args=[self.country.pk])
+
+    def test_replace_country_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def rest_return_404_if_not_my_countries(self):
+        url = reverse("countries:replace_country", args=[self.other_country.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "country", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "countries/replace_country.html")
+
+    def test_replace_country_with_valid_data(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {"country": "Szwecja"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("countries:list_countries"))
+        self.assertTrue(
+            Country.objects.filter(country="Szwecja", user=self.user).exists()
+        )
