@@ -92,7 +92,7 @@ class TestCreateCurrency(TestCurrency):
         self.assertFormError(response.context["form"], "code", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "currencies/create_currency.html")
 
-    def test_valid_form_redirects_to_list(self):
+    def test_create_currency_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"code": "PLN"})
 

@@ -95,7 +95,7 @@ class TestCreateCountry(TestCountry):
         )
         self.assertTemplateUsed(response, "countries/create_country.html")
 
-    def test_valid_form_redirects_to_list(self):
+    def test_create_country_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"country": "Polska"})
 

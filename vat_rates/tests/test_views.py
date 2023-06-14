@@ -96,7 +96,7 @@ class TestCreateVatRate(TestVatRate):
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "vat_rates/create_vat.html")
 
-    def test_valid_form_redirects_to_list(self):
+    def test_create_vat_rate_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"rate": "23"})
 

@@ -65,18 +65,12 @@ class TestCreateItem(TestItem):
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
         self.assertFormError(
-            response.context["form"], "pkwiu", "To pole jest wymagane."
-        )
-        self.assertFormError(
-            response.context["form"], "amount", "To pole jest wymagane."
-        )
-        self.assertFormError(
             response.context["form"], "net_price", "To pole jest wymagane."
         )
         self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "items/create_item.html")
 
-    def test_valid_form_redirects_to_list(self):
+    def test_create_item_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(
             self.url,
@@ -102,3 +96,11 @@ class TestCreateItem(TestItem):
                 user=self.user,
             ).exists()
         )
+        self.assertEqual(Item.objects.filter(
+                name="test",
+                pkwiu="62.01.1",
+                amount="1",
+                net_price="12000",
+                vat=self.vat.pk,
+                user=self.user,
+            ).count(), 1)
