@@ -112,6 +112,13 @@ class TestReplaceCurrency(TestCurrency):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
+    def rest_return_404_if_not_my_countries(self):
+        url = reverse("countries:replace_country", args=[self.other_currency.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {})
