@@ -200,3 +200,84 @@ class TestCreateCompany(TestCompany):
             ).count(),
             company_before_create + 1,
         )
+
+
+class TestReplaceCompany(TestCompany):
+    def setUp(self) -> None:
+        super().setUp()
+        self.company = self.user_companies[0]
+        self.url = reverse("companies:replace_company", args=[self.company.pk])
+        self.country = CountryFactory.create(user=self.user)
+
+    def test_replace_company_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_return_404_if_not_company(self):
+        url = reverse("companies:replace_company", args=[self.other_company.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
+        self.assertFormError(
+            response.context["form"], "regon", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "companies/replace_company.html")
+
+    def test_replace_company_with_valid_data(self):
+        self.company_data = {
+            "name": "test",
+            "nip": "98765",
+            "regon": "1234",
+            "country": self.country.pk,
+            "address": "ulica testowa",
+            "zip_code": "00-345",
+            "city": "Warszawa",
+            "email": "test@test.pl",
+            "is_my_company": False,
+        }
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.post(self.url, self.company_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("companies:list_companies"))
+        self.assertTrue(
+            Company.objects.filter(
+                name="test", nip="98765", is_my_company=False, user=self.user
+            ).exists()
+        )
+
+    def test_replace_my_company_with_valid_data(self):
+        company = self.my_companies[0]
+        url = reverse("companies:replace_company", args=[company.pk])
+        self.company_data = {
+            "name": "test",
+            "nip": "98765",
+            "regon": "1234",
+            "country": self.country.pk,
+            "address": "ulica testowa",
+            "zip_code": "00-345",
+            "city": "Warszawa",
+            "email": "test@test.pl",
+            "is_my_company": True,
+        }
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.post(url, self.company_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("companies:list_my_companies"))
+        self.assertTrue(
+            Company.objects.filter(
+                name="test", nip="98765", is_my_company=True, user=self.user
+            ).exists()
+        )
