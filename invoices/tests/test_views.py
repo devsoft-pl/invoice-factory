@@ -239,3 +239,30 @@ class TestReplaceInvoice(TestInvoice):
                 user=self.user,
             ).exists()
         )
+
+
+class TestPdfInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_invoices[0]
+        self.url = reverse("invoices:pdf_invoice", args=[self.invoice.pk])
+
+    def test_detail_invoice_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def rest_return_404_if_not_my_invoice(self):
+        url = reverse("invoices:pdf_invoice", args=[self.other_invoice.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_return_pdf_invoice_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/pdf_invoice.html")
+        self.assertEqual(self.invoice.pk, response.context["invoice"].pk)
