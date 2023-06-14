@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from companies.factories import CompanyFactory
 from companies.models import Company
+from countries.factories import CountryFactory
 from users.factories import UserFactory
 
 
@@ -122,20 +123,91 @@ class TestDeleteCompany(TestCompany):
         self.assertEqual(response.status_code, 404)
 
 
-# test dla company jesli is my_company
-# class TestCreateMyCountry(TestCreateCountry):
-#     def setUp(self) -> None:
-#         super().setUp()
-#         self.url = reverse("countries:create_my_country")
-#
-#     def test_valid_form_redirects_to_user(self):
-#         self.client.login(username=self.user.username, password="test")
-#         response = self.client.post(self.url, {"country": "Polska"})
-#
-#         self.assertEqual(response.status_code, 302)
-#         self.assertRedirects(response, reverse("users:detail_user"))
-#         self.assertTrue(
-#             Country.objects.filter(
-#                 country="Polska", user=self.user, is_my_country=True
-#             ).exists()
-#         )
+class TestCreateCompany(TestCompany):
+    def setUp(self) -> None:
+        super().setUp()
+        self.my_url = reverse("companies:create_my_company")
+        self.url = reverse("companies:create_company")
+        self.country = CountryFactory.create(user=self.user)
+
+    def test_create_company_if_not_logged(self):
+        response = self.client.get(self.my_url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.my_url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.my_url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "name", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "nip", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "companies/create_company.html")
+
+    def test_create_company_with_valid_data(self):
+        self.company_data = {
+            "name": "test",
+            "nip": "98765",
+            "regon": "1234",
+            "country": self.country.pk,
+            "address": "ulica testowa",
+            "zip_code": "00-345",
+            "city": "Warszawa",
+            "email": "test@test.pl",
+            "is_my_company": True,
+        }
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.post(self.my_url, self.company_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("companies:list_my_companies"))
+        self.assertTrue(
+            Company.objects.filter(
+                name="test",
+                nip="98765",
+                is_my_company=True,
+                user=self.user).exists()
+        )
+
+    def test_create_contractor_with_valid_data(self):
+        self.contractor_data = {
+            "name": "test",
+            "nip": "98765",
+            "regon": "1234",
+            "country": self.country.pk,
+            "address": "ulica testowa",
+            "zip_code": "00-345",
+            "city": "Warszawa",
+            "email": "test@test.pl",
+            "is_my_company": False,
+        }
+        self.client.login(username=self.user.username, password="test")
+        company_before_create = Company.objects.filter(
+            name="test",
+            nip="98765",
+            is_my_company=False,
+            user=self.user
+        ).count()
+        response = self.client.post(self.url, self.contractor_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("companies:list_companies"))
+        self.assertTrue(
+            Company.objects.filter(
+                name="test",
+                nip="98765",
+                is_my_company=False,
+                user=self.user).exists()
+        )
+
+        self.assertEqual(Company.objects.filter(
+            name="test",
+            nip="98765",
+            is_my_company=False,
+            user=self.user).count(), company_before_create + 1)
+
