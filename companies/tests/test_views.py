@@ -140,12 +140,8 @@ class TestCreateCompany(TestCompany):
         response = self.client.post(self.my_url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response.context["form"], "name", "To pole jest wymagane."
-        )
-        self.assertFormError(
-            response.context["form"], "nip", "To pole jest wymagane."
-        )
+        self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "nip", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "companies/create_company.html")
 
     def test_create_company_with_valid_data(self):
@@ -168,10 +164,8 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test",
-                nip="98765",
-                is_my_company=True,
-                user=self.user).exists()
+                name="test", nip="98765", is_my_company=True, user=self.user
+            ).exists()
         )
 
     def test_create_contractor_with_valid_data(self):
@@ -188,10 +182,7 @@ class TestCreateCompany(TestCompany):
         }
         self.client.login(username=self.user.username, password="test")
         company_before_create = Company.objects.filter(
-            name="test",
-            nip="98765",
-            is_my_company=False,
-            user=self.user
+            name="test", nip="98765", is_my_company=False, user=self.user
         ).count()
         response = self.client.post(self.url, self.contractor_data)
 
@@ -199,15 +190,13 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test",
-                nip="98765",
-                is_my_company=False,
-                user=self.user).exists()
+                name="test", nip="98765", is_my_company=False, user=self.user
+            ).exists()
         )
 
-        self.assertEqual(Company.objects.filter(
-            name="test",
-            nip="98765",
-            is_my_company=False,
-            user=self.user).count(), company_before_create + 1)
-
+        self.assertEqual(
+            Company.objects.filter(
+                name="test", nip="98765", is_my_company=False, user=self.user
+            ).count(),
+            company_before_create + 1,
+        )
