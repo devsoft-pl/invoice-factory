@@ -2,6 +2,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
+from companies.factories import CompanyFactory
+from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceFactory
 from invoices.models import Invoice
 from users.factories import UserFactory
@@ -102,3 +104,54 @@ class TestDeleteInvoice(TestInvoice):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+
+class TestCreateInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_invoices[0]
+        self.url = reverse("invoices:create_invoice")
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+        self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.currency = CurrencyFactory.create(user=self.user)
+
+    def test_create_invoice_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "invoice_number", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "invoices/create_invoice.html")
+
+    def test_valid_form_redirects_to_list(self):
+        invoice_data = {
+            "invoice_number": "1/test",
+            "invoice_type": "0",
+            "company": self.company.pk,
+            "create_date": "2023-01-01",
+            "sale_date": "2023-01-01",
+            "payment_date": "2023-01-07",
+            "payment_method": "0",
+            "currency": self.currency.pk,
+            "account_number": "1234",
+            "client": self.contractor.pk,
+        }
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, invoice_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+        self.assertTrue(
+            Invoice.objects.filter(invoice_number="1/test", user=self.user).exists()
+        )
