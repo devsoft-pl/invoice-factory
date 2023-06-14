@@ -5,7 +5,6 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 
-from companies.models import Company
 from users.forms import UserForm
 
 
