@@ -134,8 +134,8 @@ class TestCreateInvoice(TestInvoice):
         )
         self.assertTemplateUsed(response, "invoices/create_invoice.html")
 
-    def test_valid_form_redirects_to_list(self):
-        invoice_data = {
+    def test_create_invoice_with_valid_data(self):
+        self.invoice_data = {
             "invoice_number": "1/test",
             "invoice_type": "0",
             "company": self.company.pk,
@@ -148,10 +148,25 @@ class TestCreateInvoice(TestInvoice):
             "client": self.contractor.pk,
         }
         self.client.login(username=self.user.username, password="test")
-        response = self.client.post(self.url, invoice_data)
+        invoices_before_create = Invoice.objects.filter(
+            invoice_number="1/test",
+            create_date="2023-01-01",
+            currency=self.currency.pk,
+            user=self.user
+        ).count()
+        response = self.client.post(self.url, self.invoice_data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("invoices:list_invoices"))
         self.assertTrue(
-            Invoice.objects.filter(invoice_number="1/test", user=self.user).exists()
+            Invoice.objects.filter(
+                invoice_number="1/test",
+                create_date="2023-01-01",
+                currency=self.currency.pk,
+                user=self.user).exists()
         )
+        self.assertEqual(Invoice.objects.filter(
+            invoice_number="1/test",
+            create_date="2023-01-01",
+            currency=self.currency.pk,
+            user=self.user).count(), invoices_before_create + 1)
