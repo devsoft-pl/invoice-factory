@@ -110,7 +110,7 @@ class TestReplaceVatRate(TestVatRate):
         self.vat_rate = self.user_rates[0]
         self.url = reverse("vat_rates:replace_vat", args=[self.vat_rate.pk])
 
-    def test_create_vat_rate_if_not_logged(self):
+    def test_replace_vat_rate_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -130,7 +130,7 @@ class TestReplaceVatRate(TestVatRate):
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "vat_rates/replace_vat.html")
 
-    def test_create_vat_rate_with_valid_data(self):
+    def test_replace_vat_rate_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"rate": "12"})
 
