@@ -102,3 +102,38 @@ class TestCreateVatRate(TestVatRate):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
         self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).exists())
+
+
+class TestReplaceVatRate(TestVatRate):
+    def setUp(self) -> None:
+        super().setUp()
+        self.vat_rate = self.user_rates[0]
+        self.url = reverse("vat_rates:replace_vat", args=[self.vat_rate.pk])
+
+    def test_create_vat_rate_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def rest_return_404_if_not_my_vat_rate(self):
+        url = reverse("countries:replace_country", args=[self.other_rate.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
+        self.assertTemplateUsed(response, "vat_rates/replace_vat.html")
+
+    def test_create_vat_rate_with_valid_data(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {"rate": "12"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
+        self.assertTrue(VatRate.objects.filter(rate="12", user=self.user).exists())
