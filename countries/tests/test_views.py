@@ -77,7 +77,6 @@ class TestDeleteCountry(TestCountry):
 class TestCreateCountry(TestCountry):
     def setUp(self) -> None:
         super().setUp()
-        self.country = self.user_countries[0]
         self.url = reverse("countries:create_country")
 
     def test_create_country_if_not_logged(self):

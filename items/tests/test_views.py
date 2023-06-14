@@ -50,7 +50,6 @@ class TestDeleteItem(TestItem):
 class TestCreateItem(TestItem):
     def setUp(self) -> None:
         super().setUp()
-        self.item = self.user_items[0]
         self.url = reverse("items:create_item", args=[self.invoice.pk])
 
     def test_create_item_if_not_logged(self):
@@ -96,11 +95,14 @@ class TestCreateItem(TestItem):
                 user=self.user,
             ).exists()
         )
-        self.assertEqual(Item.objects.filter(
+        self.assertEqual(
+            Item.objects.filter(
                 name="test",
                 pkwiu="62.01.1",
                 amount="1",
                 net_price="12000",
                 vat=self.vat.pk,
                 user=self.user,
-            ).count(), 1)
+            ).count(),
+            1,
+        )

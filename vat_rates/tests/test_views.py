@@ -80,7 +80,6 @@ class TestDeleteVatRate(TestVatRate):
 class TestCreateVatRate(TestVatRate):
     def setUp(self) -> None:
         super().setUp()
-        self.vat_rate = self.user_rates[0]
         self.url = reverse("vat_rates:create_vat")
 
     def test_create_vat_rate_if_not_logged(self):

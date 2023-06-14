@@ -109,7 +109,6 @@ class TestDeleteInvoice(TestInvoice):
 class TestCreateInvoice(TestInvoice):
     def setUp(self) -> None:
         super().setUp()
-        self.invoice = self.user_invoices[0]
         self.url = reverse("invoices:create_invoice")
         self.company = CompanyFactory.create(user=self.user, is_my_company=True)
         self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
@@ -152,7 +151,7 @@ class TestCreateInvoice(TestInvoice):
             invoice_number="1/test",
             create_date="2023-01-01",
             currency=self.currency.pk,
-            user=self.user
+            user=self.user,
         ).count()
         response = self.client.post(self.url, self.invoice_data)
 
@@ -163,10 +162,15 @@ class TestCreateInvoice(TestInvoice):
                 invoice_number="1/test",
                 create_date="2023-01-01",
                 currency=self.currency.pk,
-                user=self.user).exists()
+                user=self.user,
+            ).exists()
         )
-        self.assertEqual(Invoice.objects.filter(
-            invoice_number="1/test",
-            create_date="2023-01-01",
-            currency=self.currency.pk,
-            user=self.user).count(), invoices_before_create + 1)
+        self.assertEqual(
+            Invoice.objects.filter(
+                invoice_number="1/test",
+                create_date="2023-01-01",
+                currency=self.currency.pk,
+                user=self.user,
+            ).count(),
+            invoices_before_create + 1,
+        )
