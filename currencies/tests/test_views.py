@@ -77,7 +77,6 @@ class TestDeleteCurrency(TestCurrency):
 class TestCreateCurrency(TestCurrency):
     def setUp(self) -> None:
         super().setUp()
-        self.currency = self.user_currencies[0]
         self.url = reverse("currencies:create_currency")
 
     def test_create_currency_if_not_logged(self):
