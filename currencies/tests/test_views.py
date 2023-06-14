@@ -99,3 +99,31 @@ class TestCreateCurrency(TestCurrency):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("currencies:list_currencies"))
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).exists())
+
+
+class TestReplaceCurrency(TestCurrency):
+    def setUp(self) -> None:
+        super().setUp()
+        self.currency = self.user_currencies[0]
+        self.url = reverse("currencies:replace_currency", args=[self.currency.pk])
+
+    def test_create_currency_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context["form"], "code", "To pole jest wymagane.")
+        self.assertTemplateUsed(response, "currencies/replace_currency.html")
+
+    def test_replace_currency_with_valid_data(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, {"code": "USD"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("currencies:list_currencies"))
+        self.assertTrue(Currency.objects.filter(code="USD", user=self.user).exists())
