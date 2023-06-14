@@ -85,9 +85,6 @@ def replace_invoice_view(request, invoice_id):
         if form.is_valid():
             form.save()
 
-            if invoice.is_my_invoice:
-                return redirect("users:detail_user", request.user.pk)
-
             return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": invoice, "form": form}
@@ -102,9 +99,6 @@ def delete_invoice_view(request, invoice_id):
         raise Http404(_("Invoice does not exist"))
 
     invoice.delete()
-
-    if invoice.is_my_invoice:
-        return redirect("users:detail_user", request.user.pk)
 
     return redirect("invoices:list_invoices")
 
