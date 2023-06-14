@@ -174,3 +174,68 @@ class TestCreateInvoice(TestInvoice):
             ).count(),
             invoices_before_create + 1,
         )
+
+
+class TestReplaceInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_invoices[0]
+        self.url = reverse("invoices:replace_invoice", args=[self.invoice.pk])
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+        self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.currency = CurrencyFactory.create(user=self.user)
+
+    def test_replace_invoice_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def rest_return_404_if_not_my_invoice(self):
+        url = reverse("invoices:replace_invoice", args=[self.other_invoice.pk])
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "sale_date", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "invoices/replace_invoice.html")
+
+    def test_replace_invoice_with_valid_data(self):
+        self.invoice_data = {
+            "invoice_number": "2/test",
+            "invoice_type": "0",
+            "company": self.company.pk,
+            "create_date": "2023-02-01",
+            "sale_date": "2023-02-01",
+            "payment_date": "2023-02-07",
+            "payment_method": "0",
+            "currency": self.currency.pk,
+            "account_number": "1234",
+            "client": self.contractor.pk,
+        }
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(self.url, self.invoice_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[self.invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number="2/test",
+                create_date="2023-02-01",
+                currency=self.currency.pk,
+                user=self.user,
+            ).exists()
+        )
