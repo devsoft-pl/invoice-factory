@@ -1,8 +1,10 @@
 {% extends "base.html" %}{% load static %}
 
-{% block content %}
-
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
 
     <div class="top_actions">
         <a href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>

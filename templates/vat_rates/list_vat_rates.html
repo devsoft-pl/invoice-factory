@@ -1,8 +1,10 @@
 {% extends "base.html" %}{% load static %}
 
-{% block content %}
-
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
 
     <h1>Lista stawek vat</h1>
 

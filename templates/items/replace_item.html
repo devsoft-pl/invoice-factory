@@ -1,8 +1,10 @@
 {% extends "base.html" %}{% load static %}
 
-{% block content %}
-
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
 
     <div class="top_actions">
         {% if request.GET.next %}
