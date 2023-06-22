@@ -1,60 +1,72 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <h1>Lista faktur</h1>
-
-    <form action="{% url 'invoices:list_invoices' %}" method='get'>
-        <div class="filters">
-            {{ filter_form.as_div }}
-            <div class="filters_buttons">
-                <button>Szukaj</button>
-                <a href="{% url 'invoices:list_invoices' %}">Wyczyść</a>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Faktury</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'invoices:list_invoices' %}" method='get'>
+                <div class="d-flex justify-content-between mt-3">
+                    {{ filter_form.as_div }}
+                    <div class="d-grid gap-2 col-2 ">
+                        <button class="btn btn-primary">Szukaj</button>
+                        <a class="btn btn-outline-primary" href="{% url 'invoices:list_invoices' %}">Wyczyść</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a>
             </div>
         </div>
-    </form>
-
-    <h3><a href="{% url 'invoices:create_invoice' %}">Dodaj fakturę</a></h3>
-
-    {% if invoices %}
-
-        <table class="items">
-            <tr>
-                <th style="width:5%">Lp.</th>
-                <th style="width:10%">Numer faktury</th>
-                <th style="width:20%">Firma</th>
-                <th style="width:20%">Kontrahent</th>
-                <th style="width:10%">Data płatności</th>
-                <th style="width:10%">Wartość netto</th>
-                <th style="width:10%">Wartość brutto</th>
-                <th style="width:15%">Opcje</th>
-            </tr>
-            {% for invoice in invoices %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ invoice }}</td>
-                    <td>{{ invoice.company.name }}</td>
-                    <td>{{ invoice.client.name }}</td>
-                    <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
-                    <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
-                    <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-                    <td>
-                        <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
-                        <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
-                        <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <h3>Brak faktur</h3>
-    {% endif %}
-
-    <br>
-    {% include "pagination.html" with page=invoices %}
+        <div class="row">
+            {% if invoices %}
+                <table class="table table-hover text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Numer faktury</th>
+                            <th>Firma</th>
+                            <th>Kontrahent</th>
+                            <th>Data płatności</th>
+                            <th>Wartość netto</th>
+                            <th>Wartość brutto</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for invoice in invoices %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ invoice }}</td>
+                                <td>{{ invoice.company.name }}</td>
+                                <td>{{ invoice.client.name }}</td>
+                                <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
+                                <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
+                                <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+                                <td>
+                                    <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
+                                    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+                                    <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h3>Brak faktur</h3>
+            {% endif %}
+        </div>
+        <div class="row">
+            {% include "pagination.html" with page=invoices %}
+        </div>
+    </div>
 {% endblock content %}
 
