@@ -20,7 +20,7 @@ def list_countries_view(request):
     except EmptyPage:
         countries = paginator.page(paginator.num_pages)
 
-    context = {"countries": countries}
+    context = {"countries": countries, "current_module": "countries"}
     return render(request, "countries/list_countries.html", context)
 
 

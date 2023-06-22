@@ -31,8 +31,10 @@ def list_companies_view(request, my_companies=False):
     context = {"companies": companies, "filter_form": filter_form}
 
     if my_companies:
+        context.update({'current_module': 'my_companies'})
         template_name = "companies/list_my_companies.html"
     else:
+        context.update({'current_module': 'companies'})
         template_name = "companies/list_companies.html"
 
     return render(request, template_name, context)

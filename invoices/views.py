@@ -34,7 +34,7 @@ def list_invoices_view(request):
     except EmptyPage:
         invoices = paginator.page(paginator.num_pages)
 
-    context = {"invoices": invoices, "filter_form": filter_form}
+    context = {"invoices": invoices, "filter_form": filter_form, "current_module": "invoices"}
     return render(request, "invoices/list_invoices.html", context)
 
 

@@ -20,7 +20,7 @@ def list_currencies_view(request):
     except EmptyPage:
         currencies = paginator.page(paginator.num_pages)
 
-    context = {"currencies": currencies}
+    context = {"currencies": currencies, "current_module": "currencies"}
     return render(request, "currencies/list_currencies.html", context)
 
 
