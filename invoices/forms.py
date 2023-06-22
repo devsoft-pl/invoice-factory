@@ -41,6 +41,11 @@ class InvoiceFilterForm(forms.Form):
     client = forms.CharField(label=_("Client"), required=False)
     company = forms.CharField(label=_("Company"), required=False)
 
+    invoice_number.widget.attrs.update({"class": "form-control"})
+    invoice_type.widget.attrs.update({"class": "form-select"})
+    client.widget.attrs.update({"class": "form-control"})
+    company.widget.attrs.update({"class": "form-control"})
+
     def get_filtered_invoices(self, invoices_list):
         invoice_number = self.cleaned_data["invoice_number"]
         invoice_type = self.cleaned_data["invoice_type"]
