@@ -42,7 +42,7 @@ def password_change_user_view(request):
 
 @login_required
 def detail_user_view(request):
-    context = {"user": request.user}
+    context = {"user": request.user, "current_module": "users"}
     return render(request, "registration/detail_user.html", context)
 
 
