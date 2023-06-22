@@ -33,6 +33,10 @@ class CompanyFilterForm(forms.Form):
     nip = forms.CharField(required=False)
     regon = forms.CharField(required=False)
 
+    name.widget.attrs.update({"class": "form-control"})
+    nip.widget.attrs.update({"class": "form-control"})
+    regon.widget.attrs.update({"class": "form-control"})
+
     def get_filtered_companies(self, companies_list):
         name = self.cleaned_data["name"]
         nip = self.cleaned_data["nip"]
