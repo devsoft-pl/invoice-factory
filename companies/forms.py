@@ -25,7 +25,9 @@ class CompanyForm(forms.ModelForm):
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["country"].queryset = Country.objects.filter(user=current_user)
+        self.fields["country"].queryset = Country.objects.filter(
+            user=current_user
+        ).order_by("country")
 
 
 class CompanyFilterForm(forms.Form):
