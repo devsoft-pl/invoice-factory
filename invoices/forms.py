@@ -26,13 +26,13 @@ class InvoiceForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["company"].queryset = Company.objects.filter(
             user=current_user, is_my_company=True
-        ).order_by("company")
+        ).order_by("name")
         self.fields["client"].queryset = Company.objects.filter(
             user=current_user, is_my_company=False
-        ).order_by("client")
+        ).order_by("name")
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
-        ).order_by("currency")
+        ).order_by("code")
 
 
 class InvoiceFilterForm(forms.Form):
