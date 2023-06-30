@@ -1,21 +1,23 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        <a href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'vat_rates:list_vat_rates' %}">Stawki vat</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'vat_rates:replace_vat' vat_rate.pk %}" method='post'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <a class="btn btn-primary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
+                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+            </form>
+        </div>
     </div>
-
-    <h1>Edytuj stawkę vat</h1>
-
-    <form action="{% url 'vat_rates:replace_vat' vat_rate.pk %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Zapisz</button>
-    </form>
-
 {% endblock content %}
