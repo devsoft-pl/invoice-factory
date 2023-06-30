@@ -1,38 +1,47 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'vat_rates.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <h1>Lista stawek vat</h1>
-
-    <h3><a href="{% url 'vat_rates:create_vat' %}">Dodaj stawkę vat</a></h3>
-
-    {% if vat_rates %}
-
-        <table class="items">
-            <tr>
-                <th style="width:5%">Lp.</th>
-                <th>Stawka vat</th>
-                <th>Opcje</th>
-            </tr>
-            {% for vat in vat_rates %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ vat }} %</td>
-                    <td>
-                        <a href="{% url 'vat_rates:replace_vat' vat.pk %}">Edytuj</a>
-                        <a href="{% url 'vat_rates:delete_vat' vat.pk %}">Usuń</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <h3>Brak stawek vat</h3>
-    {% endif %}
-
-    <br>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Stawki vat</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'vat_rates:create_vat' %}">Dodaj vat</a>
+            </div>
+        </div>
+        <div class="row">
+            {% if vat_rates %}
+                <table class="table table-hover text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Stawka vat</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for vat in vat_rates %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ vat }}</td>
+                                <td>
+                                    <a href="{% url 'vat_rates:replace_vat' vat.pk %}">Edytuj</a>
+                                    <a href="{% url 'vat_rates:delete_vat' vat.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h3>Brak walut</h3>
+            {% endif %}
+        </div>
+    </div>
     {% include "pagination.html" with page=vat_rates %}
 {% endblock content %}
