@@ -1,30 +1,35 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'users.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="user-detail">
-        <h1>Dane użytkownika</h1>
-
-        <table class="items">
-            <tr>
-                <th style="width:40%">Login</th>
-                <th style="width:45%">Email</th>
-                <th style="width:15%">Opcje</th>
-            </tr>
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{% url 'users:replace_user' %}">Edytuj</a>
-                    <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>
-                </td>
-            </tr>
-        </table>
-
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <table class="table table-hover text-center mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>Login</th>
+                        <th>Email</th>
+                        <th>Opcje</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a href="{% url 'users:replace_user' %}">Edytuj</a>
+                            <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
 {% endblock content %}
