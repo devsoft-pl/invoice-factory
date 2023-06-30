@@ -1,38 +1,47 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'currencies.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <h1>Lista walut</h1>
-
-    <h3><a href="{% url 'currencies:create_currency' %}">Dodaj walutę</a></h3>
-
-    {% if currencies %}
-
-        <table class="items">
-            <tr>
-                <th style="width:5%">Lp.</th>
-                <th>Waluta</th>
-                <th>Opcje</th>
-            </tr>
-            {% for currency in currencies %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ currency }}</td>
-                    <td>
-                        <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
-                        <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <h3>Brak walut</h3>
-    {% endif %}
-
-    <br>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Waluty</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'currencies:create_currency' %}">Dodaj walutę</a>
+            </div>
+        </div>
+    <div class="row">
+            {% if currencies %}
+                <table class="table table-hover text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Waluta</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for currency in currencies %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ currency }}</td>
+                                <td>
+                                    <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
+                                    <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h3>Brak walut</h3>
+            {% endif %}
+        </div>
+    </div>
     {% include "pagination.html" with page=currencies %}
 {% endblock content %}
