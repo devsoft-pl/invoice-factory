@@ -1,21 +1,27 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        <a href="{% url 'countries:list_countries' %}">Powrót</a>
+        <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'countries:list_countries' %}">Kraje</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if request.GET.next %}
+                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                {% else %}
+                    <a class="btn btn-primary mt-3" href="{% url 'countries:list_countries' %}">Powrót</a>
+                {% endif %}
+                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+            </form>
+        </div>
     </div>
-
-    <h1>Edytuj kraj</h1>
-
-    <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Zapisz</button>
-    </form>
-
 {% endblock content %}
