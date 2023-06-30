@@ -6,7 +6,13 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moja firma</a></li>
+                    <li class="breadcrumb-item">
+                        {% if create_my_company %}
+                            <a href="{% url 'companies:list_my_companies' %}">Moja firma</a>
+                        {% else %}
+                            <a href="{% url 'companies:list_companies' %}">Kontrahenci</a>
+                        {% endif %}
+                    </li>
                     <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
                 </ol>
             </nav>
