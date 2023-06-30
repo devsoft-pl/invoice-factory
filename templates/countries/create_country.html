@@ -15,7 +15,6 @@
             <form action="{% url 'countries:create_country' %}" method='post'>
                 {% csrf_token %}
                 {{ form.as_p }}
-
                 {% if request.GET.next %}
                     <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
                 {% else %}
