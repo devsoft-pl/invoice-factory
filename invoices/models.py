@@ -85,7 +85,7 @@ class Invoice(models.Model):
     )
 
     class Meta:
-        ordering = ["sale_date"]
+        ordering = ["-sale_date"]
 
     def __str__(self):
         return self.invoice_number or f"#{self.id}"

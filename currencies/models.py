@@ -14,4 +14,4 @@ class Currency(models.Model):
 
     class Meta:
         verbose_name_plural = _("currencies")
-        ordering = ["pk"]
+        ordering = ["code"]

@@ -35,4 +35,4 @@ class Company(models.Model):
 
     class Meta:
         verbose_name_plural = _("companies")
-        ordering = ["pk"]
+        ordering = ["name"]
