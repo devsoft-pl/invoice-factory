@@ -1,38 +1,47 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'countries.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <h1>Lista krajów</h1>
-
-    <h3><a href="{% url 'countries:create_country' %}">Dodaj kraj</a></h3>
-
-    {% if countries %}
-
-        <table class="items">
-            <tr>
-                <th style="width:5%">Lp.</th>
-                <th>Kraj</th>
-                <th>Opcje</th>
-            </tr>
-            {% for country in countries %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ country }}</td>
-                    <td>
-                        <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
-                        <a href="{% url 'countries:delete_country' country.pk%}">Usuń</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <h3>Brak krajów</h3>
-    {% endif %}
-
-    <br>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kraje</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'countries:create_country' %}">Dodaj kraj</a></h3>
+            </div>
+        </div>
+        <div class="row">
+            {% if countries %}
+                <table class="table table-hover text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Kraj</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for country in countries %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ country }}</td>
+                                <td>
+                                    <a href="{% url 'countries:replace_country' country.pk %}">Edytuj</a>
+                                    <a href="{% url 'countries:delete_country' country.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h3>Brak firm</h3>
+            {% endif %}
+        </div>
+    </div>
     {% include "pagination.html" with page=countries %}
 {% endblock content %}
