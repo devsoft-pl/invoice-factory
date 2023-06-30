@@ -1,29 +1,33 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'companies.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        {% if request.GET.next %}
-            <a href="{{ request.GET.next }}">Powrót</a>
-        {% else %}
-            {% if create_my_company %}
-                <a href="{% url 'companies:list_my_companies' %}">Powrót</a>
-            {% else %}
-                <a href="{% url 'companies:list_companies' %}">Powrót</a>
-            {% endif %}
-        {% endif %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moja firma</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="
+                    {% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}"
+                  method='post'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if request.GET.next %}
+                    <a href="{{ request.GET.next }}">Powrót</a>
+                {% else %}
+                    {% if create_my_company %}
+                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                    {% else %}
+                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
+                    {% endif %}
+                {% endif %}
+                <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+            </form>
+        </div>
     </div>
-
-    <h1>Nowa firma</h1>
-
-    <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Dodaj</button>
-    </form>
-
 {% endblock content %}
