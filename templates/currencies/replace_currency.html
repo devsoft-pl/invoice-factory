@@ -1,21 +1,27 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'currencies.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        <a href="{% url 'currencies:list_currencies' %}">Powrót</a>
+        <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'currencies:list_currencies' %}">Waluty</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'currencies:replace_currency' currency.pk %}" method='post'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if request.GET.next %}
+                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                {% else %}
+                    <a class="btn btn-primary mt-3" href="{% url 'currencies:list_currencies' %}">Powrót</a>
+                {% endif %}
+                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+            </form>
+        </div>
     </div>
-
-    <h1>Edytuj walutę</h1>
-
-    <form action="{% url 'currencies:replace_currency' currency.pk %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Zapisz</button>
-    </form>
-
 {% endblock content %}
