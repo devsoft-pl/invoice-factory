@@ -28,6 +28,9 @@ class Item(models.Model):
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
+    class Meta:
+        ordering = ["vat"]
+
     def __str__(self):
         return self.name
 
