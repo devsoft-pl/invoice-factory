@@ -1,88 +1,101 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'invoices.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        <a href="{% url 'invoices:list_invoices' %}">Powrót</a>
-        <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
-    </div>
-
-    <h1>Szczegóły faktury: <span class="black">{{ invoice.invoice_number }}</span> dla kontahenta: <span class="black">{{ invoice.client.name }}</span></h1>
-
-    <table class="items" style="margin-top: 35px">
-        <tr>
-            <th style="width:12%">Data utworzenia</th>
-            <th style="width:12%">Data sprzedaży</th>
-            <th style="width:12%">Data płatności</th>
-            <th style="width:12%">Typ faktury</th>
-            <th style="width:10%">Sposób płatności</th>
-            <th style="width:10%">Waluta</th>
-            <th style="width:20%">Numer konta</th>
-            <th style="width:12%">Opcje</th>
-        </tr>
-        <tr>
-            <td>{{ invoice.create_date| date:"d.m.Y" }}</td>
-            <td>{{ invoice.sale_date| date:"d.m.Y" }}</td>
-            <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
-            <td>{{ invoice.get_invoice_type_display }}</td>
-            <td>{{ invoice.get_payment_method_display }}</td>
-            <td>{{ invoice.currency }}</td>
-            <td>{{ invoice.account_number }}</td>
-            <td>
-                <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
-                <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-            </td>
-        </tr>
-    </table>
-
-    <div class="items-border">
-        {% if invoice.items.exists %}
-
-            <h1>Lista pozycji faktury</h1>
-
-            <h3><a href="{% url 'items:create_item' invoice.pk %}">Dodaj pozycję</a></h3>
-
-            <table class="items">
-                <tr>
-                    <th style="width:5%">Lp.</th>
-                    <th style="width:25%">Nazwa</th>
-                    <th style="width:10%">PKWiU</th>
-                    <th style="width:5%">Ilość</th>
-                    <th style="width:10%">Cena netto</th>
-                    <th style="width:10%">Wartość netto</th>
-                    <th style="width:5%">Vat</th>
-                    <th style="width:10%">Wartość vat</th>
-                    <th style="width:10%">Wartość brutto</th>
-                    <th style="width:10%">Opcje</th>
-                </tr>
-                {% for item in invoice.items.all %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ invoice.invoice_number }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <table class="table table-hover text-center mt-3">
+                <thead class="table-light">
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.pkwiu }}</td>
-                        <td>{{ item.amount }}</td>
-                        <td>{{ item.net_price|floatformat:"2g" }}</td>
-                        <td>{{ item.net_amount|floatformat:"2g" }}</td>
-                        <td>{{ item.vat }} %</td>
-                        <td>{{ item.tax_amount|floatformat:"2g" }}</td>
-                        <td>{{ item.gross_amount|floatformat:"2g" }}</td>
+                        <th>Data utworzenia</th>
+                        <th>Data sprzedaży</th>
+                        <th>Data płatności</th>
+                        <th>Typ faktury</th>
+                        <th>Sposób płatności</th>
+                        <th>Waluta</th>
+                        <th>Numer konta</th>
+                        <th>Opcje</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td>{{ invoice.create_date| date:"d.m.Y" }}</td>
+                        <td>{{ invoice.sale_date| date:"d.m.Y" }}</td>
+                        <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
+                        <td>{{ invoice.get_invoice_type_display }}</td>
+                        <td>{{ invoice.get_payment_method_display }}</td>
+                        <td>{{ invoice.currency }}</td>
+                        <td>{{ invoice.account_number }}</td>
                         <td>
-                            <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
-                            <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
+                            <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
+                            <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                         </td>
                     </tr>
-                {% endfor %}
+                </tbody>
             </table>
-        {% else %}
-            <h1>Brak pozycji</h1>
-            <h3><a href="{% url 'items:create_item' invoice.pk %}">Dodaj pozycję</a></h3>
-        {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj pozycję</a>
+            </div>
+        </div>
+        <div class="row">
+            {% if invoice.items.exists %}
+                <table class="table table-hover text-center mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Nazwa</th>
+                            <th>PKWiU</th>
+                            <th>Ilość</th>
+                            <th>Cena netto</th>
+                            <th>Wartość netto</th>
+                            <th>Vat</th>
+                            <th>Wartość vat</th>
+                            <th>Wartość brutto</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for item in invoice.items.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.pkwiu }}</td>
+                                <td>{{ item.amount }}</td>
+                                <td>{{ item.net_price|floatformat:"2g" }}</td>
+                                <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                                <td>{{ item.vat }} %</td>
+                                <td>{{ item.tax_amount|floatformat:"2g" }}</td>
+                                <td>{{ item.gross_amount|floatformat:"2g" }}</td>
+                                <td>
+                                    <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
+                                    <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h1>Brak pozycji</h1>
+                <h3><a href="{% url 'items:create_item' invoice.pk %}">Dodaj pozycję</a></h3>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+            </div>
+        </div>
     </div>
-
 {% endblock content %}
 
 
