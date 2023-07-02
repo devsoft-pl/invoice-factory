@@ -7,6 +7,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:detail_invoice' invoice.pk %}">{{ invoice.invoice_number }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
                 </ol>
             </nav>
