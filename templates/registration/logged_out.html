@@ -1,11 +1,17 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'users.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <p>Zostałeś poprawnie wylogowany.</p>
-
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Logowanie</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div>Zostałeś poprawnie wylogowany.</div>
+        </div>
+    </div>
 {% endblock content %}
