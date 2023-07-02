@@ -16,4 +16,4 @@ class ItemForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["vat"].queryset = VatRate.objects.filter(
             user=current_user
-        ).order_by("vat")
+        ).order_by("rate")
