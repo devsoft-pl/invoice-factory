@@ -12,7 +12,7 @@
         </div>
         <div class="row">
             {% if form.errors %}
-                <p>Nazwa użytkownika i hasło są nieprawidłowe. Proszę spróbować później</p>
+                <span>Nazwa użytkownika i hasło są nieprawidłowe. Proszę spróbować później</span>
             {% endif %}
         </div>
         <div class="row text-center">
@@ -24,7 +24,7 @@
             </form>
         </div>
         <div class="row text-center">
-            <p>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></p>
+            <span>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></span>
         </div>
     </div>
 {% endblock content %}
