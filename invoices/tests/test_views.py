@@ -17,6 +17,7 @@ class TestInvoice(TestCase):
         self.user_invoices = sorted(
             InvoiceFactory.create_batch(12, user=self.user),
             key=lambda invoice: invoice.sale_date,
+            reverse=True,
         )
         self.other_invoice = InvoiceFactory()
 
@@ -34,7 +35,6 @@ class TestListInvoices(TestInvoice):
     def test_list_invoices_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
-
         object_list = response.context["invoices"]
 
         self.assertEqual(response.status_code, 200)
@@ -45,7 +45,6 @@ class TestListInvoices(TestInvoice):
     def test_list_invoices_second_pag(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=2")
-
         object_list = response.context["invoices"]
 
         self.assertTrue(len(object_list) == 2)
