@@ -15,7 +15,7 @@
                 <span>Nazwa użytkownika i hasło są nieprawidłowe. Proszę spróbować później</span>
             {% endif %}
         </div>
-        <div class="row text-center">
+        <div class="row text">
             <form method="post" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -23,7 +23,7 @@
                 <input type="hidden" name="next" value="{% url 'users:detail_user' %}"/>
             </form>
         </div>
-        <div class="row text-center">
+        <div class="row text">
             <span>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></span>
         </div>
     </div>
