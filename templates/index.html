@@ -1,9 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-
     <div class="container mt-3">
-        <p>Aplikacja do tworzeniu faktur dla Twojej firmy</p>
-    </div>
+        <div class="row text-center">
+            <span>Aplikacja do tworzeniu faktur sprzedażowych i zakupowych dla Twojej firmy</span>
+        </div>
+        {% if not user.username %}
+            <div class="row mt-3">
+                <div class="col"></div>
+                <div class="col text-center">
+                    <span>Stały użytkownik: <a href="{% url 'users:login' %}">Zaloguj</a></span>
+                </div>
+                <div class="col text-center">
+                    <span>Nowy użytkownik: <a href="{% url 'users:register_user' %}">Zarejestruj</a></span>
+                </div>
+                <div class="col"></div>
+            </div>
+        {% endif %}
 
+
+    </div>
 {% endblock content %}
