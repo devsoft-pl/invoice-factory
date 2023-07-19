@@ -117,6 +117,12 @@ class TestCreateCurrency(TestCurrency):
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).exists())
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
 
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
 
 class TestReplaceCurrency(TestCurrency):
     def setUp(self) -> None:

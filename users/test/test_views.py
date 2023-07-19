@@ -85,6 +85,12 @@ class TestRegisterUser(TestUser):
         )
         self.assertTemplateUsed(response, "registration/register.html")
 
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
     def test_register_user_with_valid_data(self):
         username = "User_test_1"
         password = "Test_password1!"
