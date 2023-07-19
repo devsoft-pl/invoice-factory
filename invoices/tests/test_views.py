@@ -50,6 +50,22 @@ class TestListInvoices(TestInvoice):
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_invoices[10:])
 
+    def test_returns_last_page_when_non_existent(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=666")
+
+        object_list = response.context["invoices"]
+
+        self.assertListEqual(list(object_list), self.user_invoices[10:])
+
+    def test_returns_first_page_when_abc(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=abc")
+
+        object_list = response.context["invoices"]
+
+        self.assertListEqual(list(object_list), self.user_invoices[:10])
+
 
 class TestDetailInvoice(TestInvoice):
     def setUp(self) -> None:

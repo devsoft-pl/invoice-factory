@@ -63,6 +63,7 @@ class TestListCompanies(TestCompany):
         response = self.client.get(f"{self.url}?page=666")
 
         object_list = response.context["companies"]
+
         self.assertListEqual(list(object_list), self.user_companies[10:])
 
     def test_returns_first_page_when_abc(self):
@@ -70,6 +71,7 @@ class TestListCompanies(TestCompany):
         response = self.client.get(f"{self.url}?page=abc")
 
         object_list = response.context["companies"]
+
         self.assertListEqual(list(object_list), self.user_companies[:10])
 
 

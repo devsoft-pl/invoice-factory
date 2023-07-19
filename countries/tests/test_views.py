@@ -46,6 +46,22 @@ class TestListCountries(TestCountry):
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_countries[10:])
 
+    def test_returns_last_page_when_non_existent(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=666")
+
+        object_list = response.context["countries"]
+
+        self.assertListEqual(list(object_list), self.user_countries[10:])
+
+    def test_returns_first_page_when_abc(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=abc")
+
+        object_list = response.context["countries"]
+
+        self.assertListEqual(list(object_list), self.user_countries[:10])
+
 
 class TestDeleteCountry(TestCountry):
     def setUp(self) -> None:
