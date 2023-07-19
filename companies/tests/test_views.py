@@ -223,28 +223,6 @@ class TestCreateCompany(TestCompany):
 
         self.assertEqual(response.status_code, 200)
 
-    # def test_post_form_with_next(self):
-    #     self.company_data = {
-    #         "name": "test",
-    #         "nip": "98765",
-    #         "regon": "1234",
-    #         "country": self.country.pk,
-    #         "address": "ulica testowa",
-    #         "zip_code": "00-345",
-    #         "city": "Warszawa",
-    #         "email": "test@test.pl",
-    #         "is_my_company": True,
-    #         "next": "abc"
-    #     }
-    #     self.client.login(username=self.user.username, password="test")
-    #
-    #     response = self.client.post(self.my_url, self.company_data)
-    #
-    #     self.assertEqual(response.status_code, 302)
-    #     url = reverse("companies:list_my_companies")
-    #     expected_url = f"{url}?next=abc"
-    #     self.assertRedirects(response, expected_url)
-
 
 class TestReplaceCompany(TestCompany):
     def setUp(self) -> None:

@@ -68,10 +68,6 @@ def create_company_view(request, create_my_company=False):
 
             company.save()
 
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
-
             if create_my_company:
                 return redirect("companies:list_my_companies")
 
