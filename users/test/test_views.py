@@ -64,6 +64,12 @@ class TestReplaceUser(TestUser):
             User.objects.filter(email="test@test.pl", pk=self.user.pk).exists()
         )
 
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
 
 class TestRegisterUser(TestUser):
     def setUp(self) -> None:

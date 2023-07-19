@@ -187,3 +187,9 @@ class TestReplaceItem(TestItem):
             ).count(),
             1,
         )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)

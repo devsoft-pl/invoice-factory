@@ -303,3 +303,9 @@ class TestReplaceCompany(TestCompany):
                 name="test", nip="98765", is_my_company=True, user=self.user
             ).exists()
         )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)

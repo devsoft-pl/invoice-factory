@@ -159,3 +159,9 @@ class TestReplaceVatRate(TestVatRate):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
         self.assertTrue(VatRate.objects.filter(rate="12", user=self.user).exists())
+
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
