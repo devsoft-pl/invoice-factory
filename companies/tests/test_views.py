@@ -49,7 +49,7 @@ class TestListCompanies(TestCompany):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "companies/list_my_companies.html")
 
-    def test_list_companies_second_pag(self):
+    def test_list_companies_second_page(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=2")
 
@@ -57,6 +57,20 @@ class TestListCompanies(TestCompany):
 
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_companies[10:])
+
+    def test_returns_last_page_when_non_existent(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=666")
+
+        object_list = response.context["companies"]
+        self.assertListEqual(list(object_list), self.user_companies[10:])
+
+    def test_returns_first_page_when_abc(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page=abc")
+
+        object_list = response.context["companies"]
+        self.assertListEqual(list(object_list), self.user_companies[:10])
 
 
 class TestDetailCompany(TestCompany):
