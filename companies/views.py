@@ -54,8 +54,7 @@ def detail_company_view(request, company_id):
 @login_required
 def create_company_view(request, create_my_company=False):
     if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = CompanyForm(initial=initial, current_user=request.user)
+        form = CompanyForm(current_user=request.user)
     else:
         form = CompanyForm(data=request.POST, current_user=request.user)
 
