@@ -86,7 +86,7 @@ class TestDeleteVatRate(TestVatRate):
         self.assertEqual(response.status_code, 302)
 
     def test_return_404_if_not_my_vat_rate(self):
-        url = reverse("countries:delete_country", args=[self.other_rate.pk])
+        url = reverse("items:delete_item", args=[self.other_rate.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
@@ -138,7 +138,7 @@ class TestReplaceVatRate(TestVatRate):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_return_404_if_not_my_vat_rate(self):
-        url = reverse("countries:replace_country", args=[self.other_rate.pk])
+        url = reverse("items:replace_item", args=[self.other_rate.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
