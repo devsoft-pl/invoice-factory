@@ -33,7 +33,7 @@ class TestDeleteItem(TestItem):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_country_if_logged(self):
+    def test_delete_item_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -41,7 +41,7 @@ class TestDeleteItem(TestItem):
             Item.objects.get(pk=self.item.pk)
         self.assertEqual(response.status_code, 302)
 
-    def rest_return_404_if_not_my_item(self):
+    def test_return_404_if_not_my_item(self):
         url = reverse("items:delete_item", args=[self.other_item.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
@@ -128,7 +128,7 @@ class TestReplaceItem(TestItem):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def rest_return_404_if_not_my_item(self):
+    def test_return_404_if_not_my_item(self):
         url = reverse("items:replace_item", args=[self.other_item.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
