@@ -74,7 +74,7 @@ class TestDeleteCurrency(TestCurrency):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_country(self):
+    def test_delete_currency(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -82,12 +82,13 @@ class TestDeleteCurrency(TestCurrency):
             Currency.objects.get(pk=self.currency.pk)
         self.assertEqual(response.status_code, 302)
 
-    def rest_return_404_if_not_my_countries(self):
-        url = reverse("countries:delete_country", args=[self.other_currency.pk])
+    def test_return_404_if_not_my_currency(self):
+        url = reverse("currencies:delete_currency", args=[self.other_currency.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.context["exception"], "Currency does not exist")
 
 
 class TestCreateCurrency(TestCurrency):
@@ -135,12 +136,13 @@ class TestReplaceCurrency(TestCurrency):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def rest_return_404_if_not_my_countries(self):
-        url = reverse("countries:replace_country", args=[self.other_currency.pk])
+    def test_return_404_if_not_my_currency(self):
+        url = reverse("currencies:replace_currency", args=[self.other_currency.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.context["exception"], "Currency does not exist")
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.username, password="test")
