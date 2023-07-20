@@ -150,3 +150,15 @@ class TestPasswordChangeUser(TestUser):
         user = User.objects.get(username=self.user.username)
 
         self.assertTrue(user.check_password(new_password))
+
+    def test_get_form(self):
+        self.client.login(username=self.user.username, password=self.password)
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_is_not_authenticated(self):
+        response = self.client.get(self.url, fallow=True)
+
+        self.assertEqual(response.status_code, 404)
+
