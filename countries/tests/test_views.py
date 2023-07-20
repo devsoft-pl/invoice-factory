@@ -82,12 +82,13 @@ class TestDeleteCountry(TestCountry):
             Country.objects.get(pk=self.country.pk)
         self.assertEqual(response.status_code, 302)
 
-    def rest_return_404_if_not_my_countries(self):
+    def test_return_404_if_not_my_countries(self):
         url = reverse("countries:delete_country", args=[self.other_country.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.context["exception"], "Country does not exist")
 
 
 class TestCreateCountry(TestCountry):
@@ -141,12 +142,13 @@ class TestReplaceCountry(TestCountry):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def rest_return_404_if_not_my_countries(self):
+    def test_return_404_if_not_my_countries(self):
         url = reverse("countries:replace_country", args=[self.other_country.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.context["exception"], "Country does not exist")
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.username, password="test")
