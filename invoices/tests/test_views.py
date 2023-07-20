@@ -86,7 +86,7 @@ class TestDetailInvoice(TestInvoice):
         self.assertTemplateUsed(response, "invoices/detail_invoice.html")
         self.assertEqual(self.invoice.pk, response.context["invoice"].pk)
 
-    def rest_return_404_if_not_my_invoice(self):
+    def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:detail_invoice", args=[self.other_invoice.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
@@ -113,7 +113,7 @@ class TestDeleteInvoice(TestInvoice):
             Invoice.objects.get(pk=self.invoice.pk)
         self.assertEqual(response.status_code, 302)
 
-    def rest_return_404_if_not_my_invoice(self):
+    def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:delete_invoice", args=[self.other_invoice.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
@@ -211,7 +211,7 @@ class TestReplaceInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def rest_return_404_if_not_my_invoice(self):
+    def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:replace_invoice", args=[self.other_invoice.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)
@@ -279,7 +279,7 @@ class TestPdfInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def rest_return_404_if_not_my_invoice(self):
+    def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:pdf_invoice", args=[self.other_invoice.pk])
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(url)

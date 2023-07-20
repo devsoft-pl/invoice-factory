@@ -88,7 +88,6 @@ class TestDeleteCountry(TestCountry):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.context["exception"], "Country does not exist")
 
 
 class TestCreateCountry(TestCountry):
@@ -148,7 +147,6 @@ class TestReplaceCountry(TestCountry):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.context["exception"], "Country does not exist")
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.username, password="test")

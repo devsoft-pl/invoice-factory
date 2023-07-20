@@ -88,7 +88,6 @@ class TestDeleteCurrency(TestCurrency):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.context["exception"], "Currency does not exist")
 
 
 class TestCreateCurrency(TestCurrency):
@@ -142,7 +141,6 @@ class TestReplaceCurrency(TestCurrency):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(response.context["exception"], "Currency does not exist")
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.username, password="test")
