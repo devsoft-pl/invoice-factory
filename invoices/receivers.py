@@ -4,6 +4,8 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.text import format_lazy
 
+from base.settings import EMAIL_SENDER
+
 
 @receiver(post_save, sender=User)
 def send_welcome_email(sender, instance: User, created=False, **kwargs):
@@ -19,7 +21,7 @@ def send_welcome_email(sender, instance: User, created=False, **kwargs):
         send_mail(
             subject,
             content,
-            from_email="wioletta.wajda82@gmail.com",
+            from_email=EMAIL_SENDER,
             recipient_list=[instance.email],
         )
 
