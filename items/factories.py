@@ -18,3 +18,10 @@ class ItemFactory(factory.django.DjangoModelFactory):
     net_price = fuzzy.FuzzyDecimal(100, 10000)
     vat = factory.SubFactory(VatRateFactory)
     user = factory.SubFactory(UserFactory)
+
+
+class ItemDictFactory(factory.DictFactory):
+    name = factory.Sequence(lambda n: "Name %03d" % n)
+    pkwiu = factory.Sequence(lambda n: "PKWIU %03d" % n)
+    amount = fuzzy.FuzzyInteger(1, 5)
+    net_price = fuzzy.FuzzyDecimal(100, 10000)
