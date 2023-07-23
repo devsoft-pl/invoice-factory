@@ -6,7 +6,7 @@ from factory import fuzzy
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import Invoice
-from users.factories import UserFactory
+from users.factories import UserDictFactory, UserFactory
 
 
 class InvoiceFactory(factory.django.DjangoModelFactory):
@@ -30,3 +30,19 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     client = factory.SubFactory(CompanyFactory)
     user = factory.SubFactory(UserFactory)
+
+
+class InvoiceDictFactory(factory.DictFactory):
+    invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
+    invoice_type = factory.fuzzy.FuzzyChoice(
+        Invoice.INVOICE_TYPES, getter=lambda i: i[0]
+    )
+    create_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
+    sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
+    payment_date = factory.Faker(
+        "date_between_dates", date_start=factory.SelfAttribute("..sale_date")
+    )
+    payment_method = factory.fuzzy.FuzzyChoice(
+        Invoice.PAYMENT_METHOD, getter=lambda p: p[0]
+    )
+    account_number = factory.Sequence(lambda n: "Account number %03d" % n)
