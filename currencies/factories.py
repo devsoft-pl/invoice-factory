@@ -9,4 +9,4 @@ class CurrencyFactory(factory.django.DjangoModelFactory):
         model = Currency
 
     code = factory.Sequence(lambda n: "Code %03d" % n)
-    user = user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory)
