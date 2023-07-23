@@ -161,4 +161,3 @@ class TestPasswordChangeUser(TestUser):
         response = self.client.get(self.url, fallow=True)
 
         self.assertEqual(response.status_code, 404)
-
