@@ -1,9 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
+from base.mixins import OwnedObjectsMixin
 from invoices.models import Invoice
 from invoices.serializers import InvoiceSerializer
-from users.views_api import OwnedObjectsMixin
 
 
 class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):

@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
+from base.mixins import OwnedObjectsMixin
 from countries.models import Country
 from countries.serializers import CountrySerializer
-from users.views_api import OwnedObjectsMixin
 
 
 class CountryViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):

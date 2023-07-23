@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
+from base.mixins import OwnedObjectsMixin
 from currencies.models import Currency
 from currencies.serializers import CurrencySerializer
-from users.views_api import OwnedObjectsMixin
 
 
 class CurrencyViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
