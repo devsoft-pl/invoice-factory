@@ -5,7 +5,7 @@ from users.serializers import UserSerializer
 
 
 @pytest.mark.django_db
-class TestCreateUser:
+class TestUserSerializer:
     @pytest.fixture(autouse=True)
     def set_up(self):
         self.user_data = UserDictFactory()
