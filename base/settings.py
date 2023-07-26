@@ -149,7 +149,7 @@ CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
 CELERY_BEAT_SCHEDULE = {
     # It occurs at 7 am on the day of creation
-    "reminder to create an invoice": {
+    "reminder-to-create-an-invoice": {
         "task": "invoices.tasks.invoice_notification",
         "schedule": crontab(minute=0, hour=7),
     },
