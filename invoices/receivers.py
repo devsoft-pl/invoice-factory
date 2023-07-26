@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from django.utils.text import format_lazy
+from django.utils.text import format_lazy as _
 
 from base.settings import EMAIL_SENDER
 
@@ -11,7 +11,7 @@ from base.settings import EMAIL_SENDER
 def send_welcome_email(sender, instance: User, created=False, **kwargs):
     if created and instance.email:
         subject = _(f"Welcome in Invoice Manager")
-        content = format_lazy(
+        content = _(
             "Thanks for your registration. Your account details: \n "
             "Login: {username} \n"
             "Best regards,\n"
@@ -30,7 +30,7 @@ def send_welcome_email(sender, instance: User, created=False, **kwargs):
 def send_goodbye_email(sender, instance: User, **kwargs):
     if instance.email:
         subject = _("Goodbye in Invoice Manager")
-        content = format_lazy(
+        content = _(
             "Thank you for using our Invoice Manager\n"
             "We hope you will come back to us again: {username}\n"
             "Best regards,\n"
