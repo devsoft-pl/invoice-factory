@@ -5,4 +5,3 @@ class OwnedObjectsMixin:
             return super().get_queryset()
         else:
             return super().get_queryset().filter(user_id=user.id)
-
