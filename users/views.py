@@ -1,11 +1,11 @@
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 
-from users.forms import UserForm
+from users.forms import UserForm, UserCreationForm
 
 
 def register_user_view(request):
