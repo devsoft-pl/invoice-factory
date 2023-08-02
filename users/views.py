@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 
-from users.forms import UserForm, UserCreationForm
+from users.forms import UserCreationForm, UserForm
 
 
 def register_user_view(request):
