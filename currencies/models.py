@@ -22,7 +22,7 @@ class ExchangeRate(models.Model):
         verbose_name=_("Buy rate"), max_digits=5, decimal_places=4, default=0
     )
     sell_rate = models.DecimalField(
-        verbose_name=_("Buy rate"), max_digits=5, decimal_places=4, default=0
+        verbose_name=_("Sell rate"), max_digits=5, decimal_places=4, default=0
     )
     date = models.DateField(verbose_name=_("Date"))
     currency = models.ForeignKey(
