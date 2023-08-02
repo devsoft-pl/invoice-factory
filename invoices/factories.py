@@ -6,7 +6,7 @@ from factory import fuzzy
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import Invoice
-from users.factories import UserDictFactory, UserFactory
+from users.factories import UserFactory
 
 
 class InvoiceFactory(factory.django.DjangoModelFactory):
