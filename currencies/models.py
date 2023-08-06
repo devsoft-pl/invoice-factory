@@ -28,7 +28,7 @@ class Currency(models.Model):
 
 
 @receiver(post_save, sender=Currency)
-def create_exchange_rate(sender, instance: Currency, created=False, **kwargs):
+def create_exchange_rates(sender, instance: Currency, created=False, **kwargs):
     from currencies.tasks import get_exchange_rate_for_currency
 
     if created:
