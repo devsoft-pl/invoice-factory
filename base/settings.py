@@ -149,7 +149,7 @@ CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
 CELERY_BEAT_SCHEDULE = {
     "get-exchange-rates-from-nbp": {
-        "task": "currencies.tasks.get_exchange_rates",
+        "task": "currencies.tasks.get_exchange_rates_for_all",
         "schedule": crontab(minute="0", hour="9"),
     },
 }
