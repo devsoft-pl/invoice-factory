@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Wioletta Wajda <wioletta.wajda@devsoft.pl>"]
 readme = "README.md"
-packages = [{include = "invoice_manager"}]
+packages = []
 
 [tool.poetry.dependencies]
 python = "^3.10"
