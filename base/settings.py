@@ -148,10 +148,9 @@ EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
 CELERY_BEAT_SCHEDULE = {
-    # It occurs at 7 am on the day of creation
-    "reminder-to-create-an-invoice": {
-        "task": "invoices.tasks.invoice_notification",
-        "schedule": crontab(minute=0, hour=7),
+    "get-exchange-rates-from-nbp": {
+        "task": "currencies.tasks.get_exchange_rates",
+        "schedule": crontab(minute="0", hour="9"),
     },
 }
 
