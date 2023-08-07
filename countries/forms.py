@@ -1,7 +1,7 @@
 from django import forms
+from django.utils.translation import gettext as _
 
 from countries.models import Country
-from django.utils.translation import gettext as _
 
 
 class CountryForm(forms.ModelForm):
@@ -22,3 +22,4 @@ class CountryForm(forms.ModelForm):
         if country.exists():
             raise forms.ValidationError(_("Country already exists"))
 
+        return country
