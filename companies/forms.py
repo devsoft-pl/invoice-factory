@@ -8,6 +8,12 @@ from countries.models import Country
 class CompanyForm(forms.ModelForm):
     next = forms.CharField(widget=forms.HiddenInput(), required=False)
 
+    def __init__(self, current_user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["country"].queryset = Country.objects.filter(
+            user=current_user
+        ).order_by("country")
+
     class Meta:
         model = Company
         fields = [
@@ -23,11 +29,21 @@ class CompanyForm(forms.ModelForm):
             "phone_number",
         ]
 
-    def __init__(self, *args, current_user, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["country"].queryset = Country.objects.filter(
-            user=current_user
-        ).order_by("country")
+    def clean_nip(self):
+        nip = self.cleaned_data.get("nip")
+        company = Company.objects.filter(nip=nip)
+
+        if company.exists():
+            raise forms.ValidationError(_("Company already exists"))
+
+        return company
+
+    def clean_regon(self):
+        regon = self.cleaned_data.get("regon")
+        company = Company.objects.filter(regon=regon)
+
+        if company.exists():
+            raise forms.ValidationError(_("Company already exists"))
 
 
 class CompanyFilterForm(forms.Form):
