@@ -18,8 +18,8 @@ class VatRateForm(forms.ModelForm):
     def clean_rate(self):
         rate = self.cleaned_data.get("rate")
 
-        rate = VatRate.objects.filter(rate=rate, user=self.user)
-        if rate.exists():
+        vat_rate = VatRate.objects.filter(rate=rate, user=self.user)
+        if vat_rate.exists():
             raise forms.ValidationError(_("Vat rate already exists"))
 
-        return rate
+        return vat_rate
