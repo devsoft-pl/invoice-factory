@@ -17,6 +17,7 @@ class Currency(models.Model):
     class Meta:
         verbose_name_plural = _("currencies")
         ordering = ["code"]
+        unique_together = ["code", "user"]
 
     @property
     def last_exchange_rate(self):
