@@ -24,6 +24,7 @@ class InvoiceForm(forms.ModelForm):
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
+        self.current_user = current_user
         self.fields["company"].queryset = Company.objects.filter(
             user=current_user, is_my_company=True
         ).order_by("name")
@@ -33,6 +34,17 @@ class InvoiceForm(forms.ModelForm):
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
         ).order_by("code")
+
+    def clean_invoice_number(self):
+        invoice_number = self.cleaned_data.get("invoice_number")
+        invoice = Invoice.objects.filter(
+            invoice_number=invoice_number, user=self.current_user
+        )
+
+        if invoice.exists():
+            raise forms.ValidationError(_("Invoice number already exists"))
+
+        return invoice_number
 
 
 class InvoiceFilterForm(forms.Form):
