@@ -28,9 +28,9 @@ def list_countries_view(request):
 def create_country_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
-        form = CountryForm(initial=initial)
+        form = CountryForm(initial=initial, user=request.user)
     else:
-        form = CountryForm(data=request.POST)
+        form = CountryForm(data=request.POST, user=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
