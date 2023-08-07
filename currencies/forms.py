@@ -17,8 +17,8 @@ class CurrencyForm(forms.ModelForm):
 
     def clean_code(self):
         code = self.cleaned_data.get("code")
-
         currency = Currency.objects.filter(code=code, user=self.user)
+
         if currency.exists():
             raise forms.ValidationError(_("Currency already exists"))
 
