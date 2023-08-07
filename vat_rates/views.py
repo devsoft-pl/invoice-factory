@@ -28,9 +28,9 @@ def list_vat_rates_view(request):
 def create_vat_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
-        form = VatRateForm(initial=initial)
+        form = VatRateForm(initial=initial, user=request.user)
     else:
-        form = VatRateForm(data=request.POST)
+        form = VatRateForm(data=request.POST, user=request.user)
 
         if form.is_valid():
             vat_rate = form.save(commit=False)
