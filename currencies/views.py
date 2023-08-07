@@ -28,9 +28,9 @@ def list_currencies_view(request):
 def create_currency_view(request):
     if request.method != "POST":
         initial = {"next": request.GET.get("next")}
-        form = CurrencyForm(initial=initial)
+        form = CurrencyForm(initial=initial, user=request.user)
     else:
-        form = CurrencyForm(data=request.POST)
+        form = CurrencyForm(data=request.POST, user=request.user)
 
         if form.is_valid():
             currency = form.save(commit=False)
