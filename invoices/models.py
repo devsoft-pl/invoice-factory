@@ -86,6 +86,7 @@ class Invoice(models.Model):
 
     class Meta:
         ordering = ["-sale_date"]
+        unique_together = ["invoice_number", "user"]
 
     def __str__(self):
         return self.invoice_number or f"#{self.id}"
