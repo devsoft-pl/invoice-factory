@@ -14,3 +14,4 @@ class VatRate(models.Model):
 
     class Meta:
         ordering = ["rate"]
+        unique_together = ["rate", "user"]
