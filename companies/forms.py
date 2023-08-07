@@ -10,6 +10,7 @@ class CompanyForm(forms.ModelForm):
 
     def __init__(self, current_user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.current_user = current_user
         self.fields["country"].queryset = Country.objects.filter(
             user=current_user
         ).order_by("country")
@@ -31,19 +32,21 @@ class CompanyForm(forms.ModelForm):
 
     def clean_nip(self):
         nip = self.cleaned_data.get("nip")
-        company = Company.objects.filter(nip=nip)
+        company = Company.objects.filter(nip=nip, user=self.current_user)
 
         if company.exists():
-            raise forms.ValidationError(_("Company already exists"))
+            raise forms.ValidationError(_("Nip already exists"))
 
-        return company
+        return nip
 
     def clean_regon(self):
         regon = self.cleaned_data.get("regon")
-        company = Company.objects.filter(regon=regon)
+        company = Company.objects.filter(regon=regon, user=self.current_user)
 
         if company.exists():
-            raise forms.ValidationError(_("Company already exists"))
+            raise forms.ValidationError(_("Regon already exists"))
+
+        return regon
 
 
 class CompanyFilterForm(forms.Form):
