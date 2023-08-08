@@ -10,3 +10,8 @@ class CountryFactory(factory.django.DjangoModelFactory):
 
     country = factory.Sequence(lambda n: "Country %03d" % n)
     user = factory.SubFactory(UserFactory)
+
+
+class CountryDictFactory(factory.DictFactory):
+    country = factory.Sequence(lambda n: "Country %03d" % n)
+
