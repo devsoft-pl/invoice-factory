@@ -17,9 +17,9 @@ class CountryForm(forms.ModelForm):
 
     def clean_country(self):
         country = self.cleaned_data.get("country")
-        country = Country.objects.filter(country=country, user=self.user)
+        land = Country.objects.filter(country=country, user=self.user)
 
-        if country.exists():
+        if land.exists():
             raise forms.ValidationError(_("Country already exists"))
 
         return country
