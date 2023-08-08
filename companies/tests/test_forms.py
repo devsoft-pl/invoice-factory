@@ -1,6 +1,6 @@
 import pytest
 
-from companies.factories import CompanyFactory
+from companies.factories import CompanyDictFactory, CompanyFactory
 from companies.forms import CompanyFilterForm, CompanyForm
 from companies.models import Company
 from countries.factories import CountryFactory
@@ -100,3 +100,21 @@ class TestCompanyForm:
         )
         assert set(form_countries_ids) == set(user_countries_ids)
         assert form_countries_ids.count() == user_countries_ids.count()
+
+    def test_form_with_valid_data(self):
+        data = CompanyDictFactory(country=self.country_1)
+        form = CompanyForm(data=data, current_user=self.user)
+        assert form.is_valid()
+        assert form.errors == {}
+
+    def test_clean_nip_returns_error(self):
+        data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)
+        form = CompanyForm(data=data, current_user=self.user)
+        assert not form.is_valid()
+        assert form.errors == {"nip": ["Nip already exists"]}
+
+    def test_clean_regon_returns_error(self):
+        data = CompanyDictFactory(country=self.country_1, regon=self.company_1.regon)
+        form = CompanyForm(data=data, current_user=self.user)
+        assert not form.is_valid()
+        assert form.errors == {"regon": ["Regon already exists"]}
