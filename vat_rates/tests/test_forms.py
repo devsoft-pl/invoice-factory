@@ -10,7 +10,6 @@ class TestVatRateForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.user = UserFactory.create()
-        self.vat_rate = VatRateFactory.create(user=self.user)
 
     def test_form_with_valid_data(self):
         data = VatRateDictFactory()
@@ -19,7 +18,9 @@ class TestVatRateForm:
         assert form.errors == {}
 
     def test_clean_rate_returns_error(self):
-        data = VatRateDictFactory(rate=self.vat_rate.rate)
+        vat_rate = VatRateFactory.create(user=self.user)
+        data = VatRateDictFactory(rate=vat_rate.rate)
         form = VatRateForm(user=self.user, data=data)
         assert not form.is_valid()
         assert form.errors == {"rate": ["Vat rate already exists"]}
+
