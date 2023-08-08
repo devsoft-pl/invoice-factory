@@ -14,4 +14,3 @@ class CountryFactory(factory.django.DjangoModelFactory):
 
 class CountryDictFactory(factory.DictFactory):
     country = factory.Sequence(lambda n: "Country %03d" % n)
-

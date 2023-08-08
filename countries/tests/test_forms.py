@@ -1,6 +1,6 @@
 import pytest
 
-from countries.factories import CountryFactory, CountryDictFactory
+from countries.factories import CountryDictFactory, CountryFactory
 from countries.forms import CountryForm
 from users.factories import UserFactory
 
@@ -22,4 +22,4 @@ class TestCountryForm:
         data = CountryDictFactory(country=country.country)
         form = CountryForm(user=self.user, data=data)
         assert not form.is_valid()
-        assert form.errors == {'country': ['Country already exists']}
+        assert form.errors == {"country": ["Country already exists"]}
