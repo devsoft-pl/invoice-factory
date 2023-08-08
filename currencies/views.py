@@ -56,9 +56,9 @@ def replace_currency_view(request, currency_id):
         raise Http404(_("Currency does not exist"))
 
     if request.method != "POST":
-        form = CurrencyForm(instance=currency)
+        form = CurrencyForm(instance=currency, user=request.user)
     else:
-        form = CurrencyForm(instance=currency, data=request.POST)
+        form = CurrencyForm(instance=currency, data=request.POST, user=request.user)
 
         if form.is_valid():
             form.save()

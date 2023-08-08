@@ -56,9 +56,9 @@ def replace_country_view(request, country_id):
         raise Http404(_("Country does not exist"))
 
     if request.method != "POST":
-        form = CountryForm(instance=country)
+        form = CountryForm(instance=country, user=request.user)
     else:
-        form = CountryForm(instance=country, data=request.POST)
+        form = CountryForm(instance=country, data=request.POST, user=request.user)
 
         if form.is_valid():
             form.save()

@@ -56,9 +56,9 @@ def replace_vat_view(request, vat_id):
         raise Http404(_("Vat rate does not exist"))
 
     if request.method != "POST":
-        form = VatRateForm(instance=vat_rate)
+        form = VatRateForm(instance=vat_rate, user=request.user)
     else:
-        form = VatRateForm(instance=vat_rate, data=request.POST)
+        form = VatRateForm(instance=vat_rate, data=request.POST, user=request.user)
 
         if form.is_valid():
             form.save()
