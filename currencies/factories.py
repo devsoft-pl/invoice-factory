@@ -15,6 +15,10 @@ class CurrencyFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
 
 
+class CurrencyDictFactory(factory.DictFactory):
+    code = factory.Sequence(lambda n: "Code %03d" % n)
+
+
 class ExchangeRateFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ExchangeRate
