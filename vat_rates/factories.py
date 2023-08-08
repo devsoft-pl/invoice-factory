@@ -9,5 +9,5 @@ class VatRateFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = VatRate
 
-    rate = factory.Sequence(lambda n: n+1)
+    rate = factory.Sequence(lambda n: n + 1)
     user = factory.SubFactory(UserFactory)
