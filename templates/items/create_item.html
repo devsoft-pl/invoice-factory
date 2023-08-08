@@ -1,21 +1,24 @@
 {% extends "base.html" %}{% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'items.css' %}">
-{% endblock extra_css %}
-
 {% block content %}
-
-    <div class="top_actions">
-        <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:detail_invoice' invoice.pk %}">{{ invoice.invoice_number }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'items:create_item' invoice.pk %}" method='post'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+                <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+            </form>
+        </div>
     </div>
-
-    <h1>Nowa przedmiot</h1>
-
-    <form action="{% url 'items:create_item' invoice.pk %}" method='post'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Dodaj</button>
-    </form>
-
 {% endblock content %}
