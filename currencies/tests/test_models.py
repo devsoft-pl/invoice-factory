@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 
 from currencies.factories import CurrencyFactory, ExchangeRateFactory
@@ -11,6 +13,26 @@ class TestCurrencyModel:
 
     def test_str_returns_currency_code(self):
         assert self.currency.__str__() == self.currency.code
+
+    def test_returns_last_exchange_rate(self):
+        ExchangeRateFactory.create(
+            currency=self.currency, date=datetime.datetime(2023, 8, 5)
+        )
+        last_exchange_rate = ExchangeRateFactory.create(
+            currency=self.currency, date=datetime.datetime(2023, 8, 10)
+        )
+
+        assert self.currency.last_exchange_rate == last_exchange_rate
+
+    def test_not_returns_older_exchange_rate(self):
+        exchange_rate = ExchangeRateFactory.create(
+            currency=self.currency, date=datetime.datetime(2023, 8, 5)
+        )
+        ExchangeRateFactory.create(
+            currency=self.currency, date=datetime.datetime(2023, 8, 10)
+        )
+
+        assert self.currency.last_exchange_rate != exchange_rate
 
 
 @pytest.mark.django_db
