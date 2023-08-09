@@ -27,7 +27,7 @@ class NBPExchangeRatesAdapter:
         return data["rates"][0]["ask"]
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     adapter = NBPExchangeRatesAdapter()
     currency_buy_rate = adapter.get_currency_buy_rate("usd")
     print(f"Kurs kupna: {currency_buy_rate}")
