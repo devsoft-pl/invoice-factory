@@ -4,7 +4,7 @@ from companies.factories import CompanyFactory
 from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
-from invoices.factories import InvoiceFactory
+from invoices.factories import InvoiceDictFactory, InvoiceFactory
 from invoices.forms import InvoiceFilterForm, InvoiceForm
 from invoices.models import Invoice
 from users.factories import UserFactory
@@ -19,10 +19,14 @@ class TestInvoiceForm:
         self.currency_1 = CurrencyFactory.create(user=self.user)
         self.currency_2 = CurrencyFactory.create()
 
-        self.company_1 = CompanyFactory.create(name="Devsoft", user=self.user)
+        self.company_1 = CompanyFactory.create(
+            name="Devsoft", user=self.user, is_my_company=True
+        )
         self.company_2 = CompanyFactory.create(name="Microsoft", user=self.user)
 
-        self.client_1 = CompanyFactory.create(name="Faktoria", user=self.user)
+        self.client_1 = CompanyFactory.create(
+            name="Faktoria", user=self.user, is_my_company=False
+        )
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
         self.invoice_1 = InvoiceFactory.create(
@@ -158,3 +162,22 @@ class TestInvoiceForm:
         ).values_list("id", flat=True)
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
+
+    def test_form_with_valid_data(self):
+        data = InvoiceDictFactory(
+            company=self.company_1, client=self.client_1, currency=self.currency_1
+        )
+        form = InvoiceForm(current_user=self.user, data=data)
+        assert form.is_valid()
+        assert form.errors == {}
+
+    def test_clean_invoice_number_returns_error(self):
+        data = InvoiceDictFactory(
+            company=self.company_1,
+            client=self.client_1,
+            currency=self.currency_1,
+            invoice_number=self.invoice_1.invoice_number,
+        )
+        form = InvoiceForm(current_user=self.user, data=data)
+        assert not form.is_valid()
+        assert form.errors == {"invoice_number": ["Invoice number already exists"]}
