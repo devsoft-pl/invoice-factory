@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -41,3 +41,9 @@ class TestNBPExchangeRatesAdapter:
 
         assert not self.adapter.get_currency_buy_rate("USD")
         assert not self.adapter.get_currency_sell_rate("USD")
+
+    @patch("currencies.nbp.adapter.requests.get")
+    def test_get_currency_rates_not_returns_status_code_200(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(status_code=400)
+
+        assert not self.adapter._get_currency_rates("USD")
