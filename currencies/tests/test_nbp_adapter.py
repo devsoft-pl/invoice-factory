@@ -34,3 +34,10 @@ class TestNBPExchangeRatesAdapter:
         _get_currency_rates_mock.return_value = self.currency_rates_value
 
         assert self.adapter.get_currency_sell_rate("USD") == 4.0562
+
+    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter._get_currency_rates")
+    def test_returns_none_when_not_data(self, _get_currency_rates_mock):
+        _get_currency_rates_mock.return_value = {}
+
+        assert not self.adapter.get_currency_buy_rate("USD")
+        assert not self.adapter.get_currency_sell_rate("USD")
