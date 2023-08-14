@@ -114,7 +114,16 @@ class TestCreateCurrency(TestCurrency):
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("currencies:list_currencies"))
-        self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).exists())
+        self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
+
+    def test_create_currency_with_valid_data_and_next(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(
+            self.url, {"code": "PLN", "next": reverse("invoices:create_invoice")}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:create_invoice"))
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
 
     def test_get_form(self):
