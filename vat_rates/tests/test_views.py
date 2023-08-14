@@ -117,7 +117,17 @@ class TestCreateVatRate(TestVatRate):
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
-        self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).exists())
+        self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).count(), 1)
+
+    def test_create_vat_rate_with_valid_data_and_next(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(
+            self.url, {"rate": "23", "next": reverse("vat_rates:create_vat")}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("vat_rates:create_vat"))
+        self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).count(), 1)
 
     def test_get_form(self):
         self.client.login(username=self.user.username, password="test")
