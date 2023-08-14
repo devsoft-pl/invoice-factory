@@ -14,6 +14,15 @@ class CompanyForm(forms.ModelForm):
         self.fields["country"].queryset = Country.objects.filter(
             user=current_user
         ).order_by("country")
+        self.fields["name"].widget.attrs["class"] = "form-control"
+        self.fields["nip"].widget.attrs["class"] = "form-control"
+        self.fields["regon"].widget.attrs["class"] = "form-control"
+        self.fields["country"].widget.attrs["class"] = "form-control"
+        self.fields["address"].widget.attrs["class"] = "form-control"
+        self.fields["zip_code"].widget.attrs["class"] = "form-control"
+        self.fields["city"].widget.attrs["class"] = "form-control"
+        self.fields["email"].widget.attrs["class"] = "form-control"
+        self.fields["phone_number"].widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Company
