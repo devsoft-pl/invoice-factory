@@ -108,13 +108,13 @@
                     </div>
                 </div>
                 {% if request.GET.next %}
-                    <a href="{{ request.GET.next }}">Powrót</a>
+                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
                 {% else %}
-                {% if create_my_company %}
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
-                {% else %}
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
-                {% endif %}
+                    {% if create_my_company %}
+                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                    {% else %}
+                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
+                    {% endif %}
                 {% endif %}
                 <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
             </form>

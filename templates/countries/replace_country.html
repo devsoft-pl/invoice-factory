@@ -11,10 +11,19 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.next }}
+                <div class="row mb-3">
+                    <div class="col-1">
+                        {{ form.country.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.country }}
+                        {{ form.code.country }}
+                    </div>
+                </div>
                 {% if request.GET.next %}
                     <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
                 {% else %}

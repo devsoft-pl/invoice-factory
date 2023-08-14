@@ -15,7 +15,106 @@
         <div class="row">
             <form action="{% url 'invoices:replace_invoice' invoice.pk %}" method='post'>
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.next }}
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.invoice_number.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.invoice_number }}
+                        {{ form.invoice_number.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.invoice_type.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.invoice_type }}
+                        {{ form.invoice_type.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.company.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.company }}
+                        {{ form.company.errors }}
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.client.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.client }}
+                        {{ form.client.errors }}
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj kontrahenta</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.create_date.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.create_date }}
+                        {{ form.create_date.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.sale_date.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.sale_date }}
+                        {{ form.sale_date.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.payment_date.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.payment_date }}
+                        {{ form.payment_date.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.payment_method.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.payment_method }}
+                        {{ form.payment_method.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.currency.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.currency }}
+                        {{ form.currency.errors }}
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.account_number.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.account_number }}
+                        {{ form.account_number.errors }}
+                    </div>
+                </div>
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
                 <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
             </form>
