@@ -5,7 +5,8 @@ import pytest
 
 from currencies.factories import CurrencyFactory, ExchangeRateFactory
 from currencies.models import ExchangeRate
-from currencies.tasks import get_exchange_rates_for_all
+from currencies.tasks import (get_exchange_rate_for_currency,
+                              get_exchange_rates_for_all)
 from users.factories import UserFactory
 
 
@@ -15,15 +16,16 @@ class TestExchangeRatesTasks:
     def set_up(self) -> None:
         self.user = UserFactory.create()
         self.currency_usd = CurrencyFactory.create(user=self.user, code="USD")
-        self.currency_eur = CurrencyFactory.create(user=self.user, code="eur")
         self.buy_rate = "3.9758"
         self.sell_rate = "4.0562"
 
     @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
     @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
-    def test_get_exchange_rates_when_buy_rate_and_sell_rate_exists(
+    def test_should_create_exchange_rates_when_buy_rate_and_sell_rate(
         self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
     ):
+        self.currency_eur = CurrencyFactory.create(user=self.user, code="eur")
+
         get_currency_buy_rate_mock.return_value = self.buy_rate
         get_currency_sell_rate_mock.return_value = self.sell_rate
 
@@ -51,9 +53,11 @@ class TestExchangeRatesTasks:
 
     @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
     @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
-    def test_get_exchange_rates_when_buy_rate_and_sell_rate_not_exists(
+    def test_should_not_create_exchange_rates_when_no_buy_rate_and_no_sell_rate(
         self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
     ):
+        self.currency_eur = CurrencyFactory.create(user=self.user, code="eur")
+
         get_currency_buy_rate_mock.return_value = None
         get_currency_sell_rate_mock.return_value = None
 
@@ -68,6 +72,42 @@ class TestExchangeRatesTasks:
         assert (
             ExchangeRate.objects.filter(
                 date=datetime.today(), currency=self.currency_eur
+            ).count()
+            == 0
+        )
+
+    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
+    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
+    def test_should_create_exchange_rate_when_buy_rate_and_sell_rate(
+        self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
+    ):
+        get_currency_buy_rate_mock.return_value = self.buy_rate
+        get_currency_sell_rate_mock.return_value = self.sell_rate
+
+        get_exchange_rate_for_currency(self.currency_usd.id)
+
+        assert get_currency_buy_rate_mock.call_args_list == [call("usd")]
+
+        assert (
+            ExchangeRate.objects.filter(
+                date=datetime.today(), currency=self.currency_usd
+            ).count()
+            == 1
+        )
+
+    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
+    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
+    def test_should_not_create_exchange_rate_when_no_buy_rate_and_no_sell_rate(
+        self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
+    ):
+        get_currency_buy_rate_mock.return_value = None
+        get_currency_sell_rate_mock.return_value = None
+
+        get_exchange_rate_for_currency(self.currency_usd.id)
+
+        assert (
+            ExchangeRate.objects.filter(
+                date=datetime.today(), currency=self.currency_usd
             ).count()
             == 0
         )
