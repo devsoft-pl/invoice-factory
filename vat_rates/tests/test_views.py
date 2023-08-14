@@ -40,7 +40,7 @@ class TestListVatRates(TestVatRate):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_rates[:10])
 
-    def test_list_vat_rates_second_pag(self):
+    def test_list_vat_rates_second_page(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=2")
 
