@@ -117,8 +117,17 @@ class TestCreateCountry(TestCountry):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("countries:list_countries"))
         self.assertTrue(
-            Country.objects.filter(country="Polska", user=self.user).exists()
+            Country.objects.filter(country="Polska", user=self.user).count(), 1
         )
+
+    def test_create_country_with_valid_data_and_next(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.post(
+            self.url, {"country": "Polska", "next": reverse("companies:create_company")}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("companies:create_company"))
         self.assertTrue(
             Country.objects.filter(country="Polska", user=self.user).count(), 1
         )
