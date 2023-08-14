@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
                     <li class="breadcrumb-item">
                         {% if create_my_company %}
-                            <a href="{% url 'companies:list_my_companies' %}">Moja firma</a>
+                            <a href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
                         {% else %}
                             <a href="{% url 'companies:list_companies' %}">Kontrahenci</a>
                         {% endif %}
@@ -17,12 +17,96 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <form action="
                     {% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}"
                   method='post'>
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.next }}
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.name.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.nip.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.nip }}
+                        {{ form.nip.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.regon.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.regon }}
+                        {{ form.regon.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.country.label_tag }}
+                    </div>
+                    <div class="col-2">
+                        {{ form.country }}
+                        {{ form.country.errors }}
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary" href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj kraj</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.address.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.address }}
+                        {{ form.address.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.zip_code.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.zip_code }}
+                        {{ form.zip_code.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.city.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.city }}
+                        {{ form.city.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.email.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.phone_number.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.phone_number }}
+                        {{ form.phone_number.errors }}
+                    </div>
+                </div>
                 {% if request.GET.next %}
                     <a href="{{ request.GET.next }}">Powrót</a>
                 {% else %}
