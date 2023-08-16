@@ -37,17 +37,12 @@ def replace_item_view(request, item_id):
         raise Http404(_("Item does not exist"))
 
     if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = ItemForm(initial=initial, instance=item, current_user=request.user)
+        form = ItemForm(instance=item, current_user=request.user)
     else:
         form = ItemForm(instance=item, data=request.POST, current_user=request.user)
 
         if form.is_valid():
             form.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
 
             return redirect("invoices:detail_invoice", item.invoice.pk)
 
@@ -63,9 +58,5 @@ def delete_item_view(request, item_id):
         raise Http404(_("Item does not exist"))
 
     item.delete()
-
-    next_url = request.GET.get("next")
-    if next_url:
-        return redirect(next_url)
 
     return redirect("invoices:detail_invoice", item.invoice.pk)
