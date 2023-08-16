@@ -2,7 +2,10 @@ import calendar
 import logging
 from datetime import datetime, timedelta
 
+from django.core.mail import send_mail
+
 from base.celery import app
+from base.settings import EMAIL_SENDER
 from invoices.models import Invoice
 
 logger = logging.getLogger(__name__)
@@ -35,3 +38,17 @@ def create_invoices_for_recurring():
             item.pk = None
             item.invoice = new_invoice
             item.save()
+
+        if invoice.user.email:
+            subject = _("New recurring invoice")
+            content = _(
+                "A new recurring invoice has been created\n"
+                "Best regards,\n"
+                "Invoice Manager"
+            )
+            send_mail(
+                subject,
+                content,
+                from_email=EMAIL_SENDER,
+                recipient_list=[invoice.user.email],
+            )
