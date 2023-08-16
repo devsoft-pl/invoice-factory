@@ -20,6 +20,8 @@ class InvoiceForm(forms.ModelForm):
             "payment_method",
             "currency",
             "account_number",
+            "is_recurring",
+            "recurring_frequency",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
