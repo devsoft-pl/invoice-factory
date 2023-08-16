@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-4">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -23,12 +23,12 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'companies:create_company' %}">Dodaj kontrahenta</a></h3>
+                <a class="btn btn-primary mt-3" href="{% url 'companies:create_company' %}">Dodaj</a></h3>
             </div>
         </div>
         <div class="row">
             {% if companies %}
-                <table class="table table-hover text-center mt-3">
+                <table class="table table-hover text-center mt-4">
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>

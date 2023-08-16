@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-4">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -11,10 +11,27 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <form action="{% url 'users:replace_user' %}" method='post'>
                 {% csrf_token %}
-                {{ form.as_p }}
+                <div class="row mb-3">
+                    <div class="col-2">
+                        {{ form.username.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        {{ form.email.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                </div>
                 <a class="btn btn-primary mt-3" href="{% url 'users:detail_user' %}">Powrót</a>
                 <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
             </form>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-4">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -15,16 +15,38 @@
                 <span>Nazwa użytkownika i hasło są nieprawidłowe. Proszę spróbować później</span>
             {% endif %}
         </div>
-        <div class="row text">
+        <div class="row text mt-3">
             <form method="post" action="{% url 'users:login' %}">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button class="btn btn-primary mt-3" name="submit">Zaloguj</button>
+                {{ form.next }}
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-3 text-end">
+                        {{ form.username.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-3 text-end">
+                        {{ form.password.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button class="btn btn-primary mt-3" name="submit">Zaloguj</button>
+                    </div>
+                </div>
                 <input type="hidden" name="next" value="{% url 'users:detail_user' %}"/>
             </form>
-        </div>
-        <div class="row text">
-            <span>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></span>
+            <div class="row text-center">
+                <span>Nie pamiętasz hasła?<a href="{% url 'users:password_reset' %}"> Resetuj hasło</a></span>
+            </div>
         </div>
     </div>
 {% endblock content %}

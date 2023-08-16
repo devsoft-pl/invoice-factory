@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-4">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -13,6 +13,7 @@
                             <a href="{% url 'companies:list_companies' %}">Kontrahenci</a>
                         {% endif %}
                     </li>
+                    <li class="breadcrumb-item activ"><a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
                 </ol>
             </nav>
