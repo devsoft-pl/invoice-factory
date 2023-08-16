@@ -40,6 +40,6 @@ def send_goodbye_email(sender, instance: User, **kwargs):
         send_mail(
             subject,
             content,
-            from_email="EMAIL_SENDER",
+            from_email=EMAIL_SENDER,
             recipient_list=[instance.email],
         )
