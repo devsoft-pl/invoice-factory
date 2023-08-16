@@ -43,6 +43,9 @@ class CompanyForm(forms.ModelForm):
         nip = self.cleaned_data.get("nip")
         company = Company.objects.filter(nip=nip, user=self.current_user)
 
+        if self.instance.pk:
+            company = company.exclude(pk=self.instance.pk)
+
         if company.exists():
             raise forms.ValidationError(_("Nip already exists"))
 
@@ -51,6 +54,9 @@ class CompanyForm(forms.ModelForm):
     def clean_regon(self):
         regon = self.cleaned_data.get("regon")
         company = Company.objects.filter(regon=regon, user=self.current_user)
+
+        if self.instance.pk:
+            company = company.exclude(pk=self.instance.pk)
 
         if company.exists():
             raise forms.ValidationError(_("Regon already exists"))

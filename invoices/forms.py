@@ -48,8 +48,11 @@ class InvoiceForm(forms.ModelForm):
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
         invoice = Invoice.objects.filter(
-            invoice_number=invoice_number, user=self.current_user
+            invoice_number=invoice_number,
+            user=self.current_user,
         )
+        if self.instance.pk:
+            invoice = invoice.exclude(pk=self.instance.pk)
 
         if invoice.exists():
             raise forms.ValidationError(_("Invoice number already exists"))
