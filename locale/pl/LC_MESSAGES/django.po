@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-07 19:38+0200\n"
+"POT-Creation-Date: 2023-08-16 18:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,15 @@ msgstr "Podstawowe informacje"
 msgid "Address data"
 msgstr "Adres"
 
-#: companies/forms.py:34 companies/models.py:10 items/models.py:18
+#: companies/forms.py:50
+msgid "Nip already exists"
+msgstr "Nip już istnieje"
+
+#: companies/forms.py:62
+msgid "Regon already exists"
+msgstr "Regon już istnieje"
+
+#: companies/forms.py:68 companies/models.py:10 items/models.py:18
 msgid "Name"
 msgstr "Nazwa"
 
@@ -86,25 +94,29 @@ msgstr "firmy"
 msgid "Company does not exist"
 msgstr "Firma nie istnieje"
 
+#: countries/forms.py:24
+msgid "Country already exists"
+msgstr "Kraj już istnieje"
+
 #: countries/models.py:16
 msgid "countries"
-msgstr "Kraje"
+msgstr "kraje"
 
 #: countries/views.py:56 countries/views.py:77
 msgid "Country does not exist"
 msgstr "Kraj nie istnieje"
 
-#: currencies/forms.py:23
+#: currencies/forms.py:24
 msgid "Currency already exists"
 msgstr "Waluta już istnieje"
 
 #: currencies/models.py:9
 msgid "Code"
-msgstr "Kod"
+msgstr "Kod waluty"
 
 #: currencies/models.py:18
 msgid "currencies"
-msgstr "Waluty"
+msgstr "waluty"
 
 #: currencies/models.py:43
 msgid "Buy rate"
@@ -134,19 +146,23 @@ msgstr "Zaawansowane opcje"
 msgid "Recurring invoice"
 msgstr "Cykliczna faktura"
 
-#: invoices/forms.py:39 invoices/models.py:44
+#: invoices/forms.py:58
+msgid "Invoice number already exists"
+msgstr "Numer faktury już istnieje"
+
+#: invoices/forms.py:64 invoices/models.py:44
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:41 invoices/models.py:46
+#: invoices/forms.py:66 invoices/models.py:46
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:43 invoices/models.py:82
+#: invoices/forms.py:68 invoices/models.py:82
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/forms.py:44 invoices/models.py:50
+#: invoices/forms.py:69 invoices/models.py:50
 msgid "Company"
 msgstr "Firma"
 
@@ -239,7 +255,7 @@ msgstr ""
 #: invoices/views.py:50 invoices/views.py:80 invoices/views.py:103
 #: invoices/views.py:114
 msgid "Invoice does not exist"
-msgstr "Firma nie istnieje"
+msgstr "Faktura nie istnieje"
 
 #: items/models.py:14
 msgid "Invoice"
@@ -259,15 +275,15 @@ msgstr "Kwota netto"
 
 #: items/models.py:25
 msgid "Vat"
-msgstr ""
+msgstr "VAT"
 
-#: items/views.py:42 items/views.py:68
+#: items/views.py:37 items/views.py:58
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
 
 #: users/forms.py:10
 msgid "password"
-msgstr "Hasło"
+msgstr "hasło"
 
 #: users/forms.py:11
 msgid "Hasło jest szyfrowane, więc nie można je zobaczyć."
@@ -277,13 +293,17 @@ msgstr ""
 msgid "User does not authenticated"
 msgstr "Użytkownik nie został uwierzytelniony"
 
+#: vat_rates/forms.py:24
+msgid "Vat rate already exists"
+msgstr "Stawka VAT już istnieje"
+
 #: vat_rates/models.py:7
 msgid "Rate"
-msgstr "Wskaźnik"
+msgstr "Stawka VAT"
 
 #: vat_rates/views.py:56 vat_rates/views.py:77
 msgid "Vat rate does not exist"
-msgstr "Stawka vat nie istnieje"
+msgstr "Stawka VAT nie istnieje"
 
 #~ msgid "Is my country"
 #~ msgstr "Czy mój kraj"
