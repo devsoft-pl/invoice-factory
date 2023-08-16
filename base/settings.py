@@ -152,6 +152,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "currencies.tasks.get_exchange_rates_for_all",
         "schedule": crontab(minute="0", hour="9"),
     },
+    "create-recurring-invoices": {
+        "tasks": "invoices.tasks.create_invoices_for_recurring",
+        "schedule": crontab(minute="0", hour="6"),
+    },
 }
 
 LOGIN_URL = "users:login"
