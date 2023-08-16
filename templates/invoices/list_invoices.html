@@ -38,6 +38,7 @@
                             <th>Data płatności</th>
                             <th>Wartość netto</th>
                             <th>Wartość brutto</th>
+                            <th>Cykliczna</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
                                 <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+                                <td>{{ invoice.is_recurring}}</td>
                                 <td>
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                                     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>

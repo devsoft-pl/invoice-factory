@@ -115,6 +115,15 @@
                         {{ form.account_number.errors }}
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-2 offset-md-2 text-end">
+                        {{ form.is_recurring.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.is_recurring }}
+                        {{ form.is_recurring.errors }}
+                    </div>
+                </div>
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
                 <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
             </form>
