@@ -23,6 +23,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "currency",
             "items",
             "user",
+            "is_recurring",
+            "recurring_frequency",
         ]
 
     def create(self, validated_data):
