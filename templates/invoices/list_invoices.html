@@ -52,7 +52,12 @@
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
                                 <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-                                <td>{{ invoice.is_recurring}}</td>
+                                <td>
+                                    {% if invoice.is_recurring %}
+                                        <span>Tak</span>
+                                    {% else %}
+                                        <span>Nie</span>
+                                    {% endif %}
                                 <td>
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                                     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
