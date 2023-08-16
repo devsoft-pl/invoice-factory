@@ -12,8 +12,7 @@ from items.models import Item
 def create_item_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = ItemForm(initial=initial, current_user=request.user)
+        form = ItemForm(current_user=request.user)
     else:
         form = ItemForm(data=request.POST, current_user=request.user)
 
@@ -23,10 +22,6 @@ def create_item_view(request, invoice_id):
             item.invoice = invoice
 
             item.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
 
             return redirect("invoices:detail_invoice", invoice.pk)
 
