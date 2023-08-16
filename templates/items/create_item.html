@@ -61,7 +61,7 @@
                         {{ form.vat.errors }}
                     </div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' invoice.pk %}">Dodaj vat</a>
+                        <a class="btn btn-primary" href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' invoice.pk %}">Dodaj</a>
                     </div>
                 </div>
                 {% if request.GET.next %}

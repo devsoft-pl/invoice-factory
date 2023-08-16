@@ -42,7 +42,7 @@
                         {{ form.company.errors }}
                     </div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj firmę</a>
+                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -54,7 +54,7 @@
                         {{ form.client.errors }}
                     </div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj kontrahenta</a>
+                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -102,7 +102,7 @@
                         {{ form.currency.errors }}
                     </div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj walutę</a>
+                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 <div class="row mb-3">
