@@ -15,7 +15,7 @@ def create_invoices_for_recurring():
     invoices = Invoice.objects.filter(is_recurring=True)
 
     date = datetime.today()
-    payment_date = date + timedelta(days=7)
+
     month_range = calendar.monthrange(date.year, date.month)
     last_day = month_range[1]
 
@@ -23,6 +23,7 @@ def create_invoices_for_recurring():
         return
 
     for invoice in invoices:
+        payment_date = date + timedelta(days=invoice.payment_date - invoice.sale_date)
         new_invoice = Invoice.objects.create(
             invoice_number=f"{date.month}/{date.year}",
             create_date=date,
