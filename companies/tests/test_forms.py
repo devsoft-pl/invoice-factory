@@ -111,10 +111,10 @@ class TestCompanyForm:
         data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)
         form = CompanyForm(data=data, current_user=self.user)
         assert not form.is_valid()
-        assert form.errors == {"nip": ["Nip already exists"]}
+        assert form.errors == {"nip": ["Nip już istnieje"]}
 
     def test_clean_regon_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, regon=self.company_1.regon)
         form = CompanyForm(data=data, current_user=self.user)
         assert not form.is_valid()
-        assert form.errors == {"regon": ["Regon already exists"]}
+        assert form.errors == {"regon": ["Regon już istnieje"]}

@@ -180,4 +180,4 @@ class TestInvoiceForm:
         )
         form = InvoiceForm(current_user=self.user, data=data)
         assert not form.is_valid()
-        assert form.errors == {"invoice_number": ["Invoice number already exists"]}
+        assert form.errors == {"invoice_number": ["Numer faktury już istnieje"]}
