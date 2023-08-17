@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -6,7 +7,13 @@ from django.utils.translation import gettext as _
 
 
 class Currency(models.Model):
-    code = models.CharField(verbose_name=_("Code"), max_length=10)
+    code = models.CharField(
+        verbose_name=_("Code"),
+        max_length=10,
+        validators=[
+            RegexValidator(r"^[a-zA-Z]{3}$", _("Enter country three letter code"))
+        ],
+    )
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
