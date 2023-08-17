@@ -12,24 +12,10 @@ logger = logging.getLogger(__name__)
 def get_exchange_rates_for_all():
     logger.info("Trying to fetch all exchange rates")
 
-    adapter = NBPExchangeRatesAdapter()
     currencies = Currency.objects.all()
-    date = datetime.today()
 
     for currency in currencies:
-        logger.info(
-            f"Trying to fetch {currency.code} for date {date} and user {currency.user}"
-        )
-        buy_rate = adapter.get_currency_buy_rate(currency.code.lower())
-        sell_rate = adapter.get_currency_sell_rate(currency.code.lower())
-
-        if buy_rate and sell_rate:
-            if not ExchangeRate.objects.filter(
-                date=date, currency=currency, currency__user=currency.user
-            ).count():
-                ExchangeRate.objects.create(
-                    buy_rate=buy_rate, sell_rate=sell_rate, date=date, currency=currency
-                )
+        get_exchange_rate_for_currency.apply_async(args=[currency.id])
 
 
 @app.task(name="get_exchange_rate_for_currency")
