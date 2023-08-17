@@ -24,4 +24,4 @@ class TestCountryForm:
         form = CountryForm(user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {'country': ['Kraj już istnieje']}
+        assert form.errors == {"country": ["Kraj już istnieje"]}
