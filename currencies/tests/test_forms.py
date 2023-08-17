@@ -14,6 +14,7 @@ class TestCurrencyForm:
     def test_form_with_valid_data(self):
         data = CurrencyDictFactory(code="eur")
         form = CurrencyForm(user=self.user, data=data)
+
         assert form.is_valid()
         assert form.errors == {}
 
@@ -21,5 +22,6 @@ class TestCurrencyForm:
         currency = CurrencyFactory.create(user=self.user, code="pln")
         data = CurrencyDictFactory(code=currency.code)
         form = CurrencyForm(user=self.user, data=data)
+
         assert not form.is_valid()
         assert form.errors == {"code": ["Waluta już istnieje"]}

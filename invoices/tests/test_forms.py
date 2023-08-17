@@ -50,6 +50,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -59,6 +60,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -68,6 +70,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert filtered_list.count() == 2
 
     def test_return_filtered_empty_list_when_invoice_invoice_number_not_exist(self):
@@ -76,6 +79,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert filtered_list.count() == 0
 
     def test_return_list_invoices_with_invoice_sale_type(self):
@@ -84,6 +88,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert filtered_list.count() == 2
 
     def test_return_empty_list_when_invoice_purchase_type_not_exist(self):
@@ -92,6 +97,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert filtered_list.count() == 0
 
     def test_return_filtered_company_with_name_startswith(self):
@@ -100,6 +106,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -109,6 +116,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -118,6 +126,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -127,6 +136,7 @@ class TestInvoiceForm:
         self.form.is_valid()
         invoices_list = Invoice.objects.filter(user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
+
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == 1
 
@@ -138,6 +148,7 @@ class TestInvoiceForm:
         user_currencies_ids = Currency.objects.filter(user=self.user).values_list(
             "id", flat=True
         )
+
         assert set(form_currencies_ids) == set(user_currencies_ids)
         assert form_currencies_ids.count() == user_currencies_ids.count()
 
@@ -149,6 +160,7 @@ class TestInvoiceForm:
         user_companies_ids = Company.objects.filter(
             user=self.user, is_my_company=True
         ).values_list("id", flat=True)
+
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
 
@@ -160,6 +172,7 @@ class TestInvoiceForm:
         user_companies_ids = Company.objects.filter(
             user=self.user, is_my_company=False
         ).values_list("id", flat=True)
+
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
 
@@ -168,6 +181,7 @@ class TestInvoiceForm:
             company=self.company_1, client=self.client_1, currency=self.currency_1
         )
         form = InvoiceForm(current_user=self.user, data=data)
+
         assert form.is_valid()
         assert form.errors == {}
 
@@ -179,5 +193,6 @@ class TestInvoiceForm:
             invoice_number=self.invoice_1.invoice_number,
         )
         form = InvoiceForm(current_user=self.user, data=data)
+
         assert not form.is_valid()
         assert form.errors == {"invoice_number": ["Numer faktury już istnieje"]}

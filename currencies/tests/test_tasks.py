@@ -26,6 +26,7 @@ class TestExchangeRatesTasks:
         self.currency_eur = CurrencyFactory.create(user=self.user, code="eur")
 
         get_exchange_rates_for_all()
+
         assert get_exchange_rate_for_currency_mock.call_count == 2
 
     @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
@@ -39,7 +40,6 @@ class TestExchangeRatesTasks:
         get_exchange_rate_for_currency(self.currency_usd.id)
 
         assert get_currency_buy_rate_mock.call_args_list == [call("usd")]
-
         assert (
             ExchangeRate.objects.filter(
                 date=datetime.today(), currency=self.currency_usd

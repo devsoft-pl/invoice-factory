@@ -29,6 +29,7 @@ def get_exchange_rate_for_currency(instance_id):
     logger.info(
         f"Trying to fetch {currency.code} for date {date} and user {currency.user}"
     )
+
     buy_rate = adapter.get_currency_buy_rate(currency.code.lower())
     sell_rate = adapter.get_currency_sell_rate(currency.code.lower())
 

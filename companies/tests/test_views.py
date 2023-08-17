@@ -209,7 +209,6 @@ class TestCreateCompany(TestCompany):
                 name="test", nip="98765", is_my_company=False, user=self.user
             ).exists()
         )
-
         self.assertEqual(
             Company.objects.filter(
                 name="test", nip="98765", is_my_company=False, user=self.user
