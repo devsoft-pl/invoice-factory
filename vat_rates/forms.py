@@ -11,6 +11,7 @@ class VatRateForm(forms.ModelForm):
         self.user = user
         super().__init__(*args, **kwargs)
         self.fields["rate"].widget.attrs["class"] = "form-control"
+        self.fields["rate"].widget.attrs["max"] = "99"
 
     class Meta:
         model = VatRate
