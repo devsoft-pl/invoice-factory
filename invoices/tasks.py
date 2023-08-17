@@ -3,6 +3,7 @@ import logging
 from datetime import datetime, timedelta
 
 from django.core.mail import send_mail
+from django.utils.text import format_lazy as _
 
 from base.celery import app
 from base.settings import EMAIL_SENDER
@@ -26,12 +27,21 @@ def create_invoices_for_recurring():
         return
 
     for invoice in invoices:
-        payment_date = date + timedelta(days=invoice.payment_date - invoice.sale_date)
+        payment_date = date + timedelta(
+            days=(invoice.payment_date - invoice.sale_date).days
+        )
         new_invoice = Invoice.objects.create(
             invoice_number=f"{date.month}/{date.year}",
+            invoice_type=Invoice.INVOICE_SALES,
+            company=invoice.company,
+            is_recurring=False,
             create_date=date,
             sale_date=date,
             payment_date=payment_date,
+            payment_method=Invoice.BANK_TRANSFER,
+            currency=invoice.currency,
+            account_number=invoice.account_number,
+            client=invoice.client,
         )
 
         for item in invoice.items.all():
