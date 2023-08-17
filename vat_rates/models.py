@@ -1,10 +1,16 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext as _
 
 
 class VatRate(models.Model):
-    rate = models.PositiveIntegerField(verbose_name=_("Rate"))
+    rate = models.PositiveIntegerField(
+        verbose_name=_("Rate"),
+        validators=[
+            MaxValueValidator(99),
+        ],
+    )
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
