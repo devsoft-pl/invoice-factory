@@ -3,7 +3,7 @@ from unittest.mock import call, patch
 
 import pytest
 
-from currencies.factories import CurrencyFactory, ExchangeRateFactory
+from currencies.factories import CurrencyFactory
 from currencies.models import ExchangeRate
 from currencies.tasks import (get_exchange_rate_for_currency,
                               get_exchange_rates_for_all)
