@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-3">
                         {{ form.country }}
-                        {{ form.code.country }}
+                        {{ form.country.errors }}
                     </div>
                 </div>
                 {% if request.GET.next %}
