@@ -14,6 +14,7 @@ class TestCountryForm:
     def test_form_with_valid_data(self):
         data = CountryDictFactory()
         form = CountryForm(user=self.user, data=data)
+
         assert form.is_valid()
         assert form.errors == {}
 
@@ -21,5 +22,6 @@ class TestCountryForm:
         country = CountryFactory.create(user=self.user)
         data = CountryDictFactory(country=country.country)
         form = CountryForm(user=self.user, data=data)
+
         assert not form.is_valid()
-        assert form.errors == {"country": ["Country already exists"]}
+        assert form.errors == {'country': ['Kraj już istnieje']}
