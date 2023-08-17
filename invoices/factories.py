@@ -29,6 +29,7 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     client = factory.SubFactory(CompanyFactory)
+    is_recurring = factory.fuzzy.FuzzyChoice([True, False])
     user = factory.SubFactory(UserFactory)
 
 
