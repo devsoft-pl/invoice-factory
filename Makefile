@@ -14,7 +14,7 @@ migrate:
 	python manage.py migrate
 
 makemigrations:
-	python manage.py migrations
+	python manage.py makemigrations
 
 runserver:
 	python manage.py runserver
