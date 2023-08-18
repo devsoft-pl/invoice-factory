@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from companies.models import Company
-from currencies.models import Currency
+from currencies.models import Currency, ExchangeRate
 
 
 class Invoice(models.Model):
@@ -135,3 +135,10 @@ class Invoice(models.Model):
     def price_item(self):
         for item in self.items.all():
             return item.net_price
+
+    @property
+    def sell_rate_in_pln(self):
+        exchange_rate = ExchangeRate.objects.get(
+            date=self.sale_date, currency=self.currency
+        )
+        return exchange_rate.sell_rate
