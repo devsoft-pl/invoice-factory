@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -8,8 +9,21 @@ from countries.models import Country
 
 class Company(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100)
-    nip = models.CharField(verbose_name=_("NIP"), max_length=12)
-    regon = models.CharField(verbose_name=_("Regon"), max_length=12, null=True)
+    nip = models.CharField(
+        verbose_name=_("NIP"),
+        max_length=13,
+        validators=[
+            RegexValidator(
+                r"^[0-9a-zA-Z]*$", _("Enter the tax ID without special characters")
+            )
+        ],
+    )
+    regon = models.CharField(
+        verbose_name=_("Regon"),
+        max_length=14,
+        null=True,
+        validators=[RegexValidator(r"^[0-9]*$", _("Enter regon in numbers only"))],
+    )
     country = models.ForeignKey(
         Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
     )
