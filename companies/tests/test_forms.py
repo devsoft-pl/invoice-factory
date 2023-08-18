@@ -126,23 +126,29 @@ class TestCompanyForm:
         assert set(form_countries_ids) == set(user_countries_ids)
         assert form_countries_ids.count() == user_countries_ids.count()
 
-    def test_form_with_valid_data(self):
+    def test_form_with_not_valid_data(self):
         data = CompanyDictFactory(country=self.country_1)
         form = CompanyForm(data=data, current_user=self.user)
 
-        assert form.is_valid()
-        assert form.errors == {}
+        assert not form.is_valid()
+        assert form.errors == {
+            "nip": ["Enter the tax ID without special characters"],
+            "regon": ["Enter regon in numbers only"],
+            "zip_code": ["Zip code in numbers only"],
+            "city": ["Enter the city in letters only"],
+            "phone_number": ["Enter phone number in numbers only"],
+        }
 
     def test_clean_nip_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)
         form = CompanyForm(data=data, current_user=self.user)
 
         assert not form.is_valid()
-        assert form.errors == {"nip": ["Nip już istnieje"]}
+        assert form.errors["nip"] == ["Nip już istnieje"]
 
     def test_clean_regon_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, regon=self.company_1.regon)
         form = CompanyForm(data=data, current_user=self.user)
 
         assert not form.is_valid()
-        assert form.errors == {"regon": ["Regon już istnieje"]}
+        assert form.errors["regon"] == ["Regon już istnieje"]
