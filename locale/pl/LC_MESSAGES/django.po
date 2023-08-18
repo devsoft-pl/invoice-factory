@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-16 18:14+0200\n"
+"POT-Creation-Date: 2023-08-18 12:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,52 +41,72 @@ msgstr "Nip już istnieje"
 msgid "Regon already exists"
 msgstr "Regon już istnieje"
 
-#: companies/forms.py:68 companies/models.py:10 items/models.py:18
+#: companies/forms.py:68 companies/models.py:11 items/models.py:18
 msgid "Name"
 msgstr "Nazwa"
 
-#: companies/models.py:11
+#: companies/models.py:13
 msgid "NIP"
 msgstr ""
 
-#: companies/models.py:12
+#: companies/models.py:17
+msgid "Enter the tax ID without special characters"
+msgstr "Wprowadź NIP bez znaków specjalnych"
+
+#: companies/models.py:22
 msgid "Regon"
 msgstr ""
 
-#: companies/models.py:14 countries/models.py:7
+#: companies/models.py:25
+msgid "Enter regon in numbers only"
+msgstr "Wpisz regon tylko w liczbach"
+
+#: companies/models.py:28 countries/models.py:9
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:16
+#: companies/models.py:30
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:17
+#: companies/models.py:32
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:18
+#: companies/models.py:35
+msgid "Zip code in numbers only"
+msgstr "Kod pocztowy tylko w liczbach z myślnikiem"
+
+#: companies/models.py:39
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:19
+#: companies/models.py:42
+msgid "Enter the city in letters only"
+msgstr "Wpisz miasto tylko literami"
+
+#: companies/models.py:45
 msgid "Email"
 msgstr ""
 
-#: companies/models.py:21
+#: companies/models.py:47
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: companies/models.py:24 countries/models.py:9 currencies/models.py:11
-#: invoices/models.py:42 items/models.py:28 vat_rates/models.py:9
+#: companies/models.py:52
+msgid "Enter phone number in numbers only"
+msgstr "Wprowadź numer telefonu tylko cyframi"
+
+#: companies/models.py:56 countries/models.py:16 currencies/models.py:18
+#: invoices/models.py:42 items/models.py:28 vat_rates/models.py:15
 msgid "User"
 msgstr "Użytkownik"
 
-#: companies/models.py:27
+#: companies/models.py:59
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:37
+#: companies/models.py:69
 msgid "companies"
 msgstr "firmy"
 
@@ -98,7 +118,11 @@ msgstr "Firma nie istnieje"
 msgid "Country already exists"
 msgstr "Kraj już istnieje"
 
-#: countries/models.py:16
+#: countries/models.py:12
+msgid "Enter the country in letters only"
+msgstr "Podaj kraj tylko literami"
+
+#: countries/models.py:23
 msgid "countries"
 msgstr "kraje"
 
@@ -110,27 +134,31 @@ msgstr "Kraj nie istnieje"
 msgid "Currency already exists"
 msgstr "Waluta już istnieje"
 
-#: currencies/models.py:9
+#: currencies/models.py:11
 msgid "Code"
 msgstr "Kod waluty"
 
-#: currencies/models.py:18
+#: currencies/models.py:14
+msgid "Enter country three letter code"
+msgstr "Wprowadź trzyliterowy kod kraju"
+
+#: currencies/models.py:25
 msgid "currencies"
 msgstr "waluty"
 
-#: currencies/models.py:43
+#: currencies/models.py:50
 msgid "Buy rate"
 msgstr "Kurs kupna"
 
-#: currencies/models.py:46
+#: currencies/models.py:53
 msgid "Sell rate"
 msgstr "Kurs sprzedaży"
 
-#: currencies/models.py:48
+#: currencies/models.py:55
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
-#: currencies/models.py:51 invoices/models.py:72
+#: currencies/models.py:58 invoices/models.py:72
 msgid "Currency"
 msgstr "Waluta"
 
@@ -146,23 +174,23 @@ msgstr "Zaawansowane opcje"
 msgid "Recurring invoice"
 msgstr "Cykliczna faktura"
 
-#: invoices/forms.py:58
+#: invoices/forms.py:60
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:64 invoices/models.py:44
+#: invoices/forms.py:66 invoices/models.py:44
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:66 invoices/models.py:46
+#: invoices/forms.py:68 invoices/models.py:46
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:68 invoices/models.py:82
+#: invoices/forms.py:70 invoices/models.py:82
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/forms.py:69 invoices/models.py:50
+#: invoices/forms.py:71 invoices/models.py:50
 msgid "Company"
 msgstr "Firma"
 
@@ -252,6 +280,17 @@ msgid ""
 "Invoice Manager"
 msgstr ""
 
+#: invoices/tasks.py:53
+msgid "New recurring invoice"
+msgstr "Cykliczna faktura"
+
+#: invoices/tasks.py:55
+msgid ""
+"A new recurring invoice has been created\n"
+"Best regards,\n"
+"Invoice Manager"
+msgstr ""
+
 #: invoices/views.py:50 invoices/views.py:80 invoices/views.py:103
 #: invoices/views.py:114
 msgid "Invoice does not exist"
@@ -293,11 +332,11 @@ msgstr ""
 msgid "User does not authenticated"
 msgstr "Użytkownik nie został uwierzytelniony"
 
-#: vat_rates/forms.py:24
+#: vat_rates/forms.py:25
 msgid "Vat rate already exists"
 msgstr "Stawka VAT już istnieje"
 
-#: vat_rates/models.py:7
+#: vat_rates/models.py:9
 msgid "Rate"
 msgstr "Stawka VAT"
 
