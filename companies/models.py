@@ -28,11 +28,29 @@ class Company(models.Model):
         Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
     )
     address = models.CharField(verbose_name=_("Address"), max_length=100)
-    zip_code = models.CharField(verbose_name=_("ZIP Code"), max_length=10)
-    city = models.CharField(verbose_name=_("City"), max_length=60)
+    zip_code = models.CharField(
+        verbose_name=_("ZIP Code"),
+        max_length=10,
+        validators=[
+            RegexValidator(r"^[0-9]{2}-[0-9]{3}$", _("Zip code in numbers only"))
+        ],
+    )
+    city = models.CharField(
+        verbose_name=_("City"),
+        max_length=60,
+        validators=[
+            RegexValidator(r"^[a-zA-Z]*$", _("Enter the city in letters only"))
+        ],
+    )
     email = models.EmailField(verbose_name=_("Email"))
     phone_number = models.CharField(
-        verbose_name=_("Phone number"), max_length=20, null=True, blank=True
+        verbose_name=_("Phone number"),
+        max_length=20,
+        null=True,
+        blank=True,
+        validators=[
+            RegexValidator(r"^[0-9]*$", _("Enter phone number in numbers only"))
+        ],
     )
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
