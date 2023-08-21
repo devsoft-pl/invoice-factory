@@ -27,11 +27,11 @@
                     </div>
                 </div>
                 {% if form.rate.errors %}
-                <div class="row">
-                    <div class="col-auto offset-md-1 text-danger">
-                        {{ form.rate.errors }}
+                    <div class="row">
+                        <div class="col-auto offset-md-1 text-danger">
+                            {{ form.rate.errors }}
+                        </div>
                     </div>
-                </div>
                 {% endif %}
                 <a class="btn btn-primary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
                 <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
