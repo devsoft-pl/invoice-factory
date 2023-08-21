@@ -2,6 +2,7 @@ from decimal import Decimal
 
 import pytest
 
+from currencies.factories import ExchangeRateFactory
 from invoices.factories import InvoiceFactory
 from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
@@ -56,3 +57,11 @@ class TestInvoiceModel:
 
     def test_returns_price_item(self):
         assert self.invoice.price_item() == self.item.net_price
+
+    def test_returns_sell_rate_in_pln(self):
+        exchange_rate = ExchangeRateFactory.create(
+            currency=self.invoice.currency,
+            date=self.invoice.sale_date,
+        )
+
+        assert exchange_rate.sell_rate == self.invoice.sell_rate_in_pln
