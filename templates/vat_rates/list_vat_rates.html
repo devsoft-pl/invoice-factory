@@ -29,7 +29,7 @@
                         {% for vat in vat_rates %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ vat }}</td>
+                                <td>{{ vat }} %</td>
                                 <td>
                                     <a href="{% url 'vat_rates:replace_vat' vat.pk %}">Edytuj</a>
                                     <a href="{% url 'vat_rates:delete_vat' vat.pk %}">Usuń</a>
