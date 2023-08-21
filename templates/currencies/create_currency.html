@@ -15,15 +15,21 @@
             <form action="{% url 'currencies:create_currency' %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-1">
                         {{ form.code.label_tag }}
                     </div>
                     <div class="col-1">
                         {{ form.code }}
-                        {{ form.code.errors }}
                     </div>
                 </div>
+                {% if form.code.errors %}
+                <div class="row">
+                    <div class="col-auto offset-md-1 text-danger">
+                    {{ form.code.errors }}
+                    </div>
+                </div>
+                {% endif %}
                 {% if request.GET.next %}
                     <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
                 {% else %}
