@@ -18,3 +18,11 @@ makemigrations:
 
 runserver:
 	python manage.py runserver
+
+
+makemessages:
+	python manage.py makemessages -l pl
+
+
+compilemessages:
+	python manage.py compilemessages
