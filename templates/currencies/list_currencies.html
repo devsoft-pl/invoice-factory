@@ -31,7 +31,7 @@
                         {% for currency in currencies %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ currency }}</td>
+                                <td>{{ currency|upper }}</td>
                                 <td>
                                     {% if currency.last_exchange_rate %}
                                         {{ currency.last_exchange_rate.buy_rate }}
