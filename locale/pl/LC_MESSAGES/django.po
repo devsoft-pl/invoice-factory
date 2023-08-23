@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-23 21:04+0200\n"
+"POT-Creation-Date: 2023-08-23 21:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,16 +50,20 @@ msgid "NIP"
 msgstr "NIP"
 
 #: companies/models.py:18
-msgid "Enter the tax ID without special characters"
-msgstr "Wprowadź NIP bez znaków specjalnych"
+#, fuzzy
+#| msgid "Enter the tax ID without special characters"
+msgid "Enter the tax ID without special characters with minimum 8 character"
+msgstr "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
 
 #: companies/models.py:23
 msgid "Regon"
 msgstr "Regon"
 
 #: companies/models.py:27
-msgid "Enter regon in numbers only"
-msgstr "Wpisz regon tylko w liczbach"
+#, fuzzy
+#| msgid "Enter regon in numbers only"
+msgid "Enter regon in numbers only with minimum 9 character"
+msgstr "Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
 
 #: companies/models.py:31 countries/models.py:9
 msgid "Country"
@@ -228,7 +232,8 @@ msgstr "Co trzy miesiące"
 
 #: invoices/models.py:51
 msgid "Enter invoice number in numbers only in format number/yyyy"
-msgstr "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+msgstr ""
+"Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
 
 #: invoices/models.py:65
 msgid "Recurring_frequency"
@@ -261,7 +266,8 @@ msgstr "Numer konta"
 #: invoices/models.py:95
 msgid ""
 "Enter account number with minimum 15 character without special characters"
-msgstr "Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
+msgstr ""
+"Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
 
 #: invoices/receivers.py:13
 msgid "Welcome in Invoice Manager"
