@@ -9,7 +9,7 @@ class Country(models.Model):
         verbose_name=_("Country"),
         max_length=30,
         validators=[
-            RegexValidator(r"^[a-zA-Z ]*$", _("Enter the country in letters only"))
+            RegexValidator(r"^[a-zA-Z ]{2,}$", _("Enter the country in letters only"))
         ],
     )
     user = models.ForeignKey(

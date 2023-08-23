@@ -14,7 +14,8 @@ class Company(models.Model):
         max_length=13,
         validators=[
             RegexValidator(
-                r"^[0-9a-zA-Z]*$", _("Enter the tax ID without special characters")
+                r"^[0-9a-zA-Z]{12,13}$",
+                _("Enter the tax ID without special characters"),
             )
         ],
     )
@@ -22,7 +23,9 @@ class Company(models.Model):
         verbose_name=_("Regon"),
         max_length=14,
         null=True,
-        validators=[RegexValidator(r"^[0-9]*$", _("Enter regon in numbers only"))],
+        validators=[
+            RegexValidator(r"^([0-9]{9}|[0-9]{14})$", _("Enter regon in numbers only"))
+        ],
     )
     country = models.ForeignKey(
         Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
@@ -32,14 +35,16 @@ class Company(models.Model):
         verbose_name=_("ZIP Code"),
         max_length=10,
         validators=[
-            RegexValidator(r"^[0-9]{2}-[0-9]{3}$", _("Zip code in numbers only"))
+            RegexValidator(
+                r"^[0-9]{2}-[0-9]{3}$", _("Zip code in numbers only in format xx-xxx")
+            )
         ],
     )
     city = models.CharField(
         verbose_name=_("City"),
         max_length=60,
         validators=[
-            RegexValidator(r"^[a-zA-Z]*$", _("Enter the city in letters only"))
+            RegexValidator(r"^[a-zA-Z ]+$", _("Enter the city in letters only"))
         ],
     )
     email = models.EmailField(verbose_name=_("Email"))
@@ -49,7 +54,7 @@ class Company(models.Model):
         null=True,
         blank=True,
         validators=[
-            RegexValidator(r"^[0-9]*$", _("Enter phone number in numbers only"))
+            RegexValidator(r"^[0-9]{9,}$", _("Enter phone number in numbers only"))
         ],
     )
     user = models.ForeignKey(

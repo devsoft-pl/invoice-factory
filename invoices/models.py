@@ -1,6 +1,7 @@
 import decimal
 
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -41,7 +42,16 @@ class Invoice(models.Model):
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
-    invoice_number = models.CharField(verbose_name=_("Invoice number"), max_length=30)
+    invoice_number = models.CharField(
+        verbose_name=_("Invoice number"),
+        max_length=30,
+        validators=[
+            RegexValidator(
+                r"^[0-9]+/[0-9]{4}$",
+                _("Enter invoice number in numbers only in format number/yyyy"),
+            )
+        ],
+    )
     invoice_type = models.IntegerField(
         verbose_name=_("Invoice type"), choices=INVOICE_TYPES
     )
@@ -75,7 +85,16 @@ class Invoice(models.Model):
         related_name="invoice",
     )
     account_number = models.CharField(
-        verbose_name=_("Account number"), max_length=50, null=True, blank=True
+        verbose_name=_("Account number"),
+        max_length=50,
+        null=True,
+        blank=True,
+        validators=[
+            RegexValidator(
+                r"^[0-9A-Z ]{15,32}$",
+                _("Enter account number without special characters"),
+            )
+        ],
     )
     client = models.ForeignKey(
         Company,
