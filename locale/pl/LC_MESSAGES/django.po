@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-18 12:37+0200\n"
+"POT-Creation-Date: 2023-08-23 21:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,66 +47,66 @@ msgstr "Nazwa"
 
 #: companies/models.py:13
 msgid "NIP"
-msgstr ""
+msgstr "NIP"
 
-#: companies/models.py:17
+#: companies/models.py:18
 msgid "Enter the tax ID without special characters"
 msgstr "Wprowadź NIP bez znaków specjalnych"
 
-#: companies/models.py:22
+#: companies/models.py:23
 msgid "Regon"
-msgstr ""
+msgstr "Regon"
 
-#: companies/models.py:25
+#: companies/models.py:27
 msgid "Enter regon in numbers only"
 msgstr "Wpisz regon tylko w liczbach"
 
-#: companies/models.py:28 countries/models.py:9
+#: companies/models.py:31 countries/models.py:9
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:30
+#: companies/models.py:33
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:32
+#: companies/models.py:35
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:35
-msgid "Zip code in numbers only"
-msgstr "Kod pocztowy tylko w liczbach z myślnikiem"
-
 #: companies/models.py:39
+msgid "Zip code in numbers only in format xx-xxx"
+msgstr "Kod pocztowy w liczbach tylko w formacie xx-xxx"
+
+#: companies/models.py:44
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:42
+#: companies/models.py:47
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko literami"
 
-#: companies/models.py:45
+#: companies/models.py:50
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: companies/models.py:47
+#: companies/models.py:52
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: companies/models.py:52
+#: companies/models.py:57
 msgid "Enter phone number in numbers only"
 msgstr "Wprowadź numer telefonu tylko cyframi"
 
-#: companies/models.py:56 countries/models.py:16 currencies/models.py:18
-#: invoices/models.py:42 items/models.py:28 vat_rates/models.py:15
+#: companies/models.py:61 countries/models.py:16 currencies/models.py:18
+#: invoices/models.py:43 items/models.py:28 vat_rates/models.py:15
 msgid "User"
 msgstr "Użytkownik"
 
-#: companies/models.py:59
+#: companies/models.py:64
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:69
+#: companies/models.py:74
 msgid "companies"
 msgstr "firmy"
 
@@ -158,7 +158,7 @@ msgstr "Kurs sprzedaży"
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:58 invoices/models.py:72
+#: currencies/models.py:58 invoices/models.py:82
 msgid "Currency"
 msgstr "Waluta"
 
@@ -178,81 +178,90 @@ msgstr "Cykliczna faktura"
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:66 invoices/models.py:44
+#: invoices/forms.py:66 invoices/models.py:46
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:68 invoices/models.py:46
+#: invoices/forms.py:68 invoices/models.py:56
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:70 invoices/models.py:82
+#: invoices/forms.py:70 invoices/models.py:101
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/forms.py:71 invoices/models.py:50
+#: invoices/forms.py:71 invoices/models.py:60
 msgid "Company"
 msgstr "Firma"
 
-#: invoices/models.py:17
+#: invoices/models.py:18
 msgid "Sales"
 msgstr "Sprzedaż"
 
-#: invoices/models.py:18
+#: invoices/models.py:19
 msgid "Purchase"
 msgstr "Zakupy"
 
-#: invoices/models.py:25
+#: invoices/models.py:26
 msgid "Transfer"
 msgstr "Przelew"
 
-#: invoices/models.py:26
+#: invoices/models.py:27
 msgid "Cash"
 msgstr "Gotówka"
 
-#: invoices/models.py:35
+#: invoices/models.py:36
 msgid "Weekly"
 msgstr "Co tydzień"
 
-#: invoices/models.py:36
+#: invoices/models.py:37
 msgid "Biweekly"
 msgstr "Co dwa tygodnie"
 
-#: invoices/models.py:37
+#: invoices/models.py:38
 msgid "Monthly"
 msgstr "Co miesiąc"
 
-#: invoices/models.py:38
+#: invoices/models.py:39
 msgid "Three month"
 msgstr "Co trzy miesiące"
 
-#: invoices/models.py:55
+#: invoices/models.py:51
+msgid "Enter invoice number in numbers only in format number/yyyy"
+msgstr "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+
+#: invoices/models.py:65
 msgid "Recurring_frequency"
 msgstr "Cykliczna częstotliwość"
 
-#: invoices/models.py:57
+#: invoices/models.py:67
 msgid "Recurring"
 msgstr "Cykliczna"
 
-#: invoices/models.py:59
+#: invoices/models.py:69
 msgid "Create date"
 msgstr "Data utworzenia"
 
-#: invoices/models.py:62
+#: invoices/models.py:72
 msgid "Sale date"
 msgstr "Data sprzedaży"
 
-#: invoices/models.py:65
+#: invoices/models.py:75
 msgid "Payment date"
 msgstr "Data płatności"
 
-#: invoices/models.py:68
+#: invoices/models.py:78
 msgid "Payment method"
 msgstr "Rodzaj płatności"
 
-#: invoices/models.py:78
+#: invoices/models.py:88
 msgid "Account number"
 msgstr "Numer konta"
+
+#: invoices/models.py:95
+msgid ""
+"Enter account number with minimum 15 character without special characters"
+msgstr "Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
 
 #: invoices/receivers.py:13
 msgid "Welcome in Invoice Manager"
