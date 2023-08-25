@@ -1,23 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-5">
         <div class="row text-center">
-            <span>Aplikacja do tworzeniu faktur sprzedażowych i zakupowych dla Twojej firmy</span>
+            <h3><b>Aplikacja do tworzeniu faktur sprzedażowych i zakupowych dla Twojej firmy</b></h3>
         </div>
         {% if not user.username %}
+            <div class="row mt-5">
+                <div class="col text-center">
+                    <b>Jeśli jesteś stały użytkownik: </b>
+                </div>
+                <div class="col text-center">
+                    <b>Jeśli jesteś nowy użytkownik: </b>
+                </div>
+            </div>
             <div class="row mt-3">
-                <div class="col"></div>
                 <div class="col text-center">
-                    <span>Stały użytkownik: <a href="{% url 'users:login' %}">Zaloguj</a></span>
+                    <a class="btn btn-primary mt-3" href="{% url 'users:login' %}">Zaloguj</a>
                 </div>
                 <div class="col text-center">
-                    <span>Nowy użytkownik: <a href="{% url 'users:register_user' %}">Zarejestruj</a></span>
+                    <a class="btn btn-primary mt-3" href="{% url 'users:register_user' %}">Zarejestruj</a>
                 </div>
-                <div class="col"></div>
             </div>
         {% endif %}
 
-
+        <div class="row mt-5">
+            <h4>Stwórzenie faktury sprzedażowej lub zakupowej jest już takie proste:</h4>
+        </div>
+        <div class="row mt-3">
+            <span>1. Dodaj swoja firmę (możesz mieć ich kilka na jednym koncie)</span>
+        </div>
+        <div class="row mt-3">
+            <span>2. Dodaj kontrahenta (ich liczba jest nieograniczona)</span>
+        </div>
+        <div class="row mt-3">
+            <span>3. Dodaj fakturę. Masz możliwość jej edycji lub usunięcia. Aplikacja pozwala wygenerować ją w formacie PDF.</span>
+        </div><div class="row mt-3">
+            <span>4. Za każdym razem masz możliwość ustawienie cykliczności każdej Twojej faktury. Pozwoli Ci to zapomieć o comiesięcznym jej tworzeniu.
+                Aplikacja wykona tą pracę za Ciebie, a o tym fakcie poinformuję Cię mailem.</span></span>
+        </div>
+        <div class="row mt-3">
+            <span>5. Jeśli wystawiasz fakturę w obcej walucie, nie musisz już sprawdzać kursu waluty w NBP za konkretny dzień.
+                Aplikacja zrobi to za Ciebie, umieszczająć odpowiednią informację na Twojej fakturze.</span>
+        </div>
+        <div class="row mt-3">
+            <span>6. Aplilacja każdego dnia będzie sprawdzać status Twoich kontahentów w GUS.
+                Poinformuję Cię mailowo, że dany kontahent zawiesił lub zakończył swoją działalność.</span>
+        </div>
+        <div class="row mt-3">
+            <span>7. Aplilacja jest za darmo</span>
+        </div>
     </div>
 {% endblock content %}
