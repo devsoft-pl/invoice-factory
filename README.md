@@ -29,9 +29,8 @@
 <u>Built With</u>
 <ul>
 <li>Python 3+</li>
-<li>Django</li>
+<li>Django, DRF</li>
 <li>MySQL</li>
-<li>DRF</li>
 <li>HTML, CSS, Bootstrap</li>
 </ul>
 
