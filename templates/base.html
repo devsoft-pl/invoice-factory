@@ -25,24 +25,26 @@
                         <a class="navbar-brand" href="{% url 'invoices:index' %}">Strona główna</a>
                         <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "companies" %} active{% endif %}" href="{% url 'companies:list_companies' %}">Kontrahenci</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "my_companies" %} active{% endif %}" href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "currencies" %} active{% endif %}" href="{% url 'currencies:list_currencies' %}">Waluty</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{% if current_module == "vat_rates" %} active{% endif %}" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a>
-                                </li>
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "companies" %} active{% endif %}" href="{% url 'companies:list_companies' %}">Kontrahenci</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "my_companies" %} active{% endif %}" href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "currencies" %} active{% endif %}" href="{% url 'currencies:list_currencies' %}">Waluty</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link{% if current_module == "vat_rates" %} active{% endif %}" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                             <ul class="navbar-nav">
                                 {% if user.is_authenticated %}
