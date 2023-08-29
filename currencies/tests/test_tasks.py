@@ -29,8 +29,8 @@ class TestExchangeRatesTasks:
 
         assert get_exchange_rate_for_currency_mock.call_count == 2
 
-    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
-    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
+    @patch("currencies.nbp_adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
+    @patch("currencies.nbp_adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
     def test_should_create_exchange_rate_when_buy_rate_and_sell_rate(
         self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
     ):
@@ -47,8 +47,8 @@ class TestExchangeRatesTasks:
             == 1
         )
 
-    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
-    @patch("currencies.nbp.adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
+    @patch("currencies.nbp_adapter.NBPExchangeRatesAdapter.get_currency_buy_rate")
+    @patch("currencies.nbp_adapter.NBPExchangeRatesAdapter.get_currency_sell_rate")
     def test_should_not_create_exchange_rate_when_no_buy_rate_and_no_sell_rate(
         self, get_currency_buy_rate_mock, get_currency_sell_rate_mock
     ):
