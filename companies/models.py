@@ -15,7 +15,9 @@ class Company(models.Model):
         validators=[
             RegexValidator(
                 r"^[0-9a-zA-Z]{8,16}$",
-                _("Enter the tax ID without special characters with minimum 8 character"),
+                _(
+                    "Enter the tax ID without special characters with minimum 8 character"
+                ),
             )
         ],
     )
@@ -24,7 +26,10 @@ class Company(models.Model):
         max_length=14,
         null=True,
         validators=[
-            RegexValidator(r"^([0-9]{9}|[0-9]{14})$", _("Enter regon in numbers only with minimum 9 character"))
+            RegexValidator(
+                r"^([0-9]{9}|[0-9]{14})$",
+                _("Enter regon in numbers only with minimum 9 character"),
+            )
         ],
     )
     country = models.ForeignKey(

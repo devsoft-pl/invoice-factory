@@ -92,7 +92,9 @@ class Invoice(models.Model):
         validators=[
             RegexValidator(
                 r"^[0-9A-Z ]{15,32}$",
-                _("Enter account number with minimum 15 character without special characters"),
+                _(
+                    "Enter account number with minimum 15 character without special characters"
+                ),
             )
         ],
     )
