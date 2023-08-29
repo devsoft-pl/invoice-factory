@@ -3,7 +3,7 @@ from datetime import datetime
 
 from base.celery import app
 from currencies.models import Currency, ExchangeRate
-from currencies.nbp.adapter import NBPExchangeRatesAdapter
+from currencies.nbp_adapter import NBPExchangeRatesAdapter
 
 logger = logging.getLogger(__name__)
 
