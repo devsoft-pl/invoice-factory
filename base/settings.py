@@ -163,3 +163,5 @@ LOGIN_URL = "users:login"
 TEST_RUNNER = "base.runner.PytestTestRunner"
 
 EMAIL_SENDER = env("EMAIL_SENDER")
+
+CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
