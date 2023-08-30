@@ -2,11 +2,11 @@ import calendar
 import logging
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.text import format_lazy as _
 
 from base.celery import app
-from base.settings import EMAIL_SENDER
 from invoices.models import Invoice
 
 logger = logging.getLogger(__name__)
@@ -59,6 +59,6 @@ def create_invoices_for_recurring():
             send_mail(
                 subject,
                 content,
-                from_email=EMAIL_SENDER,
+                from_email=settings.EMAIL_SENDER,
                 recipient_list=[invoice.user.email],
             )
