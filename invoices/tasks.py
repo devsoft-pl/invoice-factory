@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.core.mail import send_mail
-from django.utils.text import format_lazy as _
+from django.utils.translation import gettext as _
 
 from base.celery import app
 from invoices.models import Invoice
