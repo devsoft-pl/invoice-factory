@@ -156,6 +156,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "create_invoices_for_recurring",
         "schedule": crontab(minute="0", hour="6"),
     },
+    "check-company-status-from-ceidg": {
+        "task": "check-company-status",
+        "schedule": crontab(minute="0", hour="7"),
+    }
 }
 
 LOGIN_URL = "users:login"
