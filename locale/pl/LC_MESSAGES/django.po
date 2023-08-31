@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-23 21:33+0200\n"
+"POT-Creation-Date: 2023-08-31 22:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,70 +49,89 @@ msgstr "Nazwa"
 msgid "NIP"
 msgstr "NIP"
 
-#: companies/models.py:18
+#: companies/models.py:19
 #, fuzzy
 #| msgid "Enter the tax ID without special characters"
 msgid "Enter the tax ID without special characters with minimum 8 character"
 msgstr "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
 
-#: companies/models.py:23
+#: companies/models.py:25
 msgid "Regon"
 msgstr "Regon"
 
-#: companies/models.py:27
+#: companies/models.py:31
 #, fuzzy
 #| msgid "Enter regon in numbers only"
 msgid "Enter regon in numbers only with minimum 9 character"
-msgstr "Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
+msgstr ""
+"Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
 
-#: companies/models.py:31 countries/models.py:9
+#: companies/models.py:36 countries/models.py:9
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:33
+#: companies/models.py:38
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:35
+#: companies/models.py:40
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:39
+#: companies/models.py:44
 msgid "Zip code in numbers only in format xx-xxx"
 msgstr "Kod pocztowy w liczbach tylko w formacie xx-xxx"
 
-#: companies/models.py:44
+#: companies/models.py:49
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:47
+#: companies/models.py:52
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko literami"
 
-#: companies/models.py:50
+#: companies/models.py:55
 msgid "Email"
 msgstr "Email"
 
-#: companies/models.py:52
+#: companies/models.py:57
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: companies/models.py:57
+#: companies/models.py:62
 msgid "Enter phone number in numbers only"
 msgstr "Wprowadź numer telefonu tylko cyframi"
 
-#: companies/models.py:61 countries/models.py:16 currencies/models.py:18
+#: companies/models.py:66 countries/models.py:16 currencies/models.py:18
 #: invoices/models.py:43 items/models.py:28 vat_rates/models.py:15
 msgid "User"
 msgstr "Użytkownik"
 
-#: companies/models.py:64
+#: companies/models.py:69
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:74
+#: companies/models.py:79
 msgid "companies"
 msgstr "firmy"
+
+#: companies/tasks.py:43
+msgid "Contractor's company status"
+msgstr "Status aktywności kontrahentów"
+
+#: companies/tasks.py:45
+#, python-format
+msgid ""
+"The company status of the contractor with the NIP: %(company_nip)s number in "
+"CEIDG is not active.\n"
+" Check the contractor's details again\n"
+"Best regards,\n"
+"Invoice Manager"
+msgstr ""
+"Status firmy kontrahenta o NIP: %(company_nip)s w CEIDG jest nieaktywny.\n"
+"Sprawdź ponownie dane kontrahenta\n"
+"Z wyrazami szacunku,\n"
+"Invoice Manager"
 
 #: companies/views.py:48 companies/views.py:84 companies/views.py:110
 msgid "Company does not exist"
@@ -190,7 +209,7 @@ msgstr "Numer faktury"
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:70 invoices/models.py:101
+#: invoices/forms.py:70 invoices/models.py:103
 msgid "Client"
 msgstr "Kontrahent"
 
@@ -263,30 +282,34 @@ msgstr "Rodzaj płatności"
 msgid "Account number"
 msgstr "Numer konta"
 
-#: invoices/models.py:95
+#: invoices/models.py:96
 msgid ""
 "Enter account number with minimum 15 character without special characters"
 msgstr ""
 "Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
 
-#: invoices/receivers.py:13
+#: invoices/receivers.py:12
 msgid "Welcome in Invoice Manager"
-msgstr "Witamy w Menedżerze Faktur"
+msgstr "Witamy w Invoice Manager"
 
-#: invoices/receivers.py:15
+#: invoices/receivers.py:14
 #, python-brace-format
 msgid ""
 "Thanks for your registration. Your account details: \n"
-" Login: {username} \n"
+"Login: {username} \n"
 "Best regards,\n"
 "Invoice Manager"
 msgstr ""
+"Dziękujemy za rejestrację. Dane Twojego konta: \n"
+"Login: {username} \n"
+"Z wyrazami szacunku,\n"
+"Invoice Manager"
 
-#: invoices/receivers.py:32
+#: invoices/receivers.py:31
 msgid "Goodbye in Invoice Manager"
-msgstr "Do widzenia w Menedżerze Faktur"
+msgstr "Do widzenia w Invoice Manager"
 
-#: invoices/receivers.py:34
+#: invoices/receivers.py:33
 #, python-brace-format
 msgid ""
 "Thank you for using our Invoice Manager\n"
@@ -294,6 +317,10 @@ msgid ""
 "Best regards,\n"
 "Invoice Manager"
 msgstr ""
+"Dziękujemy za skorzystanie z naszego Invoice Manager\n"
+"Mamy nadzieję, że jeszcze do nas wrócisz \n"
+"Z wyrazami szacunku,\n"
+"Invoice Manager"
 
 #: invoices/tasks.py:53
 msgid "New recurring invoice"
@@ -305,6 +332,9 @@ msgid ""
 "Best regards,\n"
 "Invoice Manager"
 msgstr ""
+"Utworzono nową fakturę cykliczną\n"
+"Z wyrazami szacunku,\n"
+"Invoice Manager"
 
 #: invoices/views.py:50 invoices/views.py:80 invoices/views.py:103
 #: invoices/views.py:114
@@ -317,7 +347,7 @@ msgstr "Faktura"
 
 #: items/models.py:19
 msgid "PWKiU"
-msgstr ""
+msgstr "PWKiU"
 
 #: items/models.py:20
 msgid "Amount"
