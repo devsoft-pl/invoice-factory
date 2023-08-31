@@ -159,7 +159,7 @@ CELERY_BEAT_SCHEDULE = {
     "check-company-status-from-ceidg": {
         "task": "check_company_status_for_all_contractors",
         "schedule": crontab(minute="0", hour="7"),
-    }
+    },
 }
 
 LOGIN_URL = "users:login"
