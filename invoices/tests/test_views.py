@@ -150,7 +150,7 @@ class TestCreateInvoice(TestInvoice):
 
     def test_create_invoice_with_valid_data(self):
         self.invoice_data = {
-            "invoice_number": "1/test",
+            "invoice_number": "1/2023",
             "invoice_type": "0",
             "company": self.company.pk,
             "create_date": "2023-01-01",
@@ -158,12 +158,12 @@ class TestCreateInvoice(TestInvoice):
             "payment_date": "2023-01-07",
             "payment_method": "0",
             "currency": self.currency.pk,
-            "account_number": "1234",
+            "account_number": "111111111111111",
             "client": self.contractor.pk,
         }
         self.client.login(username=self.user.username, password="test")
         invoices_before_create = Invoice.objects.filter(
-            invoice_number="1/test",
+            invoice_number="1/2023",
             create_date="2023-01-01",
             currency=self.currency.pk,
             user=self.user,
@@ -174,7 +174,7 @@ class TestCreateInvoice(TestInvoice):
         self.assertRedirects(response, reverse("invoices:list_invoices"))
         self.assertTrue(
             Invoice.objects.filter(
-                invoice_number="1/test",
+                invoice_number="1/2023",
                 create_date="2023-01-01",
                 currency=self.currency.pk,
                 user=self.user,
@@ -182,7 +182,7 @@ class TestCreateInvoice(TestInvoice):
         )
         self.assertEqual(
             Invoice.objects.filter(
-                invoice_number="1/test",
+                invoice_number="1/2023",
                 create_date="2023-01-01",
                 currency=self.currency.pk,
                 user=self.user,
@@ -234,7 +234,7 @@ class TestReplaceInvoice(TestInvoice):
 
     def test_replace_invoice_with_valid_data(self):
         self.invoice_data = {
-            "invoice_number": "2/test",
+            "invoice_number": "2/2023",
             "invoice_type": "0",
             "company": self.company.pk,
             "create_date": "2023-02-01",
@@ -242,7 +242,7 @@ class TestReplaceInvoice(TestInvoice):
             "payment_date": "2023-02-07",
             "payment_method": "0",
             "currency": self.currency.pk,
-            "account_number": "1234",
+            "account_number": "111111111111111",
             "client": self.contractor.pk,
         }
         self.client.login(username=self.user.username, password="test")
@@ -254,7 +254,7 @@ class TestReplaceInvoice(TestInvoice):
         )
         self.assertTrue(
             Invoice.objects.filter(
-                invoice_number="2/test",
+                invoice_number="2/2023",
                 create_date="2023-02-01",
                 currency=self.currency.pk,
                 user=self.user,

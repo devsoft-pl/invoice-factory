@@ -178,7 +178,11 @@ class TestInvoiceForm:
 
     def test_form_with_valid_data(self):
         data = InvoiceDictFactory(
-            company=self.company_1, client=self.client_1, currency=self.currency_1
+            company=self.company_1,
+            client=self.client_1,
+            currency=self.currency_1,
+            invoice_number="1/2023",
+            account_number="111111111111111",
         )
         form = InvoiceForm(current_user=self.user, data=data)
 
@@ -195,4 +199,9 @@ class TestInvoiceForm:
         form = InvoiceForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {"invoice_number": ["Numer faktury już istnieje"]}
+        assert form.errors == {
+            "invoice_number": ["Numer faktury już istnieje"],
+            "account_number": [
+                "Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
+            ],
+        }
