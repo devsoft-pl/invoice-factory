@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-31 22:29+0200\n"
+"POT-Creation-Date: 2023-09-02 18:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,8 +50,6 @@ msgid "NIP"
 msgstr "NIP"
 
 #: companies/models.py:19
-#, fuzzy
-#| msgid "Enter the tax ID without special characters"
 msgid "Enter the tax ID without special characters with minimum 8 character"
 msgstr "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
 
@@ -60,8 +58,6 @@ msgid "Regon"
 msgstr "Regon"
 
 #: companies/models.py:31
-#, fuzzy
-#| msgid "Enter regon in numbers only"
 msgid "Enter regon in numbers only with minimum 9 character"
 msgstr ""
 "Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
@@ -293,10 +289,9 @@ msgid "Welcome in Invoice Manager"
 msgstr "Witamy w Invoice Manager"
 
 #: invoices/receivers.py:14
-#, python-brace-format
 msgid ""
 "Thanks for your registration. Your account details: \n"
-"Login: {username} \n"
+" Login: {username} \n"
 "Best regards,\n"
 "Invoice Manager"
 msgstr ""
@@ -313,7 +308,7 @@ msgstr "Do widzenia w Invoice Manager"
 #, python-brace-format
 msgid ""
 "Thank you for using our Invoice Manager\n"
-"We hope you will come back to us again: {username}\n"
+"We hope you will come back to us again \n"
 "Best regards,\n"
 "Invoice Manager"
 msgstr ""
