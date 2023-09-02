@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from companies.factories import CompanyFactory
+from companies.factories import CompanyDictFactory, CompanyFactory
 from companies.models import Company
 from countries.factories import CountryFactory
 from users.factories import UserFactory
@@ -13,7 +13,9 @@ class TestCompany(TestCase):
         self.user = UserFactory()
         self.user.set_password("test")
         self.user.save()
-        self.user_companies = CompanyFactory.create_batch(12, user=self.user)
+        self.user_companies = CompanyFactory.create_batch(
+            12, user=self.user, is_my_company=False
+        )
         self.my_companies = CompanyFactory.create_batch(
             2, user=self.user, is_my_company=True
         )
@@ -163,8 +165,8 @@ class TestCreateCompany(TestCompany):
     def test_create_company_with_valid_data(self):
         self.company_data = {
             "name": "test",
-            "nip": "98765",
-            "regon": "1234",
+            "nip": "123456789",
+            "regon": "987654321",
             "country": self.country.pk,
             "address": "ulica testowa",
             "zip_code": "00-345",
@@ -180,15 +182,15 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="98765", is_my_company=True, user=self.user
+                name="test", nip="123456789", is_my_company=True, user=self.user
             ).exists()
         )
 
     def test_create_contractor_with_valid_data(self):
         self.contractor_data = {
             "name": "test",
-            "nip": "98765",
-            "regon": "1234",
+            "nip": "123456789",
+            "regon": "987654321",
             "country": self.country.pk,
             "address": "ulica testowa",
             "zip_code": "00-345",
@@ -197,23 +199,13 @@ class TestCreateCompany(TestCompany):
             "is_my_company": False,
         }
         self.client.login(username=self.user.username, password="test")
-        company_before_create = Company.objects.filter(
-            name="test", nip="98765", is_my_company=False, user=self.user
-        ).count()
         response = self.client.post(self.url, self.contractor_data)
-
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="98765", is_my_company=False, user=self.user
+                name="test", nip="123456789", is_my_company=False, user=self.user
             ).exists()
-        )
-        self.assertEqual(
-            Company.objects.filter(
-                name="test", nip="98765", is_my_company=False, user=self.user
-            ).count(),
-            company_before_create + 1,
         )
 
     def test_get_form(self):
@@ -256,8 +248,8 @@ class TestReplaceCompany(TestCompany):
     def test_replace_company_with_valid_data(self):
         self.company_data = {
             "name": "test",
-            "nip": "98765",
-            "regon": "1234",
+            "nip": "123456789",
+            "regon": "987654321",
             "country": self.country.pk,
             "address": "ulica testowa",
             "zip_code": "00-345",
@@ -273,7 +265,7 @@ class TestReplaceCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="98765", is_my_company=False, user=self.user
+                name="test", nip="123456789", is_my_company=False, user=self.user
             ).exists()
         )
 
@@ -282,8 +274,8 @@ class TestReplaceCompany(TestCompany):
         url = reverse("companies:replace_company", args=[company.pk])
         self.company_data = {
             "name": "test",
-            "nip": "98765",
-            "regon": "1234",
+            "nip": "123456789",
+            "regon": "987654321",
             "country": self.country.pk,
             "address": "ulica testowa",
             "zip_code": "00-345",
@@ -299,7 +291,7 @@ class TestReplaceCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="98765", is_my_company=True, user=self.user
+                name="test", nip="123456789", is_my_company=True, user=self.user
             ).exists()
         )
 

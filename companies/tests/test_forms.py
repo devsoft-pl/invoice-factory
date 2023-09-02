@@ -16,10 +16,18 @@ class TestCompanyForm:
         self.country_1 = CountryFactory.create(user=self.user)
         self.country_2 = CountryFactory.create()
         self.company_1 = CompanyFactory.create(
-            name="Devsoft", nip="1111111111", regon="1111111", user=self.user
+            name="Devsoft",
+            nip="1111111111",
+            regon="1111111",
+            user=self.user,
+            is_my_company=False,
         )
         self.company_2 = CompanyFactory.create(
-            name="Microsoft", nip="2222222222", regon="2222222", user=self.user
+            name="Microsoft",
+            nip="2222222222",
+            regon="2222222",
+            user=self.user,
+            is_my_company=False,
         )
 
     def test_return_filtered_company_with_name_startswith(self):
@@ -132,11 +140,15 @@ class TestCompanyForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "nip": ["Enter the tax ID without special characters"],
-            "regon": ["Enter regon in numbers only"],
-            "zip_code": ["Zip code in numbers only"],
-            "city": ["Enter the city in letters only"],
-            "phone_number": ["Enter phone number in numbers only"],
+            "nip": [
+                "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
+            ],
+            "regon": [
+                "Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
+            ],
+            "zip_code": ["Kod pocztowy w liczbach tylko w formacie xx-xxx"],
+            "city": ["Wpisz miasto tylko literami"],
+            "phone_number": ["Wprowadź numer telefonu tylko cyframi"],
         }
 
     def test_clean_nip_returns_error(self):
