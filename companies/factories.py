@@ -1,4 +1,5 @@
 import factory
+from factory import fuzzy
 
 from companies.models import Company
 from countries.factories import CountryFactory
@@ -18,6 +19,7 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     city = factory.Sequence(lambda n: "City %03d" % n)
     email = factory.Sequence(lambda n: "test_%03d@test.pl" % n)
     phone_number = factory.Sequence(lambda n: "Phone %03d" % n)
+    is_my_company = factory.fuzzy.FuzzyChoice([True, False])
     user = factory.SubFactory(UserFactory)
 
 
