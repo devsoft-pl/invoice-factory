@@ -18,12 +18,12 @@ class TestDetailUser(TestUser):
         super().setUp()
         self.url = reverse("users:detail_user")
 
-    def test_detail_user_if_not_logged(self):
+    def test_detail_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_detail_user_if_logged(self):
+    def test_detail_if_logged(self):
         self.client.login(username=self.user.username, password=self.password)
         response = self.client.get(self.url)
 
@@ -37,7 +37,7 @@ class TestReplaceUser(TestUser):
         super().setUp()
         self.url = reverse("users:replace_user")
 
-    def test_replace_user_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -52,7 +52,7 @@ class TestReplaceUser(TestUser):
         )
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
-    def test_replace_user_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.client.login(username=self.user.username, password=self.password)
         response = self.client.post(
             self.url, {"username": self.user.username, "email": "test@test.pl"}
@@ -97,7 +97,7 @@ class TestRegisterUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_register_user_with_valid_data(self):
+    def test_register_with_valid_data(self):
         username = "User_test_1"
         password = "Test_password1!"
         response = self.client.post(
@@ -131,7 +131,7 @@ class TestPasswordChangeUser(TestUser):
         )
         self.assertTemplateUsed(response, "registration/password_change_user.html")
 
-    def test_password_change_user_with_valid_data(self):
+    def test_password_change_with_valid_data(self):
         self.client.login(username=self.user.username, password=self.password)
         new_password = "Test_new_password1!"
         response = self.client.post(
