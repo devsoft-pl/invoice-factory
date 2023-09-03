@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+from celery.exceptions import Ignore
+
 from base.celery import app
 from currencies.models import Currency, ExchangeRate
 from currencies.nbp_adapter import NBPExchangeRatesAdapter
@@ -23,7 +25,12 @@ def get_exchange_rate_for_currency(instance_id):
     logger.info("Trying to fetch exchange rate for currency")
 
     adapter = NBPExchangeRatesAdapter()
-    currency = Currency.objects.get(pk=instance_id)
+
+    try:
+        currency = Currency.objects.get(pk=instance_id)
+    except Currency.DoesNotExist:
+        raise Ignore()
+
     date = datetime.today()
 
     logger.info(
