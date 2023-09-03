@@ -1,5 +1,6 @@
 import logging
 
+from celery.exceptions import Ignore
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.translation import gettext as _
@@ -30,7 +31,7 @@ def check_company_status(instance_id):
     try:
         company = Company.objects.get(pk=instance_id)
     except Company.DoesNotExist:
-        return None
+        raise Ignore()
 
     logger.info(
         f"Trying to check contractor company status for NIP: {company.nip} and user {company.user}"
