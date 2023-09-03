@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from parameterized import parameterized
 
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
@@ -21,12 +22,12 @@ class TestListCurrencies(TestCurrency):
         super().setUp()
         self.url = reverse("currencies:list_currencies")
 
-    def test_list_currencies_if_not_logged(self):
+    def test_list_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_list_currencies(self):
+    def test_list_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -37,23 +38,6 @@ class TestListCurrencies(TestCurrency):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_currencies[:10])
 
-    def test_list_currencies_second_pag(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=2")
-
-        object_list = response.context["currencies"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_currencies[10:])
-
-    def test_returns_last_page_when_non_existent(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=666")
-
-        object_list = response.context["currencies"]
-
-        self.assertListEqual(list(object_list), self.user_currencies[10:])
-
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=abc")
@@ -62,6 +46,16 @@ class TestListCurrencies(TestCurrency):
 
         self.assertListEqual(list(object_list), self.user_currencies[:10])
 
+    @parameterized.expand([[2], [666]])
+    def test_pagination_return_correct_list(self, page):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page={page}")
+
+        object_list = response.context["currencies"]
+
+        self.assertTrue(len(object_list) == 2)
+        self.assertListEqual(list(object_list), self.user_currencies[10:])
+
 
 class TestDeleteCurrency(TestCurrency):
     def setUp(self) -> None:
@@ -69,12 +63,12 @@ class TestDeleteCurrency(TestCurrency):
         self.currency = self.user_currencies[0]
         self.url = reverse("currencies:delete_currency", args=[self.currency.pk])
 
-    def test_delete_currency_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_currency(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -108,7 +102,7 @@ class TestCreateCurrency(TestCurrency):
         self.assertFormError(response.context["form"], "code", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "currencies/create_currency.html")
 
-    def test_create_currency_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"code": "PLN"})
 
@@ -116,7 +110,7 @@ class TestCreateCurrency(TestCurrency):
         self.assertRedirects(response, reverse("currencies:list_currencies"))
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
 
-    def test_create_currency_with_valid_data_and_next(self):
+    def test_create_with_valid_data_and_next(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(
             self.url, {"code": "PLN", "next": reverse("invoices:create_invoice")}
@@ -139,7 +133,7 @@ class TestReplaceCurrency(TestCurrency):
         self.currency = self.user_currencies[0]
         self.url = reverse("currencies:replace_currency", args=[self.currency.pk])
 
-    def test_replace_currency_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")

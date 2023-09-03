@@ -9,5 +9,5 @@ class TestCountryModel:
     def set_up(self) -> None:
         self.country = CountryFactory.create()
 
-    def test_str_returns_country_name(self):
+    def test_returns_str_country_name(self):
         assert self.country.__str__() == self.country.country

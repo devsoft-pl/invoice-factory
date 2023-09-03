@@ -21,7 +21,7 @@ class TestListCountries(TestCountry):
         super().setUp()
         self.url = reverse("countries:list_countries")
 
-    def test_list_countries_if_not_logged(self):
+    def test_list_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
