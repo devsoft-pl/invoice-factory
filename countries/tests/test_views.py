@@ -47,7 +47,7 @@ class TestListCountries(TestCountry):
         self.assertListEqual(list(object_list), self.user_countries[:10])
 
     @parameterized.expand([[2], [666]])
-    def test_list_countries_second_pag(self, page):
+    def test_pagination_return_correct_list(self, page):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page={page}")
 

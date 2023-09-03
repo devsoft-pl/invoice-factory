@@ -2,6 +2,7 @@ from datetime import datetime
 from unittest.mock import call, patch
 
 import pytest
+from celery.exceptions import Ignore
 
 from currencies.factories import CurrencyFactory
 from currencies.models import ExchangeRate
@@ -53,3 +54,7 @@ class TestExchangeRatesTasks:
             ).count()
             == expected_count
         )
+
+    def test_returns_raise_if_company_does_not_exist(self):
+        with pytest.raises(Ignore):
+            get_exchange_rate_for_currency(99999)

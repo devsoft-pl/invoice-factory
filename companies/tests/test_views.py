@@ -1,8 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from parameterized import parameterized
 
-from companies.factories import CompanyDictFactory, CompanyFactory
+from companies.factories import CompanyFactory
 from companies.models import Company
 from countries.factories import CountryFactory
 from users.factories import UserFactory
@@ -28,12 +29,12 @@ class TestListCompanies(TestCompany):
         self.url = reverse("companies:list_companies")
         self.my_url = reverse("companies:list_my_companies")
 
-    def test_list_companies_if_not_logged(self):
+    def test_list_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_list_companies_if_logged(self):
+    def test_list_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -44,30 +45,6 @@ class TestListCompanies(TestCompany):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_companies[:10])
 
-    def test_list_my_companies_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(self.my_url)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "companies/list_my_companies.html")
-
-    def test_list_companies_second_page(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=2")
-
-        object_list = response.context["companies"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_companies[10:])
-
-    def test_returns_last_page_when_non_existent(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=666")
-
-        object_list = response.context["companies"]
-
-        self.assertListEqual(list(object_list), self.user_companies[10:])
-
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=abc")
@@ -76,6 +53,23 @@ class TestListCompanies(TestCompany):
 
         self.assertListEqual(list(object_list), self.user_companies[:10])
 
+    def test_list_my_companies_if_logged(self):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(self.my_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/list_my_companies.html")
+
+    @parameterized.expand([[2], [666]])
+    def test_pagination_return_correct_list(self, page):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page={page}")
+
+        object_list = response.context["companies"]
+
+        self.assertTrue(len(object_list) == 2)
+        self.assertListEqual(list(object_list), self.user_companies[10:])
+
 
 class TestDetailCompany(TestCompany):
     def setUp(self) -> None:
@@ -83,12 +77,12 @@ class TestDetailCompany(TestCompany):
         self.company = self.user_companies[0]
         self.url = reverse("companies:detail_company", args=[self.company.pk])
 
-    def test_detail_company_if_not_logged(self):
+    def test_detail_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_detail_company_if_logged(self):
+    def test_detail_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -112,12 +106,12 @@ class TestDeleteCompany(TestCompany):
         self.url = reverse("companies:delete_company", args=[self.company.pk])
         self.my_url = reverse("companies:delete_company", args=[self.my_company.pk])
 
-    def test_delete_company_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_company_if_logged(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -148,7 +142,7 @@ class TestCreateCompany(TestCompany):
         self.url = reverse("companies:create_company")
         self.country = CountryFactory.create(user=self.user)
 
-    def test_create_company_if_not_logged(self):
+    def test_create_if_not_logged(self):
         response = self.client.get(self.my_url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.my_url}")
@@ -162,7 +156,7 @@ class TestCreateCompany(TestCompany):
         self.assertFormError(response.context["form"], "nip", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "companies/create_company.html")
 
-    def test_create_company_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.company_data = {
             "name": "test",
             "nip": "123456789",
@@ -222,7 +216,7 @@ class TestReplaceCompany(TestCompany):
         self.url = reverse("companies:replace_company", args=[self.company.pk])
         self.country = CountryFactory.create(user=self.user)
 
-    def test_replace_company_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -245,7 +239,7 @@ class TestReplaceCompany(TestCompany):
         )
         self.assertTemplateUsed(response, "companies/replace_company.html")
 
-    def test_replace_company_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.company_data = {
             "name": "test",
             "nip": "123456789",

@@ -30,8 +30,13 @@ class TestCompanyForm:
             is_my_company=False,
         )
 
-    def test_return_filtered_company_with_name_startswith(self):
-        request_get = {"name": "Dev"}
+    @pytest.mark.parametrize(
+        "company_name, expected_count", [["Dev", 1], ["Devsoft", 1], ["soft", 2]]
+    )
+    def test_return_filtered_with_different_parts_of_company_name(
+        self, company_name, expected_count
+    ):
+        request_get = {"name": company_name}
 
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
@@ -40,30 +45,7 @@ class TestCompanyForm:
         filtered_list = self.form.get_filtered_companies(companies_list)
 
         assert self.company_1.id == filtered_list[0].id
-        assert filtered_list.count() == 1
-
-    def test_return_filtered_company_with_exact_name(self):
-        request_get = {"name": "Devsoft"}
-
-        self.form = CompanyFilterForm(request_get)
-        self.form.is_valid()
-
-        companies_list = Company.my_clients.filter(user=self.user)
-        filtered_list = self.form.get_filtered_companies(companies_list)
-
-        assert self.company_1.id == filtered_list[0].id
-        assert filtered_list.count() == 1
-
-    def test_returns_filtered_companies_with_similar_name(self):
-        request_get = {"name": "soft"}
-
-        self.form = CompanyFilterForm(request_get)
-        self.form.is_valid()
-
-        companies_list = Company.my_clients.filter(user=self.user)
-        filtered_list = self.form.get_filtered_companies(companies_list)
-
-        assert filtered_list.count() == 2
+        assert filtered_list.count() == expected_count
 
     def test_return_filtered_empty_list_when_company_name_not_exist(self):
         request_get = {"name": "Faktoria"}
