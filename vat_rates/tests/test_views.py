@@ -1,6 +1,8 @@
+import pytest
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from parameterized import parameterized
 
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
@@ -24,12 +26,12 @@ class TestListVatRates(TestVatRate):
         super().setUp()
         self.url = reverse("vat_rates:list_vat_rates")
 
-    def test_list_vat_rates_if_not_logged(self):
+    def test_list_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_list_vat_rates_if_logged(self):
+    def test_list_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -40,23 +42,6 @@ class TestListVatRates(TestVatRate):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_rates[:10])
 
-    def test_list_vat_rates_second_page(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=2")
-
-        object_list = response.context["vat_rates"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_rates[10:])
-
-    def test_returns_last_page_when_non_existent(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=666")
-
-        object_list = response.context["vat_rates"]
-
-        self.assertListEqual(list(object_list), self.user_rates[10:])
-
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=abc")
@@ -65,6 +50,16 @@ class TestListVatRates(TestVatRate):
 
         self.assertListEqual(list(object_list), self.user_rates[:10])
 
+    @parameterized.expand([[2], [666]])
+    def test_pagination_return_correct_list(self, page):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page={page}")
+
+        object_list = response.context["vat_rates"]
+
+        self.assertTrue(len(object_list) == 2)
+        self.assertListEqual(list(object_list), self.user_rates[10:])
+
 
 class TestDeleteVatRate(TestVatRate):
     def setUp(self) -> None:
@@ -72,12 +67,12 @@ class TestDeleteVatRate(TestVatRate):
         self.vat_rate = self.user_rates[0]
         self.url = reverse("vat_rates:delete_vat", args=[self.vat_rate.pk])
 
-    def test_delete_vat_rate_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_vat_rate_if_logged(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -98,7 +93,7 @@ class TestCreateVatRate(TestVatRate):
         super().setUp()
         self.url = reverse("vat_rates:create_vat")
 
-    def test_create_vat_rate_if_not_logged(self):
+    def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -111,7 +106,7 @@ class TestCreateVatRate(TestVatRate):
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "vat_rates/create_vat.html")
 
-    def test_create_vat_rate_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"rate": "23"})
 
@@ -119,7 +114,7 @@ class TestCreateVatRate(TestVatRate):
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
         self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).count(), 1)
 
-    def test_create_vat_rate_with_valid_data_and_next(self):
+    def test_create_with_valid_data_and_next(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(
             self.url, {"rate": "23", "next": reverse("vat_rates:create_vat")}
@@ -142,7 +137,7 @@ class TestReplaceVatRate(TestVatRate):
         self.vat_rate = self.user_rates[0]
         self.url = reverse("vat_rates:replace_vat", args=[self.vat_rate.pk])
 
-    def test_replace_vat_rate_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -162,7 +157,7 @@ class TestReplaceVatRate(TestVatRate):
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "vat_rates/replace_vat.html")
 
-    def test_replace_vat_rate_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"rate": "12"})
 
