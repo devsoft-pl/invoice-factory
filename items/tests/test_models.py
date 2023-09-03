@@ -13,7 +13,7 @@ class TestItemModel:
         vat = VatRateFactory.create(rate=23)
         self.item = ItemFactory.create(amount=2, net_price=1200, vat=vat)
 
-    def test_str_returns_item_name(self):
+    def test_returns_str_item_name(self):
         assert self.item.__str__() == self.item.name
 
     def test_return_net_amount(self):

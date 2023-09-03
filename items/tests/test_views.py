@@ -28,12 +28,12 @@ class TestDeleteItem(TestItem):
         self.item = self.user_items[0]
         self.url = reverse("items:delete_item", args=[self.item.pk])
 
-    def test_delete_item_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_item_if_logged(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -54,7 +54,7 @@ class TestCreateItem(TestItem):
         super().setUp()
         self.url = reverse("items:create_item", args=[self.invoice.pk])
 
-    def test_create_item_if_not_logged(self):
+    def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -71,7 +71,7 @@ class TestCreateItem(TestItem):
         self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "items/create_item.html")
 
-    def test_create_item_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(
             self.url,
@@ -123,7 +123,7 @@ class TestReplaceItem(TestItem):
         self.item = self.user_items[0]
         self.url = reverse("items:replace_item", args=[self.item.pk])
 
-    def test_replace_item_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -149,7 +149,7 @@ class TestReplaceItem(TestItem):
         self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
         self.assertTemplateUsed(response, "items/replace_item.html")
 
-    def test_replace_item_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
 
         response = self.client.post(
