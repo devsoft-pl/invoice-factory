@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from parameterized import parameterized
 
 from countries.factories import CountryFactory
 from countries.models import Country
@@ -26,7 +27,7 @@ class TestListCountries(TestCountry):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_list_countries(self):
+    def test_list_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -37,23 +38,6 @@ class TestListCountries(TestCountry):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_countries[:10])
 
-    def test_list_countries_second_pag(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=2")
-
-        object_list = response.context["countries"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_countries[10:])
-
-    def test_returns_last_page_when_non_existent(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=666")
-
-        object_list = response.context["countries"]
-
-        self.assertListEqual(list(object_list), self.user_countries[10:])
-
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=abc")
@@ -62,6 +46,16 @@ class TestListCountries(TestCountry):
 
         self.assertListEqual(list(object_list), self.user_countries[:10])
 
+    @parameterized.expand([[2], [666]])
+    def test_list_countries_second_pag(self, page):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page={page}")
+
+        object_list = response.context["countries"]
+
+        self.assertTrue(len(object_list) == 2)
+        self.assertListEqual(list(object_list), self.user_countries[10:])
+
 
 class TestDeleteCountry(TestCountry):
     def setUp(self) -> None:
@@ -69,12 +63,12 @@ class TestDeleteCountry(TestCountry):
         self.country = self.user_countries[0]
         self.url = reverse("countries:delete_country", args=[self.country.pk])
 
-    def test_delete_country_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_country(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -95,7 +89,7 @@ class TestCreateCountry(TestCountry):
         super().setUp()
         self.url = reverse("countries:create_country")
 
-    def test_create_country_if_not_logged(self):
+    def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -110,7 +104,7 @@ class TestCreateCountry(TestCountry):
         )
         self.assertTemplateUsed(response, "countries/create_country.html")
 
-    def test_create_country_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"country": "Polska"})
 
@@ -120,7 +114,7 @@ class TestCreateCountry(TestCountry):
             Country.objects.filter(country="Polska", user=self.user).count(), 1
         )
 
-    def test_create_country_with_valid_data_and_next(self):
+    def test_create_with_valid_data_and_next(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(
             self.url, {"country": "Polska", "next": reverse("companies:create_company")}
@@ -145,7 +139,7 @@ class TestReplaceCountry(TestCountry):
         self.country = self.user_countries[0]
         self.url = reverse("countries:replace_country", args=[self.country.pk])
 
-    def test_replace_country_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -167,7 +161,7 @@ class TestReplaceCountry(TestCountry):
         )
         self.assertTemplateUsed(response, "countries/replace_country.html")
 
-    def test_replace_country_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.post(self.url, {"country": "Szwecja"})
 
