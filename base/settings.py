@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "vat_rates",
     "items",
     "users",
+    "reports",
 ]
 
 MIDDLEWARE = [
