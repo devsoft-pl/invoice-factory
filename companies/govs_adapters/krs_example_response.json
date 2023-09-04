@@ -1,0 +1,203 @@
+{
+    "odpis": {
+        "rodzaj": "Aktualny",
+        "naglowekA": {
+            "numerKRS": "0000012345",
+            "stanPozycji": 1
+        },
+        "dane": {
+            "dzial1": {
+                "danePodmiotu": {
+                    "formaPrawna": "...",
+                    "identyfikatory": {
+                        "regon": "...",
+                        "nip": "123456789"
+                    },
+                    "nazwa": "...",
+                    "daneOWczesniejszejRejestracji": {
+                        "sadProwadzacyRejestr": "SĄD REJONOWY DLA M.ST.WARSZAWY ,SĄD GOSPODARCZY ,XVI WYDZIAŁ GOSPODARCZY-REJESTROWY"
+                    },
+                    "czyProwadziDzialalnoscZInnymiPodmiotami": false,
+                    "czyPosiadaStatusOPP": false
+                },
+                "siedzibaIAdres": {
+                    "siedziba": {
+                        "kraj": "POLSKA",
+                        "miejscowosc": "WARSZAWA"
+                    },
+                    "adres": {
+                        "ulica": "...",
+                        "nrDomu": "...",
+                        "miejscowosc": "WARSZAWA",
+                        "kodPocztowy": "...",
+                        "kraj": "POLSKA"
+                    }
+                },
+                "umowaStatut": {
+                    "informacjaOZawarciuZmianieUmowyStatutu": [
+                        {
+                            "zawarcieZmianaUmowyStatutu": "AKT NOTARIALNY Z DNIA ..."
+                        }
+                    ]
+                },
+                "pozostaleInformacje": {
+                    "czasNaJakiUtworzonyZostalPodmiot": "NIEOZNACZONY",
+                    "informacjaOLiczbieUdzialow": "WIĘKSZĄ LICZBĘ UDZIAŁÓW"
+                },
+                "wspolnicySpzoo": [
+                    {
+                        "nazwa": "...",
+                        "identyfikator": {
+                            "regon": "..."
+                        },
+                        "krs": {
+                            "krs": "..."
+                        },
+                        "posiadaneUdzialy": "...",
+                        "czyPosiadaCaloscUdzialow": true
+                    }
+                ],
+                "kapital": {
+                    "wysokoscKapitaluZakladowego": {
+                        "wartosc": "...",
+                        "waluta": "PLN"
+                    },
+                    "wniesioneAporty": {
+                        "okreslenieWartosciUdzialowObjetychZaAport": [
+                            {
+                                "wartosc": "...",
+                                "waluta": "PLN"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dzial2": {
+                "reprezentacja": {
+                    "nazwaOrganu": "ZARZĄD",
+                    "sposobReprezentacji": "W PRZYPADKU POWOŁANIA ZARZĄDU WIELOOSOBOWEGO, DO SKŁADANIA OŚWIADCZEŃ W IMIENIU SPÓŁKI UPOWAŻNIENI SĄ: PREZES ZARZĄDU SAMODZIELNIE LUB DWAJ CZŁONKOWIE ZARZĄDU DZIAŁAJĄCY ŁĄCZNIE LUB KAŻDY Z CZŁONKÓW ZARZĄDU ŁĄCZNIE Z PROKURENTEM.",
+                    "sklad": [
+                        {
+                            "nazwisko": {
+                                "nazwiskoICzlon": "..."
+                            },
+                            "imiona": {
+                                "imie": "..."
+                            },
+                            "identyfikator": {
+                                "pesel": "..."
+                            },
+                            "funkcjaWOrganie": "PREZES ZARZĄDU",
+                            "czyZawieszona": false
+                        },
+                        {
+                            "nazwisko": {
+                                "nazwiskoICzlon": "..."
+                            },
+                            "imiona": {
+                                "imie": "...",
+                                "imieDrugie": "..."
+                            },
+                            "identyfikator": {
+                                "pesel": "..."
+                            },
+                            "funkcjaWOrganie": "WICEPREZES ZARZĄDU",
+                            "czyZawieszona": false
+                        }
+                    ]
+                },
+                "organNadzoru": [
+                    {
+                        "nazwa": "RADA NADZORCZA",
+                        "sklad": [
+                            {
+                                "nazwisko": {
+                                    "nazwiskoICzlon": "..."
+                                },
+                                "imiona": {
+                                    "imie": "...",
+                                    "imieDrugie": "..."
+                                },
+                                "identyfikator": {
+                                    "pesel": "..."
+                                }
+                            },
+                            {
+                                "nazwisko": {
+                                    "nazwiskoICzlon": "..."
+                                },
+                                "imiona": {
+                                    "imie": "..."
+                                },
+                                "identyfikator": {
+                                    "pesel": "..."
+                                }
+                            },
+                            {
+                                "nazwisko": {
+                                    "nazwiskoICzlon": "..."
+                                },
+                                "imiona": {
+                                    "imie": "...",
+                                    "imieDrugie": "..."
+                                },
+                                "identyfikator": {
+                                    "pesel": "..."
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "dzial3": {
+                "przedmiotDzialalnosci": {
+                    "przedmiotPrzewazajacejDzialalnosci": [
+                        {
+                            "opis": "...",
+                            "kodDzial": "...",
+                            "kodKlasa": "...",
+                            "kodPodklasa": "..."
+                        }
+                    ],
+                    "przedmiotPozostalejDzialalnosci": [
+                        {
+                            "opis": "...",
+                            "kodDzial": "...",
+                            "kodKlasa": "...",
+                            "kodPodklasa": "..."
+                        }
+                    ]
+                },
+                "wzmiankiOZlozonychDokumentach": {
+                    "wzmiankaOZlozeniuRocznegoSprawozdaniaFinansowego": [
+                        {
+                            "dataZlozenia": "2...",
+                            "zaOkresOdDo": "..."
+                        }
+                    ],
+                    "wzmiankaOZlozeniuOpiniiBieglegoRewidentaSprawozdaniaZBadania": [
+                        {
+                            "zaOkresOdDo": "..."
+                        }
+                    ],
+                    "wzmiankaOZlozeniuUchwalyPostanowieniaOZatwierdzeniuRocznegoSprawozdaniaFinansowego": [
+                        {
+                            "zaOkresOdDo": "..."
+                        }
+                    ],
+                    "wzmiankaOZlozeniuSprawozdaniaZDzialalnosci": [
+                        {
+                            "zaOkresOdDo": "..."
+                        }
+                    ]
+                },
+                "informacjaODniuKonczacymRokObrotowy": {
+                    "dzienKonczacyPierwszyRokObrotowy": "..."
+                }
+            },
+            "dzial4": {},
+            "dzial5": {},
+            "dzial6": {}
+        }
+    }
+}
