@@ -93,6 +93,18 @@ class TestKrsAdapter:
             }
         }
 
+    @patch("companies.govs_adapters.krs_adapter.requests.get")
+    def test_get_full_company_data_returns_status_code_200(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(status_code=200)
+
+        assert self.adapter._get_company_full_report(self.krs)
+
+    @patch("companies.govs_adapters.krs_adapter.requests.get")
+    def test_get_full_company_data_not_returns_status_code_200(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(status_code=400)
+
+        assert not self.adapter._get_company_full_report(self.krs)
+
     @patch("companies.govs_adapters.krs_adapter.KrsAdapter._get_company_data")
     def test_returns_company_nip(self, _get_company_data_mock):
         _get_company_data_mock.return_value = self.company_data
@@ -116,10 +128,18 @@ class TestKrsAdapter:
         )
 
     @patch("companies.govs_adapters.krs_adapter.KrsAdapter._get_company_data")
-    def test_returns_none_when_not_data(self, _get_company_data_mock):
+    def test_returns_none_if_not_have_data_when_want_nip(self, _get_company_data_mock):
         _get_company_data_mock.return_value = {}
 
         assert not self.adapter.get_nip(self.krs)
+
+    @patch("companies.govs_adapters.krs_adapter.KrsAdapter._get_company_data")
+    def test_returns_none_if_not_have_data_when_want_regon(
+        self, _get_company_data_mock
+    ):
+        _get_company_data_mock.return_value = {}
+
+        assert not self.adapter.get_regon(self.krs)
 
     @patch("companies.govs_adapters.krs_adapter.requests.get")
     def test_get_company_data_not_returns_status_code_200(self, requests_get_mock):
