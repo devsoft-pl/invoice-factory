@@ -45,9 +45,9 @@ class TestInvoiceForm:
         )
 
     @pytest.mark.parametrize(
-        "invoice_number, expected_count", [["1", 1], ["1/2022", 1], ["2022", 2]]
+        "invoice_number, expected_count", [["1", 1], ["1/2022", 1]]
     )
-    def test_return_filtered_with_different_parts_of_invoice_name(
+    def test_returns_filtered_with_different_parts_of_invoice_name(
         self, invoice_number, expected_count
     ):
         request_get = {"invoice_number": invoice_number}
@@ -60,6 +60,17 @@ class TestInvoiceForm:
 
         assert self.invoice_1.id == filtered_list[0].id
         assert filtered_list.count() == expected_count
+
+    def test_returns_filtered_with_common_parts_of_invoice_name(self):
+        request_get = {"invoice_number": "2022"}
+
+        self.form = InvoiceFilterForm(request_get)
+        self.form.is_valid()
+
+        invoices_list = Invoice.objects.filter(user=self.user)
+        filtered_list = self.form.get_filtered_invoices(invoices_list)
+
+        assert filtered_list.count() == 2
 
     def test_return_filtered_empty_list_when_invoice_invoice_number_not_exist(self):
         request_get = {"invoice_number": "5/2022"}
