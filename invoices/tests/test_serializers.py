@@ -42,6 +42,7 @@ class TestInvoiceSerializer:
         item = ItemFactory(invoice=self.invoice)
         item_data = ItemDictFactory(id=item.pk, user=self.user, vat=self.vat)
         validated_data["items"] = [item_data]
+
         serializer = InvoiceSerializer()
         invoice = serializer.update(self.invoice, validated_data)
 

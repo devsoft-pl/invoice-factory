@@ -22,7 +22,7 @@ class TestInvoiceModel:
             invoice=self.invoice, amount=1, net_price=800, vat=vat
         )
 
-    def test_str_returns_item_name(self):
+    def test_returns_str_item_name(self):
         assert self.invoice.__str__() == self.invoice.invoice_number
 
     def test_returns_net_sum(self):

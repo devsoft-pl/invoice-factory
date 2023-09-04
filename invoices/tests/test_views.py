@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from parameterized import parameterized
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
@@ -27,12 +28,12 @@ class TestListInvoices(TestInvoice):
         super().setUp()
         self.url = reverse("invoices:list_invoices")
 
-    def test_list_invoices_if_not_logged(self):
+    def test_list_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_list_invoices_if_logged(self):
+    def test_list_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
         object_list = response.context["invoices"]
@@ -42,22 +43,6 @@ class TestListInvoices(TestInvoice):
         self.assertTrue(len(object_list) == 10)
         self.assertListEqual(list(object_list), self.user_invoices[:10])
 
-    def test_list_invoices_second_pag(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=2")
-        object_list = response.context["invoices"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_invoices[10:])
-
-    def test_returns_last_page_when_non_existent(self):
-        self.client.login(username=self.user.username, password="test")
-        response = self.client.get(f"{self.url}?page=666")
-
-        object_list = response.context["invoices"]
-
-        self.assertListEqual(list(object_list), self.user_invoices[10:])
-
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(f"{self.url}?page=abc")
@@ -66,6 +51,15 @@ class TestListInvoices(TestInvoice):
 
         self.assertListEqual(list(object_list), self.user_invoices[:10])
 
+    @parameterized.expand([[2], [666]])
+    def test_pagination_return_correct_list(self, page):
+        self.client.login(username=self.user.username, password="test")
+        response = self.client.get(f"{self.url}?page={page}")
+        object_list = response.context["invoices"]
+
+        self.assertTrue(len(object_list) == 2)
+        self.assertListEqual(list(object_list), self.user_invoices[10:])
+
 
 class TestDetailInvoice(TestInvoice):
     def setUp(self) -> None:
@@ -73,12 +67,12 @@ class TestDetailInvoice(TestInvoice):
         self.invoice = self.user_invoices[0]
         self.url = reverse("invoices:detail_invoice", args=[self.invoice.pk])
 
-    def test_detail_invoice_if_not_logged(self):
+    def test_detail_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_detail_invoice_if_logged(self):
+    def test_detail_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -100,12 +94,12 @@ class TestDeleteInvoice(TestInvoice):
         self.invoice = self.user_invoices[0]
         self.url = reverse("invoices:delete_invoice", args=[self.invoice.pk])
 
-    def test_delete_invoice_if_not_logged(self):
+    def test_delete_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_delete_invoice_if_logged(self):
+    def test_delete_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
@@ -129,7 +123,7 @@ class TestCreateInvoice(TestInvoice):
         self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
         self.currency = CurrencyFactory.create(user=self.user)
 
-    def test_create_invoice_if_not_logged(self):
+    def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -148,7 +142,7 @@ class TestCreateInvoice(TestInvoice):
         )
         self.assertTemplateUsed(response, "invoices/create_invoice.html")
 
-    def test_create_invoice_with_valid_data(self):
+    def test_create_with_valid_data(self):
         self.invoice_data = {
             "invoice_number": "1/2023",
             "invoice_type": "0",
@@ -168,6 +162,7 @@ class TestCreateInvoice(TestInvoice):
             currency=self.currency.pk,
             user=self.user,
         ).count()
+
         response = self.client.post(self.url, self.invoice_data)
 
         self.assertEqual(response.status_code, 302)
@@ -206,7 +201,7 @@ class TestReplaceInvoice(TestInvoice):
         self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
         self.currency = CurrencyFactory.create(user=self.user)
 
-    def test_replace_invoice_if_not_logged(self):
+    def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -232,7 +227,7 @@ class TestReplaceInvoice(TestInvoice):
         )
         self.assertTemplateUsed(response, "invoices/replace_invoice.html")
 
-    def test_replace_invoice_with_valid_data(self):
+    def test_replace_with_valid_data(self):
         self.invoice_data = {
             "invoice_number": "2/2023",
             "invoice_type": "0",
@@ -246,6 +241,7 @@ class TestReplaceInvoice(TestInvoice):
             "client": self.contractor.pk,
         }
         self.client.login(username=self.user.username, password="test")
+
         response = self.client.post(self.url, self.invoice_data)
 
         self.assertEqual(response.status_code, 302)
@@ -274,7 +270,7 @@ class TestPdfInvoice(TestInvoice):
         self.invoice = self.user_invoices[0]
         self.url = reverse("invoices:pdf_invoice", args=[self.invoice.pk])
 
-    def test_detail_invoice_if_not_logged(self):
+    def test_detail_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
@@ -286,7 +282,7 @@ class TestPdfInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_return_pdf_invoice_if_logged(self):
+    def test_return_pdf_if_logged(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.url)
 
