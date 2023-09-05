@@ -170,3 +170,5 @@ TEST_RUNNER = "base.runner.PytestTestRunner"
 EMAIL_SENDER = env("EMAIL_SENDER")
 
 CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
+
+AUTH_USER_MODEL = "users.User"
