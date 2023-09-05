@@ -6,12 +6,17 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Logowanie</li>
+                    <li class="breadcrumb-item active" aria-current="page">Wylogowanie</li>
                 </ol>
             </nav>
         </div>
         <div class="row">
             <span>Zostałeś poprawnie wylogowany.</span>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'users:login' %}">Zaloguj</a>
+            </div>
         </div>
     </div>
 {% endblock content %}

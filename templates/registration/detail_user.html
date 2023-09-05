@@ -6,7 +6,7 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ user.email }}</li>
                 </ol>
             </nav>
         </div>
@@ -14,15 +14,17 @@
             <table class="table table-hover text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>Login</th>
                         <th>Email</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
                         <th>Opcje</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
                     <tr>
-                        <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
+                        <td>{{ user.first_name|default_if_none:"-" }}</td>
+                        <td>{{ user.last_name|default_if_none:"-" }}</td>
                         <td>
                             <a href="{% url 'users:replace_user' %}">Edytuj</a>
                             <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>

@@ -16,20 +16,29 @@
                 {% csrf_token %}
                 <div class="row mb-3">
                     <div class="col-2">
-                        {{ form.username.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.username }}
-                        {{ form.username.errors }}
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-2">
                         {{ form.email.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.email }}
                         {{ form.email.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        {{ form.first_name.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.first_name }}
+                        {{ form.first_name.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-2">
+                        {{ form.last_name.label_tag }}
+                    </div>
+                    <div class="col-4">
+                        {{ form.last_name }}
+                        {{ form.last_name.errors }}
                     </div>
                 </div>
                 <a class="btn btn-primary mt-3" href="{% url 'users:detail_user' %}">Powrót</a>

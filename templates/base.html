@@ -49,7 +49,7 @@
                             <ul class="navbar-nav">
                                 {% if user.is_authenticated %}
                                     <li class="nav-item">
-                                        <a class="nav-link{% if current_module == "users" %} active{% endif %}" href="{% url 'users:detail_user' %}">{{ user.username }}</a>
+                                        <a class="nav-link{% if current_module == "users" %} active{% endif %}" href="{% url 'users:detail_user' %}">{{ user.email }}</a>
                                     </li>
                                 {% endif %}
                                 {% if user.is_authenticated %}
