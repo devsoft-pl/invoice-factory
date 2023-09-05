@@ -15,15 +15,6 @@
                 {% csrf_token %}
                 <div class="row mb-3">
                     <div class="col-2 offset-md-3 text-end">
-                        {{ form.username.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.username }}
-                        {{ form.username.errors }}
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-3 text-end">
                         {{ form.email.label_tag }}
                     </div>
                     <div class="col-4">
