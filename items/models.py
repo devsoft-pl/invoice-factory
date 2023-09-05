@@ -1,10 +1,10 @@
 import decimal
 
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext as _
 
 from invoices.models import Invoice
+from users.models import User
 from vat_rates.models import VatRate
 
 
