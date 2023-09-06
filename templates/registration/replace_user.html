@@ -11,38 +11,60 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row text mt-3">
             <form action="{% url 'users:replace_user' %}" method='post'>
                 {% csrf_token %}
-                <div class="row mb-3">
-                    <div class="col-2">
+                <div class="row mb-2">
+                    <div class="col-2 offset-md-3 text-end">
                         {{ form.email.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.email }}
-                        {{ form.email.errors }}
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2">
+                {% if form.email.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-md-3 text-end">
                         {{ form.first_name.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.first_name }}
-                        {{ form.first_name.errors }}
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2">
+                {% if form.first_name.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.first_name.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-md-3 text-end">
                         {{ form.last_name.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.last_name }}
-                        {{ form.last_name.errors }}
                     </div>
                 </div>
-                <a class="btn btn-primary mt-3" href="{% url 'users:detail_user' %}">Powrót</a>
-                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                {% if form.last_name.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <a class="btn btn-primary mt-3" href="{% url 'users:detail_user' %}">Powrót</a>
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
