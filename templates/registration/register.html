@@ -13,33 +13,51 @@
         <div class="row mt-3">
             <form method="post" action="{% url 'users:register_user' %}">
                 {% csrf_token %}
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-2 offset-md-3 text-end">
                         {{ form.email.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.email }}
-                        {{ form.email.errors }}
                     </div>
                 </div>
-                <div class="row mb-3">
+                {% if form.email.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
                     <div class="col-2 offset-md-3 text-end">
                         {{ form.password1.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.password1 }}
-                        {{ form.password1.errors }}
                     </div>
                 </div>
-                <div class="row mb-3">
+                {% if form.password1.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.password1.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
                     <div class="col-2 offset-md-3 text-end">
                         {{ form.password2.label_tag }}
                     </div>
                     <div class="col-4">
                         {{ form.password2 }}
-                        {{ form.password2.errors }}
                     </div>
                 </div>
+                {% if form.password2.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-md-5 text-danger">
+                            {{ form.password2.errors }}
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row mb-3">
                     <div class="col text-center">
                         <button class="btn btn-primary mt-3" name="submit">Rejestruj</button>
