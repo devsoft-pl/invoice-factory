@@ -61,13 +61,13 @@
             <div class="row mb-2">
                 <div class="col-4 offset-md-2 text-end">Email:</div>
                 <div class="col-4">
-                    {{ company.email }}
+                    {{ company.email|default_if_none:"-" }}
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-4 offset-md-2 text-end">Numer telefonu:</div>
                 <div class="col-4">
-                    {{ company.phone_number }}
+                    {{ company.phone_number|default_if_none:"-" }}
                 </div>
             </div>
         </div>

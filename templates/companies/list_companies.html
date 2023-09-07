@@ -42,8 +42,8 @@
                                 <td>{{ company.name }}</td>
                                 <td>{{ company.nip }}</td>
                                 <td>{{ company.country }}</td>
-                                <td>{{ company.email }}</td>
-                                <td>{{ company.phone_number }}</td>
+                                <td>{{ company.email|default_if_none:"-" }}</td>
+                                <td>{{ company.phone_number|default_if_none:"-" }}</td>
                                 <td>
                                     <a href="{% url 'companies:detail_company' company.pk %}">Więcej</a>
                                     <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
