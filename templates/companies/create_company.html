@@ -17,10 +17,8 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
-            <form action="
-                    {% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}"
-                  method='post'>
+        <div class="row text mt-3">
+            <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
@@ -29,7 +27,6 @@
                     </div>
                     <div class="col-4">
                         {{ form.name }}
-                          {{ form.name.errors }}
                     </div>
                 </div>
                 {% if form.name.errors %}
@@ -162,16 +159,20 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if request.GET.next %}
-                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                {% else %}
-                    {% if create_my_company %}
-                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
-                    {% else %}
-                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
-                    {% endif %}
-                {% endif %}
-                <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+                <div class="row">
+                    <div class="col text-center">
+                        {% if request.GET.next %}
+                            <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                        {% else %}
+                            {% if create_my_company %}
+                                <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                            {% else %}
+                                <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
+                            {% endif %}
+                        {% endif %}
+                        <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

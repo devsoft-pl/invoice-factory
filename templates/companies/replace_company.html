@@ -18,7 +18,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row text mt-3">
             <form action="{% url 'companies:replace_company' company.pk %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
@@ -161,12 +161,16 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if company.is_my_company %}
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
-                {% else %}
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
-                {% endif %}
-                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row">
+                    <div class="col text-center">
+                        {% if company.is_my_company %}
+                            <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                        {% else %}
+                            <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
+                        {% endif %}
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

@@ -15,45 +15,72 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            <table class="table table-hover text-center mt-4">
-                <thead class="table-light">
-                        <tr>
-                            <th>NIP</th>
-                            <th>Regon</th>
-                            <th>Kraj</th>
-                            <th>Adres</th>
-                            <th>Kod pocztowy</th>
-                            <th>Miasto</th>
-                            <th>Email</th>
-                            <th>Telefon</th>
-                            <th>Opcje</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <td>{{ company.nip }}</td>
-                            <td>{{ company.regon }}</td>
-                            <td>{{ company.country }}</td>
-                            <td>{{ company.address }}</td>
-                            <td>{{ company.zip_code }}</td>
-                            <td>{{ company.city }}</td>
-                            <td>{{ company.email }}</td>
-                            <td>{{ company.phone_number }}</td>
-                            <td>
-                                <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                                <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
-                            </td>
-                        </tr>
-                    </tbody>
-            </table>
+        <div class="row text mt-3">
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Nazwa firmy:</div>
+                <div class="col-4">
+                    {{ company.name }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">NIP:</div>
+                <div class="col-4">
+                    {{ company.nip }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Regon:</div>
+                <div class="col-4">
+                    {{ company.regon }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Adres:</div>
+                <div class="col-4">
+                    {{ company.address }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Kod pocztowy:</div>
+                <div class="col-4">
+                    {{ company.zip_code }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Miasto:</div>
+                <div class="col-4">
+                    {{ company.city }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Kraj:</div>
+                <div class="col-2">
+                    {{ company.country }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Email:</div>
+                <div class="col-4">
+                    {{ company.email }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4 offset-md-2 text-end">Numer telefonu:</div>
+                <div class="col-4">
+                    {{ company.phone_number }}
+                </div>
+            </div>
         </div>
-        <div class="row" >
-            <div class="col">
+        <div class="row">
+            <div class="col text-center">
                 {% if company.is_my_company %}
                     <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
                 {% else %}
                     <a class="btn btn-primary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
                 {% endif %}
             </div>
         </div>
