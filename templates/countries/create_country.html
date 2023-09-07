@@ -11,12 +11,12 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row text mt-3">
             <form action="{% url 'countries:create_country' %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-1">
+                    <div class="col-2 offset-md-3 text-end">
                         {{ form.country.label_tag }}
                     </div>
                     <div class="col-3">
@@ -25,17 +25,21 @@
                 </div>
                 {% if form.country.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-1 text-danger">
+                        <div class="col-auto offset-md-5 text-danger">
                             {{ form.country.errors }}
                         </div>
                     </div>
                 {% endif %}
-                {% if request.GET.next %}
-                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                {% else %}
-                    <a class="btn btn-primary mt-3" href="{% url 'countries:list_countries' %}">Powrót</a>
-                {% endif %}
-                <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+                <div class="row">
+                    <div class="col text-center">
+                        {% if request.GET.next %}
+                            <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                        {% else %}
+                            <a class="btn btn-primary mt-3" href="{% url 'countries:list_countries' %}">Powrót</a>
+                        {% endif %}
+                        <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

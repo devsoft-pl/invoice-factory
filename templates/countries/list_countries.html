@@ -10,12 +10,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'countries:create_country' %}">Dodaj</a></h3>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row text mt-3">
             {% if countries %}
                 <table class="table table-hover text-center mt-4">
                     <thead class="table-light">
@@ -45,6 +40,11 @@
                     </div>
                 </div>
             {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'countries:create_country' %}">Dodaj</a></h3>
+            </div>
         </div>
     </div>
     {% include "pagination.html" with page=countries %}
