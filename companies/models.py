@@ -52,7 +52,7 @@ class Company(models.Model):
             RegexValidator(r"^[a-zA-Z ]+$", _("Enter the city in letters only"))
         ],
     )
-    email = models.EmailField(verbose_name=_("Email"))
+    email = models.EmailField(verbose_name=_("Email"), null=True, blank=True)
     phone_number = models.CharField(
         verbose_name=_("Phone number"),
         max_length=20,
