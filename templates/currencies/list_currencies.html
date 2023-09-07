@@ -10,12 +10,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'currencies:create_currency' %}">Dodaj</a>
-            </div>
-        </div>
-    <div class="row">
+        <div class="row text mt-3">
             {% if currencies %}
                 <table class="table table-hover text-center mt-4">
                     <thead class="table-light">
@@ -55,12 +50,17 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="row mt-3">
+                <div class="row">
                     <div class="col">
                         <b>Brak walut</b>
                     </div>
                 </div>
             {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'currencies:create_currency' %}">Dodaj</a>
+            </div>
         </div>
     </div>
     {% include "pagination.html" with page=currencies %}
