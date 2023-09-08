@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -17,146 +17,94 @@
                 </ol>
             </nav>
         </div>
-        <div class="row text mt-3">
+        <div class="row mt-2">
             <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.name.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.name }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
+                    <div class="col-4">{{ form.name }}</div>
                 </div>
                 {% if form.name.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.name.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.name.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.nip.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.nip }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.nip.label_tag }}</div>
+                    <div class="col-2">{{ form.nip }}</div>
                 </div>
                 {% if form.nip.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.nip.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.nip.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.regon.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.regon }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.regon.label_tag }}</div>
+                    <div class="col-2">{{ form.regon }}</div>
                 </div>
                 {% if form.regon.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.regon.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.regon.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.country.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.country }}
-                    </div>
-                    <div class="col-2">
+                    <div class="col-2 offset-3 text-end">{{ form.country.label_tag }}</div>
+                    <div class="col-2">{{ form.country }}</div>
+                    <div class="col">
                         <a class="btn btn-primary" href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.country.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.country.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.country.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.address.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.address }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.address.label_tag }}</div>
+                    <div class="col-4">{{ form.address }}</div>
                 </div>
                 {% if form.address.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.address.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.address.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.zip_code.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.zip_code }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.zip_code.label_tag }}</div>
+                    <div class="col-1">{{ form.zip_code }}</div>
                 </div>
                 {% if form.zip_code.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.zip_code.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.zip_code.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.city.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.city }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.city.label_tag }}</div>
+                    <div class="col-3">{{ form.city }}</div>
                 </div>
                 {% if form.city.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.city.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.city.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.email.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.email }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.email.label_tag }}</div>
+                    <div class="col-3">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
+                        <div class="col-auto offset-5 text-danger">
                             {{ form.email.errors }}
                         </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.phone_number.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.phone_number }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.phone_number.label_tag }}</div>
+                    <div class="col-2">{{ form.phone_number }}</div>
                 </div>
                 {% if form.phone_number %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.phone_number.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.phone_number.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row">

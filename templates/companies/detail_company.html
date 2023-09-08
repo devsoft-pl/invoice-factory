@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -15,61 +15,41 @@
                 </ol>
             </nav>
         </div>
-        <div class="row text mt-3">
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Nazwa firmy:</div>
-                <div class="col-4">
-                    {{ company.name }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">NIP:</div>
-                <div class="col-4">
-                    {{ company.nip }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Regon:</div>
-                <div class="col-4">
-                    {{ company.regon }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Adres:</div>
-                <div class="col-4">
-                    {{ company.address }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Kod pocztowy:</div>
-                <div class="col-4">
-                    {{ company.zip_code }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Miasto:</div>
-                <div class="col-4">
-                    {{ company.city }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Kraj:</div>
-                <div class="col-2">
-                    {{ company.country }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Email:</div>
-                <div class="col-4">
-                    {{ company.email|default_if_none:"-" }}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-4 offset-md-2 text-end">Numer telefonu:</div>
-                <div class="col-4">
-                    {{ company.phone_number|default_if_none:"-" }}
-                </div>
-            </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Nazwa firmy:</div>
+            <div class="col-4">{{ company.name }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">NIP:</div>
+            <div class="col-4">{{ company.nip }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Regon:</div>
+            <div class="col-4">{{ company.regon }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Adres:</div>
+            <div class="col-4">{{ company.address }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Kod pocztowy:</div>
+            <div class="col-4">{{ company.zip_code }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Miasto:</div>
+            <div class="col-4">{{ company.city }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Kraj:</div>
+            <div class="col-2">{{ company.country }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Email:</div>
+            <div class="col-4">{{ company.email|default_if_none:"-" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Numer telefonu:</div>
+            <div class="col-4">{{ company.phone_number|default_if_none:"-" }}</div>
         </div>
         <div class="row">
             <div class="col text-center">
