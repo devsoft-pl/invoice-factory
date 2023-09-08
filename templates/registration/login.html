@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -10,43 +10,31 @@
                 </ol>
             </nav>
         </div>
-        <div class="row text mt-3">
+        <div class="row mt-2">
             <form method="post" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-3 text-end">
-                        {{ form.username.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.username }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.username.label_tag }}</div>
+                    <div class="col-4">{{ form.username }}</div>
                 </div>
                 {% if form.username.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-5 text-danger">
-                            {{ form.username.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.username.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-3 text-end">
-                        {{ form.password.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.password }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.password.label_tag }}</div>
+                    <div class="col-4">{{ form.password }}</div>
                 </div>
                 {% if form.password.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-5 text-danger">
-                            {{ form.password.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.password.errors }}</div>
                     </div>
                 {% endif %}
                 {% if form.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-5 text-danger">
+                        <div class="col-auto offset-5 text-danger">
                             <span>Email użytkownika lub hasło są nieprawidłowe.</span>
                         </div>
                     </div>
