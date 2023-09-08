@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -13,61 +13,66 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
             <form action="{% url 'items:replace_item' item.pk %}" method='post'>
                 {% csrf_token %}
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.name.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.name }}
-                        {{ form.name.errors }}
-                    </div>
+                {{ form.next }}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
+                    <div class="col-5">{{ form.name }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.pkwiu.label_tag }}
+                {% if form.name.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.name.errors }}</div>
                     </div>
-                    <div class="col-2">
-                        {{ form.pkwiu }}
-                        {{ form.pkwiu.errors }}
-                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.pkwiu.label_tag }}</div>
+                    <div class="col-2">{{ form.pkwiu }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.amount.label_tag }}
+                {% if form.pkwiu.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.pkwiu.errors }}</div>
                     </div>
-                    <div class="col-2">
-                        {{ form.amount }}
-                        {{ form.amount.errors }}
-                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.amount.label_tag }}</div>
+                    <div class="col-1">{{ form.amount }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.net_price.label_tag }}
+                {% if form.amount.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.amount.errors }}</div>
                     </div>
-                    <div class="col-2">
-                        {{ form.net_price }}
-                        {{ form.net_price.errors }}
-                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.net_price.label_tag }}</div>
+                    <div class="col-2">{{ form.net_price }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.vat.label_tag }}
+                {% if form.net_price.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.net_price.errors }}</div>
                     </div>
-                    <div class="col-2">
-                        {{ form.vat }}
-                        {{ form.vat.errors }}
-                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.vat.label_tag }}</div>
+                    <div class="col-1">{{ form.vat }}</div>
                     <div class="col-2">
                         <a class="btn btn-primary" href="{% url 'vat_rates:create_vat' %}?next={% url 'items:replace_item' item.pk %}">Dodaj</a>
                     </div>
                 </div>
-                {% if request.GET.next %}
-                    <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                {% if form.vat.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.vat.errors }}</div>
+                    </div>
                 {% endif %}
-                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row">
+                    <div class="col text-center">
+                        {% if request.GET.next %}
+                            <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                        {% endif %}
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
