@@ -34,7 +34,7 @@ class TestListInvoices(TestInvoice):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
         object_list = response.context["invoices"]
 
@@ -44,7 +44,7 @@ class TestListInvoices(TestInvoice):
         self.assertListEqual(list(object_list), self.user_invoices[:10])
 
     def test_returns_first_page_when_abc(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page=abc")
 
         object_list = response.context["invoices"]
@@ -53,7 +53,7 @@ class TestListInvoices(TestInvoice):
 
     @parameterized.expand([[2], [666]])
     def test_pagination_return_correct_list(self, page):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page={page}")
         object_list = response.context["invoices"]
 
@@ -73,7 +73,7 @@ class TestDetailInvoice(TestInvoice):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_detail_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -82,7 +82,7 @@ class TestDetailInvoice(TestInvoice):
 
     def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:detail_invoice", args=[self.other_invoice.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -100,7 +100,7 @@ class TestDeleteInvoice(TestInvoice):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -109,7 +109,7 @@ class TestDeleteInvoice(TestInvoice):
 
     def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:delete_invoice", args=[self.other_invoice.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -129,7 +129,7 @@ class TestCreateInvoice(TestInvoice):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
 
@@ -155,7 +155,7 @@ class TestCreateInvoice(TestInvoice):
             "account_number": "111111111111111",
             "client": self.contractor.pk,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         invoices_before_create = Invoice.objects.filter(
             invoice_number="1/2023",
             create_date="2023-01-01",
@@ -186,7 +186,7 @@ class TestCreateInvoice(TestInvoice):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -208,13 +208,13 @@ class TestReplaceInvoice(TestInvoice):
 
     def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:replace_invoice", args=[self.other_invoice.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
 
@@ -240,7 +240,7 @@ class TestReplaceInvoice(TestInvoice):
             "account_number": "111111111111111",
             "client": self.contractor.pk,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, self.invoice_data)
 
@@ -258,7 +258,7 @@ class TestReplaceInvoice(TestInvoice):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -277,13 +277,13 @@ class TestPdfInvoice(TestInvoice):
 
     def test_return_404_if_not_my_invoice(self):
         url = reverse("invoices:pdf_invoice", args=[self.other_invoice.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
 
     def test_return_pdf_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)

@@ -35,7 +35,7 @@ class TestListCompanies(TestCompany):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         object_list = response.context["companies"]
@@ -46,7 +46,7 @@ class TestListCompanies(TestCompany):
         self.assertListEqual(list(object_list), self.user_companies[:10])
 
     def test_returns_first_page_when_abc(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page=abc")
 
         object_list = response.context["companies"]
@@ -54,7 +54,7 @@ class TestListCompanies(TestCompany):
         self.assertListEqual(list(object_list), self.user_companies[:10])
 
     def test_list_my_companies_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.my_url)
 
         self.assertEqual(response.status_code, 200)
@@ -62,7 +62,7 @@ class TestListCompanies(TestCompany):
 
     @parameterized.expand([[2], [666]])
     def test_pagination_return_correct_list(self, page):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page={page}")
 
         object_list = response.context["companies"]
@@ -83,7 +83,7 @@ class TestDetailCompany(TestCompany):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_detail_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -92,7 +92,7 @@ class TestDetailCompany(TestCompany):
 
     def test_return_404_if_not_my_company(self):
         url = reverse("companies:detail_company", args=[self.other_company.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -112,7 +112,7 @@ class TestDeleteCompany(TestCompany):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -120,7 +120,7 @@ class TestDeleteCompany(TestCompany):
         self.assertEqual(response.status_code, 302)
 
     def test_delete_my_company_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.my_url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -129,7 +129,7 @@ class TestDeleteCompany(TestCompany):
 
     def test_return_404_if_not_my_company(self):
         url = reverse("companies:delete_company", args=[self.other_company.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -148,7 +148,7 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, f"/users/login/?next={self.my_url}")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.my_url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -168,7 +168,7 @@ class TestCreateCompany(TestCompany):
             "email": "test@test.pl",
             "is_my_company": True,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.my_url, self.company_data)
 
@@ -192,7 +192,7 @@ class TestCreateCompany(TestCompany):
             "email": "test@test.pl",
             "is_my_company": False,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, self.contractor_data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("companies:list_companies"))
@@ -203,7 +203,7 @@ class TestCreateCompany(TestCompany):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.my_url)
 
         self.assertEqual(response.status_code, 200)
@@ -223,13 +223,13 @@ class TestReplaceCompany(TestCompany):
 
     def test_return_404_if_not_company(self):
         url = reverse("companies:replace_company", args=[self.other_company.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -251,7 +251,7 @@ class TestReplaceCompany(TestCompany):
             "email": "test@test.pl",
             "is_my_company": False,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, self.company_data)
 
@@ -277,7 +277,7 @@ class TestReplaceCompany(TestCompany):
             "email": "test@test.pl",
             "is_my_company": True,
         }
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(url, self.company_data)
 
@@ -290,7 +290,7 @@ class TestReplaceCompany(TestCompany):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)

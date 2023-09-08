@@ -28,7 +28,7 @@ class TestListCountries(TestCountry):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_list_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         object_list = response.context["countries"]
@@ -39,7 +39,7 @@ class TestListCountries(TestCountry):
         self.assertListEqual(list(object_list), self.user_countries[:10])
 
     def test_returns_first_page_when_abc(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page=abc")
 
         object_list = response.context["countries"]
@@ -48,7 +48,7 @@ class TestListCountries(TestCountry):
 
     @parameterized.expand([[2], [666]])
     def test_pagination_return_correct_list(self, page):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page={page}")
 
         object_list = response.context["countries"]
@@ -69,7 +69,7 @@ class TestDeleteCountry(TestCountry):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -78,7 +78,7 @@ class TestDeleteCountry(TestCountry):
 
     def test_return_404_if_not_my_countries(self):
         url = reverse("countries:delete_country", args=[self.other_country.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -95,7 +95,7 @@ class TestCreateCountry(TestCountry):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -105,7 +105,7 @@ class TestCreateCountry(TestCountry):
         self.assertTemplateUsed(response, "countries/create_country.html")
 
     def test_create_with_valid_data(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {"country": "Polska"})
 
         self.assertEqual(response.status_code, 302)
@@ -115,7 +115,7 @@ class TestCreateCountry(TestCountry):
         )
 
     def test_create_with_valid_data_and_next(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(
             self.url, {"country": "Polska", "next": reverse("companies:create_company")}
         )
@@ -127,7 +127,7 @@ class TestCreateCountry(TestCountry):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -146,13 +146,13 @@ class TestReplaceCountry(TestCountry):
 
     def test_return_404_if_not_my_countries(self):
         url = reverse("countries:replace_country", args=[self.other_country.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -162,7 +162,7 @@ class TestReplaceCountry(TestCountry):
         self.assertTemplateUsed(response, "countries/replace_country.html")
 
     def test_replace_with_valid_data(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {"country": "Szwecja"})
 
         self.assertEqual(response.status_code, 302)
@@ -172,7 +172,7 @@ class TestReplaceCountry(TestCountry):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)

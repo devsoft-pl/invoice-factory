@@ -34,7 +34,7 @@ class TestDeleteItem(TestItem):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -43,7 +43,7 @@ class TestDeleteItem(TestItem):
 
     def test_return_404_if_not_my_item(self):
         url = reverse("items:delete_item", args=[self.other_item.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -60,7 +60,7 @@ class TestCreateItem(TestItem):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -72,7 +72,7 @@ class TestCreateItem(TestItem):
         self.assertTemplateUsed(response, "items/create_item.html")
 
     def test_create_with_valid_data(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(
             self.url,
             {
@@ -111,7 +111,7 @@ class TestCreateItem(TestItem):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -130,13 +130,13 @@ class TestReplaceItem(TestItem):
 
     def test_return_404_if_not_my_item(self):
         url = reverse("items:replace_item", args=[self.other_item.pk])
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -150,7 +150,7 @@ class TestReplaceItem(TestItem):
         self.assertTemplateUsed(response, "items/replace_item.html")
 
     def test_replace_with_valid_data(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(
             self.url,
@@ -189,7 +189,7 @@ class TestReplaceItem(TestItem):
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
