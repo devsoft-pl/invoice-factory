@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -11,43 +11,58 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            <table class="table table-hover text-center mt-3">
-                <thead class="table-light">
-                    <tr>
-                        <th>Data utworzenia</th>
-                        <th>Data sprzedaży</th>
-                        <th>Data płatności</th>
-                        <th>Typ faktury</th>
-                        <th>Sposób płatności</th>
-                        <th>Waluta</th>
-                        <th>Numer konta</th>
-                        <th>Opcje</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr>
-                        <td>{{ invoice.create_date| date:"d.m.Y" }}</td>
-                        <td>{{ invoice.sale_date| date:"d.m.Y" }}</td>
-                        <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
-                        <td>{{ invoice.get_invoice_type_display }}</td>
-                        <td>{{ invoice.get_payment_method_display }}</td>
-                        <td>{{ invoice.currency }}</td>
-                        <td>{{ invoice.account_number }}</td>
-                        <td>
-                            <a href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
-                            <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Typ faktury:</div>
+            <div class="col-4">{{ invoice.get_invoice_type_display }}</div>
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Moja firma:</div>
+            <div class="col-4">{{ invoice.company }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Kontrahent:</div>
+            <div class="col-4">{{ invoice.client }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Data utworzenia:</div>
+            <div class="col-4">{{ invoice.create_date| date:"d.m.Y" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
+            <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Data płatności:</div>
+            <div class="col-4">{{ invoice.payment_date| date:"d.m.Y" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Sposób płatności:</div>
+            <div class="col-4">{{ invoice.get_payment_method_display }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Waluta:</div>
+            <div class="col-4">{{ invoice.currency }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Numer konta:</div>
+            <div class="col-4">{{ invoice.account_number }}</div>
+        </div><div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Cykliczność:</div>
+            <div class="col-4">
+                {% if invoice.is_recurring %}
+                    <span>Tak</span>
+                {% else %}
+                    <span>Nie</span>
+                {% endif %}
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
+            <div class="col text-center">
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_invoice' invoice.pk %}">Edytuj</a>
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+            </div>
+        </div>
+        <div class="row mt-2">
             {% if invoice.items.exists %}
                 <table class="table table-hover text-center mt-4">
                     <thead class="table-light">
@@ -85,15 +100,20 @@
                     </tbody>
                 </table>
             {% else %}
-                <div class="row mt-3">
-                    <div class="col">
-                        <b>Brak pozycji</b>
-                    </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
                 </div>
+            </div>
             {% endif %}
         </div>
         <div class="row">
             <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:list_invoices' %}">Powrót</a>
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
             </div>
