@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -11,22 +11,18 @@
                 </ol>
             </nav>
         </div>
-        <div class="row text mt-3">
+        <div class="row mt-2">
             <form action="{% url 'vat_rates:create_vat' %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-4 text-end">
-                        {{ form.rate.label_tag }}
-                    </div>
-                    <div class="col-1">
-                        {{ form.rate }}
-                    </div>
-                    <div class="col-1">%</div>
+                    <div class="col-3 offset-3 text-end">{{ form.rate.label_tag }}</div>
+                    <div class="col-1">{{ form.rate }}</div>
+                    <div class="col">%</div>
                 </div>
                 {% if form.rate.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-5 text-danger">
+                        <div class="col-auto offset-5 text-danger">
                             {{ form.rate.errors }}
                         </div>
                     </div>
