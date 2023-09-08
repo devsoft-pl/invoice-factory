@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -12,186 +12,126 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
             <form action="{% url 'invoices:replace_invoice' invoice.pk %}" method='post'>
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.invoice_number.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.invoice_number }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.invoice_number.label_tag }}</div>
+                    <div class="col-3">{{ form.invoice_number }}</div>
                 </div>
                 {% if form.invoice_number.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.invoice_number.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.invoice_number.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.invoice_type.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.invoice_type }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.invoice_type.label_tag }}</div>
+                    <div class="col-2">{{ form.invoice_type }}</div>
                 </div>
                 {% if form.invoice_type.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.invoice_type.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.invoice_type.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.company.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.company }}
-                    </div>
-                    <div class="col-2">
+                    <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
+                    <div class="col-3">{{ form.company }}</div>
+                    <div class="col">
                         <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.company.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.company.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.company.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.client.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.client }}
-                    </div>
-                    <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
+                    <div class="col-3">{{ form.client }}</div>
+                    <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a></div>
                 </div>
                 {% if form.client.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
+                        <div class="col-auto offset-5 text-danger">
                             {{ form.client.errors }}
                         </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.create_date.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.create_date }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.create_date.label_tag }}</div>
+                    <div class="col-2">{{ form.create_date }}</div>
                 </div>
                 {% if form.create_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.create_date.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.create_date.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.sale_date.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.sale_date }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.sale_date.label_tag }}</div>
+                    <div class="col-2">{{ form.sale_date }}</div>
                 </div>
                 {% if form.sale_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.sale_date.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.sale_date.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.payment_date.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.payment_date }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.payment_date.label_tag }}</div>
+                    <div class="col-2">{{ form.payment_date }}</div>
                 </div>
                 {% if form.payment_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.payment_date.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.payment_date.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.payment_method.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.payment_method }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.payment_method.label_tag }}</div>
+                    <div class="col-2">{{ form.payment_method }}</div>
                 </div>
                 {% if form.payment_method.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.payment_method.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.payment_method.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.currency.label_tag }}
-                    </div>
-                    <div class="col-2">
-                        {{ form.currency }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.currency.label_tag }}</div>
+                    <div class="col-1">{{ form.currency }}</div>
                     <div class="col-2">
                         <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.currency.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.currency.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.currency.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.account_number.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.account_number }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.account_number.label_tag }}</div>
+                    <div class="col-4">{{ form.account_number }}</div>
                 </div>
                 {% if form.account_number.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
-                            {{ form.account_number.errors }}
-                        </div>
+                        <div class="col-auto offset-5 text-danger">{{ form.account_number.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-md-2 text-end">
-                        {{ form.is_recurring.label_tag }}
-                    </div>
-                    <div class="col-4">
-                        {{ form.is_recurring }}
-                    </div>
+                    <div class="col-2 offset-3 text-end">{{ form.is_recurring.label_tag }}</div>
+                    <div class="col-4">{{ form.is_recurring }}</div>
                 </div>
                 {% if form.is_recurring.errors %}
                     <div class="row">
-                        <div class="col-auto offset-md-4 text-danger">
+                        <div class="col-auto offset-5 text-danger">
                             {{ form.is_recurring.errors }}
                         </div>
                     </div>
                 {% endif %}
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
-                <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row">
+                    <div class="col text-center">
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
