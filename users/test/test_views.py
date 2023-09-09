@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
 from users.factories import UserFactory
+from users.models import User
 
 
 class TestUser(TestCase):
@@ -24,7 +24,7 @@ class TestDetailUser(TestUser):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_detail_if_logged(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -43,29 +43,40 @@ class TestReplaceUser(TestUser):
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "username", "To pole jest wymagane."
+            response.context["form"], "email", "To pole jest wymagane."
         )
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
     def test_replace_with_valid_data(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         response = self.client.post(
-            self.url, {"username": self.user.username, "email": "test@test.pl"}
+            self.url,
+            {
+                "username": self.user.email,
+                "first_name": "Test imie",
+                "last_name": "Test nazwisko",
+                "email": "test@test.pl",
+            },
         )
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("users:detail_user"))
         self.assertTrue(
-            User.objects.filter(email="test@test.pl", pk=self.user.pk).exists()
+            User.objects.filter(
+                first_name="Test imie",
+                last_name="Test nazwisko",
+                email="test@test.pl",
+                pk=self.user.pk,
+            ).exists()
         )
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -81,7 +92,7 @@ class TestRegisterUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "username", "To pole jest wymagane."
+            response.context["form"], "email", "To pole jest wymagane."
         )
         self.assertFormError(
             response.context["form"], "password1", "To pole jest wymagane."
@@ -92,22 +103,22 @@ class TestRegisterUser(TestUser):
         self.assertTemplateUsed(response, "registration/register.html")
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password="test")
+        self.client.login(username=self.user.email, password="test")
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
 
     def test_register_with_valid_data(self):
-        username = "User_test_1"
+        email = "test@test.pl"
         password = "Test_password1!"
         response = self.client.post(
             self.url,
-            {"username": username, "password1": password, "password2": password},
+            {"email": email, "password1": password, "password2": password},
         )
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("invoices:index"))
-        self.assertTrue(User.objects.filter(username="User_test_1").exists())
+        self.assertTrue(User.objects.filter(email="test@test.pl").exists())
 
 
 class TestPasswordChangeUser(TestUser):
@@ -116,7 +127,7 @@ class TestPasswordChangeUser(TestUser):
         self.url = reverse("users:password_change_user")
 
     def test_invalid_form_display_errors(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -132,12 +143,12 @@ class TestPasswordChangeUser(TestUser):
         self.assertTemplateUsed(response, "registration/password_change_user.html")
 
     def test_password_change_with_valid_data(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         new_password = "Test_new_password1!"
         response = self.client.post(
             self.url,
             {
-                "username": self.user.username,
+                "username": self.user.email,
                 "old_password": self.password,
                 "new_password1": new_password,
                 "new_password2": new_password,
@@ -147,12 +158,12 @@ class TestPasswordChangeUser(TestUser):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("users:detail_user"))
 
-        user = User.objects.get(username=self.user.username)
+        user = User.objects.get(email=self.user.email)
 
         self.assertTrue(user.check_password(new_password))
 
     def test_get_form(self):
-        self.client.login(username=self.user.username, password=self.password)
+        self.client.login(username=self.user.email, password=self.password)
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
