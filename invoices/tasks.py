@@ -55,4 +55,3 @@ def create_invoices_for_recurring():
         )
 
         invoice.user.send_email(subject, content)
-

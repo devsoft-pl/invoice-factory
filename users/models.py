@@ -1,11 +1,11 @@
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.conf import settings
-from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 from .managers import UserManager
 
@@ -56,6 +56,5 @@ def send_welcome_email(sender, instance: User, created=False, **kwargs):
             "Login: {email}\n"
             "Best regards,\n"
             "Factorka",
-
         ).format(email=instance.email)
         User().send_email(subject, content)

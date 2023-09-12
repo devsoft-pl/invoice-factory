@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from users.factories import UserFactory
 from users.models import send_welcome_email
