@@ -2,7 +2,6 @@ import logging
 
 from celery.exceptions import Ignore
 from django.conf import settings
-from django.core.mail import send_mail
 from django.utils.translation import gettext as _
 
 from base.celery import app
@@ -40,17 +39,12 @@ def check_company_status(instance_id):
     is_active = adapter.is_company_active(company.nip)
 
     if not is_active:
-        if company.user.email:
-            subject = _("Contractor's company status")
-            content = _(
-                "The company status of the contractor with the NIP: %(company_nip)s number in CEIDG is not active.\n"
-                " Check the contractor's details again\n"
-                "Best regards,\n"
-                "Invoice Manager"
-            ) % {"company_nip": company.nip}
-            send_mail(
-                subject,
-                content,
-                from_email=settings.EMAIL_SENDER,
-                recipient_list=[company.user.email],
-            )
+        subject = _("Contractor's company status")
+        content = _(
+            "The company status of the contractor with the NIP: %(company_nip)s number in CEIDG is not active.\n"
+            " Check the contractor's details again\n"
+            "Best regards,\n"
+            "Invoice Manager"
+        ) % {"company_nip": company.nip}
+
+        company.user.send_email(subject, content)
