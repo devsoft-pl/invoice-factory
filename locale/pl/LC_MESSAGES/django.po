@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-02 18:29+0200\n"
+"POT-Creation-Date: 2023-09-12 21:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr "Podstawowe informacje"
 
 #: companies/admin.py:27
 msgid "Address data"
-msgstr "Adres"
+msgstr "Dane adresowe"
 
 #: companies/forms.py:50
 msgid "Nip already exists"
@@ -51,7 +51,7 @@ msgstr "NIP"
 
 #: companies/models.py:19
 msgid "Enter the tax ID without special characters with minimum 8 character"
-msgstr "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
+msgstr "Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"
 
 #: companies/models.py:25
 msgid "Regon"
@@ -60,9 +60,9 @@ msgstr "Regon"
 #: companies/models.py:31
 msgid "Enter regon in numbers only with minimum 9 character"
 msgstr ""
-"Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
+"Wpisz Regon składający się z min. 9 liczb"
 
-#: companies/models.py:36 countries/models.py:9
+#: companies/models.py:36 countries/models.py:10
 msgid "Country"
 msgstr "Kraj"
 
@@ -76,7 +76,7 @@ msgstr "Kod pocztowy"
 
 #: companies/models.py:44
 msgid "Zip code in numbers only in format xx-xxx"
-msgstr "Kod pocztowy w liczbach tylko w formacie xx-xxx"
+msgstr "Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"
 
 #: companies/models.py:49
 msgid "City"
@@ -84,9 +84,9 @@ msgstr "Miasto"
 
 #: companies/models.py:52
 msgid "Enter the city in letters only"
-msgstr "Wpisz miasto tylko literami"
+msgstr "Wpisz miasto tylko w postaci liter"
 
-#: companies/models.py:55
+#: companies/models.py:55 users/models.py:10
 msgid "Email"
 msgstr "Email"
 
@@ -96,10 +96,10 @@ msgstr "Numer telefonu"
 
 #: companies/models.py:62
 msgid "Enter phone number in numbers only"
-msgstr "Wprowadź numer telefonu tylko cyframi"
+msgstr "Wpisz numer telefonu tylko w postaci liczb"
 
-#: companies/models.py:66 countries/models.py:16 currencies/models.py:18
-#: invoices/models.py:43 items/models.py:28 vat_rates/models.py:15
+#: companies/models.py:66 countries/models.py:17 currencies/models.py:19
+#: invoices/models.py:43 items/models.py:28 vat_rates/models.py:16
 msgid "User"
 msgstr "Użytkownik"
 
@@ -111,11 +111,11 @@ msgstr "Czy moja firma"
 msgid "companies"
 msgstr "firmy"
 
-#: companies/tasks.py:43
+#: companies/tasks.py:44
 msgid "Contractor's company status"
 msgstr "Status aktywności kontrahentów"
 
-#: companies/tasks.py:45
+#: companies/tasks.py:46
 #, python-format
 msgid ""
 "The company status of the contractor with the NIP: %(company_nip)s number in "
@@ -137,11 +137,11 @@ msgstr "Firma nie istnieje"
 msgid "Country already exists"
 msgstr "Kraj już istnieje"
 
-#: countries/models.py:12
+#: countries/models.py:13
 msgid "Enter the country in letters only"
-msgstr "Podaj kraj tylko literami"
+msgstr "Wpisz kraj tylko w postaci liter"
 
-#: countries/models.py:23
+#: countries/models.py:24
 msgid "countries"
 msgstr "kraje"
 
@@ -153,31 +153,31 @@ msgstr "Kraj nie istnieje"
 msgid "Currency already exists"
 msgstr "Waluta już istnieje"
 
-#: currencies/models.py:11
+#: currencies/models.py:12
 msgid "Code"
 msgstr "Kod waluty"
 
-#: currencies/models.py:14
+#: currencies/models.py:15
 msgid "Enter country three letter code"
-msgstr "Wprowadź trzyliterowy kod kraju"
+msgstr "Wpisz trzyliterowy kod kraju"
 
-#: currencies/models.py:25
+#: currencies/models.py:26
 msgid "currencies"
 msgstr "waluty"
 
-#: currencies/models.py:50
+#: currencies/models.py:51
 msgid "Buy rate"
 msgstr "Kurs kupna"
 
-#: currencies/models.py:53
+#: currencies/models.py:54
 msgid "Sell rate"
 msgstr "Kurs sprzedaży"
 
-#: currencies/models.py:55
+#: currencies/models.py:56
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:58 invoices/models.py:82
+#: currencies/models.py:59 invoices/models.py:82
 msgid "Currency"
 msgstr "Waluta"
 
@@ -282,40 +282,40 @@ msgstr "Numer konta"
 msgid ""
 "Enter account number with minimum 15 character without special characters"
 msgstr ""
-"Wpisz numer rachunku składający się z min. 15 znaków bez znaków specjalnych"
+"Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
 
-#: invoices/receivers.py:12
-msgid "Welcome in Invoice Manager"
-msgstr "Witamy w Invoice Manager"
+#: invoices/receivers.py:13
+msgid "Welcome in Factorka"
+msgstr "Witamy w Faktorce"
 
-#: invoices/receivers.py:14
+#: invoices/receivers.py:15
 msgid ""
-"Thanks for your registration. Your account details: \n"
-" Login: {username} \n"
+"Thanks for your registration in Factorka. Your account details:\n"
+"Login: Your email\n"
 "Best regards,\n"
-"Invoice Manager"
+"Factorka"
 msgstr ""
-"Dziękujemy za rejestrację. Dane Twojego konta: \n"
-"Login: {username} \n"
+"Dziękujemy za rejestrację w Faktorce. Dane Twojego konta: \n"
+"Logowanie: Twój e-mail \n"
 "Z wyrazami szacunku,\n"
-"Invoice Manager"
+"Factorka"
 
 #: invoices/receivers.py:31
-msgid "Goodbye in Invoice Manager"
-msgstr "Do widzenia w Invoice Manager"
+msgid "Goodbye in Factorka"
+msgstr "Pożegnanie w Factorce"
 
 #: invoices/receivers.py:33
-#, python-brace-format
+
 msgid ""
-"Thank you for using our Invoice Manager\n"
-"We hope you will come back to us again \n"
+"Thank you for using our Factorka\n"
+"We hope you will come back to us again\n"
 "Best regards,\n"
-"Invoice Manager"
+"Factorka"
 msgstr ""
-"Dziękujemy za skorzystanie z naszego Invoice Manager\n"
+"Dziękujemy za skorzystanie z naszej Factorki\n"
 "Mamy nadzieję, że jeszcze do nas wrócisz \n"
 "Z wyrazami szacunku,\n"
-"Invoice Manager"
+"Factorka"
 
 #: invoices/tasks.py:53
 msgid "New recurring invoice"
@@ -360,13 +360,33 @@ msgstr "VAT"
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
 
-#: users/forms.py:10
-msgid "password"
-msgstr "hasło"
+#: users/models.py:11
+msgid "First name"
+msgstr "Imię"
 
-#: users/forms.py:11
-msgid "Hasło jest szyfrowane, więc nie można je zobaczyć."
+#: users/models.py:12
+msgid "Last name"
+msgstr "Nazwisko"
+
+#: users/models.py:14
+msgid "Staff status"
+msgstr "Status personelu"
+
+#: users/models.py:16
+msgid "Designates whether the user can log into this admin site."
+msgstr "Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
+
+#: users/models.py:19
+msgid "Active"
+msgstr "Aktywny"
+
+#: users/models.py:22
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
 msgstr ""
+"Określa, czy ten użytkownik powinien być traktowany jako aktywny. Odznacz tę opcję "
+"zamiast usuwania kont."
 
 #: users/views.py:27
 msgid "User does not authenticated"
@@ -376,13 +396,22 @@ msgstr "Użytkownik nie został uwierzytelniony"
 msgid "Vat rate already exists"
 msgstr "Stawka VAT już istnieje"
 
-#: vat_rates/models.py:9
+#: vat_rates/models.py:10
 msgid "Rate"
 msgstr "Stawka VAT"
 
 #: vat_rates/views.py:56 vat_rates/views.py:77
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid "Welcome in Invoice Manager"
+#~ msgstr "Witamy w Invoice Manager"
+
+#~ msgid "Goodbye in Invoice Manager"
+#~ msgstr "Do widzenia w Invoice Manager"
+
+#~ msgid "password"
+#~ msgstr "hasło"
 
 #~ msgid "Is my country"
 #~ msgstr "Czy mój kraj"
