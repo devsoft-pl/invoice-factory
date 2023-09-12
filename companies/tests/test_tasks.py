@@ -33,24 +33,24 @@ class TestCompaniesStatusTasks:
         assert is_company_active_mock.call_args_list == [call("111111111")]
 
     @patch("companies.govs_adapters.ceidg_adapter.CEIDGAdapter.is_company_active")
-    @patch("companies.tasks.send_mail")
+    @patch("users.models.User.send_email")
     def test_send_mail_when_company_is_not_active(
-        self, send_mail_mock, is_company_active_mock
+        self, send_email_mock, is_company_active_mock
     ):
         is_company_active_mock.return_value = False
         check_company_status(self.company.id)
 
-        send_mail_mock.assert_called_once()
+        send_email_mock.assert_called_once()
 
     @patch("companies.govs_adapters.ceidg_adapter.CEIDGAdapter.is_company_active")
-    @patch("companies.tasks.send_mail")
+    @patch("users.models.User.send_email")
     def test_not_send_mail_when_company_is_active(
-        self, send_mail_mock, is_company_active_mock
+        self, send_email_mock, is_company_active_mock
     ):
         is_company_active_mock.return_value = True
         check_company_status(self.company.id)
 
-        send_mail_mock.assert_not_called()
+        send_email_mock.assert_not_called()
 
     def test_returns_raise_if_company_does_not_exist(self):
         with pytest.raises(Ignore):
