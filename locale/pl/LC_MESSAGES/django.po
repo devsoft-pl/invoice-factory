@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 21:46+0200\n"
+"POT-Creation-Date: 2023-09-12 22:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,8 +59,7 @@ msgstr "Regon"
 
 #: companies/models.py:31
 msgid "Enter regon in numbers only with minimum 9 character"
-msgstr ""
-"Wpisz Regon składający się z min. 9 liczb"
+msgstr "Wpisz Regon składający się z min. 9 liczb"
 
 #: companies/models.py:36 countries/models.py:10
 msgid "Country"
@@ -86,7 +85,7 @@ msgstr "Miasto"
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko w postaci liter"
 
-#: companies/models.py:55 users/models.py:10
+#: companies/models.py:55 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
@@ -111,11 +110,11 @@ msgstr "Czy moja firma"
 msgid "companies"
 msgstr "firmy"
 
-#: companies/tasks.py:44
+#: companies/tasks.py:42
 msgid "Contractor's company status"
 msgstr "Status aktywności kontrahentów"
 
-#: companies/tasks.py:46
+#: companies/tasks.py:44
 #, python-format
 msgid ""
 "The company status of the contractor with the NIP: %(company_nip)s number in "
@@ -284,44 +283,11 @@ msgid ""
 msgstr ""
 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
 
-#: invoices/receivers.py:13
-msgid "Welcome in Factorka"
-msgstr "Witamy w Faktorce"
-
-#: invoices/receivers.py:15
-msgid ""
-"Thanks for your registration in Factorka. Your account details:\n"
-"Login: Your email\n"
-"Best regards,\n"
-"Factorka"
-msgstr ""
-"Dziękujemy za rejestrację w Faktorce. Dane Twojego konta: \n"
-"Logowanie: Twój e-mail \n"
-"Z wyrazami szacunku,\n"
-"Factorka"
-
-#: invoices/receivers.py:31
-msgid "Goodbye in Factorka"
-msgstr "Pożegnanie w Factorce"
-
-#: invoices/receivers.py:33
-
-msgid ""
-"Thank you for using our Factorka\n"
-"We hope you will come back to us again\n"
-"Best regards,\n"
-"Factorka"
-msgstr ""
-"Dziękujemy za skorzystanie z naszej Factorki\n"
-"Mamy nadzieję, że jeszcze do nas wrócisz \n"
-"Z wyrazami szacunku,\n"
-"Factorka"
-
-#: invoices/tasks.py:53
+#: invoices/tasks.py:50
 msgid "New recurring invoice"
 msgstr "Cykliczna faktura"
 
-#: invoices/tasks.py:55
+#: invoices/tasks.py:52
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
@@ -360,33 +326,50 @@ msgstr "VAT"
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
 
-#: users/models.py:11
+#: users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: users/models.py:12
+#: users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: users/models.py:14
+#: users/models.py:18
 msgid "Staff status"
 msgstr "Status personelu"
 
-#: users/models.py:16
+#: users/models.py:20
 msgid "Designates whether the user can log into this admin site."
-msgstr "Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
+msgstr ""
+"Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
 
-#: users/models.py:19
+#: users/models.py:23
 msgid "Active"
 msgstr "Aktywny"
 
-#: users/models.py:22
+#: users/models.py:26
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
-"Określa, czy ten użytkownik powinien być traktowany jako aktywny. Odznacz tę opcję "
-"zamiast usuwania kont."
+"Określa, czy ten użytkownik powinien być traktowany jako aktywny. Odznacz tę "
+"opcję zamiast usuwania kont."
+
+#: users/models.py:53
+msgid "Welcome in Factorka"
+msgstr "Witamy w Faktorce"
+
+#: users/models.py:55
+msgid ""
+"Thanks for your registration in Factorka. Your account details:\n"
+"Login: {email}\n"
+"Best regards,\n"
+"Factorka"
+msgstr ""
+"Dziękujemy za rejestrację w Faktorce. Dane Twojego konta: \n"
+"Logowanie: {email} \n"
+"Z wyrazami szacunku,\n"
+"Factorka"
 
 #: users/views.py:27
 msgid "User does not authenticated"
@@ -403,6 +386,20 @@ msgstr "Stawka VAT"
 #: vat_rates/views.py:56 vat_rates/views.py:77
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid "Goodbye in Factorka"
+#~ msgstr "Pożegnanie w Factorce"
+
+#~ msgid ""
+#~ "Thank you for using our Factorka\n"
+#~ "We hope you will come back to us again\n"
+#~ "Best regards,\n"
+#~ "Factorka"
+#~ msgstr ""
+#~ "Dziękujemy za skorzystanie z naszej Factorki\n"
+#~ "Mamy nadzieję, że jeszcze do nas wrócisz \n"
+#~ "Z wyrazami szacunku,\n"
+#~ "Factorka"
 
 #~ msgid "Welcome in Invoice Manager"
 #~ msgstr "Witamy w Invoice Manager"
