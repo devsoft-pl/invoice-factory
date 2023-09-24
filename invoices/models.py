@@ -39,6 +39,16 @@ class Invoice(models.Model):
         (THREE_MONTH, _("Three month")),
     )
 
+    CURRENT = 0
+    NEXT = 1
+    IN2MONTHS = 2
+
+    PERIOD = (
+        (CURRENT, _("Current")),
+        (NEXT, _("Next")),
+        (IN2MONTHS, _("In 2 months")),
+    )
+
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
@@ -62,10 +72,13 @@ class Invoice(models.Model):
         related_name="invoice",
     )
     recurring_frequency = models.IntegerField(
-        verbose_name=_("Recurring_frequency"), choices=FREQUENCY, null=True, blank=True
+        verbose_name=_("Recurring frequency"), choices=FREQUENCY, null=True, blank=True
     )
     is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
     is_settled = models.BooleanField(verbose_name=_("Settled"), default=False)
+    settlement_period = models.IntegerField(
+        verbose_name=_("Settlement period"), choices=PERIOD, default=CURRENT
+    )
     create_date = models.DateField(
         verbose_name=_("Create date"), default=timezone.now, editable=True
     )
