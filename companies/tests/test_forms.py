@@ -122,15 +122,11 @@ class TestCompanyForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "nip": [
-                "Wprowadź NIP bez znaków specjalnych, składający się z min. 8 znaków"
-            ],
-            "regon": [
-                "Regon należy wprowadzać wyłącznie cyframi składającymi się z min. 9 znaków"
-            ],
-            "zip_code": ["Kod pocztowy w liczbach tylko w formacie xx-xxx"],
-            "city": ["Wpisz miasto tylko literami"],
-            "phone_number": ["Wprowadź numer telefonu tylko cyframi"],
+            "nip": ["Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"],
+            "regon": ["Wpisz Regon składający się z min. 9 liczb"],
+            "zip_code": ["Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"],
+            "city": ["Wpisz miasto tylko w postaci liter"],
+            "phone_number": ["Wpisz numer telefonu tylko w postaci liczb"],
         }
 
     def test_clean_nip_returns_error(self):
