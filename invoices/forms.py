@@ -21,6 +21,7 @@ class InvoiceForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
+            "is_settled",
             "recurring_frequency",
         ]
 
