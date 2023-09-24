@@ -46,10 +46,21 @@
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Numer konta:</div>
             <div class="col-4">{{ invoice.account_number }}</div>
-        </div><div class="row mb-2">
+        </div>
+        <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Cykliczność:</div>
             <div class="col-4">
                 {% if invoice.is_recurring %}
+                    <span>Tak</span>
+                {% else %}
+                    <span>Nie</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Rozliczona:</div>
+            <div class="col-4">
+                {% if invoice.is_settled %}
                     <span>Tak</span>
                 {% else %}
                     <span>Nie</span>

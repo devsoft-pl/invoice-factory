@@ -34,6 +34,7 @@
                             <th>Wartość netto</th>
                             <th>Wartość brutto</th>
                             <th>Cykliczna</th>
+                            <th>Rozliczona</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -53,6 +54,14 @@
                                     {% else %}
                                         <span>Nie</span>
                                     {% endif %}
+                                </td>
+                                <td>
+                                    {% if invoice.is_settled %}
+                                        <span>Tak</span>
+                                    {% else %}
+                                        <span>Nie</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                                     <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>

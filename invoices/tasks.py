@@ -33,6 +33,7 @@ def create_invoices_for_recurring():
             invoice_type=Invoice.INVOICE_SALES,
             company=invoice.company,
             is_recurring=False,
+            is_settled=False,
             create_date=date,
             sale_date=date,
             payment_date=payment_date,
