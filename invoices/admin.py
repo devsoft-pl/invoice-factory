@@ -19,6 +19,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     )
     list_filter = (
         "is_recurring",
+        "is_settled",
         "company__name",
         "invoice_type",
         "payment_date",
@@ -48,9 +49,9 @@ class InvoiceAdmin(admin.ModelAdmin):
             },
         ),
         (
-            _("Recurring invoice"),
+            _("Additional options"),
             {
-                "fields": ("recurring_frequency", "is_recurring"),
+                "fields": ("is_recurring", "is_settled"),
             },
         ),
     )
