@@ -198,4 +198,9 @@ class TestInvoiceForm:
         form = InvoiceForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {'invoice_number': ['Numer faktury już istnieje'], 'account_number': ['Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków']}
+        assert form.errors == {
+            "invoice_number": ["Numer faktury już istnieje"],
+            "account_number": [
+                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+            ],
+        }
