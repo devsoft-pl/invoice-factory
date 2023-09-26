@@ -39,12 +39,12 @@ class Invoice(models.Model):
         (THREE_MONTH, _("Three month")),
     )
 
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
-    )
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, null=True)
     invoice_number = models.CharField(
         verbose_name=_("Invoice number"),
         max_length=30,
+        null=True,
+        blank=True,
         validators=[
             RegexValidator(
                 r"^[0-9]+/[0-9]{4}$",
@@ -52,33 +52,21 @@ class Invoice(models.Model):
             )
         ],
     )
-    invoice_type = models.IntegerField(
-        verbose_name=_("Invoice type"), choices=INVOICE_TYPES
-    )
+    invoice_type = models.IntegerField(verbose_name=_("Invoice type"), choices=INVOICE_TYPES)
     company = models.ForeignKey(
         Company,
         verbose_name=_("Company"),
         on_delete=models.CASCADE,
         related_name="invoice",
     )
-    recurring_frequency = models.IntegerField(
-        verbose_name=_("Recurring frequency"), choices=FREQUENCY, null=True, blank=True
-    )
+    recurring_frequency = models.IntegerField(verbose_name=_("Recurring frequency"), choices=FREQUENCY, null=True, blank=True)
     is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
     is_settled = models.BooleanField(verbose_name=_("Settled"), default=False)
     settlement_date = models.DateField(verbose_name=_("Settlement_date"), null=True, blank=True)
-    create_date = models.DateField(
-        verbose_name=_("Create date"), default=timezone.now, editable=True
-    )
-    sale_date = models.DateField(
-        verbose_name=_("Sale date"), default=timezone.now, editable=True
-    )
-    payment_date = models.DateField(
-        verbose_name=_("Payment date"), default=timezone.now, editable=True
-    )
-    payment_method = models.IntegerField(
-        verbose_name=_("Payment method"), choices=PAYMENT_METHOD
-    )
+    create_date = models.DateField(verbose_name=_("Create date"), default=timezone.now, editable=True)
+    sale_date = models.DateField(verbose_name=_("Sale date"), null=True, blank=True)
+    payment_date = models.DateField(verbose_name=_("Payment date"), null=True, blank=True)
+    payment_method = models.IntegerField(verbose_name=_("Payment method"), choices=PAYMENT_METHOD, null=True, blank=True)
     currency = models.ForeignKey(
         Currency,
         verbose_name=_("Currency"),
@@ -105,6 +93,8 @@ class Invoice(models.Model):
         verbose_name=_("Client"),
         on_delete=models.CASCADE,
         related_name="client_invoice",
+        null=True,
+        blank=True
     )
 
     class Meta:
