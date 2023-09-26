@@ -23,7 +23,7 @@ class InvoiceForm(forms.ModelForm):
             "is_recurring",
             "is_settled",
             "recurring_frequency",
-            "settlement_period",
+            "settlement_date",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
