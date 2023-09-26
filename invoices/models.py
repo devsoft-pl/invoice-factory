@@ -39,16 +39,6 @@ class Invoice(models.Model):
         (THREE_MONTH, _("Three month")),
     )
 
-    CURRENT = 0
-    NEXT = 1
-    IN2MONTHS = 2
-
-    PERIOD = (
-        (CURRENT, _("Current")),
-        (NEXT, _("Next")),
-        (IN2MONTHS, _("In 2 months")),
-    )
-
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
@@ -76,9 +66,7 @@ class Invoice(models.Model):
     )
     is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
     is_settled = models.BooleanField(verbose_name=_("Settled"), default=False)
-    settlement_period = models.IntegerField(
-        verbose_name=_("Settlement period"), choices=PERIOD, default=CURRENT
-    )
+    settlement_date = models.DateField(verbose_name=_("Settlement_date"), null=True, blank=True)
     create_date = models.DateField(
         verbose_name=_("Create date"), default=timezone.now, editable=True
     )
