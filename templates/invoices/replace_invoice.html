@@ -126,17 +126,6 @@
                         </div>
                     </div>
                 {% endif %}
-                <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.is_settled.label_tag }}</div>
-                    <div class="col-4">{{ form.is_settled }}</div>
-                </div>
-                {% if form.is_settled.errors %}
-                    <div class="row">
-                        <div class="col-auto offset-5 text-danger">
-                            {{ form.is_settled.errors }}
-                        </div>
-                    </div>
-                {% endif %}
                 <div class="row">
                     <div class="col text-center">
                         <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
