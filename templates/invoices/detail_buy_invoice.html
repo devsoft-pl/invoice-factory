@@ -37,6 +37,10 @@
                 {% endif %}
             </div>
         </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Plik faktury:</div>
+            <div class="col-4">{{ invoice.invoice_file }}</div>
+        </div>
         <div class="row mt-2">
             <div class="col text-center">
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_buy_invoice' invoice.pk %}">Edytuj</a>

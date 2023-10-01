@@ -69,6 +69,7 @@ class InvoiceBuyForm(forms.ModelForm):
             "payment_date",
             "recurring_frequency",
             "settlement_date",
+            "invoice_file",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
@@ -81,6 +82,8 @@ class InvoiceBuyForm(forms.ModelForm):
         self.fields["company"].widget.attrs["class"] = "form-control"
         self.fields["payment_date"].widget.attrs["class"] = "form-control"
         self.fields["settlement_date"].widget.attrs["class"] = "form-control"
+        self.fields["invoice_file"].widget.attrs["class"] = "form-control"
+        self.fields["invoice_file"].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")

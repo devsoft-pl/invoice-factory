@@ -110,6 +110,7 @@ class Invoice(models.Model):
         null=True,
         blank=True,
     )
+    invoice_file = models.FileField(verbose_name=_("Invoice file"), null=True, blank=True)
 
     class Meta:
         ordering = ["-sale_date"]

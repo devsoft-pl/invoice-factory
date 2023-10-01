@@ -54,6 +54,7 @@ class InvoiceAdmin(admin.ModelAdmin):
                 "fields": (
                     ("is_recurring",),
                     ("settlement_date", "is_settled"),
+                    ("invoice_file", )
                 )
             },
         ),
