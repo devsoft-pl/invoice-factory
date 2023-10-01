@@ -27,7 +27,8 @@
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>
-                            <th>Numer faktury</th>
+                            <th>Nr faktury</th>
+                            <th>Typ faktury</th>
                             <th>Firma</th>
                             <th>Kontrahent</th>
                             <th>Data płatności</th>
@@ -43,6 +44,7 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ invoice }}</td>
+                                <td>{{ invoice.get_invoice_type_display }}</td>
                                 <td>{{ invoice.company.name }}</td>
                                 <td>{{ invoice.client.name }}</td>
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
@@ -81,8 +83,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:create_invoice' %}">Dodaj fakturę sprzedażową</a>
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:create_invoice' %}">Dodaj fakturę zakupową</a>
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:create_sell_invoice' %}">Dodaj fakturę sprzedażową</a>
+                <a class="btn btn-primary mt-3" href="{% url 'invoices:create_buy_invoice' %}">Dodaj fakturę zakupową</a>
             </div>
         </div>
         <div class="row">
