@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 18:02+0200\n"
+"POT-Creation-Date: 2023-10-01 22:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,7 +176,7 @@ msgstr "Kurs sprzedaży"
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:59 invoices/models.py:83
+#: currencies/models.py:59 invoices/models.py:86
 msgid "Currency"
 msgstr "Waluta"
 
@@ -192,23 +192,23 @@ msgstr "Zaawansowane opcje"
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:61
+#: invoices/forms.py:58 invoices/forms.py:95
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:67 invoices/models.py:46
+#: invoices/forms.py:101 invoices/models.py:46
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:69 invoices/models.py:56
+#: invoices/forms.py:103 invoices/models.py:58
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:71 invoices/models.py:104
+#: invoices/forms.py:105 invoices/models.py:107
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/forms.py:72 invoices/models.py:60
+#: invoices/forms.py:106 invoices/models.py:62
 msgid "Company"
 msgstr "Firma"
 
@@ -244,54 +244,58 @@ msgstr "Co miesiąc"
 msgid "Three month"
 msgstr "Co trzy miesiące"
 
-#: invoices/models.py:51
+#: invoices/models.py:53
 msgid "Enter invoice number in numbers only in format number/yyyy"
 msgstr ""
 "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
 
-#: invoices/models.py:65
-msgid "Recurring_frequency"
+#: invoices/models.py:67
+msgid "Recurring frequency"
 msgstr "Cykliczna częstotliwość"
 
-#: invoices/models.py:67
+#: invoices/models.py:69
 msgid "Recurring"
 msgstr "Cykliczna"
 
-#: invoices/models.py:68
+#: invoices/models.py:70
 msgid "Settled"
 msgstr "Rozliczona"
 
-#: invoices/models.py:70
+#: invoices/models.py:72
+msgid "Settlement date"
+msgstr "Data rozliczenia"
+
+#: invoices/models.py:75
 msgid "Create date"
 msgstr "Data utworzenia"
 
-#: invoices/models.py:73
+#: invoices/models.py:77
 msgid "Sale date"
 msgstr "Data sprzedaży"
 
-#: invoices/models.py:76
+#: invoices/models.py:79
 msgid "Payment date"
 msgstr "Data płatności"
 
-#: invoices/models.py:79
+#: invoices/models.py:82
 msgid "Payment method"
 msgstr "Rodzaj płatności"
 
-#: invoices/models.py:89
+#: invoices/models.py:92
 msgid "Account number"
 msgstr "Numer konta"
 
-#: invoices/models.py:97
+#: invoices/models.py:100
 msgid ""
 "Enter account number with minimum 15 character without special characters"
 msgstr ""
 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
 
-#: invoices/tasks.py:51
+#: invoices/tasks.py:52
 msgid "New recurring invoice"
 msgstr "Cykliczna faktura"
 
-#: invoices/tasks.py:53
+#: invoices/tasks.py:54
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
@@ -301,8 +305,8 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/views.py:50 invoices/views.py:80 invoices/views.py:103
-#: invoices/views.py:114
+#: invoices/views.py:50 invoices/views.py:101 invoices/views.py:124
+#: invoices/views.py:135
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 
