@@ -68,13 +68,8 @@ class InvoiceBuyForm(forms.ModelForm):
         fields = [
             "invoice_number",
             "company",
-            "client",
             "create_date",
-            "sale_date",
             "payment_date",
-            "payment_method",
-            "currency",
-            "account_number",
             "is_settled",
             "recurring_frequency",
             "settlement_date",
@@ -86,21 +81,10 @@ class InvoiceBuyForm(forms.ModelForm):
         self.fields["company"].queryset = Company.objects.filter(
             user=current_user, is_my_company=True
         ).order_by("name")
-        self.fields["client"].queryset = Company.objects.filter(
-            user=current_user, is_my_company=False
-        ).order_by("name")
-        self.fields["currency"].queryset = Currency.objects.filter(
-            user=current_user
-        ).order_by("code")
         self.fields["invoice_number"].widget.attrs["class"] = "form-control"
         self.fields["company"].widget.attrs["class"] = "form-control"
-        self.fields["client"].widget.attrs["class"] = "form-control"
         self.fields["create_date"].widget.attrs["class"] = "form-control"
-        self.fields["sale_date"].widget.attrs["class"] = "form-control"
         self.fields["payment_date"].widget.attrs["class"] = "form-control"
-        self.fields["payment_method"].widget.attrs["class"] = "form-control"
-        self.fields["currency"].widget.attrs["class"] = "form-control"
-        self.fields["account_number"].widget.attrs["class"] = "form-control"
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
