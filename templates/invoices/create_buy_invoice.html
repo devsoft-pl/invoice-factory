@@ -37,21 +37,21 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.create_date.label_tag }}</div>
-                    <div class="col-2">{{ form.create_date }}</div>
-                </div>
-                {% if form.create_date.errors %}
-                    <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.create_date.errors }}</div>
-                    </div>
-                {% endif %}
-                <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.payment_date.label_tag }}</div>
                     <div class="col-2">{{ form.payment_date }}</div>
                 </div>
                 {% if form.payment_date.errors %}
                     <div class="row">
                         <div class="col-auto offset-5 text-danger">{{ form.payment_date.errors }}</div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.settlement_date.label_tag }}</div>
+                    <div class="col-2">{{ form.settlement_date }}</div>
+                </div>
+                {% if form.settlement_date.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.settlement_date.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row">
