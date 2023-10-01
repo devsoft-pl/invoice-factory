@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 from num2words import num2words
 from xhtml2pdf import pisa
 
-from invoices.forms import InvoiceFilterForm, InvoiceForm
+from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm
 from invoices.models import Invoice
 
 
@@ -54,14 +54,15 @@ def detail_invoice_view(request, invoice_id):
 
 
 @login_required
-def create_invoice_view(request):
+def create_sell_invoice_view(request):
     if request.method != "POST":
-        form = InvoiceForm(current_user=request.user)
+        form = InvoiceSellForm(current_user=request.user)
     else:
-        form = InvoiceForm(data=request.POST, current_user=request.user)
+        form = InvoiceSellForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             invoice = form.save(commit=False)
+            invoice.invoice_type = Invoice.INVOICE_SALES
             invoice.user = request.user
 
             invoice.save()
@@ -69,7 +70,27 @@ def create_invoice_view(request):
             return redirect("invoices:list_invoices")
 
     context = {"form": form}
-    return render(request, "invoices/create_invoice.html", context)
+    return render(request, "invoices/create_sell_invoice.html", context)
+
+
+@login_required
+def create_buy_invoice_view(request):
+    if request.method != "POST":
+        form = InvoiceBuyForm(current_user=request.user)
+    else:
+        form = InvoiceBuyForm(data=request.POST, current_user=request.user)
+
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.invoice_type = Invoice.INVOICE_PURCHASE
+            invoice.user = request.user
+
+            invoice.save()
+
+            return redirect("invoices:list_invoices")
+
+    context = {"form": form}
+    return render(request, "invoices/create_buy_invoice.html", context)
 
 
 @login_required
@@ -80,9 +101,9 @@ def replace_invoice_view(request, invoice_id):
         raise Http404(_("Invoice does not exist"))
 
     if request.method != "POST":
-        form = InvoiceForm(instance=invoice, current_user=request.user)
+        form = InvoiceSellForm(instance=invoice, current_user=request.user)
     else:
-        form = InvoiceForm(
+        form = InvoiceSellForm(
             instance=invoice, data=request.POST, current_user=request.user
         )
 
