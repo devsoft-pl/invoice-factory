@@ -225,7 +225,7 @@ class TestReplaceInvoice(TestInvoice):
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
-        self.assertTemplateUsed(response, "invoices/replace_invoice.html")
+        self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
     def test_replace_with_valid_data(self):
         self.invoice_data = {

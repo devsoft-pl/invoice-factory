@@ -116,7 +116,30 @@ def replace_sell_invoice_view(request, invoice_id):
             return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": invoice, "form": form}
-    return render(request, "invoices/replace_invoice.html", context)
+    return render(request, "invoices/replace_sell_invoice.html", context)
+
+
+@login_required
+def replace_buy_invoice_view(request, invoice_id):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.user != request.user:
+        raise Http404(_("Invoice does not exist"))
+
+    if request.method != "POST":
+        form = InvoiceBuyForm(instance=invoice, current_user=request.user)
+    else:
+        form = InvoiceBuyForm(
+            instance=invoice, data=request.POST, current_user=request.user
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return redirect("invoices:detail_invoice", invoice.pk)
+
+    context = {"invoice": invoice, "form": form}
+    return render(request, "invoices/replace_buy_invoice.html", context)
 
 
 @login_required
