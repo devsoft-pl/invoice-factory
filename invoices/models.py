@@ -69,7 +69,7 @@ class Invoice(models.Model):
     is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
     is_settled = models.BooleanField(verbose_name=_("Settled"), default=False)
     settlement_date = models.DateField(
-        verbose_name=_("Settlement_date"), null=True, blank=True
+        verbose_name=_("Settlement date"), null=True, blank=True
     )
     create_date = models.DateField(
         verbose_name=_("Create date"), default=timezone.now, editable=True
