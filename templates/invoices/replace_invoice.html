@@ -38,7 +38,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
                     <div class="col-3">{{ form.company }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
+                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.company.errors %}
@@ -49,7 +49,7 @@
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
                     <div class="col-3">{{ form.client }}</div>
-                    <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a></div>
+                    <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
                 </div>
                 {% if form.client.errors %}
                     <div class="row">
@@ -98,7 +98,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.currency.label_tag }}</div>
                     <div class="col-1">{{ form.currency }}</div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_invoice' %}">Dodaj</a>
+                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.currency.errors %}

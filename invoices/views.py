@@ -97,7 +97,7 @@ def create_buy_invoice_view(request):
 
 
 @login_required
-def replace_invoice_view(request, invoice_id):
+def replace_sell_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.user != request.user:
