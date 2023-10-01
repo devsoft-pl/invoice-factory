@@ -50,7 +50,10 @@ def detail_invoice_view(request, invoice_id):
         raise Http404(_("Invoice does not exist"))
 
     context = {"invoice": invoice}
-    return render(request, "invoices/detail_invoice.html", context)
+    if invoice.invoice_type == Invoice.INVOICE_SALES:
+        return render(request, "invoices/detail_sell_invoice.html", context)
+    else:
+        return render(request, "invoices/detail_buy_invoice.html", context)
 
 
 @login_required
