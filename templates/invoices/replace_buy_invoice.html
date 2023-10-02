@@ -13,7 +13,7 @@
             </nav>
         </div>
         <div class="row mt-2">
-            <form action="{% url 'invoices:replace_buy_invoice' invoice.pk %}" method='post'>
+            <form action="{% url 'invoices:replace_buy_invoice' invoice.pk %}" method='post' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
