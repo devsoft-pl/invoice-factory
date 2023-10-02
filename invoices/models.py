@@ -43,16 +43,7 @@ class Invoice(models.Model):
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
     invoice_number = models.CharField(
-        verbose_name=_("Invoice number"),
-        max_length=30,
-        null=True,
-        blank=True,
-        validators=[
-            RegexValidator(
-                r"^[0-9]+/[0-9]{4}$",
-                _("Enter invoice number in numbers only in format number/yyyy"),
-            )
-        ],
+        verbose_name=_("Invoice number"), max_length=30, null=True, blank=True
     )
     invoice_type = models.IntegerField(
         verbose_name=_("Invoice type"), choices=INVOICE_TYPES
@@ -89,18 +80,7 @@ class Invoice(models.Model):
         related_name="invoice",
     )
     account_number = models.CharField(
-        verbose_name=_("Account number"),
-        max_length=50,
-        null=True,
-        blank=True,
-        validators=[
-            RegexValidator(
-                r"^[0-9A-Z ]{15,32}$",
-                _(
-                    "Enter account number with minimum 15 character without special characters"
-                ),
-            )
-        ],
+        verbose_name=_("Account number"), max_length=50, null=True, blank=True
     )
     client = models.ForeignKey(
         Company,
@@ -110,7 +90,9 @@ class Invoice(models.Model):
         null=True,
         blank=True,
     )
-    invoice_file = models.FileField(verbose_name=_("Invoice file"), null=True, blank=True)
+    invoice_file = models.FileField(
+        verbose_name=_("Invoice file"), null=True, blank=True
+    )
 
     class Meta:
         ordering = ["-sale_date"]
