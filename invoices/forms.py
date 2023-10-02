@@ -1,9 +1,20 @@
 from django import forms
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
 from companies.models import Company
 from currencies.models import Currency
 from invoices.models import Invoice
+
+invoice_number_validator = RegexValidator(
+    r"^[0-9]+/[0-9]{4}$",
+    _("Enter invoice number in numbers only in format number/yyyy"),
+)
+
+account_number_validator = RegexValidator(
+    r"^[0-9A-Z ]{15,32}$",
+    _("Enter account number with minimum 15 character without special characters"),
+)
 
 
 class InvoiceSellForm(forms.ModelForm):
@@ -20,7 +31,6 @@ class InvoiceSellForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
-            "recurring_frequency",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
@@ -35,15 +45,18 @@ class InvoiceSellForm(forms.ModelForm):
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
         ).order_by("code")
-        self.fields["invoice_number"].widget.attrs["class"] = "form-control"
-        self.fields["company"].widget.attrs["class"] = "form-control"
-        self.fields["client"].widget.attrs["class"] = "form-control"
-        self.fields["create_date"].widget.attrs["class"] = "form-control"
-        self.fields["sale_date"].widget.attrs["class"] = "form-control"
-        self.fields["payment_date"].widget.attrs["class"] = "form-control"
-        self.fields["payment_method"].widget.attrs["class"] = "form-control"
-        self.fields["currency"].widget.attrs["class"] = "form-control"
-        self.fields["account_number"].widget.attrs["class"] = "form-control"
+
+        invoice_number_field: forms.CharField = self.fields["invoice_number"]
+        invoice_number_field.validators = [invoice_number_validator]
+
+        account_number_field: forms.CharField = self.fields["account_number"]
+        account_number_field.validators = [account_number_validator]
+
+        for field in self.Meta.fields:
+            if field == "is_recurring":
+                continue
+            self.fields[field].widget.attrs["class"] = "form-control"
+            self.fields[field].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
