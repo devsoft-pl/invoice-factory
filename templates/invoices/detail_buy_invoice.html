@@ -28,6 +28,10 @@
             <div class="col-4">{{ invoice.settlement_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Plik faktury:</div>
+            <div class="col-4">{{ invoice.invoice_file }}</div>
+        </div>
+        <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Rozliczona:</div>
             <div class="col-4">
                 {% if invoice.is_settled %}
@@ -36,10 +40,6 @@
                     <span>Nie</span>
                 {% endif %}
             </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Plik faktury:</div>
-            <div class="col-4">{{ invoice.invoice_file }}</div>
         </div>
         <div class="row mt-2">
             <div class="col text-center">
