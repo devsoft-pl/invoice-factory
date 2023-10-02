@@ -27,6 +27,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "is_settled",
             "recurring_frequency",
             "settlement_date",
+            "client",
+            "invoice_file"
         ]
 
     def create(self, validated_data):
