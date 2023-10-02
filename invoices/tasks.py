@@ -41,7 +41,7 @@ def create_invoices_for_recurring():
             currency=invoice.currency,
             account_number=invoice.account_number,
             client=invoice.client,
-            settlement_date=invoice.settlement_date,
+            settlement_date=None
         )
 
         for item in invoice.items.all():
