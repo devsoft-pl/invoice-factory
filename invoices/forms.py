@@ -80,7 +80,6 @@ class InvoiceBuyForm(forms.ModelForm):
             "invoice_number",
             "company",
             "payment_date",
-            "recurring_frequency",
             "settlement_date",
             "invoice_file",
         ]
@@ -91,12 +90,10 @@ class InvoiceBuyForm(forms.ModelForm):
         self.fields["company"].queryset = Company.objects.filter(
             user=current_user, is_my_company=True
         ).order_by("name")
-        self.fields["invoice_number"].widget.attrs["class"] = "form-control"
-        self.fields["company"].widget.attrs["class"] = "form-control"
-        self.fields["payment_date"].widget.attrs["class"] = "form-control"
-        self.fields["settlement_date"].widget.attrs["class"] = "form-control"
-        self.fields["invoice_file"].widget.attrs["class"] = "form-control"
-        self.fields["invoice_file"].required = True
+
+        for field in self.Meta.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"
+            self.fields[field].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
