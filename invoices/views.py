@@ -81,7 +81,7 @@ def create_buy_invoice_view(request):
     if request.method != "POST":
         form = InvoiceBuyForm(current_user=request.user)
     else:
-        form = InvoiceBuyForm(data=request.POST, current_user=request.user)
+        form = InvoiceBuyForm(data=request.POST, files=request.FILES, current_user=request.user)
 
         if form.is_valid():
             invoice = form.save(commit=False)
@@ -107,7 +107,7 @@ def replace_sell_invoice_view(request, invoice_id):
         form = InvoiceSellForm(instance=invoice, current_user=request.user)
     else:
         form = InvoiceSellForm(
-            instance=invoice, data=request.POST, current_user=request.user
+            instance=invoice, data=request.POST, files=request.FILES, current_user=request.user
         )
 
         if form.is_valid():
