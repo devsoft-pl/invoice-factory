@@ -4,8 +4,8 @@ from companies.factories import CompanyFactory
 from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
-from invoices.factories import InvoiceDictFactory, InvoiceFactory
-from invoices.forms import InvoiceFilterForm, InvoiceForm
+from invoices.factories import InvoiceDictFactory
+from invoices.forms import InvoiceFilterForm, InvoiceSellForm
 from invoices.models import Invoice
 from users.factories import UserFactory
 
@@ -29,14 +29,14 @@ class TestInvoiceForm:
         )
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
-        self.invoice_1 = InvoiceFactory.create(
+        self.invoice_1 = InvoiceSellForm.create(
             invoice_number="1/2022",
             invoice_type=Invoice.INVOICE_SALES,
             client=self.client_1,
             company=self.company_1,
             user=self.user,
         )
-        self.invoice_2 = InvoiceFactory.create(
+        self.invoice_2 = InvoiceSellForm.create(
             invoice_number="4/2022",
             invoice_type=Invoice.INVOICE_SALES,
             client=self.client_2,
@@ -135,7 +135,7 @@ class TestInvoiceForm:
         assert filtered_list.count() == expected_count
 
     def test_filtered_currency_current_user(self):
-        self.form = InvoiceForm(current_user=self.user)
+        self.form = InvoiceSellForm(current_user=self.user)
         form_currencies_ids = self.form.fields["currency"].queryset.values_list(
             "id", flat=True
         )
@@ -148,7 +148,7 @@ class TestInvoiceForm:
         assert form_currencies_ids.count() == user_currencies_ids.count()
 
     def test_filtered_company_current_user(self):
-        self.form = InvoiceForm(current_user=self.user)
+        self.form = InvoiceSellForm(current_user=self.user)
         form_companies_ids = self.form.fields["company"].queryset.values_list(
             "id", flat=True
         )
@@ -161,7 +161,7 @@ class TestInvoiceForm:
         assert form_companies_ids.count() == user_companies_ids.count()
 
     def test_filtered_client_current_user(self):
-        self.form = InvoiceForm(current_user=self.user)
+        self.form = InvoiceSellForm(current_user=self.user)
         form_companies_ids = self.form.fields["client"].queryset.values_list(
             "id", flat=True
         )
@@ -182,7 +182,7 @@ class TestInvoiceForm:
             account_number="111111111111111",
         )
 
-        form = InvoiceForm(current_user=self.user, data=data)
+        form = InvoiceSellForm(current_user=self.user, data=data)
 
         assert form.is_valid()
         assert form.errors == {}
@@ -195,7 +195,7 @@ class TestInvoiceForm:
             invoice_number=self.invoice_1.invoice_number,
         )
 
-        form = InvoiceForm(current_user=self.user, data=data)
+        form = InvoiceSellForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {
