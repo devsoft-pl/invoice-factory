@@ -9,15 +9,14 @@ from invoices.models import Invoice
 from users.factories import UserFactory
 
 
-class InvoiceFactory(factory.django.DjangoModelFactory):
+class InvoiceSellFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Invoice
 
     invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
-    invoice_type = factory.fuzzy.FuzzyChoice(
-        Invoice.INVOICE_TYPES, getter=lambda i: i[0]
-    )
+    invoice_type = Invoice.INVOICE_SALES
     company = factory.SubFactory(CompanyFactory)
+    client = factory.SubFactory(CompanyFactory)
     create_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     payment_date = factory.Faker(
@@ -28,17 +27,31 @@ class InvoiceFactory(factory.django.DjangoModelFactory):
     )
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
-    client = factory.SubFactory(CompanyFactory)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
-    is_settled = factory.fuzzy.FuzzyChoice([True, False])
     user = factory.SubFactory(UserFactory)
 
 
-class InvoiceDictFactory(factory.DictFactory):
+class InvoiceBuyFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Invoice
+
     invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
-    invoice_type = factory.fuzzy.FuzzyChoice(
-        Invoice.INVOICE_TYPES, getter=lambda i: i[0]
+    invoice_type = Invoice.INVOICE_PURCHASE
+    company = factory.SubFactory(CompanyFactory)
+    sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
+    payment_date = factory.Faker(
+        "date_between_dates", date_start=factory.SelfAttribute("..sale_date")
     )
+    settlement_date = factory.Faker(
+        "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
+    )
+    invoice_file = factory.django.FileField(filename="the_file.pdf")
+    user = factory.SubFactory(UserFactory)
+
+
+class InvoiceSellDictFactory(factory.DictFactory):
+    invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
+    invoice_type = Invoice.INVOICE_SALES
     create_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
     payment_date = factory.Faker(
@@ -48,3 +61,17 @@ class InvoiceDictFactory(factory.DictFactory):
         Invoice.PAYMENT_METHOD, getter=lambda p: p[0]
     )
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
+    is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+
+
+class InvoiceBuyDictFactory(factory.DictFactory):
+    invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
+    invoice_type = Invoice.INVOICE_PURCHASE
+    sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
+    payment_date = factory.Faker(
+        "date_between_dates", date_start=factory.SelfAttribute("..sale_date")
+    )
+    settlement_date = factory.Faker(
+        "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
+    )
+    invoice_file = factory.django.FileField(filename="the_file.pdf")
