@@ -2,9 +2,9 @@ import pytest
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
-from invoices.factories import InvoiceDictFactory, InvoiceFactory
+from invoices.factories import InvoiceSellDictFactory, InvoiceSellFactory
 from invoices.serializers import InvoiceSerializer
-from items.factories import ItemDictFactory, ItemFactory
+from items.factories import ItemDictFactory, ItemSellFactory
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 
@@ -21,10 +21,10 @@ class TestInvoiceSerializer:
         self.items_data = ItemDictFactory.create_batch(
             size=3, user=self.user, vat=self.vat
         )
-        self.invoice_data = InvoiceDictFactory(
+        self.invoice_data = InvoiceSellDictFactory(
             user=self.user, company=self.company, client=self.client
         )
-        self.invoice = InvoiceFactory()
+        self.invoice = InvoiceSellFactory()
 
     def test_create_if_valid_data(self):
         validated_data = self.invoice_data.copy()
@@ -39,7 +39,7 @@ class TestInvoiceSerializer:
 
     def test_update_if_valid_data(self):
         validated_data = self.invoice_data.copy()
-        item = ItemFactory(invoice=self.invoice)
+        item = ItemSellFactory(invoice=self.invoice)
         item_data = ItemDictFactory(id=item.pk, user=self.user, vat=self.vat)
         validated_data["items"] = [item_data]
 

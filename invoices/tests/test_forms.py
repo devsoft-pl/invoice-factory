@@ -4,7 +4,7 @@ from companies.factories import CompanyFactory
 from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
-from invoices.factories import InvoiceDictFactory
+from invoices.factories import InvoiceSellDictFactory, InvoiceSellFactory
 from invoices.forms import InvoiceFilterForm, InvoiceSellForm
 from invoices.models import Invoice
 from users.factories import UserFactory
@@ -29,16 +29,14 @@ class TestInvoiceForm:
         )
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
-        self.invoice_1 = InvoiceSellForm.create(
+        self.invoice_1 = InvoiceSellFactory.create(
             invoice_number="1/2022",
-            invoice_type=Invoice.INVOICE_SALES,
             client=self.client_1,
             company=self.company_1,
             user=self.user,
         )
-        self.invoice_2 = InvoiceSellForm.create(
+        self.invoice_2 = InvoiceSellFactory.create(
             invoice_number="4/2022",
-            invoice_type=Invoice.INVOICE_SALES,
             client=self.client_2,
             company=self.company_2,
             user=self.user,
@@ -174,7 +172,7 @@ class TestInvoiceForm:
         assert form_companies_ids.count() == user_companies_ids.count()
 
     def test_form_with_valid_data(self):
-        data = InvoiceDictFactory(
+        data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
@@ -188,7 +186,7 @@ class TestInvoiceForm:
         assert form.errors == {}
 
     def test_clean_invoice_number_returns_error(self):
-        data = InvoiceDictFactory(
+        data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,

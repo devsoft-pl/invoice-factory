@@ -3,8 +3,8 @@ from decimal import Decimal
 import pytest
 
 from currencies.factories import ExchangeRateFactory
-from invoices.factories import InvoiceFactory
-from items.factories import ItemFactory
+from invoices.factories import InvoiceSellFactory
+from items.factories import ItemSellFactory
 from vat_rates.factories import VatRateFactory
 
 
@@ -12,13 +12,13 @@ from vat_rates.factories import VatRateFactory
 class TestInvoiceModel:
     @pytest.fixture(autouse=True)
     def set_up(self):
-        self.invoice = InvoiceFactory.create()
-        self.invoice_2 = InvoiceFactory.create()
+        self.invoice = InvoiceSellFactory.create()
+        self.invoice_2 = InvoiceSellFactory.create()
         vat = VatRateFactory.create(rate=23)
-        self.item = ItemFactory.create(
+        self.item = ItemSellFactory.create(
             invoice=self.invoice, amount=2, net_price=1200, vat=vat
         )
-        self.item_2 = ItemFactory.create(
+        self.item_2 = ItemSellFactory.create(
             invoice=self.invoice, amount=1, net_price=800, vat=vat
         )
 

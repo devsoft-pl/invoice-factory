@@ -3,21 +3,21 @@ from unittest.mock import patch
 
 import pytest
 
-from invoices.factories import InvoiceFactory
+from invoices.factories import InvoiceSellFactory
 from invoices.models import Invoice
 from invoices.tasks import create_invoices_for_recurring
-from items.factories import ItemFactory
+from items.factories import ItemSellFactory
 
 
 @pytest.mark.django_db
 class TestRecurrentInvoiceTasks:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
-        self.invoice = InvoiceFactory.create(is_recurring=True)
+        self.invoice = InvoiceSellFactory.create(is_recurring=True)
 
     @patch("invoices.tasks.datetime")
     def test_creates_new_invoice_on_last_day_of_month(self, datetime_mock):
-        ItemFactory.create_batch(2, invoice=self.invoice)
+        ItemSellFactory.create_batch(2, invoice=self.invoice)
         datetime_mock.today.return_value = datetime.date(2023, 8, 31)
 
         create_invoices_for_recurring()
