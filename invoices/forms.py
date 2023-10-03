@@ -79,6 +79,7 @@ class InvoiceBuyForm(forms.ModelForm):
         fields = [
             "invoice_number",
             "company",
+            "sale_date",
             "payment_date",
             "settlement_date",
             "invoice_file",
