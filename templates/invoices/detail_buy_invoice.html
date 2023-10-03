@@ -20,6 +20,10 @@
             <div class="col-4">{{ invoice.company }}</div>
         </div>
         <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
+            <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
+        </div>
+        <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Data płatności:</div>
             <div class="col-4">{{ invoice.payment_date| date:"d.m.Y" }}</div>
         </div>

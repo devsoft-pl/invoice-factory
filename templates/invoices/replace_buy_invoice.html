@@ -47,6 +47,15 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.sale_date.label_tag }}</div>
+                    <div class="col-2">{{ form.sale_date }}</div>
+                </div>
+                {% if form.sale_date.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">{{ form.sale_date.errors }}</div>
+                    </div>
+                {% endif %}
+                <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.payment_date.label_tag }}</div>
                     <div class="col-2">{{ form.payment_date }}</div>
                 </div>
