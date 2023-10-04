@@ -8,9 +8,6 @@ from users.models import User
 class VatRate(models.Model):
     rate = models.PositiveIntegerField(
         verbose_name=_("Rate"),
-        validators=[
-            MaxValueValidator(99),
-        ],
     )
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
