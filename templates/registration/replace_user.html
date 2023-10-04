@@ -15,8 +15,8 @@
             <form action="{% url 'users:replace_user' %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end">{{ form.email.label_tag }}</div>
-                    <div class="col-4">{{ form.email }}</div>
+                    <div class="col-2 offset-3 text-end">{{ form.email.label_tag }}</div>
+                    <div class="col-3">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
                     <div class="row">
@@ -24,8 +24,8 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end">{{ form.first_name.label_tag }}</div>
-                    <div class="col-4">{{ form.first_name }}</div>
+                    <div class="col-2 offset-3 text-end">{{ form.first_name.label_tag }}</div>
+                    <div class="col-3">{{ form.first_name }}</div>
                 </div>
                 {% if form.first_name.errors %}
                     <div class="row">
@@ -33,8 +33,8 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end">{{ form.last_name.label_tag }}</div>
-                    <div class="col-4">{{ form.last_name }}</div>
+                    <div class="col-2 offset-3 text-end">{{ form.last_name.label_tag }}</div>
+                    <div class="col-3">{{ form.last_name }}</div>
                 </div>
                 {% if form.last_name.errors %}
                     <div class="row">
