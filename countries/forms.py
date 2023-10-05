@@ -1,7 +1,12 @@
 from django import forms
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
 from countries.models import Country
+
+country_validator = RegexValidator(
+    r"^[a-zA-Z ]{2,}$", _("Enter the country in letters only")
+)
 
 
 class CountryForm(forms.ModelForm):
@@ -10,7 +15,10 @@ class CountryForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
-        self.fields["country"].widget.attrs["class"] = "form-control"
+
+        country_field: forms.CharField = self.fields["country"]
+        country_field.widget.attrs["class"] = "form-control"
+        country_field.validators = [country_validator]
 
     class Meta:
         model = Country
