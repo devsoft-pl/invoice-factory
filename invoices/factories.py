@@ -45,7 +45,7 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
     settlement_date = factory.Faker(
         "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
     )
-    invoice_file = factory.django.FileField(filename="the_file.pdf")
+    invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
     user = factory.SubFactory(UserFactory)
 
 
@@ -74,4 +74,4 @@ class InvoiceBuyDictFactory(factory.DictFactory):
     settlement_date = factory.Faker(
         "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
     )
-    invoice_file = factory.django.FileField(filename="the_file.pdf")
+    invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
