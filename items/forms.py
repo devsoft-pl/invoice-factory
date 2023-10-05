@@ -1,6 +1,5 @@
 from django import forms
 
-from invoices.models import Invoice
 from items.models import Item
 from vat_rates.models import VatRate
 
@@ -17,8 +16,6 @@ class ItemForm(forms.ModelForm):
         self.fields["vat"].queryset = VatRate.objects.filter(
             user=current_user
         ).order_by("rate")
-        self.fields["name"].widget.attrs["class"] = "form-control"
-        self.fields["pkwiu"].widget.attrs["class"] = "form-control"
-        self.fields["amount"].widget.attrs["class"] = "form-control"
-        self.fields["net_price"].widget.attrs["class"] = "form-control"
-        self.fields["vat"].widget.attrs["class"] = "form-control"
+
+        for field in self.Meta.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"
