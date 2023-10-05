@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from invoices.factories import InvoiceFactory
+from invoices.factories import InvoiceSellFactory
 from items.factories import ItemFactory
 from items.models import Item
 from users.factories import UserFactory
@@ -18,7 +18,7 @@ class TestItem(TestCase):
             12, user=self.user, invoice__user=self.user
         )
         self.other_item = ItemFactory()
-        self.invoice = InvoiceFactory(user=self.user)
+        self.invoice = InvoiceSellFactory(user=self.user)
         self.vat = VatRateFactory(user=self.user)
 
 
