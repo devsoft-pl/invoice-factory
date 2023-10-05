@@ -7,7 +7,7 @@ from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 
 
-class ItemSellFactory(factory.django.DjangoModelFactory):
+class ItemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Item
 
