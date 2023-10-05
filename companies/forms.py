@@ -60,15 +60,6 @@ class CompanyForm(forms.ModelForm):
         self.fields["city"].validators = [city_validator]
         self.fields["phone_number"].validators = [phone_number_validator]
 
-        # self.fields["nip"].widget.attrs["class"] = "form-control"
-        # self.fields["regon"].widget.attrs["class"] = "form-control"
-        # self.fields["country"].widget.attrs["class"] = "form-control"
-        # self.fields["address"].widget.attrs["class"] = "form-control"
-        # self.fields["zip_code"].widget.attrs["class"] = "form-control"
-        # self.fields["city"].widget.attrs["class"] = "form-control"
-        # self.fields["email"].widget.attrs["class"] = "form-control"
-        # self.fields["phone_number"].widget.attrs["class"] = "form-control"
-
     def clean_nip(self):
         nip = self.cleaned_data.get("nip")
         company = Company.objects.filter(nip=nip, user=self.current_user)
