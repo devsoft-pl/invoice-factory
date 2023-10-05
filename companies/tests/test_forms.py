@@ -82,7 +82,7 @@ class TestCompanyForm:
         assert filtered_list.count() == 0
 
     def test_return_filtered_company_with_regon(self):
-        request_get = {"regon": "1111111"}
+        request_get = {"regon": "111111111"}
 
         self.form = CompanyFilterForm(request_get)
         self.form.is_valid()
