@@ -1,28 +1,33 @@
 from django import forms
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
 from companies.models import Company
 from countries.models import Country
 
+nip_validator = RegexValidator(
+    r"^[0-9a-zA-Z]{8,16}$",
+    _("Enter the tax ID without special characters with minimum 8 character"),
+)
+
+regon_validator = RegexValidator(
+    r"^([0-9]{9}|[0-9]{14})$",
+    _("Enter regon in numbers only with minimum 9 character"),
+)
+
+zip_code_validator = RegexValidator(
+    r"^[0-9]{2}-[0-9]{3}$", _("Zip code in numbers only in format xx-xxx")
+)
+
+city_validator = RegexValidator(r"^[a-zA-Z ]+$", _("Enter the city in letters only"))
+
+phone_number_validator = RegexValidator(
+    r"^[0-9]{9,}$", _("Enter phone number with 9 numbers only")
+)
+
 
 class CompanyForm(forms.ModelForm):
     next = forms.CharField(widget=forms.HiddenInput(), required=False)
-
-    def __init__(self, current_user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.current_user = current_user
-        self.fields["country"].queryset = Country.objects.filter(
-            user=current_user
-        ).order_by("country")
-        self.fields["name"].widget.attrs["class"] = "form-control"
-        self.fields["nip"].widget.attrs["class"] = "form-control"
-        self.fields["regon"].widget.attrs["class"] = "form-control"
-        self.fields["country"].widget.attrs["class"] = "form-control"
-        self.fields["address"].widget.attrs["class"] = "form-control"
-        self.fields["zip_code"].widget.attrs["class"] = "form-control"
-        self.fields["city"].widget.attrs["class"] = "form-control"
-        self.fields["email"].widget.attrs["class"] = "form-control"
-        self.fields["phone_number"].widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Company
@@ -38,6 +43,31 @@ class CompanyForm(forms.ModelForm):
             "email",
             "phone_number",
         ]
+
+    def __init__(self, current_user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_user = current_user
+        self.fields["country"].queryset = Country.objects.filter(
+            user=current_user
+        ).order_by("country")
+
+        for field in self.Meta.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"
+
+        self.fields["nip"].validators = [nip_validator]
+        self.fields["regon"].validators = [regon_validator]
+        self.fields["zip_code"].validators = [zip_code_validator]
+        self.fields["city"].validators = [city_validator]
+        self.fields["phone_number"].validators = [phone_number_validator]
+
+        # self.fields["nip"].widget.attrs["class"] = "form-control"
+        # self.fields["regon"].widget.attrs["class"] = "form-control"
+        # self.fields["country"].widget.attrs["class"] = "form-control"
+        # self.fields["address"].widget.attrs["class"] = "form-control"
+        # self.fields["zip_code"].widget.attrs["class"] = "form-control"
+        # self.fields["city"].widget.attrs["class"] = "form-control"
+        # self.fields["email"].widget.attrs["class"] = "form-control"
+        # self.fields["phone_number"].widget.attrs["class"] = "form-control"
 
     def clean_nip(self):
         nip = self.cleaned_data.get("nip")
