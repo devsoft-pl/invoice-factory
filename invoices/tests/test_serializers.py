@@ -4,7 +4,7 @@ from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellDictFactory, InvoiceSellFactory
 from invoices.serializers import InvoiceSerializer
-from items.factories import ItemDictFactory, ItemSellFactory
+from items.factories import ItemDictFactory, ItemFactory
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 
@@ -39,7 +39,7 @@ class TestInvoiceSerializer:
 
     def test_update_if_valid_data(self):
         validated_data = self.invoice_data.copy()
-        item = ItemSellFactory(invoice=self.invoice)
+        item = ItemFactory(invoice=self.invoice)
         item_data = ItemDictFactory(id=item.pk, user=self.user, vat=self.vat)
         validated_data["items"] = [item_data]
 
