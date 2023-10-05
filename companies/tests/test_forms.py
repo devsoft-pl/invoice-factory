@@ -18,14 +18,14 @@ class TestCompanyForm:
         self.company_1 = CompanyFactory.create(
             name="Devsoft",
             nip="1111111111",
-            regon="1111111",
+            regon="111111111",
             user=self.user,
             is_my_company=False,
         )
         self.company_2 = CompanyFactory.create(
             name="Microsoft",
             nip="2222222222",
-            regon="2222222",
+            regon="222222222",
             user=self.user,
             is_my_company=False,
         )
@@ -126,7 +126,9 @@ class TestCompanyForm:
             "regon": ["Wpisz Regon składający się z min. 9 liczb"],
             "zip_code": ["Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"],
             "city": ["Wpisz miasto tylko w postaci liter"],
-            "phone_number": ["Wpisz numer telefonu tylko w postaci liczb"],
+            "phone_number": [
+                "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
+            ],
         }
 
     def test_clean_nip_returns_error(self):
