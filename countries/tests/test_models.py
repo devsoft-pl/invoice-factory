@@ -7,7 +7,7 @@ from countries.factories import CountryFactory
 class TestCountryModel:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
-        self.country = CountryFactory.create()
+        self.country = CountryFactory.create(country="polska")
 
     def test_returns_str_country_name(self):
-        assert self.country.__str__() == self.country.country
+        assert self.country.__str__() == self.country.country.capitalize()
