@@ -19,8 +19,8 @@ class TestVatRateForm:
         assert form.errors == {}
 
     def test_clean_rate_returns_error(self):
-        vat_rate = VatRateFactory.create(user=self.user)
-        data = VatRateDictFactory(rate=vat_rate.rate)
+        rate = VatRateFactory.create(user=self.user, rate="23")
+        data = VatRateDictFactory(rate=rate.rate)
         form = VatRateForm(user=self.user, data=data)
 
         assert not form.is_valid()
