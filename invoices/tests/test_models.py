@@ -4,7 +4,7 @@ import pytest
 
 from currencies.factories import ExchangeRateFactory
 from invoices.factories import InvoiceSellFactory
-from items.factories import ItemSellFactory
+from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
 
 
@@ -15,10 +15,10 @@ class TestInvoiceModel:
         self.invoice = InvoiceSellFactory.create()
         self.invoice_2 = InvoiceSellFactory.create()
         vat = VatRateFactory.create(rate=23)
-        self.item = ItemSellFactory.create(
+        self.item = ItemFactory.create(
             invoice=self.invoice, amount=2, net_price=1200, vat=vat
         )
-        self.item_2 = ItemSellFactory.create(
+        self.item_2 = ItemFactory.create(
             invoice=self.invoice, amount=1, net_price=800, vat=vat
         )
 
