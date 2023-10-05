@@ -4,14 +4,15 @@ from companies.factories import CompanyFactory
 from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
-from invoices.factories import InvoiceSellDictFactory, InvoiceSellFactory
-from invoices.forms import InvoiceFilterForm, InvoiceSellForm
+from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
+                                InvoiceSellDictFactory, InvoiceSellFactory)
+from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm
 from invoices.models import Invoice
 from users.factories import UserFactory
 
 
 @pytest.mark.django_db
-class TestInvoiceForm:
+class TestSellInvoiceForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.user = UserFactory.create()
@@ -201,4 +202,62 @@ class TestInvoiceForm:
             "account_number": [
                 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
             ],
+        }
+
+
+@pytest.mark.django_db
+class TestBuyInvoiceForm:
+    @pytest.fixture(autouse=True)
+    def set_up(self) -> None:
+        self.user = UserFactory.create()
+        self.company = CompanyFactory.create(
+            name="Devsoft", user=self.user, is_my_company=True
+        )
+        self.invoice = InvoiceBuyFactory.create(
+            invoice_number="1/2022",
+            company=self.company,
+            user=self.user,
+        )
+
+    @pytest.mark.parametrize(
+        "invoice_type, expected_count",
+        [[Invoice.INVOICE_SALES, 0], [Invoice.INVOICE_PURCHASE, 1]],
+    )
+    def test_returns_list_with_different_invoice_type(
+        self, invoice_type, expected_count
+    ):
+        request_get = {"invoice_type": invoice_type}
+
+        self.form = InvoiceFilterForm(request_get)
+        self.form.is_valid()
+
+        invoices_list = Invoice.objects.filter(user=self.user)
+        filtered_list = self.form.get_filtered_invoices(invoices_list)
+
+        assert filtered_list.count() == expected_count
+
+    def test_form_with_valid_data(self):
+        data = InvoiceBuyDictFactory(
+            company=self.company,
+            invoice_number="1/2023",
+        )
+        files = {"invoice_file": data["invoice_file"]}
+
+        form = InvoiceBuyForm(current_user=self.user, data=data, files=files)
+
+        assert form.is_valid()
+        assert form.errors == {}
+
+    def test_clean_invoice_number_returns_error(self):
+        data = InvoiceBuyDictFactory(
+            company=self.company,
+            invoice_number=self.invoice.invoice_number,
+        )
+        files = {"invoice_file": data["invoice_file"]}
+
+        form = InvoiceBuyForm(current_user=self.user, data=data, files=files)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": ["Numer faktury już istnieje"],
         }
