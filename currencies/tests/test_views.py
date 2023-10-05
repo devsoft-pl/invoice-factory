@@ -113,11 +113,11 @@ class TestCreateCurrency(TestCurrency):
     def test_create_with_valid_data_and_next(self):
         self.client.login(username=self.user.email, password="test")
         response = self.client.post(
-            self.url, {"code": "PLN", "next": reverse("invoices:create_invoice")}
+            self.url, {"code": "PLN", "next": reverse("invoices:create_sell_invoice")}
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("invoices:create_invoice"))
+        self.assertRedirects(response, reverse("invoices:create_sell_invoice"))
         self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
 
     def test_get_form(self):
