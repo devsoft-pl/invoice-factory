@@ -16,7 +16,6 @@ class VatRateForm(forms.ModelForm):
 
         rate_field: forms.IntegerField = self.fields["rate"]
         rate_field.widget.attrs["class"] = "form-control"
-        rate_field.widget.attrs["max"] = "99"
         rate_field.validators = [rate_validator]
 
     class Meta:
