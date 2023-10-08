@@ -66,7 +66,12 @@
                                 </td>
                                 <td>
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
-                                    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura</a>
+                                    {% if invoice.is_sell  %}
+                                    	<a href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura</a>
+                                    {% else %}
+                                        <a href="{{ invoice.invoice_file.url }}">Faktura</a>
+                                    {% endif %}
+
                                     <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                                 </td>
                             </tr>
