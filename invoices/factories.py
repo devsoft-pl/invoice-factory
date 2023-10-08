@@ -35,7 +35,7 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Invoice
 
-    invoice_number = factory.Sequence(lambda n: "Invoice number %03d" % n)
+    invoice_number = factory.Sequence(lambda n: "Invoice number %04d" % n)
     invoice_type = Invoice.INVOICE_PURCHASE
     company = factory.SubFactory(CompanyFactory)
     sale_date = fuzzy.FuzzyDate(datetime.date(2023, 1, 1))
