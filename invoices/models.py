@@ -151,3 +151,7 @@ class Invoice(models.Model):
             date=self.sale_date, currency=self.currency
         )
         return exchange_rate.sell_rate
+
+    @property
+    def is_sell(self):
+        return self.invoice_type == Invoice.INVOICE_SALES
