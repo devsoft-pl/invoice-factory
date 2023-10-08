@@ -5,7 +5,8 @@ from parameterized import parameterized
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
-from invoices.factories import InvoiceSellFactory
+from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
+                                InvoiceSellDictFactory, InvoiceSellFactory)
 from invoices.models import Invoice
 from users.factories import UserFactory
 
@@ -17,6 +18,11 @@ class TestInvoice(TestCase):
         self.user.save()
         self.user_sales_invoices = sorted(
             InvoiceSellFactory.create_batch(12, user=self.user),
+            key=lambda invoice: invoice.sale_date,
+            reverse=True,
+        )
+        self.user_buy_invoices = sorted(
+            InvoiceBuyFactory.create_batch(12, user=self.user),
             key=lambda invoice: invoice.sale_date,
             reverse=True,
         )
@@ -41,7 +47,9 @@ class TestListInvoices(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/list_invoices.html")
         self.assertTrue(len(object_list) == 10)
-        self.assertListEqual(list(object_list), self.user_sales_invoices[:10])
+        self.assertListEqual(
+            list(object_list), list(Invoice.objects.filter(user=self.user)[:10])
+        )
 
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.email, password="test")
@@ -49,16 +57,24 @@ class TestListInvoices(TestInvoice):
 
         object_list = response.context["invoices"]
 
-        self.assertListEqual(list(object_list), self.user_sales_invoices[:10])
+        self.assertListEqual(
+            list(object_list), list(Invoice.objects.filter(user=self.user)[:10])
+        )
 
-    @parameterized.expand([[2], [666]])
+    @parameterized.expand([[3], [666]])
     def test_pagination_return_correct_list(self, page):
         self.client.login(username=self.user.email, password="test")
         response = self.client.get(f"{self.url}?page={page}")
         object_list = response.context["invoices"]
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertListEqual(list(object_list), self.user_sales_invoices[10:])
+        self.assertTrue(len(object_list) == 4)
+        self.assertListEqual(
+            list(object_list),
+            list(
+                reversed(
+                    Invoice.objects.filter(user=self.user).order_by("sale_date")[:4]
+                )
+            ),
+        )
 
 
 class TestDetailInvoice(TestInvoice):
@@ -143,44 +159,94 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
     def test_create_with_valid_data(self):
-        self.invoice_data = {
-            "invoice_number": "1/2023",
-            "invoice_type": "0",
-            "company": self.company.pk,
-            "client": self.contractor.pk,
-            "create_date": "2023-01-01",
-            "sale_date": "2023-01-01",
-            "payment_date": "2023-01-07",
-            "payment_method": "0",
-            "currency": self.currency.pk,
-            "account_number": "111111111111111",
-            "is_recurring": False,
-        }
+        data = InvoiceSellDictFactory(
+            invoice_number="1/2023",
+            company=self.company.pk,
+            client=self.contractor.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+        )
+
         self.client.login(username=self.user.email, password="test")
         invoices_before_create = Invoice.objects.filter(
-            invoice_number="1/2023",
-            create_date="2023-01-01",
-            currency=self.currency.pk,
+            invoice_number=data["invoice_number"],
             user=self.user,
         ).count()
 
-        response = self.client.post(self.url, self.invoice_data)
+        response = self.client.post(self.url, data=data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("invoices:list_invoices"))
         self.assertTrue(
             Invoice.objects.filter(
-                invoice_number="1/2023",
-                create_date="2023-01-01",
-                currency=self.currency.pk,
+                invoice_number=data["invoice_number"],
                 user=self.user,
             ).exists()
         )
         self.assertEqual(
             Invoice.objects.filter(
-                invoice_number="1/2023",
-                create_date="2023-01-01",
-                currency=self.currency.pk,
+                invoice_number=data["invoice_number"],
+                user=self.user,
+            ).count(),
+            invoices_before_create + 1,
+        )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+
+class TestCreateBuyInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("invoices:create_buy_invoice")
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "invoice_number", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "sale_date", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "invoices/create_buy_invoice.html")
+
+    def test_create_with_valid_data(self):
+        data = InvoiceBuyDictFactory(
+            company=self.company.pk,
+            invoice_number="1/2023",
+        )
+        files = {"invoice_file": data["invoice_file"]}
+
+        self.client.login(username=self.user.email, password="test")
+        invoices_before_create = Invoice.objects.filter(
+            invoice_number=data["invoice_number"],
+            sale_date=data["sale_date"],
+            user=self.user,
+        ).count()
+
+        response = self.client.post(self.url, data=data, files=files)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                sale_date=data["sale_date"],
+                user=self.user,
+            ).exists()
+        )
+        self.assertEqual(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                sale_date=data["sale_date"],
                 user=self.user,
             ).count(),
             invoices_before_create + 1,
@@ -231,22 +297,17 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
     def test_replace_with_valid_data(self):
-        self.invoice_data = {
-            "invoice_number": "2/2023",
-            "invoice_type": "0",
-            "company": self.company.pk,
-            "client": self.contractor.pk,
-            "create_date": "2023-01-01",
-            "sale_date": "2023-01-01",
-            "payment_date": "2023-01-07",
-            "payment_method": "0",
-            "currency": self.currency.pk,
-            "account_number": "111111111111111",
-            "is_recurring": False,
-        }
+        data = InvoiceSellDictFactory(
+            invoice_number="2/2023",
+            company=self.company.pk,
+            client=self.contractor.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+        )
+
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, self.invoice_data)
+        response = self.client.post(self.url, data=data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
@@ -254,9 +315,64 @@ class TestReplaceSellInvoice(TestInvoice):
         )
         self.assertTrue(
             Invoice.objects.filter(
-                invoice_number="2/2023",
-                create_date="2023-01-01",
-                currency=self.currency.pk,
+                invoice_number=data["invoice_number"],
+                create_date=data["create_date"],
+                currency=data["currency"],
+                user=self.user,
+            ).exists()
+        )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+
+class TestReplaceBuyInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_buy_invoices[0]
+        self.url = reverse("invoices:replace_buy_invoice", args=[self.invoice.pk])
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+
+    def test_return_404_if_not_my_invoice(self):
+        url = reverse("invoices:replace_buy_invoice", args=[self.other_sell_invoice.pk])
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context["form"], "sale_date", "To pole jest wymagane."
+        )
+        self.assertTemplateUsed(response, "invoices/replace_buy_invoice.html")
+
+    def test_replace_with_valid_data(self):
+        data = InvoiceBuyDictFactory(
+            company=self.company.pk,
+            invoice_number="2/2023",
+        )
+        files = {"invoice_file": data["invoice_file"]}
+
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, data=data, files=files)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[self.invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                sale_date=data["sale_date"],
                 user=self.user,
             ).exists()
         )
