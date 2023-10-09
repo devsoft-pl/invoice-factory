@@ -50,8 +50,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
 
         if files:
-            for f in files:
-                email.attach_file(f)
+            for data in files:
+                email.attach(data["name"], data["content"])
 
         return email.send()
 
