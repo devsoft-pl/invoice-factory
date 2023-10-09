@@ -20,13 +20,22 @@ class TestUserModel:
     def test_returns_short_name(self):
         assert self.user.get_short_name() == self.user.email
 
-    @patch("users.models.send_mail")
-    def test_returns_sent_email(self, send_mail_mock):
+    @patch("users.models.EmailMessage.send")
+    def test_returns_sent_email_without_attachment(self, email_message_send_mock):
         subject = "Test temat"
         content = "Test zawartość"
         self.user.send_email(subject, content)
 
-        send_mail_mock.assert_called_once()
+        email_message_send_mock.assert_called_once()
+
+    @patch("users.models.EmailMessage.attach")
+    def test_returns_sent_email_with_attachment(self, email_message_attach_mock):
+        subject = "Test temat"
+        content = "Test zawartość"
+        files = [{"name": "test.pdf", "content": "test"}]
+        self.user.send_email(subject, content, files)
+
+        email_message_attach_mock.assert_called_once()
 
 
 @pytest.mark.django_db
