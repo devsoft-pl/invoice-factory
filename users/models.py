@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -38,13 +38,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self) -> str:
         return self.email
 
-    def send_email(self, subject, content):
-        return send_mail(
+    def send_email(self, subject, content, files=None):
+        if not self.email:
+            return
+
+        email = EmailMessage(
             subject,
             content,
-            from_email=settings.EMAIL_SENDER,
-            recipient_list=[self.email],
+            settings.EMAIL_SENDER,
+            [self.email],
         )
+
+        if files:
+            for f in files:
+                email.attach_file(f)
+
+        return email.send()
 
 
 @receiver(post_save, sender=User)
