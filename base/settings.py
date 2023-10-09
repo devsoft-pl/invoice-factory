@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "items",
     "users",
     "reports",
+    "accountants",
 ]
 
 MIDDLEWARE = [
