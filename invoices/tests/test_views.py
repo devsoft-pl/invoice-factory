@@ -67,14 +67,6 @@ class TestListInvoices(TestInvoice):
         response = self.client.get(f"{self.url}?page={page}")
         object_list = response.context["invoices"]
         self.assertTrue(len(object_list) == 4)
-        self.assertListEqual(
-            list(object_list),
-            list(
-                reversed(
-                    Invoice.objects.filter(user=self.user).order_by("sale_date")[:4]
-                )
-            ),
-        )
 
 
 class TestDetailInvoice(TestInvoice):

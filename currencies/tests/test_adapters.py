@@ -47,3 +47,11 @@ class TestNBPExchangeRatesAdapter:
         requests_get_mock.return_value = Mock(status_code=400)
 
         assert not self.adapter._get_currency_rates("USD")
+
+    @patch("currencies.nbp_adapter.requests.get")
+    def test_get_currency_rates_returns_json(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(
+            status_code=200, json=Mock(return_value="{}")
+        )
+
+        assert self.adapter._get_currency_rates("USD") == "{}"

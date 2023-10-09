@@ -73,6 +73,14 @@ class TestCEIDGAdapter:
 
         assert not self.adapter.is_company_active("123456789")
 
+    @patch("companies.govs_adapters.ceidg_adapter.requests.get")
+    def test_get_company_data_returns_json(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(
+            status_code=200, json=Mock(return_value="{}")
+        )
+
+        assert self.adapter._get_company_data("123456789") == "{}"
+
 
 class TestKrsAdapter:
     @pytest.fixture(autouse=True)
@@ -146,3 +154,11 @@ class TestKrsAdapter:
         requests_get_mock.return_value = Mock(status_code=400)
 
         assert not self.adapter.get_nip(self.krs)
+
+    @patch("companies.govs_adapters.krs_adapter.requests.get")
+    def test_get_company_data_returns_json(self, requests_get_mock):
+        requests_get_mock.return_value = Mock(
+            status_code=200, json=Mock(return_value="{}")
+        )
+
+        assert self.adapter._get_company_data(self.krs) == "{}"
