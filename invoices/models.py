@@ -1,8 +1,10 @@
 import decimal
 
 from django.db import models
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from num2words import num2words
 
 from companies.models import Company
 from currencies.models import Currency, ExchangeRate
@@ -155,3 +157,22 @@ class Invoice(models.Model):
     @property
     def is_sell(self):
         return self.invoice_type == Invoice.INVOICE_SALES
+
+    def get_html_for_pdf(self):
+        items = self.items.all()
+
+        template_path = "invoices/pdf_invoice.html"
+
+        gross_whole = self.gross_amount.quantize(decimal.Decimal("1"))
+        gross_whole_amount = num2words(gross_whole, lang="pl")
+        gross_frac_amount = num2words(int(self.gross_amount - gross_whole), lang="pl")
+
+        context = {
+            "invoice": self,
+            "items": items,
+            "gross_whole_amount": gross_whole_amount,
+            "gross_frac_amount": gross_frac_amount,
+        }
+
+        html = render_to_string(template_path, context)
+        return html
