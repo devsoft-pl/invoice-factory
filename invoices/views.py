@@ -162,28 +162,14 @@ def delete_invoice_view(request, invoice_id):
 @login_required
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
+
     if invoice.user != request.user:
         raise Http404(_("Invoice does not exist"))
-
-    items = invoice.items.all()
-
-    template_path = "invoices/pdf_invoice.html"
-
-    gross_whole = invoice.gross_amount.quantize(decimal.Decimal("1"))
-    gross_whole_amount = num2words(gross_whole, lang="pl")
-    gross_frac_amount = num2words(int(invoice.gross_amount - gross_whole), lang="pl")
-
-    context = {
-        "invoice": invoice,
-        "items": items,
-        "gross_whole_amount": gross_whole_amount,
-        "gross_frac_amount": gross_frac_amount,
-    }
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
 
-    html = render_to_string(template_path, context)
+    html = invoice.get_html_for_pdf()
 
     pisa_status = pisa.CreatePDF(html, dest=response)
 
