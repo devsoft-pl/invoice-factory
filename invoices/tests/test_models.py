@@ -65,3 +65,6 @@ class TestInvoiceModel:
         )
 
         assert exchange_rate.sell_rate == self.invoice.sell_rate_in_pln
+
+    def test_returns_invoice_sale(self):
+        assert self.invoice.is_sell
