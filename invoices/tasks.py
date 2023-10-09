@@ -38,7 +38,7 @@ def create_invoices_for_recurring():
             create_date=date,
             sale_date=date,
             payment_date=payment_date,
-            payment_method=Invoice.BANK_TRANSFER,
+            payment_method=invoice.payment_method,
             currency=invoice.currency,
             account_number=invoice.account_number,
             client=invoice.client,
