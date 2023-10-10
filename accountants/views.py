@@ -50,7 +50,7 @@ def replace_accountant_view(request, accountant_id):
 
             return redirect("accountants:list_accountants")
 
-    context = {"form": form}
+    context = {"accountant": accountant, "form": form}
     return render(request, "accountants/replace_accountant.html", context)
 
 
@@ -63,4 +63,4 @@ def delete_accountant_view(request, accountant_id):
 
     accountant.delete()
 
-    return redirect("accountants: list_accountants")
+    return redirect("accountants:list_accountants")
