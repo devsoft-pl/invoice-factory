@@ -6,7 +6,7 @@ from users.models import User
 
 class Accountant(models.Model):
     name = models.CharField(_("Name"), max_length=100, null=True)
-    email = models.EmailField(_("Email"))
+    email = models.EmailField(_("Email"), unique=True)
     user = models.ForeignKey(
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
