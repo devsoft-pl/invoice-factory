@@ -18,6 +18,7 @@
                             <th>Lp.</th>
                             <th>Nazwa</th>
                             <th>Email</th>
+                            <th>Numer telefonu</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -26,7 +27,8 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ accountant.name|default_if_none:"-" }}</td>
-                                <td>{{ accountant.email|default_if_none:"-" }}</td>
+                                <td>{{ accountant.email}}</td>
+                                <td>{{ accountant.phone_number|default_if_none:"-" }}</td>
                                 <td>
                                     <a href="{% url 'accountants:replace_accountant' accountant.pk %}">Edytuj</a>
                                     <a href="{% url 'accountants:delete_accountant' accountant.pk %}">Usuń</a>

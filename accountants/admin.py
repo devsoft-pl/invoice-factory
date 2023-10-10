@@ -12,7 +12,7 @@ class AccountantAdmin(admin.ModelAdmin):
         (
             _("Basic information"),
             {
-                "fields": ("name", "email", "user"),
+                "fields": ("name", "email", "phone_number", "user"),
             },
         ),
     )

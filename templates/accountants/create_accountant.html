@@ -36,6 +36,17 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end">{{ form.phone_number.label_tag }}</div>
+                    <div class="col-3">{{ form.phone_number }}</div>
+                </div>
+                {% if form.phone_number.errors %}
+                    <div class="row">
+                        <div class="col-auto offset-5 text-danger">
+                            {{ form.phone_number.errors }}
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row">
                     <div class="col text-center">
                         <a class="btn btn-primary mt-3" href="{% url 'accountants:list_accountants' %}">Powrót</a>
