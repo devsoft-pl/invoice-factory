@@ -6,29 +6,45 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ user.email }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Księgowość</li>
                 </ol>
             </nav>
         </div>
         <div class="row mt-2">
-            <table class="table table-hover text-center">
-                <thead class="table-light">
-                    <tr>
-                        <th>Nazwa</th>
-                        <th>Email</th>
-                        <th>Opcje</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr>
-                        <td>{{ accountants.name|default_if_none:"-" }}</td>
-                        <td>{{ accountants.email|default_if_none:"-" }}</td>
-                        <td>
-                            <a href="{% url 'accountants:replace_accountant' %}">Edytuj</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            {% if accountants %}
+                <table class="table table-hover text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Nazwa</th>
+                            <th>Email</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ accountants.name|default_if_none:"-" }}</td>
+                            <td>{{ accountants.email|default_if_none:"-" }}</td>
+                            <td>
+                                <a href="{% url 'accountants:replace_accountant' %}">Edytuj</a>
+                                <a href="{% url 'accountants:delete_accountant' accountant.pk %}">Usuń</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="row">
+                    <div class="col">
+                        <b>Brak księgowości</b>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'currencies:create_currency' %}">Dodaj księgowość</a>
+            </div>
         </div>
     </div>
 {% endblock content %}
