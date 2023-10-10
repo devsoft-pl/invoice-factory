@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 
 from accountants.forms import AccountantForm
 from accountants.models import Accountant
@@ -33,10 +34,33 @@ def create_accountant_view(request):
 
 
 @login_required
-def replace_accountant_view(request):
-    pass
+def replace_accountant_view(request, accountant_id):
+    accountant = get_object_or_404(Accountant, pk=accountant_id)
+
+    if accountant.user != request.user:
+        raise Http404(_("Accountant does not exist"))
+
+    if request.method != "POST":
+        form = AccountantForm(instance=accountant, user=request.user)
+    else:
+        form = AccountantForm(instance=accountant, data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect("accountants:list_accountants")
+
+    context = {"form": form}
+    return render(request, "accountants/replace_accountant.html", context)
 
 
 @login_required
-def delete_accountant_view(request):
-    pass
+def delete_accountant_view(request, accountant_id):
+    accountant = get_object_or_404(Accountant, pk=accountant_id)
+
+    if accountant.user != request.user:
+        raise Http404(_("Accountant does not exist"))
+
+    accountant.delete()
+
+    return redirect("accountants: list_accountants")
