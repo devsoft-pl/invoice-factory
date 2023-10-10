@@ -27,7 +27,7 @@
                             <td>{{ accountants.name|default_if_none:"-" }}</td>
                             <td>{{ accountants.email|default_if_none:"-" }}</td>
                             <td>
-                                <a href="{% url 'accountants:replace_accountant' %}">Edytuj</a>
+                                <a href="{% url 'accountants:replace_accountant' accountant.pk %}">Edytuj</a>
                                 <a href="{% url 'accountants:delete_accountant' accountant.pk %}">Usuń</a>
                             </td>
                         </tr>
