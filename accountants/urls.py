@@ -7,6 +7,12 @@ app_name = "accountants"
 urlpatterns = [
     path("", list_accountants_view, name="list_accountants"),
     path("create/", create_accountant_view, name="create_accountant"),
-    path("replace/<int:accountant_id>/", replace_accountant_view, name="replace_accountant"),
-    path("delete/<int:accountant_id>/", delete_accountant_view, name="delete_accountant"),
+    path(
+        "replace/<int:accountant_id>/",
+        replace_accountant_view,
+        name="replace_accountant",
+    ),
+    path(
+        "delete/<int:accountant_id>/", delete_accountant_view, name="delete_accountant"
+    ),
 ]
