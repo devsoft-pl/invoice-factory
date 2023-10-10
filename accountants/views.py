@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
+from accountants.forms import AccountantForm
 from accountants.models import Accountant
 
 
@@ -14,7 +15,21 @@ def list_accountants_view(request):
 
 @login_required
 def create_accountant_view(request):
-    pass
+    if request.method != "POST":
+        form = AccountantForm(user=request.user)
+    else:
+        form = AccountantForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            accountant = form.save(commit=False)
+            accountant.user = request.user
+
+            accountant.save()
+
+            return redirect("accountants:list_accountants")
+
+    context = {"form": form}
+    return render(request, "accountants/create_accountant.html", context)
 
 
 @login_required
