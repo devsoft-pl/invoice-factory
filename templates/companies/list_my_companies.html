@@ -45,7 +45,8 @@
                                 <td>{{ company.email|default_if_none:"-" }}</td>
                                 <td>{{ company.phone_number|default_if_none:"-" }}</td>
                                 <td>
-                                    <a href="{% url 'companies:detail_company' company.pk %}">Więcej</a>
+                                    <a href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
+                                    <a href="{% url 'companies:detail_company' company.pk %}">Szczegóły</a>
                                     <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
                                     <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
                                 </td>
