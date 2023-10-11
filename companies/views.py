@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
 from companies.forms import CompanyFilterForm, CompanyForm
-from companies.models import Company
+from companies.models import Company, MonthSummaryRecipient
 
 
 @login_required
@@ -115,3 +115,15 @@ def delete_company_view(request, company_id):
         return redirect("companies:list_my_companies")
 
     return redirect("companies:list_companies")
+
+
+@login_required
+def settings_company_view(request, company_id):
+    company = get_object_or_404(Company, pk=company_id)
+
+    if company.user != request.user:
+        raise Http404(_("Company does not exist"))
+
+    context = {"company": company}
+
+    return render(request, "companies/settings_company.html", context)
