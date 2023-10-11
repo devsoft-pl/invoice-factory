@@ -4,7 +4,8 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
-from companies.forms import CompanyFilterForm, CompanyForm
+from companies.forms import (CompanyFilterForm, CompanyForm,
+                             MonthSummaryRecipientForm)
 from companies.models import Company, MonthSummaryRecipient
 
 
@@ -127,3 +128,26 @@ def settings_company_view(request, company_id):
     context = {"company": company}
 
     return render(request, "companies/settings_company.html", context)
+
+
+@login_required
+def create_month_summary_recipient_view(request, company_id):
+    company = get_object_or_404(Company, pk=company_id)
+
+    if company.user != request.user:
+        raise Http404(_("Company does not exist"))
+
+    if request.method != "POST":
+        form = MonthSummaryRecipientForm()
+    else:
+        form = MonthSummaryRecipientForm(data=request.POST)
+
+        if form.is_valid():
+            month_summary_recipient = form.save(commit=False)
+            month_summary_recipient.company = company
+            month_summary_recipient.save()
+
+            return redirect("companies:settings_company", company.pk)
+
+    context = {"form": form, "company": company}
+    return render(request, "companies/create_month_summary_recipient.html", context)
