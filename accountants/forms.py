@@ -2,7 +2,6 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
-
 from accountants.models import Accountant
 
 phone_number_validator = RegexValidator(
