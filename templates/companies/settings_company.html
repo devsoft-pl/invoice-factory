@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load static %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    {% if company.is_my_company %}
+                        <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moja firma</a></li>
+                    {% else %}
+                        <li class="breadcrumb-item"><a href="{% url 'companies:list_companies' %}">Kontrahenci</a></li>
+                    {% endif %}
+                    <ol class="breadcrumb-item active" aria-current="page">{{ company.name }}</ol>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
