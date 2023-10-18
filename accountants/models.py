@@ -5,7 +5,7 @@ from users.models import User
 
 
 class Accountant(models.Model):
-    name = models.CharField(_("Name"), max_length=100)
+    name = models.CharField(_("Name"), max_length=100, null=True, blank=True)
     email = models.EmailField(_("Email"), unique=True)
     phone_number = models.CharField(
         verbose_name=_("Phone number"), max_length=20, null=True, blank=True
