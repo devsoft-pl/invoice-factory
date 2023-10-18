@@ -29,13 +29,13 @@
                         {% for summary_recipient in summary_recipients %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ month_summary_recipient.description }}</td>
-                                <td>{{ month_summary_recipient.day }}</td>
-                                <td>{{ month_summary_recipient.email }}</td>
-                                <td>{{ month_summary_recipient.settlement_types }}</td>
+                                <td>{{ summary_recipient.description }}</td>
+                                <td>{{ summary_recipient.day }}</td>
+                                <td>{{ summary_recipient.email }}</td>
+                                <td>{{ summary_recipient.get_settlement_types_display}}</td>
                                 <td>
-                                    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                                    <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+{#                                    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>#}
+                                    <a href="{% url 'companies:delete_summary_recipient' summary_recipient.pk %}">Usuń</a>
                                 </td>
                             </tr>
                         {% endfor %}
