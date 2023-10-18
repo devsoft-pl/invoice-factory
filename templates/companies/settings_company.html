@@ -6,13 +6,44 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona głównaeby</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moja firma</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moje firmy</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a></li>
-                    <ol class="breadcrumb-item active" aria-current="page">Ustawienia</ol>
+                    <ol class="breadcrumb-item active" aria-current="page">Odbiorca faktury</ol>
                 </ol>
             </nav>
         </div>
         <div class="row mt-2">
+            {% if month_summary_recipients %}
+                <table class="table table-hover text-center mt-4">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Opis</th>
+                            <th>Dzień wysłania</th>
+                            <th>Email</th>
+                            <th>Rodzaj rozliczenia</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for month_summary_recipient in month_summary_recipients %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ month_summary_recipient.description }}</td>
+                                <td>{{ month_summary_recipient.day }}</td>
+                                <td>{{ month_summary_recipient.email }}</td>
+                                <td>{{ month_summary_recipient.settlement_types }}</td>
+                                <td>
+                                    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                                    <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+        <div class="row">
             <div class="col">
                 <a class="btn btn-primary mt-3" href="{% url 'companies:create_month_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania miesiąca</a></h3>
             </div>
