@@ -164,3 +164,24 @@ def delete_summary_recipient_view(request, summary_recipient_id):
     summary_recipient.delete()
 
     return redirect("companies:list_summary_recipients", summary_recipient.company.pk)
+
+
+@login_required
+def replace_summary_recipient_view(request, summary_recipient_id):
+    summary_recipient = get_object_or_404(SummaryRecipient, pk=summary_recipient_id)
+
+    if summary_recipient.company.user != request.user:
+        raise Http404(_("Summary recipient does not exist"))
+
+    if request.method != "POST":
+        form = SummaryRecipientForm(instance=summary_recipient)
+    else:
+        form = SummaryRecipientForm(instance=summary_recipient, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+
+        return redirect("companies:list_summary_recipients", summary_recipient.company.pk)
+
+    context = {"summary_recipient": summary_recipient, "form": form, "company": summary_recipient.company}
+    return render(request, "companies/replace_summary_recipient.html", context)
