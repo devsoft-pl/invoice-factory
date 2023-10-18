@@ -19,8 +19,6 @@
                 </ol>
             </nav>
         </div>
-
-
         <div class="row mt-2">
             <form action="{% url 'companies:create_month_summary_recipient' company.pk %}" method='post'>
                 {% csrf_token %}
@@ -76,7 +74,5 @@
                 </div>
             </form>
         </div>
-
-
     </div>
 {% endblock content %}
