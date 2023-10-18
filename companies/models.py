@@ -62,7 +62,7 @@ class MonthSummaryRecipient(models.Model):
     day = models.IntegerField(verbose_name=_("Day of send"))
     email = models.EmailField(_("Email"))
     settlement_types = models.IntegerField(
-        verbose_name=_("settlement_types"), choices=SETTLEMENT_TYPES
+        verbose_name=_("Settlement types"), choices=SETTLEMENT_TYPES
     )
 
     def __str__(self):

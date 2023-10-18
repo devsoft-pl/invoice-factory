@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-09 18:27+0200\n"
+"POT-Creation-Date: 2023-10-18 20:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,14 +20,46 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
+#: accountants/admin.py:13 companies/admin.py:21 countries/admin.py:13
+#: currencies/admin.py:13 invoices/admin.py:33 vat_rates/admin.py:13
+msgid "Basic information"
+msgstr "Podstawowe informacje"
+
+#: accountants/forms.py:8 companies/forms.py:25
+msgid "Enter phone number with 9 numbers only"
+msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
+
+#: accountants/models.py:8 companies/forms.py:89 companies/models.py:10
+#: items/models.py:18
+msgid "Name"
+msgstr "Nazwa"
+
+#: accountants/models.py:9 companies/models.py:23 companies/models.py:63
+#: users/models.py:14
+msgid "Email"
+msgstr "Email"
+
+#: accountants/models.py:11 companies/models.py:25
+msgid "Phone number"
+msgstr "Numer telefonu"
+
+#: accountants/models.py:14 companies/models.py:28 countries/models.py:10
+#: currencies/models.py:12 invoices/models.py:44 items/models.py:28
+#: vat_rates/models.py:12
+msgid "User"
+msgstr "Użytkownik"
+
+#: accountants/models.py:21
+msgid "accountants"
+msgstr "księgowi"
+
+#: accountants/views.py:41 accountants/views.py:62
+msgid "Accountant does not exist"
+msgstr "Księgowa/y nie istnieje"
+
 #: companies/admin.py:15
 msgid "User info"
 msgstr "Informacje o użytkowniku"
-
-#: companies/admin.py:21 countries/admin.py:13 currencies/admin.py:13
-#: invoices/admin.py:33 vat_rates/admin.py:13
-msgid "Basic information"
-msgstr "Podstawowe informacje"
 
 #: companies/admin.py:27
 msgid "Address data"
@@ -49,10 +81,6 @@ msgstr "Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko w postaci liter"
 
-#: companies/forms.py:25
-msgid "Enter phone number with 9 numbers only"
-msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
-
 #: companies/forms.py:71
 msgid "Nip already exists"
 msgstr "Nip już istnieje"
@@ -60,10 +88,6 @@ msgstr "Nip już istnieje"
 #: companies/forms.py:83
 msgid "Regon already exists"
 msgstr "Regon już istnieje"
-
-#: companies/forms.py:89 companies/models.py:10 items/models.py:18
-msgid "Name"
-msgstr "Nazwa"
 
 #: companies/models.py:11
 msgid "NIP"
@@ -89,19 +113,6 @@ msgstr "Kod pocztowy"
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:23 users/models.py:14
-msgid "Email"
-msgstr "Email"
-
-#: companies/models.py:25
-msgid "Phone number"
-msgstr "Numer telefonu"
-
-#: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:44 items/models.py:28 vat_rates/models.py:12
-msgid "User"
-msgstr "Użytkownik"
-
 #: companies/models.py:31
 msgid "Is my company"
 msgstr "Czy moja firma"
@@ -109,6 +120,30 @@ msgstr "Czy moja firma"
 #: companies/models.py:41
 msgid "companies"
 msgstr "firmy"
+
+#: companies/models.py:51 invoices/models.py:39
+msgid "Monthly"
+msgstr "Co miesiąc"
+
+#: companies/models.py:52
+msgid "Quarterly"
+msgstr "Kwartalnie"
+
+#: companies/models.py:55
+msgid "Description"
+msgstr "Opis"
+
+#: companies/models.py:58 invoices/forms.py:120 invoices/models.py:54
+msgid "Company"
+msgstr "Firma"
+
+#: companies/models.py:62
+msgid "Day of send"
+msgstr "Dzień wysłania"
+
+#: companies/models.py:65
+msgid "Settlement types"
+msgstr "Rodzaj rozliczenia"
 
 #: companies/tasks.py:42
 msgid "Contractor's company status"
@@ -128,7 +163,8 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: companies/views.py:48 companies/views.py:84 companies/views.py:110
+#: companies/views.py:49 companies/views.py:85 companies/views.py:111
+#: companies/views.py:126 companies/views.py:138
 msgid "Company does not exist"
 msgstr "Firma nie istnieje"
 
@@ -219,10 +255,6 @@ msgstr "Typ faktury"
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/forms.py:120 invoices/models.py:54
-msgid "Company"
-msgstr "Firma"
-
 #: invoices/models.py:19
 msgid "Sales"
 msgstr "Sprzedaż"
@@ -246,10 +278,6 @@ msgstr "Co tydzień"
 #: invoices/models.py:38
 msgid "Biweekly"
 msgstr "Co dwa tygodnie"
-
-#: invoices/models.py:39
-msgid "Monthly"
-msgstr "Co miesiąc"
 
 #: invoices/models.py:40
 msgid "Three month"
@@ -295,11 +323,12 @@ msgstr "Numer konta"
 msgid "Invoice file"
 msgstr "Typ faktury"
 
-#: invoices/tasks.py:55
+#: invoices/tasks.py:54
+#, python-format
 msgid "New recurring invoice %(nr)s"
 msgstr "Nowa cykliczna faktura %(nr)s"
 
-#: invoices/tasks.py:57
+#: invoices/tasks.py:56
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
