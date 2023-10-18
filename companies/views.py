@@ -119,7 +119,7 @@ def delete_company_view(request, company_id):
 
 
 @login_required
-def settings_company_view(request, company_id):
+def list_summary_recipients_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id, user=request.user)
     summary_recipients = SummaryRecipient.objects.filter(company=company)
 
@@ -128,12 +128,12 @@ def settings_company_view(request, company_id):
 
     context = {"company": company, "summary_recipients": summary_recipients}
 
-    return render(request, "companies/settings_company.html", context)
+    return render(request, "companies/list_summary_recipients.html", context)
 
 
 @login_required
 def create_summary_recipient_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    company = get_object_or_404(Company, pk=company_id, user=request.user)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -148,7 +148,19 @@ def create_summary_recipient_view(request, company_id):
             month_summary_recipient.company = company
             month_summary_recipient.save()
 
-            return redirect("companies:settings_company", company.pk)
+            return redirect("companies:list_summary_recipients", company.pk)
 
     context = {"form": form, "company": company}
     return render(request, "companies/create_summary_recipient.html", context)
+
+
+@login_required
+def delete_summary_recipient_view(request, summary_recipient_id):
+    summary_recipient = get_object_or_404(SummaryRecipient, pk=summary_recipient_id)
+
+    if summary_recipient.company.user != request.user:
+        raise Http404(_("Summary recipient does not exist"))
+
+    summary_recipient.delete()
+
+    return redirect("companies:list_summary_recipients", summary_recipient.company.pk)
