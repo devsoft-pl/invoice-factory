@@ -13,7 +13,7 @@
                         <a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{% url 'companies:settings_company' company.pk %}">Odbiorca podsumowania</a>
+                        <a href="{% url 'companies:list_summary_recipients' company.pk %}">Odbiorca podsumowania</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
                 </ol>
@@ -68,7 +68,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        <a class="btn btn-primary mt-3" href="{% url 'companies:settings_company' company.pk %}">Powrót</a>
+                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_summary_recipients' company.pk %}">Powrót</a>
                         <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
                     </div>
                 </div>
