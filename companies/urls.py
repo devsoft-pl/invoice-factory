@@ -1,7 +1,7 @@
 from django.urls import path
 
 from companies.views import (create_company_view,
-                             create_month_summary_recipient_view,
+                             create_summary_recipient_view,
                              delete_company_view, detail_company_view,
                              list_companies_view, replace_company_view,
                              settings_company_view)
@@ -27,8 +27,8 @@ urlpatterns = [
     path("delete/<int:company_id>/", delete_company_view, name="delete_company"),
     path("settings/<int:company_id>/", settings_company_view, name="settings_company"),
     path(
-        "settings/<int:company_id>/month_summary_recipient/create/",
-        create_month_summary_recipient_view,
-        name="create_month_summary_recipient",
+        "settings/<int:company_id>/summary_recipient/create/",
+        create_summary_recipient_view,
+        name="create_summary_recipient",
     ),
 ]

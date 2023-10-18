@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
 from companies.forms import (CompanyFilterForm, CompanyForm,
-                             MonthSummaryRecipientForm)
-from companies.models import Company, MonthSummaryRecipient
+                             SummaryRecipientForm)
+from companies.models import Company, SummaryRecipient
 
 
 @login_required
@@ -121,27 +121,27 @@ def delete_company_view(request, company_id):
 @login_required
 def settings_company_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id, user=request.user)
-    month_summary_recipients = MonthSummaryRecipient.objects.filter(company=company)
+    summary_recipients = SummaryRecipient.objects.filter(company=company)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
 
-    context = {"company": company, "month_summary_recipients": month_summary_recipients}
+    context = {"company": company, "summary_recipients": summary_recipients}
 
     return render(request, "companies/settings_company.html", context)
 
 
 @login_required
-def create_month_summary_recipient_view(request, company_id):
+def create_summary_recipient_view(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
 
     if request.method != "POST":
-        form = MonthSummaryRecipientForm()
+        form = SummaryRecipientForm()
     else:
-        form = MonthSummaryRecipientForm(data=request.POST)
+        form = SummaryRecipientForm(data=request.POST)
 
         if form.is_valid():
             month_summary_recipient = form.save(commit=False)
@@ -151,4 +151,4 @@ def create_month_summary_recipient_view(request, company_id):
             return redirect("companies:settings_company", company.pk)
 
     context = {"form": form, "company": company}
-    return render(request, "companies/create_month_summary_recipient.html", context)
+    return render(request, "companies/create_summary_recipient.html", context)

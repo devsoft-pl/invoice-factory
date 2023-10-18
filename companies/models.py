@@ -43,7 +43,7 @@ class Company(models.Model):
         unique_together = ["nip", "regon", "user"]
 
 
-class MonthSummaryRecipient(models.Model):
+class SummaryRecipient(models.Model):
     MONTHLY = 0
     QUARTERLY = 1
 
@@ -57,7 +57,7 @@ class MonthSummaryRecipient(models.Model):
         Company,
         verbose_name=_("Company"),
         on_delete=models.CASCADE,
-        related_name="month_summary_recipient",
+        related_name="summary_recipient",
     )
     day = models.IntegerField(verbose_name=_("Day of send"))
     email = models.EmailField(_("Email"))

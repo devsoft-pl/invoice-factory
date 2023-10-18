@@ -13,14 +13,14 @@
                         <a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{% url 'companies:settings_company' company.pk %}">Odbiorca podsumowania miesiąca</a>
+                        <a href="{% url 'companies:settings_company' company.pk %}">Odbiorca podsumowania</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
                 </ol>
             </nav>
         </div>
         <div class="row mt-2">
-            <form action="{% url 'companies:create_month_summary_recipient' company.pk %}" method='post'>
+            <form action="{% url 'companies:create_summary_recipient' company.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.description.label_tag }}</div>

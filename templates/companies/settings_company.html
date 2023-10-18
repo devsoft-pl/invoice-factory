@@ -13,7 +13,7 @@
             </nav>
         </div>
         <div class="row mt-2">
-            {% if month_summary_recipients %}
+            {% if summary_recipients %}
                 <table class="table table-hover text-center mt-4">
                     <thead class="table-light">
                         <tr>
@@ -26,7 +26,7 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        {% for month_summary_recipient in month_summary_recipients %}
+                        {% for summary_recipient in summary_recipients %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ month_summary_recipient.description }}</td>
@@ -45,7 +45,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'companies:create_month_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania miesiąca</a></h3>
+                <a class="btn btn-primary mt-3" href="{% url 'companies:create_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania</a></h3>
             </div>
         </div>
         <div class="row">
