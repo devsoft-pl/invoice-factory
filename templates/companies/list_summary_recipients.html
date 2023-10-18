@@ -34,7 +34,7 @@
                                 <td>{{ summary_recipient.email }}</td>
                                 <td>{{ summary_recipient.get_settlement_types_display}}</td>
                                 <td>
-{#                                    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>#}
+                                    <a href="{% url 'companies:replace_summary_recipient' summary_recipient.pk %}">Edytuj</a>
                                     <a href="{% url 'companies:delete_summary_recipient' summary_recipient.pk %}">Usuń</a>
                                 </td>
                             </tr>
