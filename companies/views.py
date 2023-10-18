@@ -181,7 +181,13 @@ def replace_summary_recipient_view(request, summary_recipient_id):
         if form.is_valid():
             form.save()
 
-        return redirect("companies:list_summary_recipients", summary_recipient.company.pk)
+        return redirect(
+            "companies:list_summary_recipients", summary_recipient.company.pk
+        )
 
-    context = {"summary_recipient": summary_recipient, "form": form, "company": summary_recipient.company}
+    context = {
+        "summary_recipient": summary_recipient,
+        "form": form,
+        "company": summary_recipient.company,
+    }
     return render(request, "companies/replace_summary_recipient.html", context)
