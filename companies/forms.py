@@ -118,3 +118,9 @@ class MonthSummaryRecipientForm(forms.ModelForm):
             "email",
             "settlement_types",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.Meta.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"
