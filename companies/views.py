@@ -120,12 +120,13 @@ def delete_company_view(request, company_id):
 
 @login_required
 def settings_company_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    company = get_object_or_404(Company, pk=company_id, user=request.user)
+    month_summary_recipients = MonthSummaryRecipient.objects.filter(company=company)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
 
-    context = {"company": company}
+    context = {"company": company, "month_summary_recipients": month_summary_recipients}
 
     return render(request, "companies/settings_company.html", context)
 
