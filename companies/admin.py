@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext as _
 
-from companies.models import Company
+from companies.models import Company, SummaryRecipient
 
 
 @admin.register(Company)
@@ -35,3 +35,8 @@ class CompanyAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+@admin.register(SummaryRecipient)
+class SummaryRecipientAdmin(admin.ModelAdmin):
+    list_display = ("description", "company", "day", "email", "settlement_types")
