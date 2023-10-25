@@ -1,7 +1,11 @@
 import pytest
+import setuptools.errors
 
-from companies.factories import CompanyDictFactory, CompanyFactory
-from companies.forms import CompanyFilterForm, CompanyForm
+from companies.factories import (CompanyDictFactory, CompanyFactory,
+                                 SummaryRecipientDictFactory,
+                                 SummaryRecipientFactory)
+from companies.forms import (CompanyFilterForm, CompanyForm,
+                             SummaryRecipientForm)
 from companies.models import Company
 from countries.factories import CountryFactory
 from countries.models import Country
@@ -144,3 +148,17 @@ class TestCompanyForm:
 
         assert not form.is_valid()
         assert form.errors["regon"] == ["Regon już istnieje"]
+
+
+@pytest.mark.django_db
+class TestSummaryRecipientForm:
+    @pytest.fixture(autouse=True)
+    def set_up(self) -> None:
+        self.company = CompanyFactory.create()
+
+    def test_form_with_valid_data(self):
+        data = SummaryRecipientDictFactory(company=self.company)
+        form = SummaryRecipientForm(data=data)
+
+        assert form.is_valid()
+        assert form.errors == {}
