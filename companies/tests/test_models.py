@@ -21,4 +21,3 @@ class TestSummaryRecipientModel:
 
     def test_returns_str_description(self):
         assert self.summary_recipient.__str__() == self.summary_recipient.description
-
