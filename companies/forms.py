@@ -114,6 +114,7 @@ class SummaryRecipientForm(forms.ModelForm):
         model = SummaryRecipient
         fields = [
             "description",
+            "company",
             "day",
             "email",
             "settlement_types",
