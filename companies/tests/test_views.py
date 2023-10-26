@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from parameterized import parameterized
 
-from companies.factories import CompanyFactory
+from companies.factories import CompanyFactory, SummaryRecipientFactory
 from companies.models import Company
 from countries.factories import CountryFactory
 from users.factories import UserFactory
@@ -294,3 +294,31 @@ class TestReplaceCompany(TestCompany):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class TestSummaryRecipient(TestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.user.set_password("test")
+        self.user.save()
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+        self.other_company = CompanyFactory()
+        self.summary_recipient = SummaryRecipientFactory.create()
+
+
+class TestListSummaryRecipients(TestSummaryRecipient):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("companies:list_summary_recipients", args=[self.company.pk])
+
+    def test_list_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_list_if_logged(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/list_summary_recipients.html")
