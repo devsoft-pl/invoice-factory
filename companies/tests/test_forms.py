@@ -1,9 +1,7 @@
 import pytest
-import setuptools.errors
 
 from companies.factories import (CompanyDictFactory, CompanyFactory,
-                                 SummaryRecipientDictFactory,
-                                 SummaryRecipientFactory)
+                                 SummaryRecipientDictFactory)
 from companies.forms import (CompanyFilterForm, CompanyForm,
                              SummaryRecipientForm)
 from companies.models import Company
