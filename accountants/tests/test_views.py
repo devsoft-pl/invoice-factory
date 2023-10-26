@@ -104,3 +104,54 @@ class TestCreateAccountant(TestAccountant):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class TestReplaceAccountant(TestAccountant):
+    def setUp(self) -> None:
+        super().setUp()
+        self.accountant = self.user_accountants[0]
+        self.url = reverse("accountants:replace_accountant", args=[self.accountant.pk])
+        self.country = AccountantFactory.create(user=self.user)
+
+    def test_replace_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_return_404_if_not_accountant(self):
+        url = reverse("accountants:replace_accountant", args=[self.other_accountant.pk])
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response.context["form"], "email", "To pole jest wymagane.")
+        self.assertTemplateUsed(response, "accountants/replace_accountant.html")
+
+    def test_replace_with_valid_data(self):
+        self.accountant_data = {
+            "name": "test",
+            "email": "test@test.pl",
+        }
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, self.accountant_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("accountants:list_accountants"))
+        self.assertTrue(
+            Accountant.objects.filter(
+                name=self.accountant_data["name"], email=self.accountant_data["email"], user=self.user
+            ).exists()
+        )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
