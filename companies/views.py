@@ -124,7 +124,7 @@ def list_summary_recipients_view(request, company_id):
     summary_recipients = SummaryRecipient.objects.filter(company=company)
 
     if company.user != request.user:
-        raise Http404(_("Company does not exist"))
+        raise Http404()
 
     context = {"company": company, "summary_recipients": summary_recipients}
 
