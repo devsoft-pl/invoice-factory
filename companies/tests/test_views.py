@@ -1,7 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.translation import gettext as _
 from parameterized import parameterized
 
 from companies.factories import CompanyFactory, SummaryRecipientFactory
@@ -372,9 +371,6 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
         self.url = reverse(
             "companies:create_summary_recipient", args=[self.user_company.pk]
         )
-        self.other_url = reverse(
-            "companies:create_summary_recipient", args=[self.other_company.pk]
-        )
 
     def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
@@ -413,6 +409,58 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
             "settlement_types": SummaryRecipient.MONTHLY,
         }
         self.client.login(username=self.user.email, password="test")
+        response = self.client.post(self.url, summary_recipient_data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response,
+            reverse("companies:list_summary_recipients", args=[self.user_company.pk]),
+        )
+        self.assertTrue(
+            SummaryRecipient.objects.filter(
+                description="test", day=1, email="test@test.pl"
+            ).exists()
+        )
+
+
+class TestReplaceSummaryRecipient(TestSummaryRecipient):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse(
+            "companies:replace_summary_recipient", args=[self.summary_recipient.pk]
+        )
+        self.other_url = reverse(
+            "companies:replace_summary_recipient",
+            args=[self.other_summary_recipient.pk],
+        )
+
+    def test_replace_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_not_replace_if_other_owner_company(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.other_url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_replace_with_valid_data(self):
+        summary_recipient_data = {
+            "description": "test",
+            "company": self.user_company.pk,
+            "day": 1,
+            "email": "test@test.pl",
+            "settlement_types": SummaryRecipient.MONTHLY,
+        }
+        self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, summary_recipient_data)
 
         self.assertEqual(response.status_code, 302)
