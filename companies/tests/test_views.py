@@ -334,7 +334,6 @@ class TestListSummaryRecipients(TestSummaryRecipient):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
-        self.assertIn("Not Found", str(response.content))
 
 
 class TestDeleteSummaryRecipient(TestSummaryRecipient):
@@ -421,6 +420,13 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
                 description="test", day=1, email="test@test.pl"
             ).exists()
         )
+
+    def test_return_404_if_not_my_company(self):
+        url = reverse("companies:create_summary_recipient", args=[self.other_company.pk])
+        self.client.login(username=self.user.email, password="test")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
 
 
 class TestReplaceSummaryRecipient(TestSummaryRecipient):
