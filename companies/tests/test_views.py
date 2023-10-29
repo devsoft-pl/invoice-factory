@@ -422,7 +422,9 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
         )
 
     def test_return_404_if_not_my_company(self):
-        url = reverse("companies:create_summary_recipient", args=[self.other_company.pk])
+        url = reverse(
+            "companies:create_summary_recipient", args=[self.other_company.pk]
+        )
         self.client.login(username=self.user.email, password="test")
         response = self.client.get(url)
 
