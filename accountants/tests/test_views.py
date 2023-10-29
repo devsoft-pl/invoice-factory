@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from accountants.factories import AccountantFactory
+from accountants.factories import AccountantDictFactory, AccountantFactory
 from accountants.models import Accountant
 from users.factories import UserFactory
 
@@ -83,19 +83,20 @@ class TestCreateAccountant(TestAccountant):
         self.assertTemplateUsed(response, "accountants/create_accountant.html")
 
     def test_create_with_valid_data(self):
-        self.accountant_data = {
-            "name": "test",
-            "email": "test@test.pl",
-        }
+        accountant_data = AccountantDictFactory(
+            email="test@test.pl", phone_number="123456789"
+        )
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, self.accountant_data)
+        response = self.client.post(self.url, accountant_data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("accountants:list_accountants"))
         self.assertTrue(
             Accountant.objects.filter(
-                name="test", email="test@test.pl", user=self.user
+                email=accountant_data["email"],
+                phone_number=accountant_data["phone_number"],
+                user=self.user,
             ).exists()
         )
 
@@ -136,20 +137,19 @@ class TestReplaceAccountant(TestAccountant):
         self.assertTemplateUsed(response, "accountants/replace_accountant.html")
 
     def test_replace_with_valid_data(self):
-        self.accountant_data = {
-            "name": "test",
-            "email": "test@test.pl",
-        }
+        accountant_data = AccountantDictFactory(
+            email="test2@test.pl", phone_number="987654321"
+        )
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, self.accountant_data)
+        response = self.client.post(self.url, accountant_data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("accountants:list_accountants"))
         self.assertTrue(
             Accountant.objects.filter(
-                name=self.accountant_data["name"],
-                email=self.accountant_data["email"],
+                name=accountant_data["name"],
+                email=accountant_data["email"],
                 user=self.user,
             ).exists()
         )
