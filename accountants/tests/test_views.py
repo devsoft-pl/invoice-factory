@@ -65,7 +65,6 @@ class TestCreateAccountant(TestAccountant):
     def setUp(self) -> None:
         super().setUp()
         self.url = reverse("accountants:create_accountant")
-        self.country = AccountantFactory.create(user=self.user)
 
     def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
@@ -112,7 +111,6 @@ class TestReplaceAccountant(TestAccountant):
         super().setUp()
         self.accountant = self.user_accountants[0]
         self.url = reverse("accountants:replace_accountant", args=[self.accountant.pk])
-        self.country = AccountantFactory.create(user=self.user)
 
     def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
