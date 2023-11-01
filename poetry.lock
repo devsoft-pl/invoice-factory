@@ -603,6 +603,23 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-factory-boy-generator"
+version = "1.0.4"
+description = "This package provides django app to generate data for django apps using factories."
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "django-factory-boy-generator-1.0.4.tar.gz", hash = "sha256:95a2fe5a8a0c2964d98cd463b797cffd423f7839a972d061b74ce3c9522ed294"},
+    {file = "django_factory_boy_generator-1.0.4-py3-none-any.whl", hash = "sha256:0a2c2f54a9587855eab02663442012d2ec028457a7ec21a5dae1b5888628000f"},
+]
+
+[package.dependencies]
+factory-boy = "*"
+
+[package.extras]
+dev = ["django", "pytest-django", "pytest-pythonpath", "tox"]
+
+[[package]]
 name = "django-filter"
 version = "23.3"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -1632,4 +1649,4 @@ svglib = ">=1.2.1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "11a26d324115d8e108992d06275f3e1422a8a396ac35f8bfc6e51cce1609141e"
+content-hash = "20306950b9929376f6f7e7391b7569706fa2c6a7fd6255488d91664d6ecc0e38"

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "django_extensions",
+    "factory_generator",
     "rest_framework",
     "rest_framework.authtoken",
     "invoices",
