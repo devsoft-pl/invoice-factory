@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 from parameterized import parameterized
 
-from companies.factories import CompanyFactory, SummaryRecipientFactory
+from companies.factories import (CompanyDictFactory, CompanyFactory,
+                                 SummaryRecipientFactory)
 from companies.models import Company, SummaryRecipient
 from countries.factories import CountryFactory
 from users.factories import UserFactory
@@ -21,6 +22,7 @@ class TestCompany(TestCase):
             2, user=self.user, is_my_company=True
         )
         self.other_company = CompanyFactory()
+        self.country = CountryFactory.create(user=self.user)
 
 
 class TestListCompanies(TestCompany):
@@ -140,7 +142,6 @@ class TestCreateCompany(TestCompany):
         super().setUp()
         self.my_url = reverse("companies:create_my_company")
         self.url = reverse("companies:create_company")
-        self.country = CountryFactory.create(user=self.user)
 
     def test_create_if_not_logged(self):
         response = self.client.get(self.my_url, follow=True)
@@ -157,48 +158,46 @@ class TestCreateCompany(TestCompany):
         self.assertTemplateUsed(response, "companies/create_company.html")
 
     def test_create_with_valid_data(self):
-        self.company_data = {
-            "name": "test",
-            "nip": "123456789",
-            "regon": "987654321",
-            "country": self.country.pk,
-            "address": "ulica testowa",
-            "zip_code": "00-345",
-            "city": "Warszawa",
-            "email": "test@test.pl",
-            "is_my_company": True,
-        }
+        company_data = CompanyDictFactory(
+            nip="123456789",
+            regon="987654321",
+            country=self.country.pk,
+            zip_code="00-345",
+            city="Warszawa",
+            email="test@test.pl",
+            phone_number="123456789",
+            is_my_company=True
+        )
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.my_url, self.company_data)
+        response = self.client.post(self.my_url, company_data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="123456789", is_my_company=True, user=self.user
+                regon="987654321", nip="123456789", is_my_company=True, user=self.user
             ).exists()
         )
 
     def test_create_contractor_with_valid_data(self):
-        self.contractor_data = {
-            "name": "test",
-            "nip": "123456789",
-            "regon": "987654321",
-            "country": self.country.pk,
-            "address": "ulica testowa",
-            "zip_code": "00-345",
-            "city": "Warszawa",
-            "email": "test@test.pl",
-            "is_my_company": False,
-        }
+        client_data = CompanyDictFactory(
+            nip="111111111",
+            regon="222222222",
+            country=self.country.pk,
+            zip_code="00-345",
+            city="Warszawa",
+            email="test@test.pl",
+            phone_number="123456789",
+            is_my_company=False
+        )
         self.client.login(username=self.user.email, password="test")
-        response = self.client.post(self.url, self.contractor_data)
+        response = self.client.post(self.url, client_data)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="123456789", is_my_company=False, user=self.user
+                regon="222222222", nip="111111111", is_my_company=False, user=self.user
             ).exists()
         )
 
@@ -214,7 +213,6 @@ class TestReplaceCompany(TestCompany):
         super().setUp()
         self.company = self.user_companies[0]
         self.url = reverse("companies:replace_company", args=[self.company.pk])
-        self.country = CountryFactory.create(user=self.user)
 
     def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
@@ -240,26 +238,25 @@ class TestReplaceCompany(TestCompany):
         self.assertTemplateUsed(response, "companies/replace_company.html")
 
     def test_replace_with_valid_data(self):
-        self.company_data = {
-            "name": "test",
-            "nip": "123456789",
-            "regon": "987654321",
-            "country": self.country.pk,
-            "address": "ulica testowa",
-            "zip_code": "00-345",
-            "city": "Warszawa",
-            "email": "test@test.pl",
-            "is_my_company": False,
-        }
+        company_data = CompanyDictFactory(
+            nip="123456789",
+            regon="987654321",
+            country=self.country.pk,
+            zip_code="00-345",
+            city="Warszawa",
+            email="test@test.pl",
+            phone_number="123456789",
+            is_my_company=True
+        )
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, self.company_data)
+        response = self.client.post(self.url, company_data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                name="test", nip="123456789", is_my_company=False, user=self.user
+                nip="123456789", is_my_company=False, user=self.user
             ).exists()
         )
 
