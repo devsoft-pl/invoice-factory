@@ -13,7 +13,6 @@ class TestAccountant(TestCase):
         self.user.set_password("test")
         self.user.save()
         self.user_accountants = AccountantFactory.create_batch(2, user=self.user)
-        self.other_accountant = AccountantFactory()
 
 
 class TestListAccountant(TestAccountant):
@@ -28,6 +27,7 @@ class TestListAccountant(TestAccountant):
 
     def test_list_if_logged(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -47,6 +47,7 @@ class TestDeleteAccountant(TestAccountant):
 
     def test_delete_if_logged(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -54,8 +55,11 @@ class TestDeleteAccountant(TestAccountant):
         self.assertEqual(response.status_code, 302)
 
     def test_return_404_if_not_my_accountant(self):
-        url = reverse("accountants:delete_accountant", args=[self.other_accountant.pk])
         self.client.login(username=self.user.email, password="test")
+
+        other_accountant = AccountantFactory()
+        url = reverse("accountants:delete_accountant", args=[other_accountant.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -73,19 +77,24 @@ class TestCreateAccountant(TestAccountant):
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
             response.context["form"], "email", "To pole jest wymagane."
         )
+        self.assertFormError(
+            response.context["form"], "name", "To pole jest wymagane."
+        )
         self.assertTemplateUsed(response, "accountants/create_accountant.html")
 
     def test_create_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
         accountant_data = AccountantDictFactory(
             email="test@test.pl", phone_number="123456789"
         )
-        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, accountant_data)
 
@@ -101,6 +110,7 @@ class TestCreateAccountant(TestAccountant):
 
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -117,28 +127,26 @@ class TestReplaceAccountant(TestAccountant):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_return_404_if_not_accountant(self):
-        url = reverse("accountants:replace_accountant", args=[self.other_accountant.pk])
-        self.client.login(username=self.user.email, password="test")
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 404)
-
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
             response.context["form"], "email", "To pole jest wymagane."
         )
+        self.assertFormError(
+            response.context["form"], "name", "To pole jest wymagane."
+        )
         self.assertTemplateUsed(response, "accountants/replace_accountant.html")
 
     def test_replace_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
         accountant_data = AccountantDictFactory(
             email="test2@test.pl", phone_number="987654321"
         )
-        self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, accountant_data)
 
@@ -152,8 +160,19 @@ class TestReplaceAccountant(TestAccountant):
             ).exists()
         )
 
+    def test_return_404_if_not_accountant(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_accountant = AccountantFactory()
+        url = reverse("accountants:replace_accountant", args=[other_accountant.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
