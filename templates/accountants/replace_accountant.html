@@ -6,7 +6,14 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'accountants:list_accountants' %}">Księgowość</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'accountants:list_accountants' company.pk %}">Księgowość</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
                 </ol>
             </nav>
@@ -45,7 +52,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        <a class="btn btn-primary mt-3" href="{% url 'accountants:list_accountants' %}">Powrót</a>
+                        <a class="btn btn-primary mt-3" href="{% url 'accountants:list_accountants' company.pk %}">Powrót</a>
                         <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>
