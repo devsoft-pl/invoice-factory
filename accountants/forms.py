@@ -14,8 +14,7 @@ class AccountantForm(forms.ModelForm):
         model = Accountant
         fields = ["name", "email", "phone_number"]
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for field in self.Meta.fields:
