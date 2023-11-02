@@ -1,6 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
+from accountants.views_api import AccountantViewSet
 from companies.views_api import CompanyViewSet
 from countries.views_api import CountryViewSet
 from currencies.views_api import CurrencyViewSet
@@ -17,6 +18,7 @@ router.register(r"countries", CountryViewSet)
 router.register(r"companies", CompanyViewSet)
 router.register(r"invoices", InvoiceViewSet)
 router.register(r"items", ItemViewSet)
+router.register(r"accountants", AccountantViewSet)
 
 
 urlpatterns = [
