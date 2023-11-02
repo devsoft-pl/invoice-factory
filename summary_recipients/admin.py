@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from summary_recipients.models import SummaryRecipient
+
+
+@admin.register(SummaryRecipient)
+class SummaryRecipientAdmin(admin.ModelAdmin):
+    list_display = ("description", "day", "email", "settlement_types", "company")
