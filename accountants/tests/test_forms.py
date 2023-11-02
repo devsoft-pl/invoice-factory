@@ -1,28 +1,28 @@
 import pytest
 
-from accountants.factories import AccountantDictFactory, AccountantFactory
+from accountants.factories import AccountantDictFactory
 from accountants.forms import AccountantForm
-from users.factories import UserFactory
+from companies.factories import CompanyFactory
 
 
 @pytest.mark.django_db
 class TestAccountantForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
-        self.user = UserFactory.create()
+        self.company = CompanyFactory.create()
 
     def test_form_with_valid_data(self):
-        data = AccountantDictFactory(phone_number="123456789")
+        data = AccountantDictFactory(phone_number="123456789", company=self.company)
 
-        form = AccountantForm(data=data, user=self.user)
+        form = AccountantForm(data=data)
 
         assert form.is_valid()
         assert form.errors == {}
 
     def test_form_with_not_valid_data(self):
-        data = AccountantDictFactory()
+        data = AccountantDictFactory(company=self.company)
 
-        form = AccountantForm(data=data, user=self.user)
+        form = AccountantForm(data=data)
 
         assert not form.is_valid()
         assert form.errors == {
