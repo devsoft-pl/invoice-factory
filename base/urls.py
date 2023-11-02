@@ -20,6 +20,7 @@ urlpatterns = (
         path("vat_rates/", include("vat_rates.urls")),
         path("reports/", include("reports.urls")),
         path("accountants/", include("accountants.urls")),
+        path("summary_recipients/", include("summary_recipients.urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
