@@ -12,6 +12,7 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a>
                     </li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a></li>
                     <li class="breadcrumb-item">
                         <a href="{% url 'companies:list_summary_recipients' company.pk %}">Odbiorcy faktur</a>
                     </li>

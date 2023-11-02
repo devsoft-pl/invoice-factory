@@ -55,6 +55,7 @@
             <div class="col text-center">
                 {% if company.is_my_company %}
                     <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
                     <a class="btn btn-primary mt-3" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
                     <a class="btn btn-primary mt-3" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
                 {% else %}

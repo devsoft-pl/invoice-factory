@@ -5,9 +5,10 @@
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona głównaeby</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moje firmy</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'companies:detail_company' company.pk %}">{{ company.name }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a></li>
                     <ol class="breadcrumb-item active" aria-current="page">Odbiorcy faktury</ol>
                 </ol>
             </nav>

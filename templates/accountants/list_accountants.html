@@ -6,6 +6,7 @@
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moje firmy</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Księgowość</li>
                 </ol>
             </nav>
@@ -48,6 +49,11 @@
         <div class="row">
             <div class="col">
                 <a class="btn btn-primary mt-3" href="{% url 'accountants:create_accountant' %}">Dodaj księgowość</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
             </div>
         </div>
     </div>
