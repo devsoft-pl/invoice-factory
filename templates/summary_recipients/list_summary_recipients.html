@@ -35,8 +35,8 @@
                                 <td>{{ summary_recipient.email }}</td>
                                 <td>{{ summary_recipient.get_settlement_types_display}}</td>
                                 <td>
-                                    <a href="{% url 'companies:replace_summary_recipient' summary_recipient.pk %}">Edytuj</a>
-                                    <a href="{% url 'companies:delete_summary_recipient' summary_recipient.pk %}">Usuń</a>
+                                    <a href="{% url 'summary_recipients:replace_summary_recipient' summary_recipient.pk %}">Edytuj</a>
+                                    <a href="{% url 'summary_recipients:delete_summary_recipient' summary_recipient.pk %}">Usuń</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -46,7 +46,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'companies:create_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania</a></h3>
+                <a class="btn btn-primary mt-3" href="{% url 'summary_recipients:create_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania</a></h3>
             </div>
         </div>
         <div class="row">

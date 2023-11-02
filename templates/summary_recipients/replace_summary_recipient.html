@@ -14,14 +14,14 @@
                     </li>
                     <li class="breadcrumb-item"><a href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a></li>
                     <li class="breadcrumb-item">
-                        <a href="{% url 'companies:list_summary_recipients' company.pk %}">Odbiorcy faktur</a>
+                        <a href="{% url 'summary_recipients:list_summary_recipients' company.pk %}">Odbiorcy faktur</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Edycja</li>
                 </ol>
             </nav>
         </div>
         <div class="row mt-2">
-            <form action="{% url 'companies:replace_summary_recipient' summary_recipient.pk %}" method='post'>
+            <form action="{% url 'summary_recipients:replace_summary_recipient' summary_recipient.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.description.label_tag }}</div>
@@ -69,7 +69,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        <a class="btn btn-primary mt-3" href="{% url 'companies:list_summary_recipients' company.pk %}">Powrót</a>
+                        <a class="btn btn-primary mt-3" href="{% url 'summary_recipients:list_summary_recipients' company.pk %}">Powrót</a>
                             <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>
