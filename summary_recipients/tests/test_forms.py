@@ -13,7 +13,19 @@ class TestSummaryRecipientForm:
 
     def test_form_with_valid_data(self):
         data = SummaryRecipientDictFactory(company=self.company)
+
         form = SummaryRecipientForm(data=data)
 
         assert form.is_valid()
         assert form.errors == {}
+
+    def test_form_with_not_valid_data(self):
+        data = SummaryRecipientDictFactory(email="test.pl", day="test")
+
+        form = SummaryRecipientForm(data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "day": ["Wpisz liczbę całkowitą."],
+            "email": ["Podaj poprawny adres e-mail."],
+        }
