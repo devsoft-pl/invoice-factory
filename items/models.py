@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 from invoices.models import Invoice
-from users.models import User
 from vat_rates.models import VatRate
 
 
@@ -23,9 +22,6 @@ class Item(models.Model):
     )
     vat = models.ForeignKey(
         VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item"
-    )
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
     class Meta:
