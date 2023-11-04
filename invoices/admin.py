@@ -15,7 +15,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         "net_amount",
         "gross_amount",
         "currency",
-        "user",
+        "company__user"
     )
     list_filter = (
         "is_recurring",
@@ -23,12 +23,10 @@ class InvoiceAdmin(admin.ModelAdmin):
         "company__name",
         "invoice_type",
         "payment_date",
-        "user",
     )
-    search_fields = ("invoice_number", "company__name", "user__username")
+    search_fields = ("invoice_number", "company__name")
     inlines = [ItemInline]
     fieldsets = (
-        ("User", {"fields": (("user",),)}),
         (
             _("Basic information"),
             {
