@@ -2,7 +2,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
-from companies.models import Company, SummaryRecipient
+from companies.models import Company
 from countries.models import Country
 
 nip_validator = RegexValidator(
@@ -107,21 +107,3 @@ class CompanyFilterForm(forms.Form):
             companies_list = companies_list.filter(regon=regon)
 
         return companies_list
-
-
-class SummaryRecipientForm(forms.ModelForm):
-    class Meta:
-        model = SummaryRecipient
-        fields = [
-            "description",
-            "company",
-            "day",
-            "email",
-            "settlement_types",
-        ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for field in self.Meta.fields:
-            self.fields[field].widget.attrs["class"] = "form-control"

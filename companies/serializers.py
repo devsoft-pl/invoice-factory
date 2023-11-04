@@ -17,6 +17,5 @@ class CompanySerializer(serializers.ModelSerializer):
             "city",
             "email",
             "phone_number",
-            "user",
             "is_my_company",
         ]
