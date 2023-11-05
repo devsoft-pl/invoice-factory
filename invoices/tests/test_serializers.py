@@ -18,11 +18,9 @@ class TestInvoiceSerializer:
         self.client = CompanyFactory()
         self.currency = CurrencyFactory()
         self.vat = VatRateFactory()
-        self.items_data = ItemDictFactory.create_batch(
-            size=3, user=self.user, vat=self.vat
-        )
+        self.items_data = ItemDictFactory.create_batch(3, vat=self.vat)
         self.invoice_data = InvoiceSellDictFactory(
-            user=self.user, company=self.company, client=self.client
+            company=self.company, client=self.client
         )
         self.invoice = InvoiceSellFactory()
 
