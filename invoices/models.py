@@ -8,7 +8,6 @@ from num2words import num2words
 
 from companies.models import Company
 from currencies.models import Currency, ExchangeRate
-from users.models import User
 
 
 class Invoice(models.Model):
@@ -40,9 +39,6 @@ class Invoice(models.Model):
         (THREE_MONTH, _("Three month")),
     )
 
-    user = models.ForeignKey(
-        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
-    )
     invoice_number = models.CharField(
         verbose_name=_("Invoice number"), max_length=30, null=True, blank=True
     )
@@ -97,7 +93,7 @@ class Invoice(models.Model):
 
     class Meta:
         ordering = ["-sale_date"]
-        unique_together = ["invoice_number", "user"]
+        unique_together = ["invoice_number", "company"]
 
     def __str__(self):
         return self.invoice_number or f"#{self.id}"
@@ -122,30 +118,6 @@ class Invoice(models.Model):
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
-
-    @property
-    def name_item(self):
-        for item in self.items.all():
-            return item.name
-
-    @property
-    def pkwiu_item(self):
-        for item in self.items.all():
-            return item.pkwiu
-
-    @property
-    def amount_item(self):
-        for item in self.items.all():
-            return item.amount
-
-    @property
-    def vat_item(self):
-        for item in self.items.all():
-            return item.vat
-
-    def price_item(self):
-        for item in self.items.all():
-            return item.net_price
 
     @property
     def sell_rate_in_pln(self):
