@@ -146,7 +146,10 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                regon=company_data["regon"], nip=company_data["nip"], is_my_company=True, user=self.user
+                regon=company_data["regon"],
+                nip=company_data["nip"],
+                is_my_company=True,
+                user=self.user,
             ).exists()
         )
 
@@ -171,7 +174,10 @@ class TestCreateCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_companies"))
         self.assertTrue(
             Company.objects.filter(
-                regon=client_data["regon"], nip=client_data["nip"], is_my_company=False, user=self.user
+                regon=client_data["regon"],
+                nip=client_data["nip"],
+                is_my_company=False,
+                user=self.user,
             ).exists()
         )
 
@@ -255,7 +261,10 @@ class TestReplaceCompany(TestCompany):
         self.assertRedirects(response, reverse("companies:list_my_companies"))
         self.assertTrue(
             Company.objects.filter(
-                regon=company_data["regon"], nip=company_data["nip"], is_my_company=True, user=self.user
+                regon=company_data["regon"],
+                nip=company_data["nip"],
+                is_my_company=True,
+                user=self.user,
             ).exists()
         )
 
