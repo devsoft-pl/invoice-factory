@@ -31,16 +31,10 @@ class TestSellInvoiceForm:
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
         self.invoice_1 = InvoiceSellFactory.create(
-            invoice_number="1/2022",
-            client=self.client_1,
-            company=self.company_1,
-            user=self.user,
+            invoice_number="1/2022", client=self.client_1, company=self.company_1
         )
         self.invoice_2 = InvoiceSellFactory.create(
-            invoice_number="4/2022",
-            client=self.client_2,
-            company=self.company_2,
-            user=self.user,
+            invoice_number="4/2022", client=self.client_2, company=self.company_2
         )
 
     @pytest.mark.parametrize(
@@ -54,7 +48,7 @@ class TestSellInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert self.invoice_1.id == filtered_list[0].id
@@ -66,18 +60,18 @@ class TestSellInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert filtered_list.count() == 2
 
-    def test_return_filtered_empty_list_when_invoice_invoice_number_not_exist(self):
+    def test_return_filtered_empty_list_when_invoice_number_not_exist(self):
         request_get = {"invoice_number": "5/2022"}
 
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert filtered_list.count() == 0
@@ -94,7 +88,7 @@ class TestSellInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert filtered_list.count() == expected_count
@@ -110,7 +104,7 @@ class TestSellInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert self.invoice_1.id == filtered_list[0].id
@@ -127,7 +121,7 @@ class TestSellInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert self.invoice_1.id == filtered_list[0].id
@@ -214,9 +208,7 @@ class TestBuyInvoiceForm:
             name="Devsoft", user=self.user, is_my_company=True
         )
         self.invoice = InvoiceBuyFactory.create(
-            invoice_number="1/2022",
-            company=self.company,
-            user=self.user,
+            invoice_number="1/2022", company=self.company
         )
 
     @pytest.mark.parametrize(
@@ -231,7 +223,7 @@ class TestBuyInvoiceForm:
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
 
-        invoices_list = Invoice.objects.filter(user=self.user)
+        invoices_list = Invoice.objects.filter(company__user=self.user)
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert filtered_list.count() == expected_count
