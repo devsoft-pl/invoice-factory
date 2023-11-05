@@ -19,7 +19,7 @@ def index_view(request):
 
 @login_required
 def list_invoices_view(request):
-    invoices_list = Invoice.objects.filter(user=request.user)
+    invoices_list = Invoice.objects.filter(company__user=request.user)
 
     filter_form = InvoiceFilterForm(request.GET)
     if filter_form.is_valid():
@@ -46,7 +46,7 @@ def list_invoices_view(request):
 def detail_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.user != request.user:
+    if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
     context = {"invoice": invoice}
@@ -66,7 +66,6 @@ def create_sell_invoice_view(request):
         if form.is_valid():
             invoice = form.save(commit=False)
             invoice.invoice_type = Invoice.INVOICE_SALES
-            invoice.user = request.user
 
             invoice.save()
 
@@ -88,7 +87,6 @@ def create_buy_invoice_view(request):
         if form.is_valid():
             invoice = form.save(commit=False)
             invoice.invoice_type = Invoice.INVOICE_PURCHASE
-            invoice.user = request.user
 
             invoice.save()
 
@@ -102,7 +100,7 @@ def create_buy_invoice_view(request):
 def replace_sell_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.user != request.user:
+    if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
     if request.method != "POST":
@@ -128,7 +126,7 @@ def replace_sell_invoice_view(request, invoice_id):
 def replace_buy_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.user != request.user:
+    if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
     if request.method != "POST":
@@ -151,7 +149,7 @@ def replace_buy_invoice_view(request, invoice_id):
 def delete_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.user != request.user:
+    if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
     invoice.delete()
@@ -163,7 +161,7 @@ def delete_invoice_view(request, invoice_id):
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.user != request.user:
+    if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
     response = HttpResponse(content_type="application/pdf")
