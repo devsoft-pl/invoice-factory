@@ -45,7 +45,6 @@ class InvoiceSellForm(forms.ModelForm):
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
         ).order_by("code")
-
         invoice_number_field: forms.CharField = self.fields["invoice_number"]
         invoice_number_field.validators = [invoice_number_validator]
 
@@ -62,8 +61,9 @@ class InvoiceSellForm(forms.ModelForm):
         invoice_number = self.cleaned_data.get("invoice_number")
         invoice = Invoice.objects.filter(
             invoice_number=invoice_number,
-            user=self.current_user,
+            company__user=self.current_user,
         )
+
         if self.instance.pk:
             invoice = invoice.exclude(pk=self.instance.pk)
 
@@ -100,7 +100,7 @@ class InvoiceBuyForm(forms.ModelForm):
         invoice_number = self.cleaned_data.get("invoice_number")
         invoice = Invoice.objects.filter(
             invoice_number=invoice_number,
-            user=self.current_user,
+            company__user=self.current_user,
         )
         if self.instance.pk:
             invoice = invoice.exclude(pk=self.instance.pk)
