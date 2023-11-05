@@ -22,7 +22,6 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "invoice_pdf",
             "currency",
             "items",
-            "user",
             "is_recurring",
             "is_settled",
             "recurring_frequency",
