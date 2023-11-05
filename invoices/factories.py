@@ -6,7 +6,6 @@ from factory import fuzzy
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import Invoice
-from users.factories import UserFactory
 
 
 class InvoiceSellFactory(factory.django.DjangoModelFactory):
@@ -28,7 +27,6 @@ class InvoiceSellFactory(factory.django.DjangoModelFactory):
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
-    user = factory.SubFactory(UserFactory)
 
 
 class InvoiceBuyFactory(factory.django.DjangoModelFactory):
@@ -46,7 +44,6 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
         "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
     )
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
-    user = factory.SubFactory(UserFactory)
 
 
 class InvoiceSellDictFactory(factory.DictFactory):
