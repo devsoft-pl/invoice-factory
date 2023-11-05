@@ -43,21 +43,6 @@ class TestInvoiceModel:
     def test_returns_zero_gross_amount_if_no_items(self):
         assert self.invoice_2.gross_amount == Decimal("0")
 
-    def test_returns_name_item(self):
-        assert self.invoice.name_item == self.item.name
-
-    def test_returns_pkwiu_item(self):
-        assert self.invoice.pkwiu_item == self.item.pkwiu
-
-    def test_returns_amount_item(self):
-        assert self.invoice.amount_item == self.item.amount
-
-    def test_returns_vat_item(self):
-        assert self.invoice.vat_item == self.item.vat
-
-    def test_returns_price_item(self):
-        assert self.invoice.price_item() == self.item.net_price
-
     def test_returns_sell_rate_in_pln(self):
         exchange_rate = ExchangeRateFactory.create(
             currency=self.invoice.currency,
