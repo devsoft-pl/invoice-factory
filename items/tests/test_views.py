@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from invoices.factories import InvoiceSellFactory
-from items.factories import ItemFactory, ItemDictFactory
+from items.factories import ItemDictFactory, ItemFactory
 from items.models import Item
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
@@ -17,7 +17,9 @@ class TestItem(TestCase):
 
         self.invoice = InvoiceSellFactory(user=self.user)
         self.vat = VatRateFactory(user=self.user)
-        self.user_items = ItemFactory.create_batch(12, invoice=self.invoice, vat=self.vat)
+        self.user_items = ItemFactory.create_batch(
+            12, invoice=self.invoice, vat=self.vat
+        )
         self.other_item = ItemFactory()
 
 
@@ -56,8 +58,7 @@ class TestCreateItem(TestItem):
         )
         self.assertTrue(
             Item.objects.filter(
-                name=item_date["name"],
-                pkwiu=item_date["pkwiu"]
+                name=item_date["name"], pkwiu=item_date["pkwiu"]
             ).exists()
         )
 
@@ -107,8 +108,7 @@ class TestReplaceItem(TestItem):
         )
         self.assertTrue(
             Item.objects.filter(
-                name=item_date["name"],
-                pkwiu=item_date["pkwiu"]
+                name=item_date["name"], pkwiu=item_date["pkwiu"]
             ).exists()
         )
 
