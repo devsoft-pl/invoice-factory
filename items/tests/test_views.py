@@ -15,12 +15,11 @@ class TestItem(TestCase):
         self.user.set_password("test")
         self.user.save()
 
-        self.invoice = InvoiceSellFactory(user=self.user)
+        self.invoice = InvoiceSellFactory(company__user=self.user)
         self.vat = VatRateFactory(user=self.user)
         self.user_items = ItemFactory.create_batch(
             12, invoice=self.invoice, vat=self.vat
         )
-        self.other_item = ItemFactory()
 
 
 class TestCreateItem(TestItem):
@@ -115,7 +114,8 @@ class TestReplaceItem(TestItem):
     def test_return_404_if_not_my_item(self):
         self.client.login(username=self.user.email, password="test")
 
-        url = reverse("items:replace_item", args=[self.other_item.pk])
+        other_item = ItemFactory()
+        url = reverse("items:replace_item", args=[other_item.pk])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -151,7 +151,8 @@ class TestDeleteItem(TestItem):
     def test_return_404_if_not_my_item(self):
         self.client.login(username=self.user.email, password="test")
 
-        url = reverse("items:delete_item", args=[self.other_item.pk])
+        other_item = ItemFactory()
+        url = reverse("items:delete_item", args=[other_item.pk])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
