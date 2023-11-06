@@ -32,7 +32,7 @@ def create_item_view(request, invoice_id):
 def replace_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-    if item.invoice.user != request.user:
+    if item.invoice.company.user != request.user:
         raise Http404(_("Item does not exist"))
 
     if request.method != "POST":
@@ -53,7 +53,7 @@ def replace_item_view(request, item_id):
 def delete_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-    if item.invoice.user != request.user:
+    if item.invoice.company.user != request.user:
         raise Http404(_("Item does not exist"))
 
     item.delete()
