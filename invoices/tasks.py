@@ -43,7 +43,6 @@ def create_invoices_for_recurring():
             account_number=invoice.account_number,
             client=invoice.client,
             settlement_date=None,
-            user=invoice.user,
         )
 
         for item in invoice.items.all():
@@ -74,4 +73,4 @@ def create_invoices_for_recurring():
                     "content": invoice_file.read(),
                 }
             ]
-            new_invoice.user.send_email(subject, content, files)
+            new_invoice.company.user.send_email(subject, content, files)
