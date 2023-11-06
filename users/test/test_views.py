@@ -25,6 +25,7 @@ class TestDetailUser(TestUser):
 
     def test_detail_if_logged(self):
         self.client.login(username=self.user.email, password=self.password)
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -44,6 +45,7 @@ class TestReplaceUser(TestUser):
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password=self.password)
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -54,6 +56,7 @@ class TestReplaceUser(TestUser):
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password=self.password)
+
         response = self.client.post(
             self.url,
             {
@@ -77,6 +80,7 @@ class TestReplaceUser(TestUser):
 
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -102,12 +106,6 @@ class TestRegisterUser(TestUser):
         )
         self.assertTemplateUsed(response, "registration/register.html")
 
-    def test_get_form(self):
-        self.client.login(username=self.user.email, password="test")
-        response = self.client.get(self.url)
-
-        self.assertEqual(response.status_code, 200)
-
     def test_register_with_valid_data(self):
         email = "test@test.pl"
         password = "Test_password1!"
@@ -120,6 +118,13 @@ class TestRegisterUser(TestUser):
         self.assertRedirects(response, reverse("invoices:index"))
         self.assertTrue(User.objects.filter(email="test@test.pl").exists())
 
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
 
 class TestPasswordChangeUser(TestUser):
     def setUp(self) -> None:
@@ -128,6 +133,7 @@ class TestPasswordChangeUser(TestUser):
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password=self.password)
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -144,6 +150,7 @@ class TestPasswordChangeUser(TestUser):
 
     def test_password_change_with_valid_data(self):
         self.client.login(username=self.user.email, password=self.password)
+
         new_password = "Test_new_password1!"
         response = self.client.post(
             self.url,
@@ -162,13 +169,14 @@ class TestPasswordChangeUser(TestUser):
 
         self.assertTrue(user.check_password(new_password))
 
-    def test_get_form(self):
-        self.client.login(username=self.user.email, password=self.password)
-        response = self.client.get(self.url)
-
-        self.assertEqual(response.status_code, 200)
-
     def test_user_is_not_authenticated(self):
         response = self.client.get(self.url, fallow=True)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password=self.password)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
