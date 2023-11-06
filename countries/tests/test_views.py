@@ -85,6 +85,7 @@ class TestCreateCountry(TestCountry):
         self.client.login(username=self.user.email, password="test")
 
         country_data = CountryDictFactory(country="Polska")
+
         response = self.client.post(self.url, country_data)
 
         self.assertEqual(response.status_code, 302)
@@ -143,6 +144,7 @@ class TestReplaceCountry(TestCountry):
         self.client.login(username=self.user.email, password="test")
 
         country_data = CountryDictFactory(country="Szwecja")
+
         response = self.client.post(self.url, country_data)
 
         self.assertEqual(response.status_code, 302)

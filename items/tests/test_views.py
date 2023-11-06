@@ -49,6 +49,7 @@ class TestCreateItem(TestItem):
         self.client.login(username=self.user.email, password="test")
 
         item_date = ItemDictFactory(vat=self.vat.pk)
+
         response = self.client.post(self.url, item_date)
 
         self.assertEqual(response.status_code, 302)
@@ -99,6 +100,7 @@ class TestReplaceItem(TestItem):
         self.client.login(username=self.user.email, password="test")
 
         item_date = ItemDictFactory(vat=self.vat.pk)
+
         response = self.client.post(self.url, item_date)
 
         self.assertEqual(response.status_code, 302)
@@ -116,6 +118,7 @@ class TestReplaceItem(TestItem):
 
         other_item = ItemFactory()
         url = reverse("items:replace_item", args=[other_item.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -153,6 +156,7 @@ class TestDeleteItem(TestItem):
 
         other_item = ItemFactory()
         url = reverse("items:delete_item", args=[other_item.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)

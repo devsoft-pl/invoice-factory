@@ -48,6 +48,7 @@ class TestListCompanies(TestCompany):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("companies:list_my_companies")
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
@@ -99,6 +100,7 @@ class TestDetailCompany(TestCompany):
 
         other_company = CompanyFactory()
         url = reverse("companies:detail_company", args=[other_company.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -140,6 +142,7 @@ class TestCreateCompany(TestCompany):
         )
 
         url = reverse("companies:create_my_company")
+
         response = self.client.post(url, company_data)
 
         self.assertEqual(response.status_code, 302)
@@ -273,6 +276,7 @@ class TestReplaceCompany(TestCompany):
 
         other_company = CompanyFactory()
         url = reverse("companies:replace_company", args=[other_company.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -310,6 +314,7 @@ class TestDeleteCompany(TestCompany):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("companies:delete_company", args=[self.my_company.pk])
+
         response = self.client.get(url)
 
         with self.assertRaises(ObjectDoesNotExist):
@@ -321,6 +326,7 @@ class TestDeleteCompany(TestCompany):
 
         other_company = CompanyFactory()
         url = reverse("companies:delete_company", args=[other_company.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)

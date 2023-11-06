@@ -17,7 +17,6 @@ class TestVatRate(TestCase):
             VatRateFactory.create_batch(12, user=self.user),
             key=lambda vat_rate: vat_rate.rate,
         )
-        self.other_rate = VatRateFactory()
 
 
 class TestListVatRates(TestVatRate):
@@ -32,6 +31,7 @@ class TestListVatRates(TestVatRate):
 
     def test_list_if_logged(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         object_list = response.context["vat_rates"]
@@ -43,6 +43,7 @@ class TestListVatRates(TestVatRate):
 
     def test_returns_first_page_when_abc(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(f"{self.url}?page=abc")
 
         object_list = response.context["vat_rates"]
@@ -52,39 +53,13 @@ class TestListVatRates(TestVatRate):
     @parameterized.expand([[2], [666]])
     def test_pagination_return_correct_list(self, page):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(f"{self.url}?page={page}")
 
         object_list = response.context["vat_rates"]
 
         self.assertTrue(len(object_list) == 2)
         self.assertListEqual(list(object_list), self.user_rates[10:])
-
-
-class TestDeleteVatRate(TestVatRate):
-    def setUp(self) -> None:
-        super().setUp()
-        self.vat_rate = self.user_rates[0]
-        self.url = reverse("vat_rates:delete_vat", args=[self.vat_rate.pk])
-
-    def test_delete_if_not_logged(self):
-        response = self.client.get(self.url, follow=True)
-
-        self.assertRedirects(response, f"/users/login/?next={self.url}")
-
-    def test_delete_if_logged(self):
-        self.client.login(username=self.user.email, password="test")
-        response = self.client.get(self.url)
-
-        with self.assertRaises(ObjectDoesNotExist):
-            VatRate.objects.get(pk=self.vat_rate.pk)
-        self.assertEqual(response.status_code, 302)
-
-    def test_return_404_if_not_my_vat_rate(self):
-        url = reverse("vat_rates:delete_vat", args=[self.other_rate.pk])
-        self.client.login(username=self.user.email, password="test")
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 404)
 
 
 class TestCreateVatRate(TestVatRate):
@@ -99,6 +74,7 @@ class TestCreateVatRate(TestVatRate):
 
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -107,6 +83,7 @@ class TestCreateVatRate(TestVatRate):
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {"rate": "23"})
 
         self.assertEqual(response.status_code, 302)
@@ -115,6 +92,7 @@ class TestCreateVatRate(TestVatRate):
 
     def test_create_with_valid_data_and_next(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(
             self.url, {"rate": "23", "next": reverse("vat_rates:create_vat")}
         )
@@ -125,6 +103,7 @@ class TestCreateVatRate(TestVatRate):
 
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -141,15 +120,9 @@ class TestReplaceVatRate(TestVatRate):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_return_404_if_not_my_vat_rate(self):
-        url = reverse("vat_rates:replace_vat", args=[self.other_rate.pk])
-        self.client.login(username=self.user.email, password="test")
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 404)
-
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
@@ -158,14 +131,57 @@ class TestReplaceVatRate(TestVatRate):
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.post(self.url, {"rate": "12"})
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
         self.assertTrue(VatRate.objects.filter(rate="12", user=self.user).exists())
 
+    def test_return_404_if_not_my_vat_rate(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_rate = VatRateFactory()
+        url = reverse("vat_rates:replace_vat", args=[other_rate.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
+
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class TestDeleteVatRate(TestVatRate):
+    def setUp(self) -> None:
+        super().setUp()
+        self.vat_rate = self.user_rates[0]
+        self.url = reverse("vat_rates:delete_vat", args=[self.vat_rate.pk])
+
+    def test_delete_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_if_logged(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            VatRate.objects.get(pk=self.vat_rate.pk)
+        self.assertEqual(response.status_code, 302)
+
+    def test_return_404_if_not_my_vat_rate(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_rate = VatRateFactory()
+        url = reverse("vat_rates:delete_vat", args=[other_rate.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)

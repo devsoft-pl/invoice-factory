@@ -43,6 +43,7 @@ class TestListInvoices(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.get(self.url)
+
         object_list = response.context["invoices"]
 
         self.assertEqual(response.status_code, 200)
@@ -101,6 +102,7 @@ class TestDetailInvoice(TestInvoice):
 
         buy_invoice = self.user_buy_invoices[0]
         url = reverse("invoices:detail_invoice", args=[buy_invoice.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
@@ -343,6 +345,7 @@ class TestReplaceSellInvoice(TestInvoice):
         url = reverse(
             "invoices:replace_sell_invoice", args=[self.other_sell_invoice.pk]
         )
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -386,6 +389,7 @@ class TestReplaceBuyInvoice(TestInvoice):
             invoice_number="2/2023",
         )
         files = {"invoice_file": data["invoice_file"]}
+
         response = self.client.post(self.url, data=data, files=files)
 
         self.assertEqual(response.status_code, 302)
@@ -404,6 +408,7 @@ class TestReplaceBuyInvoice(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("invoices:replace_buy_invoice", args=[self.other_sell_invoice.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
@@ -440,6 +445,7 @@ class TestPdfInvoice(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("invoices:pdf_invoice", args=[self.other_sell_invoice.pk])
+
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
