@@ -152,10 +152,6 @@ EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
 CELERY_BEAT_SCHEDULE = {
-    "get-exchange-rates-from-nbp": {
-        "task": "get_exchange_rates_for_all",
-        "schedule": crontab(minute="0", hour="9"),
-    },
     "create-recurring-invoices": {
         "task": "create_invoices_for_recurring",
         "schedule": crontab(minute="0", hour="6"),
@@ -163,6 +159,14 @@ CELERY_BEAT_SCHEDULE = {
     "check-company-status-from-ceidg": {
         "task": "check_company_status_for_all_contractors",
         "schedule": crontab(minute="0", hour="7"),
+    },
+    "send-summary-recipients": {
+        "task": "send_monthly_summary_to_recipients",
+        "schedule": crontab(minute="0", hour="8"),
+    },
+    "get-exchange-rates-from-nbp": {
+        "task": "get_exchange_rates_for_all",
+        "schedule": crontab(minute="0", hour="9"),
     },
 }
 
