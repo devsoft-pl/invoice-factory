@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-18 20:12+0200\n"
+"POT-Creation-Date: 2023-11-09 22:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: accountants/admin.py:13 companies/admin.py:21 countries/admin.py:13
-#: currencies/admin.py:13 invoices/admin.py:33 vat_rates/admin.py:13
+#: currencies/admin.py:13 invoices/admin.py:30 vat_rates/admin.py:13
 msgid "Basic information"
 msgstr "Podstawowe informacje"
 
@@ -29,31 +29,36 @@ msgstr "Podstawowe informacje"
 msgid "Enter phone number with 9 numbers only"
 msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
-#: accountants/models.py:8 companies/forms.py:89 companies/models.py:10
-#: items/models.py:18
+#: accountants/models.py:9 companies/forms.py:89 companies/models.py:10
+#: items/models.py:17
 msgid "Name"
 msgstr "Nazwa"
 
-#: accountants/models.py:9 companies/models.py:23 companies/models.py:63
-#: users/models.py:14
+#: accountants/models.py:10 companies/models.py:23
+#: summary_recipients/models.py:28 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
-#: accountants/models.py:11 companies/models.py:25
+#: accountants/models.py:12 companies/models.py:25
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:14 companies/models.py:28 countries/models.py:10
-#: currencies/models.py:12 invoices/models.py:44 items/models.py:28
-#: vat_rates/models.py:12
-msgid "User"
-msgstr "Użytkownik"
+#: accountants/models.py:16 invoices/forms.py:120 invoices/models.py:50
+#: summary_recipients/models.py:23
+msgid "Company"
+msgstr "Firma"
 
-#: accountants/models.py:21
+#: accountants/models.py:25
 msgid "accountants"
 msgstr "księgowi"
 
-#: accountants/views.py:41 accountants/views.py:62
+#: accountants/views.py:17 accountants/views.py:28 companies/views.py:48
+#: companies/views.py:84 companies/views.py:110 companies/views.py:125
+#: summary_recipients/views.py:17 summary_recipients/views.py:29
+msgid "Company does not exist"
+msgstr "Firma nie istnieje"
+
+#: accountants/views.py:52 accountants/views.py:77
 msgid "Accountant does not exist"
 msgstr "Księgowa/y nie istnieje"
 
@@ -113,6 +118,11 @@ msgstr "Kod pocztowy"
 msgid "City"
 msgstr "Miasto"
 
+#: companies/models.py:28 countries/models.py:10 currencies/models.py:12
+#: vat_rates/models.py:12
+msgid "User"
+msgstr "Użytkownik"
+
 #: companies/models.py:31
 msgid "Is my company"
 msgstr "Czy moja firma"
@@ -120,30 +130,6 @@ msgstr "Czy moja firma"
 #: companies/models.py:41
 msgid "companies"
 msgstr "firmy"
-
-#: companies/models.py:51 invoices/models.py:39
-msgid "Monthly"
-msgstr "Co miesiąc"
-
-#: companies/models.py:52
-msgid "Quarterly"
-msgstr "Kwartalnie"
-
-#: companies/models.py:55
-msgid "Description"
-msgstr "Opis"
-
-#: companies/models.py:58 invoices/forms.py:120 invoices/models.py:54
-msgid "Company"
-msgstr "Firma"
-
-#: companies/models.py:62
-msgid "Day of send"
-msgstr "Dzień wysłania"
-
-#: companies/models.py:65
-msgid "Settlement types"
-msgstr "Rodzaj rozliczenia"
 
 #: companies/tasks.py:42
 msgid "Contractor's company status"
@@ -162,11 +148,6 @@ msgstr ""
 "Sprawdź ponownie dane kontrahenta\n"
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
-
-#: companies/views.py:49 companies/views.py:85 companies/views.py:111
-#: companies/views.py:126 companies/views.py:138
-msgid "Company does not exist"
-msgstr "Firma nie istnieje"
 
 #: countries/forms.py:8
 msgid "Enter the country in letters only"
@@ -212,7 +193,7 @@ msgstr "Kurs sprzedaży"
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:52 invoices/models.py:78
+#: currencies/models.py:52 invoices/models.py:74
 msgid "Currency"
 msgstr "Waluta"
 
@@ -220,11 +201,11 @@ msgstr "Waluta"
 msgid "Currency does not exist"
 msgstr "Waluta nie istnieje"
 
-#: invoices/admin.py:43
+#: invoices/admin.py:40
 msgid "Advanced options"
 msgstr "Zaawansowane opcje"
 
-#: invoices/admin.py:52
+#: invoices/admin.py:49
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
@@ -243,92 +224,96 @@ msgstr ""
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:115 invoices/models.py:47
+#: invoices/forms.py:115 invoices/models.py:43
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:117 invoices/models.py:50
+#: invoices/forms.py:117 invoices/models.py:46
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:119 invoices/models.py:88
+#: invoices/forms.py:119 invoices/models.py:84
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/models.py:19
+#: invoices/models.py:18
 msgid "Sales"
 msgstr "Sprzedaż"
 
-#: invoices/models.py:20
+#: invoices/models.py:19
 msgid "Purchase"
 msgstr "Zakupy"
 
-#: invoices/models.py:27
+#: invoices/models.py:26
 msgid "Transfer"
 msgstr "Przelew"
 
-#: invoices/models.py:28
+#: invoices/models.py:27
 msgid "Cash"
 msgstr "Gotówka"
 
-#: invoices/models.py:37
+#: invoices/models.py:36
 msgid "Weekly"
 msgstr "Co tydzień"
 
-#: invoices/models.py:38
+#: invoices/models.py:37
 msgid "Biweekly"
 msgstr "Co dwa tygodnie"
 
-#: invoices/models.py:40
+#: invoices/models.py:38 summary_recipients/models.py:16
+msgid "Monthly"
+msgstr "Co miesiąc"
+
+#: invoices/models.py:39
 msgid "Three month"
 msgstr "Co trzy miesiące"
 
-#: invoices/models.py:59
+#: invoices/models.py:55
 msgid "Recurring frequency"
 msgstr "Cykliczna częstotliwość"
 
-#: invoices/models.py:61
+#: invoices/models.py:57
 msgid "Recurring"
 msgstr "Cykliczna"
 
-#: invoices/models.py:62
+#: invoices/models.py:58
 msgid "Settled"
 msgstr "Rozliczona"
 
-#: invoices/models.py:64
+#: invoices/models.py:60
 msgid "Settlement date"
 msgstr "Data rozliczenia"
 
-#: invoices/models.py:67
+#: invoices/models.py:63
 msgid "Create date"
 msgstr "Data utworzenia"
 
-#: invoices/models.py:69
+#: invoices/models.py:65
 msgid "Sale date"
 msgstr "Data sprzedaży"
 
-#: invoices/models.py:71
+#: invoices/models.py:67
 msgid "Payment date"
 msgstr "Data płatności"
 
-#: invoices/models.py:74
+#: invoices/models.py:70
 msgid "Payment method"
 msgstr "Rodzaj płatności"
 
-#: invoices/models.py:84
+#: invoices/models.py:80
 msgid "Account number"
 msgstr "Numer konta"
 
-#: invoices/models.py:95
+#: invoices/models.py:91
 msgid "Invoice file"
 msgstr "Typ faktury"
 
-#: invoices/tasks.py:54
+#: invoices/tasks.py:55
 #, python-format
 msgid "New recurring invoice %(nr)s"
 msgstr "Nowa cykliczna faktura %(nr)s"
 
-#: invoices/tasks.py:56
+#: invoices/tasks.py:57
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
@@ -338,34 +323,68 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/views.py:50 invoices/views.py:106 invoices/views.py:132
-#: invoices/views.py:155 invoices/views.py:167
+#: invoices/tasks.py:114
+msgid "Month summary"
+msgstr "Podsumowanie miesiąca"
+
+#: invoices/tasks.py:116
+msgid ""
+"A monthly summary has been created for company\n"
+"Best regards,\n"
+"Invoice Manager"
+msgstr ""
+"Dla firmy zostało stworzone miesięczne podsumowanie\n"
+"Z wyrazami szacunku,\n"
+"Invoice Manager"
+
+#: invoices/views.py:50 invoices/views.py:104 invoices/views.py:130
+#: invoices/views.py:153 invoices/views.py:165
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 
-#: items/models.py:14
+#: items/models.py:13
 msgid "Invoice"
 msgstr "Faktura"
 
-#: items/models.py:19
+#: items/models.py:18
 msgid "PWKiU"
 msgstr "PWKiU"
 
-#: items/models.py:20
+#: items/models.py:19
 msgid "Amount"
 msgstr "Ilość"
 
-#: items/models.py:22
+#: items/models.py:21
 msgid "Net price"
 msgstr "Kwota netto"
 
-#: items/models.py:25
+#: items/models.py:24
 msgid "Vat"
 msgstr "VAT"
 
-#: items/views.py:37 items/views.py:58
+#: items/views.py:36 items/views.py:57
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
+
+#: summary_recipients/models.py:17
+msgid "Quarterly"
+msgstr "Kwartalnie"
+
+#: summary_recipients/models.py:20
+msgid "Description"
+msgstr "Opis"
+
+#: summary_recipients/models.py:27
+msgid "Day of send"
+msgstr "Dzień wysłania"
+
+#: summary_recipients/models.py:30
+msgid "Settlement types"
+msgstr "Rodzaj rozliczenia"
+
+#: summary_recipients/views.py:53 summary_recipients/views.py:80
+msgid "Summary recipient does not exist"
+msgstr "Odbiorca podsumowania nie istnieje"
 
 #: users/forms.py:10
 msgid "Enter first name in letters only"
@@ -373,7 +392,7 @@ msgstr "Wpisz imię w postaci liter"
 
 #: users/forms.py:14
 msgid "Enter last name in letters only"
-msgstr "Wpisz naziwsko tylko w postaci liter"
+msgstr "Wpisz nazwisko tylko w postaci liter"
 
 #: users/models.py:15
 msgid "First name"
