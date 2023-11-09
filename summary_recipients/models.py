@@ -29,6 +29,7 @@ class SummaryRecipient(models.Model):
     settlement_types = models.IntegerField(
         verbose_name=_("Settlement types"), choices=SETTLEMENT_TYPES
     )
+    final_call = models.BooleanField(verbose_name=_("Final call"), default=False)
 
     def __str__(self):
         return self.description
