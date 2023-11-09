@@ -83,16 +83,16 @@ def send_monthly_summary_to_recipients():
     logger.info("Trying to send summary to recipients")
 
     today = datetime.today()
-    day = today.day
-    first = today.replace(day=1)
-    date_last_month = first - timedelta(days=1)
-    last_month = date_last_month.month
-    year = date_last_month.year
+    summary_date = today - timedelta(days=today.day)
 
     companies = Company.objects.filter(is_my_company=True)
 
     for company in companies:
-        invoices = Invoice.objects.filter(company=company, create_date__month=last_month, create_date__year=year)
+        invoices = Invoice.objects.filter(
+            company=company,
+            create_date__month=summary_date.month,
+            create_date__year=summary_date.year,
+        )
 
         files = []
 
@@ -104,10 +104,12 @@ def send_monthly_summary_to_recipients():
 
                 invoice_file.seek(0)
 
-                files.append({
-                    "name": f"{invoice.invoice_number.replace('/', '-')}.pdf",
-                    "content": invoice_file.read(),
-                })
+                files.append(
+                    {
+                        "name": f"{invoice.invoice_number.replace('/', '-')}.pdf",
+                        "content": invoice_file.read(),
+                    }
+                )
 
         subject = _("Month summary")
         content = _(
@@ -116,7 +118,9 @@ def send_monthly_summary_to_recipients():
             "Invoice Manager"
         )
 
-        summary_recipients = SummaryRecipient.objects.filter(day=day, company=company)
+        summary_recipients = SummaryRecipient.objects.filter(
+            day=today.day, company=company
+        )
 
         for summary_recipient in summary_recipients:
             summary_recipient.send_email(subject, content, files)
