@@ -14,6 +14,7 @@ class SummaryRecipientFactory(factory.django.DjangoModelFactory):
     day = fuzzy.FuzzyInteger(1, 28)
     email = factory.Sequence(lambda n: "test_%03d@test.pl" % n)
     settlement_types = SummaryRecipient.MONTHLY
+    final_call = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class SummaryRecipientDictFactory(factory.DictFactory):
@@ -21,3 +22,4 @@ class SummaryRecipientDictFactory(factory.DictFactory):
     day = fuzzy.FuzzyInteger(1, 28)
     email = factory.Sequence(lambda n: "test_%03d@test.pl" % n)
     settlement_types = SummaryRecipient.MONTHLY
+    final_call = factory.fuzzy.FuzzyChoice([True, False])

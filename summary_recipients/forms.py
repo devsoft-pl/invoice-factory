@@ -11,6 +11,7 @@ class SummaryRecipientForm(forms.ModelForm):
             "day",
             "email",
             "settlement_types",
+            "final_call"
         ]
 
     def __init__(self, *args, **kwargs):
