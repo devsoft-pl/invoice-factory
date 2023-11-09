@@ -7,7 +7,9 @@ from django.utils.translation import gettext as _
 from xhtml2pdf import pisa
 
 from base.celery import app
+from companies.models import Company
 from invoices.models import Invoice
+from summary_recipients.models import SummaryRecipient
 
 logger = logging.getLogger(__name__)
 
@@ -74,3 +76,47 @@ def create_invoices_for_recurring():
                 }
             ]
             new_invoice.company.user.send_email(subject, content, files)
+
+
+@app.task(name="send_monthly_summary_to_recipients")
+def send_monthly_summary_to_recipients():
+    logger.info("Trying to send summary to recipients")
+
+    today = datetime.today()
+    day = today.day
+    first = today.replace(day=1)
+    date_last_month = first - timedelta(days=1)
+    last_month = date_last_month.month
+    year = date_last_month.year
+
+    companies = Company.objects.filter(is_my_company=True)
+
+    for company in companies:
+        invoices = Invoice.objects.filter(company=company, create_date__month=last_month, create_date__year=year)
+
+        files = []
+
+        for invoice in invoices:
+            html = invoice.get_html_for_pdf()
+
+            with tempfile.NamedTemporaryFile(suffix=".pdf") as invoice_file:
+                pisa.CreatePDF(html, dest=invoice_file)
+
+                invoice_file.seek(0)
+
+                files.append({
+                    "name": f"{invoice.invoice_number.replace('/', '-')}.pdf",
+                    "content": invoice_file.read(),
+                })
+
+        subject = _("Month summary")
+        content = _(
+            "A monthly summary has been created for company\n"
+            "Best regards,\n"
+            "Invoice Manager"
+        )
+
+        summary_recipients = SummaryRecipient.objects.filter(day=day, company=company)
+
+        for summary_recipient in summary_recipients:
+            summary_recipient.send_email(subject, content, files)
