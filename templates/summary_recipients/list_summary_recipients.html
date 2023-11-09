@@ -23,6 +23,7 @@
                             <th>Dzień wysłania</th>
                             <th>Email</th>
                             <th>Rodzaj rozliczenia</th>
+                            <th>Rozliczenie zamykające</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -34,6 +35,13 @@
                                 <td>{{ summary_recipient.day }}</td>
                                 <td>{{ summary_recipient.email }}</td>
                                 <td>{{ summary_recipient.get_settlement_types_display}}</td>
+                                <td>
+                                    {% if summary_recipient.final_call %}
+                                        <span>Tak</span>
+                                    {% else %}
+                                        <span>Nie</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{% url 'summary_recipients:replace_summary_recipient' summary_recipient.pk %}">Edytuj</a>
                                     <a href="{% url 'summary_recipients:delete_summary_recipient' summary_recipient.pk %}">Usuń</a>
