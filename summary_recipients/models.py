@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.mail import EmailMessage
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -30,3 +32,20 @@ class SummaryRecipient(models.Model):
 
     def __str__(self):
         return self.description
+
+    def send_email(self, subject, content, files=None):
+        if not self.email:
+            return
+
+        email = EmailMessage(
+            subject,
+            content,
+            settings.EMAIL_SENDER,
+            [self.email],
+        )
+
+        if files:
+            for data in files:
+                email.attach(data["name"], data["content"])
+
+        return email.send()
