@@ -27,6 +27,7 @@ class InvoiceSellFactory(factory.django.DjangoModelFactory):
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+    is_settled = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceBuyFactory(factory.django.DjangoModelFactory):
@@ -44,6 +45,7 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
         "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
     )
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
+    is_settled = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceSellDictFactory(factory.DictFactory):
@@ -59,6 +61,7 @@ class InvoiceSellDictFactory(factory.DictFactory):
     )
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+    is_settled = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceBuyDictFactory(factory.DictFactory):
@@ -72,3 +75,4 @@ class InvoiceBuyDictFactory(factory.DictFactory):
         "date_between_dates", date_start=factory.SelfAttribute("..payment_date")
     )
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
+    is_settled = factory.fuzzy.FuzzyChoice([True, False])
