@@ -129,5 +129,3 @@ def send_monthly_summary_to_recipients():
                 for invoice in invoices:
                     invoice.is_settled = True
                     invoice.save()
-
-
