@@ -125,8 +125,9 @@ def send_monthly_summary_to_recipients():
         for summary_recipient in summary_recipients:
             summary_recipient.send_email(subject, content, files)
 
-            # todo
             if summary_recipient.final_call:
-                "zamknięcie miesiąca"
-                pass
+                for invoice in invoices:
+                    invoice.is_settled = True
+                    invoice.save()
+
 
