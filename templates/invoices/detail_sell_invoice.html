@@ -68,10 +68,12 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-            </div>
+            {% if not invoice.is_settled %}
+                <div class="col text-center">
+                    <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                </div>
+            {% endif %}
         </div>
         <div class="row mt-2">
             {% if invoice.items.exists %}
@@ -87,7 +89,9 @@
                             <th>Vat</th>
                             <th>Wartość vat</th>
                             <th>Wartość brutto</th>
-                            <th>Opcje</th>
+                            {% if not invoice.is_settled %}
+                                <th>Opcje</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
@@ -103,8 +107,10 @@
                                 <td>{{ item.tax_amount|floatformat:"2g" }}</td>
                                 <td>{{ item.gross_amount|floatformat:"2g" }}</td>
                                 <td>
-                                    <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
-                                    <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
+                                    {% if not invoice.is_settled %}
+                                        <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
+                                        <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -118,11 +124,13 @@
             </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+        {% if not invoice.is_settled %}
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="col text-center">
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:list_invoices' %}">Powrót</a>
