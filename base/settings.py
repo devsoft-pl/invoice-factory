@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "factory_generator",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     "invoices",
     "companies",
     "countries",
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -179,3 +181,8 @@ EMAIL_SENDER = env("EMAIL_SENDER")
 CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
 
 AUTH_USER_MODEL = "users.User"
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
