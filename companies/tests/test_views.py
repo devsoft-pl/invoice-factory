@@ -330,3 +330,34 @@ class TestDeleteCompany(TestCompany):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+
+class TestSettingsCompany(TestCompany):
+    def setUp(self) -> None:
+        super().setUp()
+        self.company = self.user_companies[0]
+        self.url = reverse("companies:settings_company", args=[self.company.pk])
+
+    def test_settings_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_settings_if_logged(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/settings_company.html")
+        self.assertEqual(self.company.pk, response.context["company"].pk)
+
+    def test_return_404_if_not_my_company(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_company = CompanyFactory()
+        url = reverse("companies:settings_company", args=[other_company.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
