@@ -35,9 +35,6 @@ class SummaryRecipient(models.Model):
         return self.description
 
     def send_email(self, subject, content, files=None):
-        if not self.email:
-            return
-
         email = EmailMessage(
             subject,
             content,
