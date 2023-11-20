@@ -7,6 +7,7 @@ from countries.views_api import CountryViewSet
 from currencies.views_api import CurrencyViewSet
 from invoices.views_api import InvoiceViewSet
 from items.views_api import ItemViewSet
+from persons.views_api import PersonViewSet
 from summary_recipients.views_api import SummaryRecipientViewSet
 from users.views_api import UserViewSet
 from vat_rates.views_api import VatRateViewSet
@@ -21,6 +22,7 @@ router.register(r"invoices", InvoiceViewSet)
 router.register(r"items", ItemViewSet)
 router.register(r"accountants", AccountantViewSet)
 router.register(r"summary_recipients", SummaryRecipientViewSet)
+router.register(r"persons", PersonViewSet)
 
 
 urlpatterns = [
