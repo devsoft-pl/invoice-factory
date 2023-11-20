@@ -21,6 +21,7 @@ urlpatterns = (
         path("reports/", include("reports.urls")),
         path("accountants/", include("accountants.urls")),
         path("summary_recipients/", include("summary_recipients.urls")),
+        path("persons/", include("persons.urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
