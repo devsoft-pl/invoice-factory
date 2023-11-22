@@ -64,7 +64,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.country.label_tag }}</div>
                     <div class="col-2">{{ form.country }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'countries:create_country' %}?next={% url 'companies:create_company' %}">Dodaj</a>
+                        <a class="btn btn-primary" href="{% url 'countries:create_country' %}?next={% url 'persons:create_person' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.country.errors %}
