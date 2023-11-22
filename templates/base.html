@@ -30,10 +30,12 @@
                                         <a class="nav-link{% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{% if current_module == "companies" %} active{% endif %}" href="{% url 'companies:list_companies' %}">Kontrahenci</a>
+                                        <a class="nav-link{% if current_module == "my_companies" %} active{% endif %}" href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{% if current_module == "my_companies" %} active{% endif %}" href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
+                                        <a class="nav-link{% if current_module == "companies" %} active{% endif %}" href="{% url 'companies:list_companies' %}">Kontrahenci</a>
+                                    </li><li class="nav-item">
+                                        <a class="nav-link{% if current_module == "persons" %} active{% endif %}" href="{% url 'persons:list_persons' %}">Osoby fizyczne</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
