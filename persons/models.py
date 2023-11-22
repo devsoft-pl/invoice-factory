@@ -13,10 +13,17 @@ class Person(models.Model):
     country = models.ForeignKey(
         Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
     )
-    email = models.EmailField(verbose_name=_("Email"))
-    phone_number = models.CharField(verbose_name=_("Phone number"), max_length=20)
+    email = models.EmailField(verbose_name=_("Email"), blank=True, null=True)
+    phone_number = models.CharField(
+        verbose_name=_("Phone number"), max_length=20, blank=True, null=True
+    )
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.get_full_name()
+
+
 
 
