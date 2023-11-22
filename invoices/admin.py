@@ -15,7 +15,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         "net_amount",
         "gross_amount",
         "currency",
-        "is_settled"
+        "is_settled",
     )
     list_filter = (
         "is_recurring",

@@ -14,5 +14,4 @@ class Person(models.Model):
         Country, verbose_name=_("Country"), on_delete=models.CASCADE, null=True
     )
     email = models.EmailField(verbose_name=_("Email"))
-    phone_number = models.CharField(
-        verbose_name=_("Phone number"), max_length=20)
+    phone_number = models.CharField(verbose_name=_("Phone number"), max_length=20)

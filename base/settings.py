@@ -184,6 +184,4 @@ CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
 AUTH_USER_MODEL = "users.User"
 
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
-]
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
