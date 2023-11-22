@@ -1,0 +1,79 @@
+{% extends "base.html" %}{% load static %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Osoby fizyczne</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'persons:list_persons' %}" method='get'>
+                <div class="d-flex justify-content-between mt-3">
+                    {{ filter_form.as_div }}
+                    <div class="d-grid gap-2 col-2 ">
+                        <button class="btn btn-primary">Szukaj</button>
+                        <a class="btn btn-outline-primary" href="{% url 'persons:list_persons' %}">Wyczyść</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row mt-2">
+            {% if persons %}
+                <table class="table table-hover text-center mt-4">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Lp.</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Adres</th>
+                            <th>Kod pocztowy</th>
+                            <th>Miasto</th>
+                            <th>Państwo</th>
+                            <th>Email</th>
+                            <th>Numer telefonu</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for person in persons %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ person.first_name }}</td>
+                                <td>{{ person.last_name }}</td>
+                                <td>{{ person.address }}</td>
+                                <td>{{ person.zip_code }}</td>
+                                <td>{{ person.city }}</td>
+                                <td>{{ person.country }}</td>
+                                <td>{{ person.email }}</td>
+                                <td>{{ person.phone_number }}</td>
+                                <td>
+                                    <a href="{% url 'persons:detail_person' person.pk %}">Więcej</a>
+                                    <a href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
+                                    <a href="{% url 'persons:detail_person' person.pk %}">Usuń</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="row mt-3">
+                    <div class="col">
+                        <b>Brak osób fizycznych</b>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mt-3" href="{% url 'persons:create_person' %}">Dodaj osobę fizyczną</a></h3>
+            </div>
+        </div>
+        <div class="row">
+            {% include "pagination.html" with page=companies %}
+        </div>
+    </div>
+{% endblock content %}
