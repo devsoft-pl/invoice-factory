@@ -15,3 +15,8 @@ class Person(models.Model):
     )
     email = models.EmailField(verbose_name=_("Email"))
     phone_number = models.CharField(verbose_name=_("Phone number"), max_length=20)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
