@@ -1,6 +1,6 @@
 from django import forms
-from django.utils.translation import gettext as _
 from django.core.validators import RegexValidator
+from django.utils.translation import gettext as _
 
 from countries.models import Country
 from persons.models import Person
@@ -17,7 +17,6 @@ phone_number_validator = RegexValidator(
 
 
 class PersonForm(forms.ModelForm):
-
     class Meta:
         model = Person
         fields = [
@@ -28,14 +27,14 @@ class PersonForm(forms.ModelForm):
             "city",
             "country",
             "email",
-            "phone_number"
+            "phone_number",
         ]
 
-    def __init__(self, current_user, *args, **kwargs):
+    def __init__(self, country_user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.current_user = current_user
+        self.country_user = country_user
         self.fields["country"].queryset = Country.objects.filter(
-            user=current_user
+            user=country_user
         ).order_by("country")
 
         for field in self.Meta.fields:
