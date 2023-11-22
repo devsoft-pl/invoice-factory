@@ -4,14 +4,19 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
-from persons.forms import PersonForm
+from persons.forms import PersonFilterForm, PersonForm
 from persons.models import Person
 
 
 @login_required
 def list_persons_view(request):
-    persons = Person.objects.filter(country__user=request.user)
-    paginator = Paginator(persons, 10)
+    persons_list = Person.objects.filter(country__user=request.user)
+
+    filter_form = PersonFilterForm(request.GET)
+    if filter_form.is_valid():
+        persons_list = filter_form.get_filtered_persons(persons_list)
+
+    paginator = Paginator(persons_list, 10)
     page = request.GET.get("page")
     try:
         persons = paginator.page(page)
@@ -20,7 +25,11 @@ def list_persons_view(request):
     except EmptyPage:
         persons = paginator.page(paginator.num_pages)
 
-    context = {"persons": persons, "current_module": "countries"}
+    context = {
+        "persons": persons,
+        "filter_form": filter_form,
+        "current_module": "persons",
+    }
     return render(request, "persons/list_persons.html", context)
 
 
