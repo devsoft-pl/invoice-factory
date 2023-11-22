@@ -17,7 +17,7 @@
                 {{ form.next }}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.first_name.label_tag }}</div>
-                    <div class="col-4">{{ form.first_name }}</div>
+                    <div class="col-2">{{ form.first_name }}</div>
                 </div>
                 {% if form.first_name.errors %}
                     <div class="row">
@@ -26,7 +26,7 @@
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.last_name.label_tag }}</div>
-                    <div class="col-2">{{ form.last_name }}</div>
+                    <div class="col-3">{{ form.last_name }}</div>
                 </div>
                 {% if form.last_name.errors %}
                     <div class="row">
@@ -35,7 +35,7 @@
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.address.label_tag }}</div>
-                    <div class="col-2">{{ form.address }}</div>
+                    <div class="col-3">{{ form.address }}</div>
                 </div>
                 {% if form.address.errors %}
                     <div class="row">
@@ -44,7 +44,7 @@
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.zip_code.label_tag }}</div>
-                    <div class="col-2">{{ form.zip_code }}</div>
+                    <div class="col-1">{{ form.zip_code }}</div>
                 </div>
                 {% if form.zip_code.errors %}
                     <div class="row">
@@ -53,7 +53,7 @@
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.city.label_tag }}</div>
-                    <div class="col-4">{{ form.city }}</div>
+                    <div class="col-3">{{ form.city }}</div>
                 </div>
                 {% if form.city.errors %}
                     <div class="row">
@@ -83,7 +83,7 @@
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.phone_number.label_tag }}</div>
-                    <div class="col-3">{{ form.phone_number }}</div>
+                    <div class="col-2">{{ form.phone_number }}</div>
                 </div>
                 {% if form.phone_number.errors %}
                     <div class="row">

@@ -1,0 +1,54 @@
+{% extends "base.html" %}{% load static %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'persons:list_persons' %}">Osoby fizyczne</a></li>
+                    <ol class="breadcrumb-item active" aria-current="page">{{ person.get_full_name }}</ol>
+                </ol>
+            </nav>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Imię:</div>
+            <div class="col-4">{{ person.first_name }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Nazwisko:</div>
+            <div class="col-4">{{ person.last_name }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Adres:</div>
+            <div class="col-4">{{ person.address }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Kod pocztowy:</div>
+            <div class="col-4">{{ person.zip_code }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Miasto:</div>
+            <div class="col-4">{{ person.city }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Kraj:</div>
+            <div class="col-2">{{ person.country }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Email:</div>
+            <div class="col-4">{{ person.email|default_if_none:"-" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Numer telefonu:</div>
+            <div class="col-4">{{ person.phone_number|default_if_none:"-" }}</div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-primary mt-3" href="{% url 'persons:list_persons' %}">Powrót</a>
+                <a class="btn btn-primary mt-3" href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
+                <a class="btn btn-primary mt-3" href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

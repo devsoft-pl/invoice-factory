@@ -30,9 +30,6 @@
                             <th>Imię</th>
                             <th>Nazwisko</th>
                             <th>Adres</th>
-                            <th>Kod pocztowy</th>
-                            <th>Miasto</th>
-                            <th>Państwo</th>
                             <th>Email</th>
                             <th>Numer telefonu</th>
                             <th>Opcje</th>
@@ -44,16 +41,21 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ person.first_name }}</td>
                                 <td>{{ person.last_name }}</td>
-                                <td>{{ person.address }}</td>
-                                <td>{{ person.zip_code }}</td>
-                                <td>{{ person.city }}</td>
-                                <td>{{ person.country }}</td>
-                                <td>{{ person.email }}</td>
-                                <td>{{ person.phone_number }}</td>
+                                <td>{{ person.address }}, {{ person.zip_code }} {{ person.city }}</td>
+                                {% if person.email %}
+                                    <td>{{ person.email }}</td>
+                                {% else %}
+                                    <td>-</td>
+                                {% endif %}
+                                {% if person.phone_number %}
+                                    <td>{{ person.phone_number }}</td>
+                                {% else %}
+                                    <td>-</td>
+                                {% endif %}
                                 <td>
                                     <a href="{% url 'persons:detail_person' person.pk %}">Więcej</a>
                                     <a href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
-                                    <a href="{% url 'persons:detail_person' person.pk %}">Usuń</a>
+                                    <a href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
                                 </td>
                             </tr>
                         {% endfor %}
