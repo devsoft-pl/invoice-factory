@@ -27,6 +27,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "recurring_frequency",
             "settlement_date",
             "client",
+            "person",
             "invoice_file",
         ]
 
