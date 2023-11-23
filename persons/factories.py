@@ -2,6 +2,7 @@ import factory
 
 from countries.factories import CountryFactory
 from persons.models import Person
+from users.factories import UserFactory
 
 
 class PersonFactory(factory.django.DjangoModelFactory):
@@ -16,6 +17,7 @@ class PersonFactory(factory.django.DjangoModelFactory):
     country = factory.SubFactory(CountryFactory)
     email = factory.Sequence(lambda n: "test_%03d@test.pl" % n)
     phone_number = factory.Sequence(lambda n: "Phone %03d" % n)
+    user = factory.SubFactory(UserFactory)
 
 
 class PersonDictFactory(factory.DictFactory):
