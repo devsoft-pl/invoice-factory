@@ -8,6 +8,7 @@ from num2words import num2words
 
 from companies.models import Company
 from currencies.models import Currency, ExchangeRate
+from persons.models import Person
 
 
 class Invoice(models.Model):
@@ -51,6 +52,7 @@ class Invoice(models.Model):
         on_delete=models.CASCADE,
         related_name="invoice",
     )
+    person = models.ForeignKey(Person, verbose_name=_("Person"), on_delete=models.CASCADE, related_name="invoices", null=True, blank=True)
     recurring_frequency = models.IntegerField(
         verbose_name=_("Recurring frequency"), choices=FREQUENCY, null=True, blank=True
     )
