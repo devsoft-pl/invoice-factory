@@ -24,8 +24,4 @@ class Migration(migrations.Migration):
                 verbose_name="Użytkownik",
             ),
         ),
-        migrations.AlterUniqueTogether(
-            name="invoice",
-            unique_together={("invoice_number", "user")},
-        ),
     ]
