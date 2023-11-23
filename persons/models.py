@@ -22,6 +22,10 @@ class Person(models.Model):
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
+    class Meta:
+        verbose_name_plural = _("companies")
+        unique_together = ["first_name", "last_name", "address", "zip_code", "city"]
+
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
