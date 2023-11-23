@@ -24,6 +24,7 @@ class Person(models.Model):
 
     class Meta:
         verbose_name_plural = _("companies")
+        ordering = ["last_name"]
         unique_together = ["first_name", "last_name", "address", "zip_code", "city"]
 
     def get_full_name(self):
