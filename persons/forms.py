@@ -38,11 +38,11 @@ class PersonForm(forms.ModelForm):
             "phone_number",
         ]
 
-    def __init__(self, country_user, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.country_user = country_user
+        self.user = user
         self.fields["country"].queryset = Country.objects.filter(
-            user=country_user
+            user=user
         ).order_by("country")
 
         for field in self.Meta.fields:
