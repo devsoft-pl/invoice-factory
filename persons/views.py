@@ -10,7 +10,7 @@ from persons.models import Person
 
 @login_required
 def list_persons_view(request):
-    persons_list = Person.objects.filter(country__user=request.user)
+    persons_list = Person.objects.filter(user=request.user)
 
     filter_form = PersonFilterForm(request.GET)
     if filter_form.is_valid():
@@ -47,9 +47,9 @@ def detail_person_view(request, person_id):
 @login_required
 def create_person_view(request):
     if request.method != "POST":
-        form = PersonForm(country_user=request.user)
+        form = PersonForm(user=request.user)
     else:
-        form = PersonForm(country_user=request.user, data=request.POST)
+        form = PersonForm(user=request.user, data=request.POST)
 
         if form.is_valid():
             person = form.save(commit=False)
@@ -71,9 +71,9 @@ def replace_person_view(request, person_id):
         raise Http404(_("Person does not exist"))
 
     if request.method != "POST":
-        form = PersonForm(country_user=request.user, instance=person)
+        form = PersonForm(user=request.user, instance=person)
     else:
-        form = PersonForm(country_user=request.user, instance=person, data=request.POST)
+        form = PersonForm(user=request.user, instance=person, data=request.POST)
 
     if form.is_valid():
         form.save()
