@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 from countries.models import Country
+from users.models import User
 
 
 class Person(models.Model):
@@ -16,6 +17,9 @@ class Person(models.Model):
     email = models.EmailField(verbose_name=_("Email"), blank=True, null=True)
     phone_number = models.CharField(
         verbose_name=_("Phone number"), max_length=20, blank=True, null=True
+    )
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
     def get_full_name(self):
