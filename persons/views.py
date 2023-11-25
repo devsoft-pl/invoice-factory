@@ -67,13 +67,13 @@ def create_person_view(request):
 def replace_person_view(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
 
-    if person.country.user != request.user:
+    if person.user != request.user:
         raise Http404(_("Person does not exist"))
 
     if request.method != "POST":
-        form = PersonForm(user=request.user, instance=person)
+        form = PersonForm(current_user=request.user, instance=person)
     else:
-        form = PersonForm(user=request.user, instance=person, data=request.POST)
+        form = PersonForm(current_user=request.user, instance=person, data=request.POST)
 
     if form.is_valid():
         form.save()
