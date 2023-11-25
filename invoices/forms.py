@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from companies.models import Company
 from currencies.models import Currency
 from invoices.models import Invoice
+from persons.models import Person
 
 invoice_number_validator = RegexValidator(
     r"^[0-9]+/[0-9]{4}$",
@@ -45,6 +46,60 @@ class InvoiceSellForm(forms.ModelForm):
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
         ).order_by("code")
+        invoice_number_field: forms.CharField = self.fields["invoice_number"]
+        invoice_number_field.validators = [invoice_number_validator]
+
+        account_number_field: forms.CharField = self.fields["account_number"]
+        account_number_field.validators = [account_number_validator]
+
+        for field in self.Meta.fields:
+            if field == "is_recurring":
+                continue
+            self.fields[field].widget.attrs["class"] = "form-control"
+            self.fields[field].required = True
+
+    def clean_invoice_number(self):
+        invoice_number = self.cleaned_data.get("invoice_number")
+        invoice = Invoice.objects.filter(
+            invoice_number=invoice_number,
+            company__user=self.current_user,
+        )
+
+        if self.instance.pk:
+            invoice = invoice.exclude(pk=self.instance.pk)
+
+        if invoice.exists():
+            raise forms.ValidationError(_("Invoice number already exists"))
+
+        return invoice_number
+
+
+class InvoiceSellPersonForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = [
+            "invoice_number",
+            "company",
+            "person",
+            "create_date",
+            "sale_date",
+            "payment_date",
+            "payment_method",
+            "currency",
+            "account_number",
+            "is_recurring",
+        ]
+
+    def __init__(self, current_user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_user = current_user
+
+        self.fields["company"].queryset = Company.objects.filter(
+            user=current_user, is_my_company=True
+        ).order_by("name")
+        self.fields["person"].queryset = Person.objects.filter(user=current_user)
+        self.fields["currency"].queryset = Currency.objects.filter(user=current_user).order_by("code")
+
         invoice_number_field: forms.CharField = self.fields["invoice_number"]
         invoice_number_field.validators = [invoice_number_validator]
 
