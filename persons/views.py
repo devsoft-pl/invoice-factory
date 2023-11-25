@@ -47,13 +47,13 @@ def detail_person_view(request, person_id):
 @login_required
 def create_person_view(request):
     if request.method != "POST":
-        form = PersonForm(user=request.user)
+        form = PersonForm(current_user=request.user)
     else:
-        form = PersonForm(user=request.user, data=request.POST)
+        form = PersonForm(current_user=request.user, data=request.POST)
 
         if form.is_valid():
             person = form.save(commit=False)
-            person.country.user = request.user
+            person.user = request.user
 
             person.save()
 
