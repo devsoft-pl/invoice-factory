@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-09 22:30+0100\n"
+"POT-Creation-Date: 2023-11-25 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,12 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: accountants/admin.py:13 companies/admin.py:21 countries/admin.py:13
-#: currencies/admin.py:13 invoices/admin.py:30 vat_rates/admin.py:13
+#: currencies/admin.py:13 invoices/admin.py:31 persons/admin.py:20
+#: vat_rates/admin.py:13
 msgid "Basic information"
 msgstr "Podstawowe informacje"
 
-#: accountants/forms.py:8 companies/forms.py:25
+#: accountants/forms.py:8 companies/forms.py:25 persons/forms.py:23
 msgid "Enter phone number with 9 numbers only"
 msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
@@ -34,16 +35,16 @@ msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 msgid "Name"
 msgstr "Nazwa"
 
-#: accountants/models.py:10 companies/models.py:23
+#: accountants/models.py:10 companies/models.py:23 persons/models.py:17
 #: summary_recipients/models.py:28 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
-#: accountants/models.py:12 companies/models.py:25
+#: accountants/models.py:12 companies/models.py:25 persons/models.py:19
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:16 invoices/forms.py:120 invoices/models.py:50
+#: accountants/models.py:16 invoices/forms.py:177 invoices/models.py:51
 #: summary_recipients/models.py:23
 msgid "Company"
 msgstr "Firma"
@@ -78,11 +79,11 @@ msgstr "Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"
 msgid "Enter regon in numbers only with minimum 9 character"
 msgstr "Wpisz Regon składający się z min. 9 liczb"
 
-#: companies/forms.py:19
+#: companies/forms.py:19 persons/forms.py:17
 msgid "Zip code in numbers only in format xx-xxx"
 msgstr "Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"
 
-#: companies/forms.py:22
+#: companies/forms.py:22 persons/forms.py:20
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko w postaci liter"
 
@@ -102,24 +103,24 @@ msgstr "NIP"
 msgid "Regon"
 msgstr "Regon"
 
-#: companies/models.py:18 countries/models.py:8
+#: companies/models.py:18 countries/models.py:8 persons/models.py:15
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:20
+#: companies/models.py:20 persons/models.py:11
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:21
+#: companies/models.py:21 persons/models.py:12
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:22
+#: companies/models.py:22 persons/models.py:13
 msgid "City"
 msgstr "Miasto"
 
 #: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: vat_rates/models.py:12
+#: persons/models.py:22 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
@@ -127,7 +128,7 @@ msgstr "Użytkownik"
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:41
+#: companies/models.py:41 persons/models.py:26
 msgid "companies"
 msgstr "firmy"
 
@@ -193,7 +194,7 @@ msgstr "Kurs sprzedaży"
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:52 invoices/models.py:74
+#: currencies/models.py:52 invoices/models.py:83
 msgid "Currency"
 msgstr "Waluta"
 
@@ -201,110 +202,114 @@ msgstr "Waluta"
 msgid "Currency does not exist"
 msgstr "Waluta nie istnieje"
 
-#: invoices/admin.py:40
+#: invoices/admin.py:41
 msgid "Advanced options"
 msgstr "Zaawansowane opcje"
 
-#: invoices/admin.py:49
+#: invoices/admin.py:50
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:11
+#: invoices/forms.py:12
 msgid "Enter invoice number in numbers only in format number/yyyy"
 msgstr ""
 "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
 
-#: invoices/forms.py:16
+#: invoices/forms.py:17
 msgid ""
 "Enter account number with minimum 15 character without special characters"
 msgstr ""
 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
 
-#: invoices/forms.py:71 invoices/forms.py:109
+#: invoices/forms.py:72 invoices/forms.py:128 invoices/forms.py:166
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:115 invoices/models.py:43
+#: invoices/forms.py:172 invoices/models.py:44
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:117 invoices/models.py:46
+#: invoices/forms.py:174 invoices/models.py:47
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:119 invoices/models.py:84
+#: invoices/forms.py:176 invoices/models.py:93
 msgid "Client"
 msgstr "Kontrahent"
 
-#: invoices/models.py:18
+#: invoices/models.py:19
 msgid "Sales"
 msgstr "Sprzedaż"
 
-#: invoices/models.py:19
+#: invoices/models.py:20
 msgid "Purchase"
 msgstr "Zakupy"
 
-#: invoices/models.py:26
+#: invoices/models.py:27
 msgid "Transfer"
 msgstr "Przelew"
 
-#: invoices/models.py:27
+#: invoices/models.py:28
 msgid "Cash"
 msgstr "Gotówka"
 
-#: invoices/models.py:36
+#: invoices/models.py:37
 msgid "Weekly"
 msgstr "Co tydzień"
 
-#: invoices/models.py:37
+#: invoices/models.py:38
 msgid "Biweekly"
 msgstr "Co dwa tygodnie"
 
-#: invoices/models.py:38 summary_recipients/models.py:16
+#: invoices/models.py:39 summary_recipients/models.py:16
 msgid "Monthly"
 msgstr "Co miesiąc"
 
-#: invoices/models.py:39
+#: invoices/models.py:40
 msgid "Three month"
 msgstr "Co trzy miesiące"
 
-#: invoices/models.py:55
+#: invoices/models.py:57
+msgid "Person"
+msgstr "Konsument"
+
+#: invoices/models.py:64
 msgid "Recurring frequency"
 msgstr "Cykliczna częstotliwość"
 
-#: invoices/models.py:57
+#: invoices/models.py:66
 msgid "Recurring"
 msgstr "Cykliczna"
 
-#: invoices/models.py:58
+#: invoices/models.py:67
 msgid "Settled"
 msgstr "Rozliczona"
 
-#: invoices/models.py:60
+#: invoices/models.py:69
 msgid "Settlement date"
 msgstr "Data rozliczenia"
 
-#: invoices/models.py:63
+#: invoices/models.py:72
 msgid "Create date"
 msgstr "Data utworzenia"
 
-#: invoices/models.py:65
+#: invoices/models.py:74
 msgid "Sale date"
 msgstr "Data sprzedaży"
 
-#: invoices/models.py:67
+#: invoices/models.py:76
 msgid "Payment date"
 msgstr "Data płatności"
 
-#: invoices/models.py:70
+#: invoices/models.py:79
 msgid "Payment method"
 msgstr "Rodzaj płatności"
 
-#: invoices/models.py:80
+#: invoices/models.py:89
 msgid "Account number"
 msgstr "Numer konta"
 
-#: invoices/models.py:91
+#: invoices/models.py:100
 msgid "Invoice file"
 msgstr "Typ faktury"
 
@@ -337,8 +342,8 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/views.py:50 invoices/views.py:104 invoices/views.py:130
-#: invoices/views.py:153 invoices/views.py:165
+#: invoices/views.py:47 invoices/views.py:120 invoices/views.py:151
+#: invoices/views.py:174 invoices/views.py:186
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 
@@ -366,6 +371,34 @@ msgstr "VAT"
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
 
+#: persons/admin.py:14
+msgid "Person info"
+msgstr "Informacje o konsumencie"
+
+#: persons/admin.py:26
+msgid "Additional information"
+msgstr "Dodatkowe opcje"
+
+#: persons/forms.py:9
+msgid "Enter the first_name in letters only"
+msgstr "Wpisz imię tylko w postaci liter"
+
+#: persons/forms.py:13
+msgid "Enter the last_name in letters only"
+msgstr "Wpisz nazwisko tylko w postaci liter"
+
+#: persons/models.py:9 users/models.py:15
+msgid "First name"
+msgstr "Imię"
+
+#: persons/models.py:10 users/models.py:16
+msgid "Last name"
+msgstr "Nazwisko"
+
+#: persons/views.py:41 persons/views.py:71 persons/views.py:92
+msgid "Person does not exist"
+msgstr "Konsument nie istnieje"
+
 #: summary_recipients/models.py:17
 msgid "Quarterly"
 msgstr "Kwartalnie"
@@ -382,25 +415,21 @@ msgstr "Dzień wysłania"
 msgid "Settlement types"
 msgstr "Rodzaj rozliczenia"
 
+#: summary_recipients/models.py:32
+msgid "Final call"
+msgstr "Ostateczne rozliczenie"
+
 #: summary_recipients/views.py:53 summary_recipients/views.py:80
 msgid "Summary recipient does not exist"
 msgstr "Odbiorca podsumowania nie istnieje"
 
 #: users/forms.py:10
 msgid "Enter first name in letters only"
-msgstr "Wpisz imię w postaci liter"
+msgstr "Wpisz imię tylko w postaci liter"
 
 #: users/forms.py:14
 msgid "Enter last name in letters only"
 msgstr "Wpisz nazwisko tylko w postaci liter"
-
-#: users/models.py:15
-msgid "First name"
-msgstr "Imię"
-
-#: users/models.py:16
-msgid "Last name"
-msgstr "Nazwisko"
 
 #: users/models.py:18
 msgid "Staff status"
