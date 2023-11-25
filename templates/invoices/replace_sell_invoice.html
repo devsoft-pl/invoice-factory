@@ -46,17 +46,32 @@
                         <div class="col-auto offset-5 text-danger">{{ form.company.errors }}</div>
                     </div>
                 {% endif %}
-                <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
-                    <div class="col-3">{{ form.client }}</div>
-                    <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
-                </div>
-                {% if form.client.errors %}
-                    <div class="row">
-                        <div class="col-auto offset-5 text-danger">
-                            {{ form.client.errors }}
-                        </div>
+                {% if form.instance.client %}
+                    <div class="row mb-2">
+                        <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
+                        <div class="col-3">{{ form.client }}</div>
+                        <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
                     </div>
+                    {% if form.client.errors %}
+                        <div class="row">
+                            <div class="col-auto offset-5 text-danger">
+                                {{ form.client.errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="row mb-2">
+                        <div class="col-2 offset-3 text-end">{{ form.person.label_tag }}</div>
+                        <div class="col-3">{{ form.person }}</div>
+                        <div class="col"><a class="btn btn-primary" href="{% url 'persons:create_person' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
+                    </div>
+                    {% if form.person.errors %}
+                        <div class="row">
+                            <div class="col-auto offset-5 text-danger">
+                                {{ form.person.errors }}
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.create_date.label_tag }}</div>
