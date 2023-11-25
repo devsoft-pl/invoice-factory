@@ -30,7 +30,7 @@
                             <th>Nr faktury</th>
                             <th>Typ faktury</th>
                             <th>Firma</th>
-                            <th>Kontrahent</th>
+                            <th>Kontrahent/Konsument</th>
                             <th>Data płatności</th>
                             <th>Wartość netto</th>
                             <th>Wartość brutto</th>
@@ -46,7 +46,13 @@
                                 <td>{{ invoice }}</td>
                                 <td>{{ invoice.get_invoice_type_display }}</td>
                                 <td>{{ invoice.company.name }}</td>
-                                <td>{{ invoice.client.name }}</td>
+                                <td>
+                                    {% if invoice.client %}
+                                        {{ invoice.client.name }}
+                                    {% else %}
+                                        {{ invoice.person.get_full_name }}
+                                    {% endif %}
+                                </td>
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
                                 <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>

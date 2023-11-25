@@ -20,8 +20,13 @@
             <div class="col-4">{{ invoice.company }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Kontrahent:</div>
-            <div class="col-4">{{ invoice.client }}</div>
+            {% if invoice.client %}
+                <div class="col-3 offset-3 text-end">Kontrahent:</div>
+                <div class="col-4">{{ invoice.client }}</div>
+            {% else%}
+                <div class="col-3 offset-3 text-end">Konsument:</div>
+                <div class="col-4">{{ invoice.person }}</div>
+            {% endif %}
         </div>
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Data utworzenia:</div>
