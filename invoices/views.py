@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from xhtml2pdf import pisa
 
-from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm, InvoiceSellPersonForm
+from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
+                            InvoiceSellPersonForm)
 from invoices.models import Invoice
 
 

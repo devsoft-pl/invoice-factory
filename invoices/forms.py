@@ -98,7 +98,9 @@ class InvoiceSellPersonForm(forms.ModelForm):
             user=current_user, is_my_company=True
         ).order_by("name")
         self.fields["person"].queryset = Person.objects.filter(user=current_user)
-        self.fields["currency"].queryset = Currency.objects.filter(user=current_user).order_by("code")
+        self.fields["currency"].queryset = Currency.objects.filter(
+            user=current_user
+        ).order_by("code")
 
         invoice_number_field: forms.CharField = self.fields["invoice_number"]
         invoice_number_field.validators = [invoice_number_validator]

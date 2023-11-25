@@ -41,7 +41,9 @@ class PersonForm(forms.ModelForm):
     def __init__(self, current_user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.current_user = current_user
-        self.fields["country"].queryset = Country.objects.filter(user=current_user).order_by("country")
+        self.fields["country"].queryset = Country.objects.filter(
+            user=current_user
+        ).order_by("country")
 
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"

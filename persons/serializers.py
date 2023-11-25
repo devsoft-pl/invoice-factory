@@ -16,5 +16,5 @@ class PersonSerializer(serializers.ModelSerializer):
             "country",
             "email",
             "phone_number",
-            "user"
+            "user",
         ]
