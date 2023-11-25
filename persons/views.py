@@ -88,7 +88,7 @@ def replace_person_view(request, person_id):
 def delete_person_view(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
 
-    if person.country.user != request.user:
+    if person.user != request.user:
         raise Http404(_("Person does not exist"))
 
     person.delete()
