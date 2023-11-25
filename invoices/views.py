@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from xhtml2pdf import pisa
 
-from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm
+from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm, InvoiceSellPersonForm
 from invoices.models import Invoice
 
 
@@ -93,16 +93,40 @@ def create_buy_invoice_view(request):
 
 
 @login_required
+def create_sell_person_invoice_view(request):
+    if request.method != "POST":
+        form = InvoiceSellPersonForm(current_user=request.user)
+    else:
+        form = InvoiceSellPersonForm(current_user=request.user, data=request.POST)
+
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.invoice_type = Invoice.INVOICE_SALES
+
+            invoice.save()
+
+            return redirect("invoices:list_invoices")
+
+    context = {"form": form}
+    return render(request, "invoices/create_sell_person_invoice.html", context)
+
+
+@login_required
 def replace_sell_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
 
-    if request.method != "POST":
-        form = InvoiceSellForm(instance=invoice, current_user=request.user)
+    if invoice.person:
+        form_klass = InvoiceSellPersonForm
     else:
-        form = InvoiceSellForm(
+        form_klass = InvoiceSellForm
+
+    if request.method != "POST":
+        form = form_klass(instance=invoice, current_user=request.user)
+    else:
+        form = form_klass(
             instance=invoice,
             data=request.POST,
             files=request.FILES,
