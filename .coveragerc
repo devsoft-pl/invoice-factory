@@ -18,3 +18,4 @@ omit =
     base/runner.py
     */tests/*
     */migrations/*
+    factories.py
