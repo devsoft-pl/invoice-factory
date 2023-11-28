@@ -86,8 +86,8 @@ class TestDetailPersons(TestPerson):
     def test_return_404_if_not_my_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        self.other_person = PersonFactory()
-        url = reverse("persons:detail_person", args=[self.other_person.pk])
+        other_person = PersonFactory()
+        url = reverse("persons:detail_person", args=[other_person.pk])
 
         response = self.client.get(url)
 
@@ -98,7 +98,6 @@ class TestCreatePerson(TestPerson):
     def setUp(self) -> None:
         super().setUp()
         self.url = reverse("persons:create_person")
-        self.country = CountryFactory.create(user=self.user)
 
     def test_create_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
@@ -129,12 +128,13 @@ class TestCreatePerson(TestPerson):
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
 
+        country = CountryFactory.create(user=self.user)
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
             zip_code="01-453",
             city="Warszawa",
-            country=self.country.pk,
+            country=country.pk,
             email="test@test.pl",
             phone_number="123456789",
         )
@@ -187,7 +187,6 @@ class TestReplacePerson(TestPerson):
         super().setUp()
         self.person = self.user_persons[0]
         self.url = reverse("persons:replace_person", args=[self.person.pk])
-        self.country = CountryFactory.create(user=self.user)
 
     def test_replace_if_not_logged(self):
         response = self.client.get(self.url, follow=True)
@@ -218,12 +217,13 @@ class TestReplacePerson(TestPerson):
     def test_replace_with_valid_date(self):
         self.client.login(username=self.user.email, password="test")
 
+        country = CountryFactory.create(user=self.user)
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
             zip_code="01-453",
             city="Warszawa",
-            country=self.country.pk,
+            country=country.pk,
             email="test@test.pl",
             phone_number="123456789",
         )
@@ -246,8 +246,8 @@ class TestReplacePerson(TestPerson):
     def test_return_404_if_not_my_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        self.other_person = PersonFactory()
-        url = reverse("persons:replace_person", args=[self.other_person.pk])
+        other_person = PersonFactory()
+        url = reverse("persons:replace_person", args=[other_person.pk])
 
         response = self.client.get(url)
 
@@ -285,8 +285,8 @@ class TestDeletePerson(TestPerson):
     def test_return_404_if_not_my_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        self.other_person = PersonFactory()
-        url = reverse("persons:delete_person", args=[self.other_person.pk])
+        other_person = PersonFactory()
+        url = reverse("persons:delete_person", args=[other_person.pk])
 
         response = self.client.get(url)
 
