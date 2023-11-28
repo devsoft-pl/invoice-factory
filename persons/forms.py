@@ -70,10 +70,10 @@ class PersonFilterForm(forms.Form):
         address = self.cleaned_data["address"]
 
         if first_name:
-            persons_list = persons_list.filter(first_name__contains=first_name)
+            persons_list = persons_list.filter(first_name__icontains=first_name)
         if last_name:
-            persons_list = persons_list.filter(last_name__contains=last_name)
+            persons_list = persons_list.filter(last_name__icontains=last_name)
         if address:
-            persons_list = persons_list.filter(address__contains=address)
+            persons_list = persons_list.filter(address__icontains=address)
 
         return persons_list
