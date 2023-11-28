@@ -146,8 +146,8 @@ class TestPersonForm:
         is_valid = form.is_valid()
 
         assert form.errors == {
-            "first_name": ["Enter the first_name in letters only"],
-            "last_name": ["Enter the last_name in letters only"],
+            "first_name": ["Wpisz imię tylko w postaci liter"],
+            "last_name": ["Wpisz nazwisko tylko w postaci liter"],
             "zip_code": ["Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"],
             "city": ["Wpisz miasto tylko w postaci liter"],
             "phone_number": [
