@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 from parameterized import parameterized
@@ -258,3 +259,35 @@ class TestReplacePerson(TestPerson):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class TestDeletePerson(TestPerson):
+    def setUp(self) -> None:
+        super().setUp()
+        self.person = self.user_persons[0]
+        self.url = reverse("persons:delete_person", args=[self.person.pk])
+
+    def test_delete_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_delete_if_logged(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("persons:list_persons"))
+        with self.assertRaises(ObjectDoesNotExist):
+            Person.objects.get(pk=self.person.pk)
+
+    def test_return_404_if_not_my_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        self.other_person = PersonFactory()
+        url = reverse("persons:delete_person", args=[self.other_person.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
