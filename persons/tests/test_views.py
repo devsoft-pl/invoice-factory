@@ -179,3 +179,82 @@ class TestCreatePerson(TestPerson):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+
+class TestReplacePerson(TestPerson):
+    def setUp(self) -> None:
+        super().setUp()
+        self.person = self.user_persons[0]
+        self.url = reverse("persons:replace_person", args=[self.person.pk])
+        self.country = CountryFactory.create(user=self.user)
+
+    def test_replace_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "persons/replace_person.html")
+        self.assertFormError(
+            response.context["form"], "first_name", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "last_name", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "address", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "zip_code", "To pole jest wymagane."
+        )
+        self.assertFormError(response.context["form"], "city", "To pole jest wymagane.")
+
+    def test_replace_with_valid_date(self):
+        self.client.login(username=self.user.email, password="test")
+
+        data = PersonDictFactory(
+            first_name="Jan",
+            last_name="Kowalski",
+            zip_code="01-453",
+            city="Warszawa",
+            country=self.country.pk,
+            email="test@test.pl",
+            phone_number="123456789",
+        )
+
+        response = self.client.post(self.url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("persons:list_persons"))
+        self.assertTrue(
+            Person.objects.filter(
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                address=data["address"],
+                zip_code=data["zip_code"],
+                city=data["city"],
+                user=self.user,
+            ).exists()
+        )
+
+    def test_return_404_if_not_my_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        self.other_person = PersonFactory()
+        url = reverse("persons:replace_person", args=[self.other_person.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
