@@ -37,7 +37,7 @@ def list_persons_view(request):
 def detail_person_view(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
 
-    if person.country.user != request.user:
+    if person.user != request.user:
         raise Http404(_("Person does not exist"))
 
     context = {"person": person}
