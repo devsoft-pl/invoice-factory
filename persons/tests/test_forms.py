@@ -3,7 +3,7 @@ import pytest
 from countries.factories import CountryFactory
 from countries.models import Country
 from persons.factories import PersonDictFactory, PersonFactory
-from persons.forms import PersonForm, PersonFilterForm
+from persons.forms import PersonFilterForm, PersonForm
 from persons.models import Person
 from users.factories import UserFactory
 
@@ -23,7 +23,7 @@ class TestPersonForm:
             country=self.country,
             email="test@test.pl",
             phone_number="111111111",
-            user=self.user
+            user=self.user,
         )
         self.person_2 = PersonFactory.create(
             first_name="Orfeusz",
@@ -34,14 +34,15 @@ class TestPersonForm:
             country=self.country,
             email="test2@test.pl",
             phone_number="222222222",
-            user=self.user
+            user=self.user,
         )
 
     @pytest.mark.parametrize(
-        "person_last_name, expected_count", [["Mac", 1], ["Maciejewski", 1], ["wski", 2]]
+        "person_last_name, expected_count",
+        [["Mac", 1], ["Maciejewski", 1], ["wski", 2]],
     )
     def test_return_filtered_with_different_parts_of_person_last_name(
-            self, person_last_name, expected_count
+        self, person_last_name, expected_count
     ):
         request_get = {"last_name": person_last_name}
 
@@ -69,7 +70,7 @@ class TestPersonForm:
         "person_first_name, expected_count", [["Mat", 1], ["Mateusz", 1], ["eusz", 2]]
     )
     def test_return_filtered_with_different_parts_of_person_first_name(
-            self, person_first_name, expected_count
+        self, person_first_name, expected_count
     ):
         request_get = {"first_name": person_first_name}
 
@@ -97,7 +98,7 @@ class TestPersonForm:
         "person_address, expected_count", [["Mak", 1], ["Makowa", 1], ["kowa", 2]]
     )
     def test_return_filtered_with_different_parts_of_person_address(
-            self, person_address, expected_count
+        self, person_address, expected_count
     ):
         request_get = {"address": person_address}
 
