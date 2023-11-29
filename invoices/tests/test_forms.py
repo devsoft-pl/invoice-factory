@@ -6,7 +6,8 @@ from currencies.factories import CurrencyFactory
 from currencies.models import Currency
 from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
                                 InvoiceSellDictFactory, InvoiceSellFactory)
-from invoices.forms import InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm
+from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
+                            InvoiceSellPersonForm)
 from invoices.models import Invoice
 from users.factories import UserFactory
 
@@ -180,7 +181,7 @@ class TestSellInvoiceForm:
         assert form.is_valid()
         assert form.errors == {}
 
-    def test_clean_invoice_number_returns_error(self):
+    def test_clean_invoice_number_returns_error_for_client(self):
         data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
@@ -193,6 +194,28 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": ["Numer faktury już istnieje"],
+            "account_number": [
+                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+            ],
+        }
+
+    def test_clean_invoice_number_returns_error_for_person(self):
+        person = CompanyFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            company=self.company_1,
+            person=person,
+            currency=self.currency_1,
+            invoice_number=self.invoice_1.invoice_number,
+        )
+
+        form = InvoiceSellPersonForm(current_user=self.user, data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": ["Numer faktury już istnieje"],
+            "person": [
+                "Wybierz poprawną wartość. Podana nie jest jednym z dostępnych wyborów."
+            ],
             "account_number": [
                 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
             ],
