@@ -10,10 +10,12 @@ class Country(models.Model):
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
-    def __str__(self):
-        return self.country.capitalize()
-
     class Meta:
         verbose_name_plural = _("countries")
         ordering = ["country"]
         unique_together = ["country", "user"]
+
+    def __str__(self):
+        return self.country.capitalize()
+
+

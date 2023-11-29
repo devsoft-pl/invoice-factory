@@ -70,7 +70,7 @@ class TestCreateCountry(TestCountry):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_create_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -129,7 +129,7 @@ class TestReplaceCountry(TestCountry):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_replace_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})

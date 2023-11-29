@@ -11,6 +11,7 @@ from countries.models import Country
 @login_required
 def list_countries_view(request):
     countries_list = Country.objects.filter(user=request.user)
+
     paginator = Paginator(countries_list, 10)
     page = request.GET.get("page")
     try:
