@@ -12,13 +12,13 @@ class Currency(models.Model):
         User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
-    def __str__(self):
-        return self.code
-
     class Meta:
         verbose_name_plural = _("currencies")
         ordering = ["code"]
         unique_together = ["code", "user"]
+
+    def __str__(self):
+        return self.code
 
     @property
     def last_exchange_rate(self):
@@ -53,6 +53,9 @@ class ExchangeRate(models.Model):
         on_delete=models.CASCADE,
         related_name="exchange_rates",
     )
+
+    class Meta:
+        verbose_name_plural = _("exchange rates")
 
     def __str__(self):
         return f"{self.currency.code}: {self.date}"

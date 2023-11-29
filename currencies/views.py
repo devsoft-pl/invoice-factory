@@ -11,6 +11,7 @@ from currencies.models import Currency
 @login_required
 def list_currencies_view(request):
     currencies_list = Currency.objects.filter(user=request.user)
+
     paginator = Paginator(currencies_list, 10)
     page = request.GET.get("page")
     try:
