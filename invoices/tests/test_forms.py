@@ -167,6 +167,25 @@ class TestSellInvoiceForm:
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
 
+    def test_form_with_not_valid_data(self):
+        data = InvoiceSellDictFactory(
+            company=self.company_1,
+            client=self.client_1,
+        )
+        form = InvoiceSellForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
+
+        assert form.errors == {
+            "invoice_number": [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+            ],
+            "currency": ["To pole jest wymagane."],
+            "account_number": [
+                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+            ],
+        }
+        assert not is_valid
+
     def test_form_with_valid_data(self):
         data = InvoiceSellDictFactory(
             company=self.company_1,
@@ -177,9 +196,10 @@ class TestSellInvoiceForm:
         )
 
         form = InvoiceSellForm(current_user=self.user, data=data)
+        is_valid = form.is_valid()
 
-        assert form.is_valid()
         assert form.errors == {}
+        assert is_valid
 
     def test_clean_invoice_number_returns_error_for_client(self):
         data = InvoiceSellDictFactory(
