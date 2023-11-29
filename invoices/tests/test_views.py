@@ -6,8 +6,10 @@ from parameterized import parameterized
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
-                                InvoiceSellDictFactory, InvoiceSellFactory)
+                                InvoiceSellDictFactory, InvoiceSellFactory,
+                                InvoiceSellPersonFactory)
 from invoices.models import Invoice
+from persons.factories import PersonFactory
 from users.factories import UserFactory
 
 
@@ -163,7 +165,7 @@ class TestCreateSellInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_invalid_form_display_errors_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -175,9 +177,30 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
+        self.assertFormError(
+            response.context["form"], "client", "To pole jest wymagane."
+        )
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
-    def test_create_with_valid_data(self):
+    def test_invalid_form_display_errors_for_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        url = reverse("invoices:create_sell_person_invoice")
+        response = self.client.post(url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/create_sell_person_invoice.html")
+        self.assertFormError(
+            response.context["form"], "invoice_number", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "person", "To pole jest wymagane."
+        )
+
+    def test_create_with_valid_data_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         data = InvoiceSellDictFactory(
@@ -193,6 +216,41 @@ class TestCreateSellInvoice(TestInvoice):
         ).count()
 
         response = self.client.post(self.url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                company__user=self.user,
+            ).exists()
+        )
+        self.assertEqual(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                company__user=self.user,
+            ).count(),
+            invoices_before_create + 1,
+        )
+
+    def test_create_with_valid_data_for_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            invoice_number="1/2023",
+            company=self.company.pk,
+            person=person.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+        )
+        invoices_before_create = Invoice.objects.filter(
+            invoice_number=data["invoice_number"],
+            company__user=self.user,
+        ).count()
+
+        url = reverse("invoices:create_sell_person_invoice")
+        response = self.client.post(url, data=data)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("invoices:list_invoices"))
@@ -299,7 +357,7 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_invalid_form_display_errors_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -311,9 +369,32 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
+        self.assertFormError(
+            response.context["form"], "client", "To pole jest wymagane."
+        )
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
-    def test_replace_with_valid_data(self):
+    def test_invalid_form_display_errors_for_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user)
+
+        url = reverse("invoices:replace_sell_invoice", args=[person_invoice.pk])
+        response = self.client.post(url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
+        self.assertFormError(
+            response.context["form"], "sale_date", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "To pole jest wymagane."
+        )
+        self.assertFormError(
+            response.context["form"], "person", "To pole jest wymagane."
+        )
+
+    def test_replace_with_valid_data_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         data = InvoiceSellDictFactory(
@@ -329,6 +410,36 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response, reverse("invoices:detail_invoice", args=[self.invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                create_date=data["create_date"],
+                currency=data["currency"],
+                company__user=self.user,
+            ).exists()
+        )
+
+    def test_replace_with_valid_data_for_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user)
+        person = PersonFactory.create(user=self.user)
+
+        data = InvoiceSellDictFactory(
+            invoice_number="2/2023",
+            company=self.company.pk,
+            person=person.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+        )
+
+        url = reverse("invoices:replace_sell_invoice", args=[person_invoice.pk])
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[person_invoice.pk])
         )
         self.assertTrue(
             Invoice.objects.filter(
