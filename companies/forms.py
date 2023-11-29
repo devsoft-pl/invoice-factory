@@ -100,7 +100,7 @@ class CompanyFilterForm(forms.Form):
         regon = self.cleaned_data["regon"]
 
         if name:
-            companies_list = companies_list.filter(name__contains=name)
+            companies_list = companies_list.filter(name__icontains=name)
         if nip:
             companies_list = companies_list.filter(nip=nip)
         if regon:

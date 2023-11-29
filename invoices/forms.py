@@ -194,8 +194,8 @@ class InvoiceFilterForm(forms.Form):
         if invoice_type:
             invoices_list = invoices_list.filter(invoice_type=invoice_type)
         if client:
-            invoices_list = invoices_list.filter(client__name__contains=client)
+            invoices_list = invoices_list.filter(client__name__icontains=client)
         if company:
-            invoices_list = invoices_list.filter(company__name__contains=company)
+            invoices_list = invoices_list.filter(company__name__icontains=company)
 
         return invoices_list
