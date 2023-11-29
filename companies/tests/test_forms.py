@@ -130,6 +130,7 @@ class TestCompanyForm:
                 "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
             ],
         }
+        assert not is_valid
 
     def test_clean_nip_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)

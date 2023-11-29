@@ -73,6 +73,25 @@ def create_sell_invoice_view(request):
 
 
 @login_required
+def create_sell_person_invoice_view(request):
+    if request.method != "POST":
+        form = InvoiceSellPersonForm(current_user=request.user)
+    else:
+        form = InvoiceSellPersonForm(current_user=request.user, data=request.POST)
+
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.invoice_type = Invoice.INVOICE_SALES
+
+            invoice.save()
+
+            return redirect("invoices:list_invoices")
+
+    context = {"form": form}
+    return render(request, "invoices/create_sell_person_invoice.html", context)
+
+
+@login_required
 def create_buy_invoice_view(request):
     if request.method != "POST":
         form = InvoiceBuyForm(current_user=request.user)
@@ -91,25 +110,6 @@ def create_buy_invoice_view(request):
 
     context = {"form": form}
     return render(request, "invoices/create_buy_invoice.html", context)
-
-
-@login_required
-def create_sell_person_invoice_view(request):
-    if request.method != "POST":
-        form = InvoiceSellPersonForm(current_user=request.user)
-    else:
-        form = InvoiceSellPersonForm(current_user=request.user, data=request.POST)
-
-        if form.is_valid():
-            invoice = form.save(commit=False)
-            invoice.invoice_type = Invoice.INVOICE_SALES
-
-            invoice.save()
-
-            return redirect("invoices:list_invoices")
-
-    context = {"form": form}
-    return render(request, "invoices/create_sell_person_invoice.html", context)
 
 
 @login_required

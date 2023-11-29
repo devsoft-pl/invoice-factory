@@ -165,7 +165,7 @@ class TestCreateSellInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors_for_client(self):
+    def test_create_invalid_form_display_errors_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -182,7 +182,7 @@ class TestCreateSellInvoice(TestInvoice):
         )
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
-    def test_invalid_form_display_errors_for_person(self):
+    def test_create_invalid_form_display_errors_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("invoices:create_sell_person_invoice")
@@ -295,7 +295,7 @@ class TestCreateBuyInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_create_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -365,7 +365,7 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors_for_client(self):
+    def test_replace_invalid_form_display_errors_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
@@ -382,7 +382,7 @@ class TestReplaceSellInvoice(TestInvoice):
         )
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
-    def test_invalid_form_display_errors_for_person(self):
+    def test_replace_invalid_form_display_errors_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
         person_invoice = InvoiceSellPersonFactory.create(company__user=self.user)
@@ -489,7 +489,7 @@ class TestReplaceBuyInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_invalid_form_display_errors(self):
+    def test_replace_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.post(self.url, {})
