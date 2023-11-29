@@ -32,7 +32,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     ("invoice_number", "invoice_type"),
-                    ("company",),
+                    ("company", "client", "person"),
                     ("create_date", "sale_date", "payment_date"),
                 )
             },
