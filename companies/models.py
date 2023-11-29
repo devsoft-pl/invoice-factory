@@ -34,10 +34,12 @@ class Company(models.Model):
     objects = models.Manager()
     my_clients = MyClientsManager()
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name_plural = _("companies")
         ordering = ["name"]
         unique_together = ["nip", "regon", "user"]
+
+    def __str__(self):
+        return self.name
+
+
