@@ -44,6 +44,7 @@ class TestRecurrentInvoiceTasks:
 
     @patch("invoices.tasks.datetime")
     def test_not_creates_new_invoice_if_not_last_day_of_month(self, datetime_mock):
+        InvoiceSellFactory.create(is_recurring=True)
         datetime_mock.today.return_value = datetime.date(2023, 8, 15)
 
         create_invoices_for_recurring()
