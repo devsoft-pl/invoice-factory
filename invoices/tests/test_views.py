@@ -268,10 +268,18 @@ class TestCreateSellInvoice(TestInvoice):
             invoices_before_create + 1,
         )
 
-    def test_get_form(self):
+    def test_get_form_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_form_for_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        url = reverse("invoices:create_sell_person_invoice")
+        response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
 
