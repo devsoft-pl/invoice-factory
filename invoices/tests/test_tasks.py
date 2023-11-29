@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from companies.factories import CompanyFactory
-from invoices.factories import InvoiceSellFactory
+from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
 from invoices.models import Invoice
 from invoices.tasks import (create_invoices_for_recurring,
                             send_monthly_summary_to_recipients)
@@ -14,20 +14,31 @@ from summary_recipients.factories import SummaryRecipientFactory
 
 @pytest.mark.django_db
 class TestRecurrentInvoiceTasks:
-    @pytest.fixture(autouse=True)
-    def set_up(self) -> None:
-        self.invoice = InvoiceSellFactory.create(is_recurring=True)
-
     @patch("invoices.tasks.datetime")
     def test_creates_new_invoice_on_last_day_of_month(self, datetime_mock):
-        ItemFactory.create_batch(2, invoice=self.invoice)
+        invoice = InvoiceSellFactory.create(is_recurring=True)
+        ItemFactory.create_batch(2, invoice=invoice)
         datetime_mock.today.return_value = datetime.date(2023, 8, 31)
 
         create_invoices_for_recurring()
 
         assert Invoice.objects.count() == 2
         assert (
-            self.invoice.items.count()
+            invoice.items.count()
+            == Invoice.objects.get(is_recurring=False).items.count()
+        )
+
+    @patch("invoices.tasks.datetime")
+    def test_creates_new_person_invoice_on_last_day_of_month(self, datetime_mock):
+        person_invoice = InvoiceSellPersonFactory.create(is_recurring=True)
+        ItemFactory.create_batch(2, invoice=person_invoice)
+        datetime_mock.today.return_value = datetime.date(2023, 8, 31)
+
+        create_invoices_for_recurring()
+
+        assert Invoice.objects.count() == 2
+        assert (
+            person_invoice.items.count()
             == Invoice.objects.get(is_recurring=False).items.count()
         )
 
