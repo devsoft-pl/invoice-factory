@@ -18,9 +18,11 @@ class Accountant(models.Model):
         related_name="summary_recipient",
     )
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name_plural = _("accountants")
         unique_together = ["email", "company"]
+
+    def __str__(self):
+        return self.name
+
+

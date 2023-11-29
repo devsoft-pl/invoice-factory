@@ -15,18 +15,20 @@ class TestAccountantForm:
         data = AccountantDictFactory(phone_number="123456789", company=self.company)
 
         form = AccountantForm(data=data)
+        is_valid = form.is_valid()
 
-        assert form.is_valid()
         assert form.errors == {}
+        assert is_valid
 
     def test_form_with_not_valid_data(self):
         data = AccountantDictFactory(company=self.company)
 
         form = AccountantForm(data=data)
+        is_valid = form.is_valid()
 
-        assert not form.is_valid()
         assert form.errors == {
             "phone_number": [
                 "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
             ],
         }
+        assert not is_valid
