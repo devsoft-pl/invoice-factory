@@ -119,8 +119,8 @@ class TestCompanyForm:
     def test_form_with_not_valid_data(self):
         data = CompanyDictFactory(country=self.country_1)
         form = CompanyForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
 
-        assert not form.is_valid()
         assert form.errors == {
             "nip": ["Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"],
             "regon": ["Wpisz Regon składający się z min. 9 liczb"],
@@ -134,13 +134,15 @@ class TestCompanyForm:
     def test_clean_nip_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)
         form = CompanyForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
 
-        assert not form.is_valid()
         assert form.errors["nip"] == ["Nip już istnieje"]
+        assert not is_valid
 
     def test_clean_regon_returns_error(self):
         data = CompanyDictFactory(country=self.country_1, regon=self.company_1.regon)
         form = CompanyForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
 
-        assert not form.is_valid()
         assert form.errors["regon"] == ["Regon już istnieje"]
+        assert not is_valid
