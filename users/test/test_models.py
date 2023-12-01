@@ -14,7 +14,7 @@ class TestUserModel:
 
     def test_returns_full_name(self):
         assert (
-            self.user.get_full_name() == f"{self.user.first_name} {self.user.last_name}"
+            self.user.full_name == f"{self.user.first_name} {self.user.last_name}"
         )
 
     def test_returns_short_name(self):

@@ -27,8 +27,9 @@ class Person(models.Model):
         ordering = ["last_name"]
         unique_together = ["first_name", "last_name", "address", "zip_code", "city"]
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return self.get_full_name()
+        return self.full_name

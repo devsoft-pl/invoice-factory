@@ -13,12 +13,12 @@ class TestPersonModel:
 
     def test_returns_full_name(self):
         assert (
-            self.person.get_full_name()
+            self.person.full_name
             == f"{self.person.first_name} {self.person.last_name}"
         )
 
-    @patch("persons.models.Person.get_full_name")
-    def test_returns_str_full_name(self, get_full_name_mock):
+    @patch("persons.models.Person.full_name")
+    def test_returns_str_full_name(self, full_name_mock):
         self.person.__str__()
 
-        get_full_name_mock.assert_called()
+        full_name_mock.assert_called()

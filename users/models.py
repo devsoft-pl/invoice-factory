@@ -32,7 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
 
-    def get_full_name(self) -> str:
+    @property
+    def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
     def get_short_name(self) -> str:
