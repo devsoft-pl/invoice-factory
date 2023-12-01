@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'persons:list_persons' %}">Osoby fizyczne</a>
                     </li>
-                    <li class="breadcrumb-item activ"><a href="{% url 'persons:detail_person' person.pk %}">{{ person.get_full_name }}</a></li>
+                    <li class="breadcrumb-item activ"><a href="{% url 'persons:detail_person' person.pk %}">{{ person.full_name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
                 </ol>
             </nav>

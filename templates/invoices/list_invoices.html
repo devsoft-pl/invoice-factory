@@ -50,7 +50,7 @@
                                     {% if invoice.client %}
                                         {{ invoice.client.name }}
                                     {% else %}
-                                        {{ invoice.person.get_full_name }}
+                                        {{ invoice.person.full_name }}
                                     {% endif %}
                                 </td>
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
