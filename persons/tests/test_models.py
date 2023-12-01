@@ -13,8 +13,7 @@ class TestPersonModel:
 
     def test_returns_full_name(self):
         assert (
-            self.person.full_name
-            == f"{self.person.first_name} {self.person.last_name}"
+            self.person.full_name == f"{self.person.first_name} {self.person.last_name}"
         )
 
     @patch("persons.models.Person.full_name")
