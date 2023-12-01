@@ -1,12 +1,8 @@
 from django import forms
-from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
+from base.validators import currency_validator
 from currencies.models import Currency
-
-currency_validator = RegexValidator(
-    r"^[a-zA-Z]{3}$", _("Enter country three letter code")
-)
 
 
 class CurrencyForm(forms.ModelForm):

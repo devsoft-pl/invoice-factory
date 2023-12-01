@@ -1,27 +1,9 @@
 from django import forms
-from django.core.validators import RegexValidator
-from django.utils.translation import gettext as _
 
+from base.validators import first_name_validator, last_name_validator, zip_code_validator, city_validator, \
+    phone_number_validator
 from countries.models import Country
 from persons.models import Person
-
-first_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$", _("Enter the first_name in letters only")
-)
-
-last_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$", _("Enter the last_name in letters only")
-)
-
-zip_code_validator = RegexValidator(
-    r"^[0-9]{2}-[0-9]{3}$", _("Zip code in numbers only in format xx-xxx")
-)
-
-city_validator = RegexValidator(r"^[a-zA-Z ]+$", _("Enter the city in letters only"))
-
-phone_number_validator = RegexValidator(
-    r"^[0-9]{9,}$", _("Enter phone number with 9 numbers only")
-)
 
 
 class PersonForm(forms.ModelForm):

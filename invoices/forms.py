@@ -1,21 +1,11 @@
 from django import forms
-from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
+from base.validators import invoice_number_validator, account_number_validator
 from companies.models import Company
 from currencies.models import Currency
 from invoices.models import Invoice
 from persons.models import Person
-
-invoice_number_validator = RegexValidator(
-    r"^[0-9]+/[0-9]{4}$",
-    _("Enter invoice number in numbers only in format number/yyyy"),
-)
-
-account_number_validator = RegexValidator(
-    r"^[0-9A-Z ]{15,32}$",
-    _("Enter account number with minimum 15 character without special characters"),
-)
 
 
 class InvoiceSellForm(forms.ModelForm):

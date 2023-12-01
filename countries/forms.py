@@ -1,12 +1,8 @@
 from django import forms
-from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
+from base.validators import country_validator
 from countries.models import Country
-
-country_validator = RegexValidator(
-    r"^[a-zA-Z ]{2,}$", _("Enter the country in letters only")
-)
 
 
 class CountryForm(forms.ModelForm):

@@ -1,18 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import BaseUserCreationForm
-from django.core.validators import RegexValidator
-from django.utils.translation import gettext as _
 
+from base.validators import first_name_validator, last_name_validator
 from users.models import User
-
-first_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$",
-    _("Enter first name in letters only"),
-)
-last_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$",
-    _("Enter last name in letters only"),
-)
 
 
 class UserForm(forms.ModelForm):

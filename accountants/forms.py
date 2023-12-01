@@ -1,12 +1,6 @@
 from django import forms
-from django.core.validators import RegexValidator
-from django.utils.translation import gettext as _
-
 from accountants.models import Accountant
-
-phone_number_validator = RegexValidator(
-    r"^[0-9]{9,}$", _("Enter phone number with 9 numbers only")
-)
+from base.validators import phone_number_validator
 
 
 class AccountantForm(forms.ModelForm):

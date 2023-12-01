@@ -1,10 +1,8 @@
 from django import forms
-from django.core.validators import MaxValueValidator
 from django.utils.translation import gettext as _
 
+from base.validators import rate_validator
 from vat_rates.models import VatRate
-
-rate_validator = MaxValueValidator(99)
 
 
 class VatRateForm(forms.ModelForm):
