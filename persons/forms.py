@@ -1,7 +1,8 @@
 from django import forms
 
-from base.validators import first_name_validator, last_name_validator, zip_code_validator, city_validator, \
-    phone_number_validator
+from base.validators import (city_validator, first_name_validator,
+                             last_name_validator, phone_number_validator,
+                             zip_code_validator)
 from countries.models import Country
 from persons.models import Person
 
