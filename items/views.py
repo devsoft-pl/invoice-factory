@@ -11,6 +11,7 @@ from items.models import Item
 @login_required
 def create_item_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
+
     if request.method != "POST":
         form = ItemForm(current_user=request.user)
     else:

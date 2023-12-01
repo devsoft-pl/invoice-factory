@@ -49,6 +49,7 @@ def detail_user_view(request):
 @login_required
 def replace_user_view(request):
     user = request.user
+
     if request.method != "POST":
         form = UserForm(instance=user)
     else:

@@ -11,6 +11,7 @@ from vat_rates.models import VatRate
 @login_required
 def list_vat_rates_view(request):
     vat_list = VatRate.objects.filter(user=request.user)
+
     paginator = Paginator(vat_list, 10)
     page = request.GET.get("page")
     try:
