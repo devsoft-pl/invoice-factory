@@ -15,5 +15,5 @@ class InvoiceViewSet(OwnedObjectsMixin, viewsets.ModelViewSet):
         filters.OrderingFilter,
     ]
     search_fields = ["invoice_number", "company__name"]
-    filterset_fields = ["company__name", "invoice_type", "payment_date"]
+    filterset_fields = ["company__name", "invoice_type", "payment_date", "is_paid"]
     ordering_fields = ["invoice_number", "sale_date", "payment_date"]
