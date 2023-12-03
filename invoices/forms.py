@@ -141,6 +141,7 @@ class InvoiceBuyForm(forms.ModelForm):
             "payment_date",
             "settlement_date",
             "invoice_file",
+            "is_paid"
         ]
 
     def __init__(self, *args, current_user, **kwargs):
