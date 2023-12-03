@@ -32,8 +32,8 @@
                             <th>Firma</th>
                             <th>Kontrahent/Konsument</th>
                             <th>Data płatności</th>
-                            <th>Wartość netto</th>
                             <th>Wartość brutto</th>
+                            <th>Opłacona</th>
                             <th>Cykliczna</th>
                             <th>Rozliczona</th>
                             <th>Opcje</th>
@@ -54,8 +54,14 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
-                                <td>{{ invoice.net_amount|floatformat:"2g" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
+                                <td>
+                                    {% if invoice.is_paid %}
+                                        <span>Tak</span>
+                                    {% else %}
+                                        <span>Nie</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if invoice.is_recurring %}
                                         <span>Tak</span>

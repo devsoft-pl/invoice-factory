@@ -57,6 +57,14 @@
             {% endif %}
         </div>
         <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Opłacona:</div>
+            {% if invoice.is_paid %}
+                <div class="col-4">Tak</div>
+            {% else %}
+                <div class="col-4">Nie</div>
+            {% endif %}
+        </div>
+        <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Cykliczność:</div>
             <div class="col-4">
                 {% if invoice.is_recurring %}
