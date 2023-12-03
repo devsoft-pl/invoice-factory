@@ -43,14 +43,15 @@ class InvoiceSellForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
+        if not self.data or self.data.get("payment_method") == str(Invoice.CASH_PAYMENT):
+            self.fields["account_number"].required = False
+        else:
+            self.fields["account_number"].required = True
+
         for field in self.Meta.fields:
             if field == "is_recurring":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
-            if field == "account_number":
-                self.fields[field].required = False
-            else:
-                self.fields[field].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
