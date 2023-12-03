@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 
+import invoices.views
 from base.validators import account_number_validator, invoice_number_validator
 from companies.models import Company
 from currencies.models import Currency
@@ -46,7 +47,10 @@ class InvoiceSellForm(forms.ModelForm):
             if field == "is_recurring":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
-            self.fields[field].required = True
+            if field == "account_number":
+                self.fields[field].required = False
+            else:
+                self.fields[field].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
@@ -98,11 +102,15 @@ class InvoiceSellPersonForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
+        if not self.data or self.data.get("payment_method") == str(Invoice.CASH_PAYMENT):
+            self.fields["account_number"].required = False
+        else:
+            self.fields["account_number"].required = True
+
         for field in self.Meta.fields:
             if field == "is_recurring":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
-            self.fields[field].required = True
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
