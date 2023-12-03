@@ -50,6 +50,8 @@ class InvoiceSellForm(forms.ModelForm):
             self.fields["account_number"].required = True
 
         for field in self.Meta.fields:
+            if field == "is_paid":
+                continue
             if field == "is_recurring":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
@@ -111,6 +113,8 @@ class InvoiceSellPersonForm(forms.ModelForm):
             self.fields["account_number"].required = True
 
         for field in self.Meta.fields:
+            if field == "is_paid":
+                continue
             if field == "is_recurring":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
@@ -152,6 +156,8 @@ class InvoiceBuyForm(forms.ModelForm):
         ).order_by("name")
 
         for field in self.Meta.fields:
+            if field == "is_paid":
+                continue
             self.fields[field].widget.attrs["class"] = "form-control"
             self.fields[field].required = True
 
