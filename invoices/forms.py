@@ -23,6 +23,7 @@ class InvoiceSellForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
+            "is_paid"
         ]
 
     def __init__(self, *args, current_user, **kwargs):
@@ -83,6 +84,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
+            "is_paid"
         ]
 
     def __init__(self, current_user, *args, **kwargs):
