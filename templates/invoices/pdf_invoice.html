@@ -198,9 +198,22 @@
 </table>
 
 <div style="line-height: 20px; font-size: 12px; margin-top: 16px">
-    Zapłacono: <b>0,00 {{ invoice.currency }}</b><br>
-    Pozostało do zapłaty: <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
-    Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+    Zapłacono:
+    {% if invoice.is_paid %}
+        <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
+        Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+    {% else %}
+        <b>0,00 {{ invoice.currency }}</b>
+    {% endif %}
+    <br>
+    Pozostało do zapłaty:
+    {% if not invoice.is_paid %}
+        <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
+        Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+    {% else %}
+        <b>0,00 {{ invoice.currency }}</b>
+    {% endif %}
+    <br>
 </div>
 
 {% if invoice.currency.code|lower != "pln" %}
