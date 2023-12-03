@@ -24,6 +24,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "items",
             "is_recurring",
             "is_settled",
+            "is_paid",
             "recurring_frequency",
             "settlement_date",
             "client",
