@@ -50,7 +50,11 @@
         </div>
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Numer konta:</div>
-            <div class="col-4">{{ invoice.account_number }}</div>
+            {% if invoice.account_number %}
+                <div class="col-4">{{ invoice.account_number }}</div>
+            {% else %}
+                <div class="col-4">-</div>
+            {% endif %}
         </div>
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Cykliczność:</div>
