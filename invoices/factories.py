@@ -29,6 +29,7 @@ class InvoiceSellFactory(factory.django.DjangoModelFactory):
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
+    is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceSellPersonFactory(factory.django.DjangoModelFactory):
@@ -51,6 +52,7 @@ class InvoiceSellPersonFactory(factory.django.DjangoModelFactory):
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
+    is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceBuyFactory(factory.django.DjangoModelFactory):
@@ -85,6 +87,7 @@ class InvoiceSellDictFactory(factory.DictFactory):
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
+    is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceBuyDictFactory(factory.DictFactory):
