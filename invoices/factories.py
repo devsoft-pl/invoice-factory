@@ -71,6 +71,7 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
     )
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
+    is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
 
 class InvoiceSellDictFactory(factory.DictFactory):
@@ -102,3 +103,4 @@ class InvoiceBuyDictFactory(factory.DictFactory):
     )
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
+    is_paid = factory.fuzzy.FuzzyChoice([True, False])
