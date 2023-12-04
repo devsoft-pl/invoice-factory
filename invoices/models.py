@@ -99,7 +99,7 @@ class Invoice(models.Model):
     invoice_file = models.FileField(
         verbose_name=_("Invoice file"), null=True, blank=True
     )
-    is_paid = models.BooleanField(verbose_name=_("Is paid"), default=False)
+    is_paid = models.BooleanField(verbose_name=_("Paid"), default=False)
 
     class Meta:
         ordering = ["-sale_date"]
