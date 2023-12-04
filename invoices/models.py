@@ -145,15 +145,12 @@ class Invoice(models.Model):
 
         template_path = "invoices/pdf_invoice.html"
 
-        gross_whole = self.gross_amount.quantize(decimal.Decimal("1"))
-        gross_whole_amount = num2words(gross_whole, lang="pl")
-        gross_frac_amount = num2words(int(self.gross_amount - gross_whole), lang="pl")
+        gross_amount = num2words(self.gross_amount, lang='pl', to='currency', currency=self.currency.code.upper())
 
         context = {
             "invoice": self,
             "items": items,
-            "gross_whole_amount": gross_whole_amount,
-            "gross_frac_amount": gross_frac_amount,
+            "gross_amount": gross_amount,
         }
 
         html = render_to_string(template_path, context)
