@@ -147,7 +147,7 @@
     <tr>
         <td class="information" style="width:18%">TERMIN PŁATNOŚCI:</td>
         <td class="specific-information">{{ invoice.payment_date|date:"d.m.Y" }}</td>
-        {% if invoice.payment_method != CASH_PAYMENT %}
+        {% if invoice.payment_method != invoice.CASH_PAYMENT %}
             <td class="information" style="width:18%">NUMER KONTA:</td>
             <td class="specific-information">{{ invoice.account_number }}</td>
         {% endif %}
@@ -201,7 +201,7 @@
     Zapłacono:
     {% if invoice.is_paid %}
         <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
-        Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+        Słownie: <b>{{ gross_amount }}</b>
     {% else %}
         <b>0,00 {{ invoice.currency }}</b>
     {% endif %}
@@ -209,7 +209,7 @@
     Pozostało do zapłaty:
     {% if not invoice.is_paid %}
         <b>{{ invoice.gross_amount|floatformat:"2g" }} {{ invoice.currency }}</b><br>
-        Słownie: <b>{{ gross_whole_amount }} złotych i {{ gross_frac_amount }} groszy</b>
+        Słownie: <b>{{ gross_amount }}</b>
     {% else %}
         <b>0,00 {{ invoice.currency }}</b>
     {% endif %}
