@@ -147,7 +147,7 @@
     <tr>
         <td class="information" style="width:18%">TERMIN PŁATNOŚCI:</td>
         <td class="specific-information">{{ invoice.payment_date|date:"d.m.Y" }}</td>
-        {% if invoice.payment_method == CASH_PAYMENT %}
+        {% if invoice.payment_method != CASH_PAYMENT %}
             <td class="information" style="width:18%">NUMER KONTA:</td>
             <td class="specific-information">{{ invoice.account_number }}</td>
         {% endif %}
