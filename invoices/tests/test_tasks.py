@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 
 from companies.factories import CompanyFactory
+from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
 from invoices.models import Invoice
 from invoices.tasks import (create_invoices_for_recurring,
@@ -14,9 +15,13 @@ from summary_recipients.factories import SummaryRecipientFactory
 
 @pytest.mark.django_db
 class TestRecurrentInvoiceTasks:
+    @pytest.fixture(autouse=True)
+    def set_up(self) -> None:
+        self.currency = CurrencyFactory.create(code="PLN")
+
     @patch("invoices.tasks.datetime")
     def test_creates_new_invoice_on_last_day_of_month(self, datetime_mock):
-        invoice = InvoiceSellFactory.create(is_recurring=True)
+        invoice = InvoiceSellFactory.create(is_recurring=True, currency=self.currency)
         ItemFactory.create_batch(2, invoice=invoice)
         datetime_mock.today.return_value = datetime.date(2023, 8, 31)
 
@@ -30,7 +35,9 @@ class TestRecurrentInvoiceTasks:
 
     @patch("invoices.tasks.datetime")
     def test_creates_new_person_invoice_on_last_day_of_month(self, datetime_mock):
-        person_invoice = InvoiceSellPersonFactory.create(is_recurring=True)
+        person_invoice = InvoiceSellPersonFactory.create(
+            is_recurring=True, currency=self.currency
+        )
         ItemFactory.create_batch(2, invoice=person_invoice)
         datetime_mock.today.return_value = datetime.date(2023, 8, 31)
 
@@ -44,7 +51,7 @@ class TestRecurrentInvoiceTasks:
 
     @patch("invoices.tasks.datetime")
     def test_not_creates_new_invoice_if_not_last_day_of_month(self, datetime_mock):
-        InvoiceSellFactory.create(is_recurring=True)
+        InvoiceSellFactory.create(is_recurring=True, currency=self.currency)
         datetime_mock.today.return_value = datetime.date(2023, 8, 15)
 
         create_invoices_for_recurring()
@@ -60,11 +67,17 @@ class TestSummaryRecipientTasks:
         self.last_month_date = self.today - datetime.timedelta(days=self.today.day)
         self.last_month_date_2 = self.last_month_date.replace(day=7)
         self.company = CompanyFactory.create(is_my_company=True)
+        self.currency = CurrencyFactory.create(code="PLN")
         self.invoice_1 = InvoiceSellFactory.create(
-            company=self.company, create_date=self.last_month_date, is_settled=False
+            company=self.company,
+            create_date=self.last_month_date,
+            is_settled=False,
+            currency=self.currency,
         )
         self.invoice_2 = InvoiceSellFactory.create(
-            company=self.company, create_date=self.last_month_date_2
+            company=self.company,
+            create_date=self.last_month_date_2,
+            currency=self.currency,
         )
 
     @patch("summary_recipients.models.SummaryRecipient.send_email")

@@ -18,8 +18,11 @@ class TestInvoice(TestCase):
         self.user = UserFactory()
         self.user.set_password("test")
         self.user.save()
+        self.currency = CurrencyFactory.create(code="PLN")
         self.user_sales_invoices = sorted(
-            InvoiceSellFactory.create_batch(12, company__user=self.user),
+            InvoiceSellFactory.create_batch(
+                12, company__user=self.user, currency=self.currency
+            ),
             key=lambda invoice: invoice.sale_date,
             reverse=True,
         )
@@ -172,13 +175,13 @@ class TestCreateSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "invoice_number", "To pole jest wymagane."
+            response.context["form"], "company", "To pole jest wymagane."
         )
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
         self.assertFormError(
-            response.context["form"], "client", "To pole jest wymagane."
+            response.context["form"], "currency", "To pole jest wymagane."
         )
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
@@ -191,13 +194,13 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/create_sell_person_invoice.html")
         self.assertFormError(
-            response.context["form"], "invoice_number", "To pole jest wymagane."
+            response.context["form"], "company", "To pole jest wymagane."
         )
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
         self.assertFormError(
-            response.context["form"], "person", "To pole jest wymagane."
+            response.context["form"], "currency", "To pole jest wymagane."
         )
 
     def test_create_with_valid_data_for_client(self):
@@ -372,13 +375,13 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "sale_date", "To pole jest wymagane."
+            response.context["form"], "company", "To pole jest wymagane."
         )
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
         self.assertFormError(
-            response.context["form"], "client", "To pole jest wymagane."
+            response.context["form"], "currency", "To pole jest wymagane."
         )
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
@@ -393,13 +396,13 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
         self.assertFormError(
-            response.context["form"], "sale_date", "To pole jest wymagane."
+            response.context["form"], "company", "To pole jest wymagane."
         )
         self.assertFormError(
             response.context["form"], "create_date", "To pole jest wymagane."
         )
         self.assertFormError(
-            response.context["form"], "person", "To pole jest wymagane."
+            response.context["form"], "currency", "To pole jest wymagane."
         )
 
     def test_replace_with_valid_data_for_client(self):
