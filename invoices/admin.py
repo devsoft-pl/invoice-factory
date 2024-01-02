@@ -16,7 +16,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         "gross_amount",
         "currency",
         "is_settled",
-        "is_paid"
+        "is_paid",
     )
     list_filter = (
         "is_recurring",
@@ -24,7 +24,7 @@ class InvoiceAdmin(admin.ModelAdmin):
         "company__name",
         "invoice_type",
         "payment_date",
-        "is_paid"
+        "is_paid",
     )
     search_fields = ("invoice_number", "company__name")
     inlines = [ItemInline]

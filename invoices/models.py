@@ -145,7 +145,12 @@ class Invoice(models.Model):
 
         template_path = "invoices/pdf_invoice.html"
 
-        gross_amount = num2words(self.gross_amount, lang='pl', to='currency', currency=self.currency.code.upper())
+        gross_amount = num2words(
+            self.gross_amount,
+            lang="pl",
+            to="currency",
+            currency=self.currency.code.upper(),
+        )
 
         context = {
             "invoice": self,

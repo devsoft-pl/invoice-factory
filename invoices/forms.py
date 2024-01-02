@@ -23,7 +23,7 @@ class InvoiceSellForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
-            "is_paid"
+            "is_paid",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
@@ -44,7 +44,9 @@ class InvoiceSellForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
-        if not self.data or self.data.get("payment_method") == str(Invoice.CASH_PAYMENT):
+        if not self.data or self.data.get("payment_method") == str(
+            Invoice.CASH_PAYMENT
+        ):
             self.fields["account_number"].required = False
         else:
             self.fields["account_number"].required = True
@@ -86,7 +88,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
-            "is_paid"
+            "is_paid",
         ]
 
     def __init__(self, current_user, *args, **kwargs):
@@ -107,7 +109,9 @@ class InvoiceSellPersonForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
-        if not self.data or self.data.get("payment_method") == str(Invoice.CASH_PAYMENT):
+        if not self.data or self.data.get("payment_method") == str(
+            Invoice.CASH_PAYMENT
+        ):
             self.fields["account_number"].required = False
         else:
             self.fields["account_number"].required = True
@@ -145,7 +149,7 @@ class InvoiceBuyForm(forms.ModelForm):
             "payment_date",
             "settlement_date",
             "invoice_file",
-            "is_paid"
+            "is_paid",
         ]
 
     def __init__(self, *args, current_user, **kwargs):
