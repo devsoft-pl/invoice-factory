@@ -6,8 +6,7 @@ from currencies.factories import CurrencyFactory
 from currencies.models import Currency
 from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
                                 InvoiceSellDictFactory, InvoiceSellFactory)
-from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
-                            InvoiceSellPersonForm)
+from invoices.forms import InvoiceFilterForm, InvoiceSellForm, InvoiceSellPersonForm, InvoiceBuyForm
 from invoices.models import Invoice
 from users.factories import UserFactory
 

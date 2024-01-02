@@ -1,7 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
 
-import invoices.views
 from base.validators import account_number_validator, invoice_number_validator
 from companies.models import Company
 from currencies.models import Currency
