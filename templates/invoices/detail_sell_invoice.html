@@ -88,6 +88,7 @@
             {% if not invoice.is_settled %}
                 <div class="col text-center">
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                    <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Faktura korygująca</a>
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 </div>
             {% endif %}
