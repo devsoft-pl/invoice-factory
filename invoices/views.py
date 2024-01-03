@@ -1,3 +1,5 @@
+import copy
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404, HttpResponse
@@ -112,8 +114,18 @@ def create_buy_invoice_view(request):
     return render(request, "invoices/create_buy_invoice.html", context)
 
 
+def clone(instance):
+    cloned = copy.copy(instance)
+    cloned.pk = None
+    try:
+        delattr(cloned, "_prefetched_objects_cache")
+    except AttributeError:
+        pass
+    return cloned
+
+
 @login_required
-def replace_sell_invoice_view(request, invoice_id):
+def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.company.user != request.user:
@@ -124,11 +136,20 @@ def replace_sell_invoice_view(request, invoice_id):
     else:
         form_klass = InvoiceSellForm
 
+    if create_correction:
+        new_instance = clone(invoice)
+        new_instance.pk = None
+        invoice_number_parts = new_instance.invoice_number.split("/")
+        invoice_number_parts.insert(1, "k")
+        new_instance.invoice_number = "/".join(invoice_number_parts)
+    else:
+        new_instance = invoice
+
     if request.method != "POST":
-        form = form_klass(instance=invoice, current_user=request.user)
+        form = form_klass(instance=new_instance, current_user=request.user)
     else:
         form = form_klass(
-            instance=invoice,
+            instance=new_instance,
             data=request.POST,
             files=request.FILES,
             current_user=request.user,
@@ -136,6 +157,9 @@ def replace_sell_invoice_view(request, invoice_id):
 
         if form.is_valid():
             form.save()
+
+            if create_correction:
+                return redirect("invoices:list_invoices")
 
             return redirect("invoices:detail_invoice", invoice.pk)
 
