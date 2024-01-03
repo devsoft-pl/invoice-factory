@@ -160,3 +160,24 @@ class Invoice(models.Model):
 
         html = render_to_string(template_path, context)
         return html
+
+
+class CorrectionInvoice(models.Model):
+    invoice = models.OneToOneField(
+        Invoice,
+        verbose_name=_("Invoice"),
+        on_delete=models.CASCADE,
+        related_name="invoice",
+    )
+    correction_invoice = models.OneToOneField(
+        Invoice,
+        verbose_name=_("Correction Invoice"),
+        on_delete=models.CASCADE,
+        related_name="correction_invoice",
+    )
+
+    class Meta:
+        verbose_name_plural = _("correction invoices")
+
+    def __str__(self):
+        return f"{self.invoice}, {self.correction_invoice}"
