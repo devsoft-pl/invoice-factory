@@ -25,6 +25,11 @@ urlpatterns = [
         name="replace_sell_invoice",
     ),
     path(
+        "create_correction_invoice/<int:invoice_id>/",
+        replace_sell_invoice_view,
+        name="create_correction_invoice",
+    ),
+    path(
         "replace_buy_invoice/<int:invoice_id>/",
         replace_buy_invoice_view,
         name="replace_buy_invoice",
