@@ -167,7 +167,7 @@ class CorrectionInvoice(models.Model):
         Invoice,
         verbose_name=_("Invoice"),
         on_delete=models.CASCADE,
-        related_name="invoice",
+        related_name="original_invoice",
     )
     correction_invoice = models.OneToOneField(
         Invoice,
