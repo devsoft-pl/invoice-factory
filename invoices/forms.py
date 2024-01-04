@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 
-from base.validators import account_number_validator, invoice_number_validator
+from base.validators import account_number_validator, invoice_number_validator, correction_invoice_number_validator
 from companies.models import Company
 from currencies.models import Currency
 from invoices.models import Invoice
@@ -41,6 +41,9 @@ class InvoiceSellForm(forms.ModelForm):
         if not create_correction:
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
             invoice_number_field.validators = [invoice_number_validator]
+        else:
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [correction_invoice_number_validator]
 
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
@@ -107,6 +110,9 @@ class InvoiceSellPersonForm(forms.ModelForm):
         if not create_correction:
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
             invoice_number_field.validators = [invoice_number_validator]
+        else:
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [correction_invoice_number_validator]
 
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
