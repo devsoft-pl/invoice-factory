@@ -180,4 +180,4 @@ class CorrectionInvoice(models.Model):
         verbose_name_plural = _("correction invoices")
 
     def __str__(self):
-        return f"{self.invoice}, {self.correction_invoice}"
+        return f"{self.invoice.invoice_number}, {self.correction_invoice.invoice_number}"
