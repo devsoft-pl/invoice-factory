@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from invoices.models import Invoice
+from invoices.models import Invoice, CorrectionInvoice
 from items.models import Item
 from items.serializers import ItemSerializer
 
@@ -70,3 +70,12 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class CorrectionInvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorrectionInvoice
+        fields = [
+            "invoice",
+            "correction_invoice",
+            ]
