@@ -124,6 +124,12 @@ def clone(instance):
     return cloned
 
 
+def create_correction_invoice_number(invoice: Invoice):
+    invoice_number_parts = invoice.invoice_number.split("/")
+    invoice_number_parts.insert(1, "k")
+    return "/".join(invoice_number_parts)
+
+
 @login_required
 def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
@@ -139,9 +145,7 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     if create_correction:
         new_instance = clone(invoice)
         new_instance.pk = None
-        invoice_number_parts = new_instance.invoice_number.split("/")
-        invoice_number_parts.insert(1, "k")
-        new_instance.invoice_number = "/".join(invoice_number_parts)
+        new_instance.invoice_number = create_correction_invoice_number(new_instance)
     else:
         new_instance = invoice
 
@@ -153,6 +157,7 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
             data=request.POST,
             files=request.FILES,
             current_user=request.user,
+            create_correction=create_correction,
         )
 
         if form.is_valid():
