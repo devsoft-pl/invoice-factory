@@ -38,10 +38,10 @@
                                         <a class="nav-link{% if current_module == "persons" %} active{% endif %}" href="{% url 'persons:list_persons' %}">Konsumenci</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
+                                        <a class="nav-link{% if current_module == "currencies" %} active{% endif %}" href="{% url 'currencies:list_currencies' %}">Waluty</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{% if current_module == "currencies" %} active{% endif %}" href="{% url 'currencies:list_currencies' %}">Waluty</a>
+                                        <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link{% if current_module == "vat_rates" %} active{% endif %}" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a>

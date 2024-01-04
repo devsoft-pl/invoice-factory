@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -95,7 +95,7 @@
         </div>
         <div class="row mt-2">
             {% if invoice.items.exists %}
-                <table class="table table-hover text-center mt-4">
+                <table class="table table-hover text-center mt-2">
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>
@@ -145,14 +145,14 @@
         {% if not invoice.is_settled %}
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-primary mt-3" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+                    <a class="btn btn-primary mt-2" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
                 </div>
             </div>
         {% endif %}
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+                <a class="btn btn-primary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-primary mt-2" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
         </div>
         <div class="row mt-2">
             {% if summary_recipients %}
-                <table class="table table-hover text-center mt-4">
+                <table class="table table-hover text-center mt-2">
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>
@@ -54,12 +54,12 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'summary_recipients:create_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania</a></h3>
+                <a class="btn btn-primary mt-2" href="{% url 'summary_recipients:create_summary_recipient' company.pk %}">Dodaj odbiorcę podsumowania</a></h3>
             </div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                <a class="btn btn-primary mt-2" href="{% url 'companies:list_my_companies' %}">Powrót</a>
             </div>
         </div>
     </div>

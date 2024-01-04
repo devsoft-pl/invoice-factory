@@ -17,7 +17,7 @@
         </div>
         <div class="row mt-2">
             {% if accountants %}
-                <table class="table table-hover text-center mt-4">
+                <table class="table table-hover text-center mt-2">
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>
@@ -52,12 +52,12 @@
         </div>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary mt-3" href="{% url 'accountants:create_accountant' company.pk %}">Dodaj księgowość</a>
+                <a class="btn btn-primary mt-2" href="{% url 'accountants:create_accountant' company.pk %}">Dodaj księgowość</a>
             </div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
+                <a class="btn btn-primary mt-2" href="{% url 'companies:list_my_companies' %}">Powrót</a>
             </div>
         </div>
     </div>
