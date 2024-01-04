@@ -6,6 +6,11 @@ invoice_number_validator = RegexValidator(
     _("Enter invoice number in numbers only in format number/yyyy"),
 )
 
+correction_invoice_number_validator = RegexValidator(
+    r"^[0-9]+/k/[0-9]{4}$",
+    _("Enter correction invoice number in only in format number/k/yyyy"),
+)
+
 nip_validator = RegexValidator(
     r"^[0-9a-zA-Z]{8,16}$",
     _("Enter the tax ID without special characters with minimum 8 character"),
