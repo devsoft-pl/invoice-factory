@@ -167,13 +167,13 @@ class CorrectionInvoice(models.Model):
         Invoice,
         verbose_name=_("Invoice"),
         on_delete=models.CASCADE,
-        related_name="original_invoice",
+        related_name="correction_invoice",
     )
     correction_invoice = models.OneToOneField(
         Invoice,
         verbose_name=_("Correction Invoice"),
         on_delete=models.CASCADE,
-        related_name="correction_invoice",
+        related_name="original_invoice",
     )
 
     class Meta:
