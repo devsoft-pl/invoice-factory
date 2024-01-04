@@ -25,7 +25,7 @@ class InvoiceSellForm(forms.ModelForm):
             "is_paid",
         ]
 
-    def __init__(self, *args, current_user, **kwargs):
+    def __init__(self, *args, current_user, create_correction=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.current_user = current_user
         self.fields["company"].queryset = Company.objects.filter(
@@ -37,8 +37,10 @@ class InvoiceSellForm(forms.ModelForm):
         self.fields["currency"].queryset = Currency.objects.filter(
             user=current_user
         ).order_by("code")
-        invoice_number_field: forms.CharField = self.fields["invoice_number"]
-        invoice_number_field.validators = [invoice_number_validator]
+
+        if not create_correction:
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [invoice_number_validator]
 
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
@@ -90,7 +92,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
             "is_paid",
         ]
 
-    def __init__(self, current_user, *args, **kwargs):
+    def __init__(self, current_user, create_correction=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.current_user = current_user
 
@@ -102,8 +104,9 @@ class InvoiceSellPersonForm(forms.ModelForm):
             user=current_user
         ).order_by("code")
 
-        invoice_number_field: forms.CharField = self.fields["invoice_number"]
-        invoice_number_field.validators = [invoice_number_validator]
+        if not create_correction:
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [invoice_number_validator]
 
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
