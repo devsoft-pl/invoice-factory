@@ -163,7 +163,7 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
 
             return redirect("invoices:detail_invoice", invoice.pk)
 
-    context = {"invoice": invoice, "form": form}
+    context = {"invoice": invoice, "form": form, "create_correction": create_correction}
     return render(request, "invoices/replace_sell_invoice.html", context)
 
 
