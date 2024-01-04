@@ -10,14 +10,14 @@ coverage_html:
 test_all:
 	 python manage.py test
 
-migrate:
-	python manage.py migrate
+runserver:
+	python manage.py runserver
 
 makemigrations:
 	python manage.py makemigrations
 
-runserver:
-	python manage.py runserver
+migrate:
+	python manage.py migrate
 
 makemessages:
 	python manage.py makemessages -l pl
