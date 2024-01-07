@@ -9,7 +9,7 @@ from xhtml2pdf import pisa
 
 from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
                             InvoiceSellPersonForm)
-from invoices.models import Invoice
+from invoices.models import Invoice, CorrectionInvoiceRelation
 
 
 def index_view(request):
@@ -161,7 +161,9 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
         )
 
         if form.is_valid():
-            form.save()
+            new_invoice = form.save(commit=False)
+            new_invoice.save()
+            CorrectionInvoiceRelation.objects.get_or_create(invoice=invoice, correction_invoice=new_invoice)
 
             if create_correction:
                 return redirect("invoices:list_invoices")
