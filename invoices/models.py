@@ -180,4 +180,6 @@ class CorrectionInvoiceRelation(models.Model):
         verbose_name_plural = _("correction invoices relation")
 
     def __str__(self):
-        return f"{self.invoice.invoice_number}, {self.correction_invoice.invoice_number}"
+        return (
+            f"{self.invoice.invoice_number}, {self.correction_invoice.invoice_number}"
+        )

@@ -3,7 +3,7 @@ from django.utils.translation import gettext as _
 
 from items.admin import ItemInline
 
-from .models import Invoice, CorrectionInvoiceRelation
+from .models import CorrectionInvoiceRelation, Invoice
 
 
 @admin.register(Invoice)

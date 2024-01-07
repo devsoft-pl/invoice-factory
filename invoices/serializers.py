@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from invoices.models import Invoice, CorrectionInvoiceRelation
+from invoices.models import CorrectionInvoiceRelation, Invoice
 from items.models import Item
 from items.serializers import ItemSerializer
 
@@ -78,4 +78,4 @@ class CorrectionInvoiceSerializer(serializers.ModelSerializer):
         fields = [
             "invoice",
             "correction_invoice",
-            ]
+        ]
