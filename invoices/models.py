@@ -50,7 +50,7 @@ class Invoice(models.Model):
         Company,
         verbose_name=_("Company"),
         on_delete=models.CASCADE,
-        related_name="invoice",
+        related_name="invoices",
     )
     person = models.ForeignKey(
         Person,
@@ -83,7 +83,7 @@ class Invoice(models.Model):
         verbose_name=_("Currency"),
         on_delete=models.CASCADE,
         null=True,
-        related_name="invoice",
+        related_name="invoices",
     )
     account_number = models.CharField(
         verbose_name=_("Account number"), max_length=50, null=True, blank=True
@@ -92,7 +92,7 @@ class Invoice(models.Model):
         Company,
         verbose_name=_("Client"),
         on_delete=models.CASCADE,
-        related_name="client_invoice",
+        related_name="client_invoices",
         null=True,
         blank=True,
     )
@@ -162,22 +162,22 @@ class Invoice(models.Model):
         return html
 
 
-class CorrectionInvoice(models.Model):
+class CorrectionInvoiceRelation(models.Model):
     invoice = models.OneToOneField(
         Invoice,
         verbose_name=_("Invoice"),
         on_delete=models.CASCADE,
-        related_name="correction_invoice",
+        related_name="original_invoice_relation",
     )
     correction_invoice = models.OneToOneField(
         Invoice,
         verbose_name=_("Correction Invoice"),
         on_delete=models.CASCADE,
-        related_name="original_invoice",
+        related_name="correction_invoice_relation",
     )
 
     class Meta:
-        verbose_name_plural = _("correction invoices")
+        verbose_name_plural = _("correction invoices relation")
 
     def __str__(self):
         return f"{self.invoice.invoice_number}, {self.correction_invoice.invoice_number}"
