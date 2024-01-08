@@ -5,7 +5,7 @@ from factory import fuzzy
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
-from invoices.models import Invoice
+from invoices.models import CorrectionInvoiceRelation, Invoice
 from persons.factories import PersonFactory
 
 
@@ -72,6 +72,14 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
     invoice_file = factory.django.FileField(filename="the_file.pdf", data="test")
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
     is_paid = factory.fuzzy.FuzzyChoice([True, False])
+
+
+class CorrectionInvoiceRelationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = CorrectionInvoiceRelation
+
+    invoice = factory.SubFactory(InvoiceSellFactory)
+    correction_invoice = factory.SubFactory(InvoiceSellFactory)
 
 
 class InvoiceSellDictFactory(factory.DictFactory):
