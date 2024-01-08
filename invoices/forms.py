@@ -114,7 +114,12 @@ class InvoiceSellPersonForm(forms.ModelForm):
             user=current_user
         ).order_by("code")
 
-        if not create_correction:
+        if (
+            not create_correction
+            and not CorrectionInvoiceRelation.objects.filter(
+                correction_invoice=self.instance
+            ).exists()
+        ):
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
             invoice_number_field.validators = [invoice_number_validator]
         else:
