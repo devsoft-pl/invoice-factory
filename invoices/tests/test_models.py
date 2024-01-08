@@ -3,7 +3,8 @@ from decimal import Decimal
 import pytest
 
 from currencies.factories import ExchangeRateFactory
-from invoices.factories import InvoiceSellFactory
+from invoices.factories import (CorrectionInvoiceRelationFactory,
+                                InvoiceSellFactory)
 from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
 
@@ -53,3 +54,22 @@ class TestInvoiceModel:
 
     def test_returns_invoice_sale(self):
         assert self.invoice.is_sell
+
+
+@pytest.mark.django_db
+class TestCorrectionInvoiceRelationModel:
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.invoice = InvoiceSellFactory.create(invoice_number="1/2024")
+        self.correction_invoice = InvoiceSellFactory.create(invoice_number="1/k/2024")
+        self.correction_invoice_relation = CorrectionInvoiceRelationFactory.create(
+            invoice=self.invoice,
+            correction_invoice=self.correction_invoice
+        )
+
+    def test_returns_str_invoice_number(self):
+        assert (
+            self.correction_invoice_relation.__str__()
+            == f"{self.correction_invoice_relation.invoice.invoice_number}, "
+               f"{self.correction_invoice_relation.correction_invoice.invoice_number}"
+        )
