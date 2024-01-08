@@ -6,7 +6,7 @@ from base.validators import (account_number_validator,
                              invoice_number_validator)
 from companies.models import Company
 from currencies.models import Currency
-from invoices.models import Invoice, CorrectionInvoiceRelation
+from invoices.models import CorrectionInvoiceRelation, Invoice
 from persons.models import Person
 
 
@@ -40,7 +40,12 @@ class InvoiceSellForm(forms.ModelForm):
             user=current_user
         ).order_by("code")
 
-        if not create_correction and not CorrectionInvoiceRelation.objects.filter(correction_invoice=self.instance).exists():
+        if (
+            not create_correction
+            and not CorrectionInvoiceRelation.objects.filter(
+                correction_invoice=self.instance
+            ).exists()
+        ):
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
             invoice_number_field.validators = [invoice_number_validator]
         else:
