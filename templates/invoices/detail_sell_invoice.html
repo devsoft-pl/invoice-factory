@@ -64,16 +64,18 @@
                 <div class="col-4">Nie</div>
             {% endif %}
         </div>
-        <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Cykliczność:</div>
-            <div class="col-4">
-                {% if invoice.is_recurring %}
-                    <span>Tak</span>
-                {% else %}
-                    <span>Nie</span>
-                {% endif %}
+        {% if not invoice.correction_invoice_relation %}
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Cykliczność:</div>
+                <div class="col-4">
+                    {% if invoice.is_recurring %}
+                        <span>Tak</span>
+                    {% else %}
+                        <span>Nie</span>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Rozliczona:</div>
             <div class="col-4">
@@ -88,7 +90,9 @@
             {% if not invoice.is_settled %}
                 <div class="col text-center">
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
-                    <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Faktura korygująca</a>
+                    {% if not invoice.correction_invoice_relation %}
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                    {% endif %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 </div>
             {% endif %}
