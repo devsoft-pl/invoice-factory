@@ -9,6 +9,7 @@ from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
 from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
                             InvoiceSellPersonForm)
 from invoices.models import Invoice
+from persons.factories import PersonFactory
 from users.factories import UserFactory
 
 
@@ -167,18 +168,28 @@ class TestSellInvoiceForm:
         assert set(form_companies_ids) == set(user_companies_ids)
         assert form_companies_ids.count() == user_companies_ids.count()
 
-    def test_form_with_not_valid_data(self):
+    @pytest.mark.parametrize(
+        "validator, create_correction",
+        [
+            [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr",
+                False,
+            ],
+            ["Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr", True],
+        ],
+    )
+    def test_form_with_not_valid_data(self, validator, create_correction):
         data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
         )
-        form = InvoiceSellForm(data=data, current_user=self.user)
+        form = InvoiceSellForm(
+            data=data, current_user=self.user, create_correction=create_correction
+        )
         is_valid = form.is_valid()
 
         assert form.errors == {
-            "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
-            ],
+            "invoice_number": [validator],
             "currency": ["To pole jest wymagane."],
             "account_number": [
                 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
@@ -186,16 +197,44 @@ class TestSellInvoiceForm:
         }
         assert not is_valid
 
-    def test_form_with_valid_data(self):
+    @pytest.mark.parametrize(
+        "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
+    )
+    def test_invoice_sell_with_valid_data(self, invoice_number, create_correction):
         data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
-            invoice_number="1/2023",
+            invoice_number=invoice_number,
             account_number="111111111111111",
         )
 
-        form = InvoiceSellForm(current_user=self.user, data=data)
+        form = InvoiceSellForm(
+            current_user=self.user, data=data, create_correction=create_correction
+        )
+        is_valid = form.is_valid()
+
+        assert form.errors == {}
+        assert is_valid
+
+    @pytest.mark.parametrize(
+        "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
+    )
+    def test_invoice_sell_person_with_valid_data(
+        self, invoice_number, create_correction
+    ):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            company=self.company_1,
+            client=person,
+            currency=self.currency_1,
+            invoice_number=invoice_number,
+            account_number="111111111111111",
+        )
+
+        form = InvoiceSellPersonForm(
+            current_user=self.user, data=data, create_correction=create_correction
+        )
         is_valid = form.is_valid()
 
         assert form.errors == {}
