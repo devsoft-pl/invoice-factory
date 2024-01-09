@@ -9,6 +9,7 @@ from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
                                 InvoiceSellDictFactory, InvoiceSellFactory,
                                 InvoiceSellPersonFactory)
 from invoices.models import Invoice
+from invoices.views import create_correction_invoice_number, clone
 from persons.factories import PersonFactory
 from users.factories import UserFactory
 
@@ -478,6 +479,11 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_create_correction_invoice_number(self):
+        invoice = InvoiceSellFactory.create(invoice_number="1/2024")
+
+        assert create_correction_invoice_number(invoice) == "1/k/2024"
 
 
 class TestReplaceBuyInvoice(TestInvoice):
