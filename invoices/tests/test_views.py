@@ -480,6 +480,11 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_clone_returns_another_object(self):
+        invoice = InvoiceSellFactory.create()
+
+        assert clone(invoice).pk != invoice.pk
+
     def test_create_correction_invoice_number(self):
         invoice = InvoiceSellFactory.create(invoice_number="1/2024")
 
