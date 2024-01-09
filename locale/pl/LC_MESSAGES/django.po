@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-04 22:55+0100\n"
+"POT-Creation-Date: 2024-01-09 01:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "Email"
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:16 invoices/forms.py:185 invoices/models.py:51
+#: accountants/models.py:16 invoices/forms.py:209 invoices/models.py:51
 #: summary_recipients/models.py:23
 msgid "Company"
 msgstr "Firma"
@@ -65,44 +65,49 @@ msgstr ""
 "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
 
 #: base/validators.py:11
+msgid "Enter correction invoice number in only in format number/k/yyyy"
+msgstr ""
+"Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr"
+
+#: base/validators.py:16
 msgid "Enter the tax ID without special characters with minimum 8 character"
 msgstr "Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"
 
-#: base/validators.py:16
+#: base/validators.py:21
 msgid "Enter regon in numbers only with minimum 9 character"
 msgstr "Wpisz Regon składający się z min. 9 liczb"
 
-#: base/validators.py:20
+#: base/validators.py:25
 msgid "Enter country three letter code"
 msgstr "Wpisz trzyliterowy kod kraju"
 
-#: base/validators.py:25
+#: base/validators.py:30
 msgid ""
 "Enter account number with minimum 15 character without special characters"
 msgstr ""
 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
 
-#: base/validators.py:31
+#: base/validators.py:36
 msgid "Enter the first_name in letters only"
 msgstr "Wpisz imię tylko w postaci liter"
 
-#: base/validators.py:35
+#: base/validators.py:40
 msgid "Enter the last_name in letters only"
 msgstr "Wpisz nazwisko tylko w postaci liter"
 
-#: base/validators.py:39
+#: base/validators.py:44
 msgid "Zip code in numbers only in format xx-xxx"
 msgstr "Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"
 
-#: base/validators.py:42
+#: base/validators.py:47
 msgid "Enter the city in letters only"
 msgstr "Wpisz miasto tylko w postaci liter"
 
-#: base/validators.py:46
+#: base/validators.py:51
 msgid "Enter the country in letters only"
 msgstr "Wpisz kraj tylko w postaci liter"
 
-#: base/validators.py:50
+#: base/validators.py:55
 msgid "Enter phone number with 9 numbers only"
 msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
@@ -233,19 +238,19 @@ msgstr "Zaawansowane opcje"
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:70 invoices/forms.py:133 invoices/forms.py:174
+#: invoices/forms.py:83 invoices/forms.py:157 invoices/forms.py:198
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:180 invoices/models.py:44
+#: invoices/forms.py:204 invoices/models.py:44
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:182 invoices/models.py:47
+#: invoices/forms.py:206 invoices/models.py:47
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:184 invoices/models.py:93
+#: invoices/forms.py:208 invoices/models.py:93
 msgid "Client"
 msgstr "Kontrahent"
 
@@ -329,6 +334,18 @@ msgstr "Typ faktury"
 msgid "Paid"
 msgstr "Opłacona"
 
+#: invoices/models.py:168 items/models.py:13
+msgid "Invoice"
+msgstr "Faktura"
+
+#: invoices/models.py:174
+msgid "Correction Invoice"
+msgstr "Faktura korygująca"
+
+#: invoices/models.py:180
+msgid "correction invoices relation"
+msgstr "relacja faktur korygujących"
+
 #: invoices/tasks.py:57
 #, python-format
 msgid "New recurring invoice %(nr)s"
@@ -358,14 +375,10 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/views.py:47 invoices/views.py:120 invoices/views.py:151
-#: invoices/views.py:174 invoices/views.py:186
+#: invoices/views.py:49 invoices/views.py:138 invoices/views.py:185
+#: invoices/views.py:208 invoices/views.py:220
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
-
-#: items/models.py:13
-msgid "Invoice"
-msgstr "Faktura"
 
 #: items/models.py:18
 msgid "PWKiU"
@@ -493,9 +506,6 @@ msgstr "Stawka VAT nie istnieje"
 
 #~ msgid "Enter last name in letters only"
 #~ msgstr "Wpisz nazwisko tylko w postaci liter"
-
-#~ msgid "Recurring invoice"
-#~ msgstr "Cykliczna faktura"
 
 #~ msgid "Goodbye in Factorka"
 #~ msgstr "Pożegnanie w Factorce"
