@@ -159,6 +159,14 @@ class InvoiceSellPersonForm(forms.ModelForm):
         return invoice_number
 
 
+class InvoiceRecurringForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = [
+            "is_recurring",
+        ]
+
+
 class InvoiceBuyForm(forms.ModelForm):
     class Meta:
         model = Invoice
