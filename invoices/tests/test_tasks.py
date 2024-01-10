@@ -11,6 +11,7 @@ from invoices.tasks import (create_invoices_for_recurring,
                             send_monthly_summary_to_recipients)
 from items.factories import ItemFactory
 from summary_recipients.factories import SummaryRecipientFactory
+from summary_recipients.models import SummaryRecipient
 
 
 @pytest.mark.django_db
@@ -94,6 +95,8 @@ class TestSummaryRecipientTasks:
     def test_not_send_monthly_summary_if_another_day_other_than_defined_day(
         self, send_email_mock
     ):
+        assert not SummaryRecipient.objects.exists()
+
         SummaryRecipientFactory.create(company=self.company)
 
         send_monthly_summary_to_recipients()
