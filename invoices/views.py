@@ -7,7 +7,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from xhtml2pdf import pisa
 
-from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
+from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm,
+                            InvoiceRecurringForm, InvoiceSellForm,
                             InvoiceSellPersonForm)
 from invoices.models import CorrectionInvoiceRelation, Invoice
 
@@ -134,7 +135,9 @@ def create_correction_invoice_number(invoice: Invoice):
 def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.company.user != request.user:
+    if invoice.company.user != request.user or (
+        invoice.is_settled and not create_correction
+    ):
         raise Http404(_("Invoice does not exist"))
 
     if invoice.person:
@@ -145,6 +148,8 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     if create_correction:
         new_instance = clone(invoice)
         new_instance.pk = None
+        new_instance.is_recurring = False
+        new_instance.is_settled = False
         new_instance.invoice_number = create_correction_invoice_number(new_instance)
     else:
         new_instance = invoice
@@ -175,6 +180,30 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
 
     context = {"invoice": invoice, "form": form, "create_correction": create_correction}
     return render(request, "invoices/replace_sell_invoice.html", context)
+
+
+@login_required
+def replace_recurring_invoice_view(request, invoice_id):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.company.user != request.user:
+        raise Http404(_("Invoice does not exist"))
+
+    if request.method != "POST":
+        form = InvoiceRecurringForm(instance=invoice)
+    else:
+        form = InvoiceRecurringForm(
+            instance=invoice,
+            data=request.POST,
+        )
+
+        if form.is_valid():
+            form.save()
+
+        return redirect("invoices:detail_invoice", invoice.pk)
+
+    context = {"invoice": invoice, "form": form}
+    return render(request, "invoices/replace_recurring_invoice.html", context)
 
 
 @login_required
