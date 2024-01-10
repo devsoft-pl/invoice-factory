@@ -87,15 +87,17 @@
             </div>
         </div>
         <div class="row mt-2">
-            {% if not invoice.is_settled %}
-                <div class="col text-center">
+            <div class="col text-center">
+                {% if not invoice.is_settled %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
-                    {% if not invoice.correction_invoice_relation %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
-                    {% endif %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-                </div>
-            {% endif %}
+                {% else %}
+                    <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_recurring_invoice' invoice.pk %}">Edytuj cykliczność</a>
+                {% endif %}
+                {% if not invoice.correction_invoice_relation %}
+                    <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                {% endif %}
+            </div>
         </div>
         <div class="row mt-2">
             {% if invoice.items.exists %}
