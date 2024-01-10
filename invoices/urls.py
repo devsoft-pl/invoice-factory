@@ -5,6 +5,7 @@ from invoices.views import (create_buy_invoice_view, create_sell_invoice_view,
                             delete_invoice_view, detail_invoice_view,
                             index_view, list_invoices_view, pdf_invoice_view,
                             replace_buy_invoice_view,
+                            replace_recurring_invoice_view,
                             replace_sell_invoice_view)
 
 app_name = "invoices"
@@ -29,6 +30,11 @@ urlpatterns = [
         replace_sell_invoice_view,
         name="create_correction_invoice",
         kwargs={"create_correction": True},
+    ),
+    path(
+        "replace_recurring_invoice/<int:invoice_id>/",
+        replace_recurring_invoice_view,
+        name="replace_recurring_invoice",
     ),
     path(
         "replace_buy_invoice/<int:invoice_id>/",
