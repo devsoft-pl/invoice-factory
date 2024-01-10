@@ -8,8 +8,8 @@ from currencies.factories import CurrencyFactory
 from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
                                 InvoiceSellDictFactory, InvoiceSellFactory,
                                 InvoiceSellPersonFactory)
-from invoices.models import Invoice
-from invoices.views import create_correction_invoice_number, clone
+from invoices.models import CorrectionInvoiceRelation, Invoice
+from invoices.views import clone, create_correction_invoice_number
 from persons.factories import PersonFactory
 from users.factories import UserFactory
 
@@ -489,6 +489,34 @@ class TestReplaceSellInvoice(TestInvoice):
         invoice = InvoiceSellFactory.create(invoice_number="1/2024")
 
         assert create_correction_invoice_number(invoice) == "1/k/2024"
+
+    def test_crete_correction_invoice(self):
+        self.client.login(username=self.user.email, password="test")
+
+        company = CompanyFactory.create(user=self.user, is_my_company=True)
+        client = CompanyFactory.create(user=self.user, is_my_company=False)
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/2024",
+            company=company,
+            client=client,
+            currency=self.currency,
+            account_number="111111111111111",
+        )
+
+        url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        form = response.context["form"]
+        response = self.client.post(url, data=form.initial)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+        self.assertTrue(
+            CorrectionInvoiceRelation.objects.filter(
+                invoice=invoice, correction_invoice__invoice_number="1/k/2024"
+            ).exists()
+        )
 
 
 class TestReplaceBuyInvoice(TestInvoice):
