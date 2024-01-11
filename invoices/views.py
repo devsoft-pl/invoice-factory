@@ -200,7 +200,7 @@ def replace_recurring_invoice_view(request, invoice_id):
         if form.is_valid():
             form.save()
 
-        return redirect("invoices:detail_invoice", invoice.pk)
+            return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": invoice, "form": form}
     return render(request, "invoices/replace_recurring_invoice.html", context)
