@@ -555,9 +555,9 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_recurring_invoice_when_is_settled(self):
         self.client.login(username=self.user.email, password="test")
 
-        invoice = InvoiceSellFactory.create(company__user=self.user, is_settled=True)
+        invoice = InvoiceSellFactory.create(company__user=self.user, is_recurring=True, is_settled=True)
 
-        data = InvoiceSellDictFactory(is_settled=False)
+        data = InvoiceSellDictFactory(is_recurring=False)
 
         url = reverse("invoices:replace_recurring_invoice", args=[invoice.pk])
         response = self.client.post(url, data=data)
@@ -569,9 +569,33 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertTrue(
             Invoice.objects.filter(
                 is_settled=data["is_settled"],
+                is_recurring=data["is_recurring"],
                 company__user=self.user,
             ).exists()
         )
+
+    def test_replace_recurring_invoice_display_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellFactory.create(company__user=self.user, is_recurring=True, is_settled=True)
+
+        url = reverse("invoices:replace_recurring_invoice", args=[invoice.pk])
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/replace_recurring_invoice.html")
+
+    def test_return_404_if_not_my_invoice_in_replace_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_sell_invoice = InvoiceSellFactory(is_recurring=True, is_settled=True)
+        url = reverse(
+            "invoices:replace_recurring_invoice", args=[other_sell_invoice.pk]
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
 
 
 class TestReplaceBuyInvoice(TestInvoice):
