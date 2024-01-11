@@ -22,7 +22,7 @@ class TestInvoice(TestCase):
         self.currency = CurrencyFactory.create(code="PLN")
         self.user_sales_invoices = sorted(
             InvoiceSellFactory.create_batch(
-                12, company__user=self.user, currency=self.currency
+                12, company__user=self.user, currency=self.currency, is_settled=False
             ),
             key=lambda invoice: invoice.sale_date,
             reverse=True,
@@ -389,7 +389,7 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_invalid_form_display_errors_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user)
+        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user, is_settled=False)
 
         url = reverse("invoices:replace_sell_invoice", args=[person_invoice.pk])
         response = self.client.post(url, {})
@@ -435,7 +435,7 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_with_valid_data_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user)
+        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user, is_settled=False)
         person = PersonFactory.create(user=self.user)
 
         data = InvoiceSellDictFactory(
@@ -473,6 +473,16 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
+    def test_return_404_if_invoice_is_settled_and_is_replace(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellFactory.create(is_settled=True)
+        url = reverse("invoices:replace_sell_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
 
@@ -490,7 +500,7 @@ class TestReplaceSellInvoice(TestInvoice):
 
         assert create_correction_invoice_number(invoice) == "1/k/2024"
 
-    def test_crete_correction_invoice(self):
+    def test_crete_correction_invoice_if_is_not_settled(self):
         self.client.login(username=self.user.email, password="test")
 
         company = CompanyFactory.create(user=self.user, is_my_company=True)
@@ -501,6 +511,7 @@ class TestReplaceSellInvoice(TestInvoice):
             client=client,
             currency=self.currency,
             account_number="111111111111111",
+            is_settled=False,
         )
 
         url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
@@ -517,6 +528,25 @@ class TestReplaceSellInvoice(TestInvoice):
                 invoice=invoice, correction_invoice__invoice_number="1/k/2024"
             ).exists()
         )
+
+    def test_crete_correction_invoice_if_is_settled(self):
+        self.client.login(username=self.user.email, password="test")
+
+        company = CompanyFactory.create(user=self.user, is_my_company=True)
+        client = CompanyFactory.create(user=self.user, is_my_company=False)
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/2024",
+            company=company,
+            client=client,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=True,
+        )
+
+        url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
 
 class TestReplaceBuyInvoice(TestInvoice):
