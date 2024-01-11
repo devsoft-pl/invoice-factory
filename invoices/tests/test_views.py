@@ -389,7 +389,9 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_invalid_form_display_errors_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user, is_settled=False)
+        person_invoice = InvoiceSellPersonFactory.create(
+            company__user=self.user, is_settled=False
+        )
 
         url = reverse("invoices:replace_sell_invoice", args=[person_invoice.pk])
         response = self.client.post(url, {})
@@ -435,7 +437,9 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_with_valid_data_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        person_invoice = InvoiceSellPersonFactory.create(company__user=self.user, is_settled=False)
+        person_invoice = InvoiceSellPersonFactory.create(
+            company__user=self.user, is_settled=False
+        )
         person = PersonFactory.create(user=self.user)
 
         data = InvoiceSellDictFactory(
@@ -547,6 +551,27 @@ class TestReplaceSellInvoice(TestInvoice):
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_replace_recurring_invoice_when_is_settled(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellFactory.create(company__user=self.user, is_settled=True)
+
+        data = InvoiceSellDictFactory(is_settled=False)
+
+        url = reverse("invoices:replace_recurring_invoice", args=[invoice.pk])
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                is_settled=data["is_settled"],
+                company__user=self.user,
+            ).exists()
+        )
 
 
 class TestReplaceBuyInvoice(TestInvoice):
