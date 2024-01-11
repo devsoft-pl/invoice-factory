@@ -191,6 +191,8 @@ def replace_recurring_invoice_view(request, invoice_id):
 
     if request.method != "POST":
         form = InvoiceRecurringForm(instance=invoice)
+        context = {"invoice": invoice, "form": form}
+        return render(request, "invoices/replace_recurring_invoice.html", context)
     else:
         form = InvoiceRecurringForm(
             instance=invoice,
@@ -200,10 +202,7 @@ def replace_recurring_invoice_view(request, invoice_id):
         if form.is_valid():
             form.save()
 
-            return redirect("invoices:detail_invoice", invoice.pk)
-
-    context = {"invoice": invoice, "form": form}
-    return render(request, "invoices/replace_recurring_invoice.html", context)
+        return redirect("invoices:detail_invoice", invoice.pk)
 
 
 @login_required
