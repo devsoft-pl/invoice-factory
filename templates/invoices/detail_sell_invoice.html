@@ -94,9 +94,14 @@
                 {% else %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_recurring_invoice' invoice.pk %}">Edytuj cykliczność</a>
                 {% endif %}
-                {% if not invoice.correction_invoice_relation %}
+                {% if not invoice.correction_invoice_relation and not invoice.original_invoice_relation%}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                 {% endif %}
+                <div class="row mt-2" style="color: red">
+                    {% if invoice.original_invoice_relation %}
+                        <p>Do faktury istnieje już faktura korygująca</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="row mt-2">
