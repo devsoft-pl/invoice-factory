@@ -99,7 +99,9 @@
                 {% endif %}
                 <div class="row mt-2" style="color: red">
                     {% if invoice.original_invoice_relation %}
-                        <p>Do faktury istnieje już faktura korygująca</p>
+                        <p>
+                            Do faktury istnieje już <a target="_blank" href="{% url 'invoices:detail_invoice' invoice.original_invoice_relation.correction_invoice.pk %}">faktura korygująca</a>
+                        </p>
                     {% endif %}
                 </div>
             </div>
