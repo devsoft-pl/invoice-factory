@@ -100,6 +100,12 @@ class Invoice(models.Model):
         verbose_name=_("Invoice file"), null=True, blank=True
     )
     is_paid = models.BooleanField(verbose_name=_("Paid"), default=False)
+    net_amount = models.DecimalField(
+        verbose_name=_("Net amount"), max_digits=9, decimal_places=2, default=0
+    )
+    gross_amount = models.DecimalField(
+        verbose_name=_("Gross_amount"), max_digits=9, decimal_places=2, default=0
+    )
 
     class Meta:
         ordering = ["-sale_date"]
@@ -108,8 +114,7 @@ class Invoice(models.Model):
     def __str__(self):
         return self.invoice_number or f"#{self.id}"
 
-    @property
-    def net_amount(self):
+    def calculate_net_amount(self):
         net_sum = 0
         for item in self.items.all():
             net_sum = net_sum + item.net_amount
@@ -122,8 +127,7 @@ class Invoice(models.Model):
             tax_sum = tax_sum + item.tax_amount
         return tax_sum
 
-    @property
-    def gross_amount(self):
+    def calculate_gross_amount(self):
         gross_sum = decimal.Decimal("0")
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
