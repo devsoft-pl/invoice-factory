@@ -41,3 +41,29 @@ class Item(models.Model):
     @property
     def gross_amount(self):
         return decimal.Decimal(self.net_amount + self.tax_amount)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        net_amount = self.invoice.calculate_net_amount()
+        self.invoice.net_amount = net_amount
+
+        gross_amount = self.invoice.calculate_gross_amount()
+        self.invoice.gross_amount = gross_amount
+
+        self.invoice.save()
+
+    def delete(self, *args, **kwargs):
+        deleted_objects = super().delete(*args, **kwargs)
+
+        net_amount = self.invoice.calculate_net_amount()
+        self.invoice.net_amount = net_amount
+
+        gross_amount = self.invoice.calculate_gross_amount()
+        self.invoice.gross_amount = gross_amount
+
+        self.invoice.save()
+
+        return deleted_objects
+
+
