@@ -74,8 +74,6 @@
                 <a class="btn btn-primary mt-2" href="{% url 'persons:create_person' %}">Dodaj osobę fizyczną</a></h3>
             </div>
         </div>
-        <div class="row">
-            {% include "pagination.html" with page=companies %}
-        </div>
     </div>
+    {% include "pagination.html" with page=persons %}
 {% endblock content %}
