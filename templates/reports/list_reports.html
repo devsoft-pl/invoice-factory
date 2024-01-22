@@ -1,0 +1,88 @@
+{% extends "base.html" %}{% load static %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Raporty</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <form action="{% url 'reports:list_reports' %}" method='get'>
+                <div class="d-flex justify-content-between mt-2">
+                    {{ filter_form.as_div }}
+                    <div class="d-grid gap-2 col-2 ">
+                        <button class="btn btn-primary">Szukaj</button>
+                        <a class="btn btn-outline-primary" href="{% url 'reports:list_reports' %}">Wyczyść</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row mt-2">
+            {% if net_invoices %}
+                <table class="table table-hover text-center mt-2">
+                    <thead class="table-light">
+                        <tr>
+                            <th></th>
+                            <th>Styczeń</th>
+                            <th>Lusty</th>
+                            <th>Marzec</th>
+                            <th>Kwiecień</th>
+                            <th>Maj</th>
+                            <th>Czerwiec</th>
+                            <th>Lipiec</th>
+                            <th>Sierpień</th>
+                            <th>Wrzesień</th>
+                            <th>Październik</th>
+                            <th>Listopad</th>
+                            <th>Grudzień</th>
+                            <th>Suma</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>Przychód netto</td>
+                            {% for invoice in net_invoices %}
+                                <td>{{ invoice.sum_net }}</td>
+                            {% endfor %}
+                            <td>Suma</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Przychód brutto</td>
+                            {% for invoice in gross_invoices %}
+                                <td>{{ invoice.gross_sum}}</td>
+                            {% endfor %}
+                            <td>Suma</td>
+                        </tr>
+                        
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Koszt netto</td>
+                            <td>9</td>
+                            <td>Suma</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>Koszt brutto</td>
+                            <td>9</td>
+                            <td>Suma</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="row">
+                    <div class="col">
+                        <b>Brak raportów</b>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
