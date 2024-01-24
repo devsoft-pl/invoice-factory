@@ -10,8 +10,8 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
-            <form action="{% url 'reports:list_reports' %}" method='get'>
+        <div class="row ">
+            <form class="mb-0" action="{% url 'reports:list_reports' %}" method='get'>
                 <div class="d-flex justify-content-between mt-2">
                     {{ filter_form.as_div }}
                     <div class="d-grid gap-2 col-2 ">
@@ -21,9 +21,56 @@
                 </div>
             </form>
         </div>
-        <div class="row mt-2">
+        <div class="row">
+            {% load humanize reports_tags i18n %}
             {% if net_invoices or gross_invoices %}
-                <table class="table table-hover text-center mt-2">
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                        {% if net_invoices and gross_invoices %}
+                            var data = google.visualization.arrayToDataTable([
+                                ['Miesiąc', 'Netto', "Brutto"],
+                                {% for net_invoice, gross_invoice in invoices %}
+                                    {% with invoice_net=net_invoice.sum_net invoice_gross=gross_invoice.gross_sum month=net_invoice.month|month_name %}
+                                        ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}, {{ invoice_gross|stringformat:".2f" }}],
+                                    {% endwith %}
+                                {% endfor %}
+                            ]);
+                        {% else %}
+                            {% if net_invoices %}
+                                var data = google.visualization.arrayToDataTable([
+                                ['Miesiąc', 'Netto'],
+                                {% for net_invoice in net_invoices %}
+                                    {% with invoice_net=net_invoice.sum_net month=net_invoice.month|month_name %}
+                                        ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}],
+                                    {% endwith %}
+                                {% endfor %}
+                            ]);
+                            {% endif %}
+                            {% if gross_invoices %}
+                                var data = google.visualization.arrayToDataTable([
+                                ['Miesiąc', 'Brutto'],
+                                {% for gross_invoice in gross_invoices %}
+                                    {% with invoice_gross=gross_invoice.gross_sum month=gross_invoice.month|month_name %}
+                                        ['{% trans month %}', {{ invoice_gross|stringformat:".2f" }}],
+                                    {% endwith %}
+                                {% endfor %}
+                            ]);
+                            {% endif %}
+                        {% endif %}        
+                        var options = {
+                            hAxis: {titleTextStyle: {color: '#333'}},
+                            vAxis: {minValue: 0}
+                        };
+            
+                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }
+                </script>
+                <div id="chart_div" style="width: 100%; height: 350px;"></div>
+                <table class="table table-hover text-center mt-3">
                     <thead class="table-light">
                         <tr>
                             <th></th>
