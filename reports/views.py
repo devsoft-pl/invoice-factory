@@ -58,6 +58,7 @@ def list_reports_view(request):
             context = {
                 "net_invoices": net_invoices,
                 "gross_invoices": gross_invoices,
+                "invoices": zip(net_invoices, gross_invoices),
                 "filter_form": filter_form,
                 "current_module": "reports",
             }
@@ -65,8 +66,9 @@ def list_reports_view(request):
         context = {
             "net_invoices": net_invoices,
             "gross_invoices": gross_invoices,
+            "invoices": zip(net_invoices, gross_invoices),
             "filter_form": filter_form,
             "current_module": "reports",
         }
-
+        breakpoint()
     return render(request, "reports/list_reports.html", context)
