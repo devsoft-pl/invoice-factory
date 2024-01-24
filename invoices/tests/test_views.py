@@ -555,7 +555,9 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_recurring_invoice_when_is_settled(self):
         self.client.login(username=self.user.email, password="test")
 
-        invoice = InvoiceSellFactory.create(company__user=self.user, is_recurring=True, is_settled=True)
+        invoice = InvoiceSellFactory.create(
+            company__user=self.user, is_recurring=True, is_settled=True
+        )
 
         data = InvoiceSellDictFactory(is_recurring=False)
 
@@ -577,7 +579,9 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_replace_recurring_invoice_display_form(self):
         self.client.login(username=self.user.email, password="test")
 
-        invoice = InvoiceSellFactory.create(company__user=self.user, is_recurring=True, is_settled=True)
+        invoice = InvoiceSellFactory.create(
+            company__user=self.user, is_recurring=True, is_settled=True
+        )
 
         url = reverse("invoices:replace_recurring_invoice", args=[invoice.pk])
         response = self.client.get(url)

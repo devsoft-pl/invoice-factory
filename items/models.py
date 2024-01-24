@@ -65,5 +65,3 @@ class Item(models.Model):
         self.invoice.save()
 
         return deleted_objects
-
-
