@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.db.models.functions import ExtractMonth
 from django.shortcuts import render
 from invoices.models import Invoice
+from reports.forms import ReportFilterForm
 
 
 @login_required
@@ -17,14 +18,17 @@ def list_reports_view(request):
     gross_sum_per_month = dict([str(invoice['month']), invoice['gross_sum']] for invoice in gross_invoices)
     gross_invoices = [{"month": month, "gross_sum": gross_sum_per_month.get(str(month), 0)} for month in range(1, 13)]
 
-    context = {"net_invoices": net_invoices, "gross_invoices": gross_invoices, "current_module": "reports"}
+    filter_form = ReportFilterForm(request.GET)
+    if filter_form.is_valid():
+        revenue_type = filter_form.cleaned_data['revenue_type']
+        if revenue_type == ReportFilterForm.NETTO:
+            context = {"net_invoices": net_invoices, "filter_form": filter_form, "current_module": "reports"}
+        elif revenue_type == ReportFilterForm.GROSS:
+            context = {"gross_invoices": gross_invoices, "filter_form": filter_form, "current_module": "reports"}
+        else:
+            context = {"net_invoices": net_invoices, "gross_invoices": gross_invoices, "filter_form": filter_form, "current_module": "reports"}
+    else:
+        context = {"net_invoices": net_invoices, "gross_invoices": gross_invoices, "filter_form": filter_form, "current_module": "reports"}
 
     return render(request, "reports/list_reports.html", context)
 
-
-    #
-    # # filter_form = ReportFilterForm(request.GET)
-    # # if filter_form.is_valid():
-    # #     invoices = filter_form.get_filtered_reports(invoices)
-    #
-    # # context = {"invoices": invoices, "filter_form": filter_form, "current_module": "reports"}

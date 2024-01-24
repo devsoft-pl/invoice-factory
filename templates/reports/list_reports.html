@@ -22,7 +22,7 @@
             </form>
         </div>
         <div class="row mt-2">
-            {% if net_invoices %}
+            {% if net_invoices or gross_invoices %}
                 <table class="table table-hover text-center mt-2">
                     <thead class="table-light">
                         <tr>
@@ -42,24 +42,28 @@
                             <th>Suma</th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <td>Przychód netto</td>
-                            {% for invoice in net_invoices %}
-                                <td>{{ invoice.sum_net }}</td>
-                            {% endfor %}
-                            <td>Suma</td>
-                        </tr>
-                    </tbody>
-                    <tbody>
-                        <tr>
-                            <td>Przychód brutto</td>
-                            {% for invoice in gross_invoices %}
-                                <td>{{ invoice.gross_sum}}</td>
-                            {% endfor %}
-                            <td>Suma</td>
-                        </tr>
-                    </tbody>
+                    {% if net_invoices %}
+                        <tbody class="table-group-divider">
+                            <tr>
+                                <td>Przychód netto</td>
+                                {% for invoice in net_invoices %}
+                                    <td>{{ invoice.sum_net }}</td>
+                                {% endfor %}
+                                <td>Suma</td>
+                            </tr>
+                        </tbody>
+                    {% endif %}  
+                    {% if gross_invoices %}
+                        <tbody>
+                            <tr>
+                                <td>Przychód brutto</td>
+                                {% for invoice in gross_invoices %}
+                                    <td>{{ invoice.gross_sum}}</td>
+                                {% endfor %}
+                                <td>Suma</td>
+                            </tr>
+                        </tbody>
+                    {% endif %}    
                 </table>
             {% else %}
                 <div class="row">
