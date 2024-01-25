@@ -8,6 +8,7 @@ from num2words import num2words
 
 from companies.models import Company
 from currencies.models import Currency, ExchangeRate
+from invoices.managers import InvoiceQuerySet
 from persons.models import Person
 
 
@@ -106,6 +107,8 @@ class Invoice(models.Model):
     gross_amount = models.DecimalField(
         verbose_name=_("Gross_amount"), max_digits=9, decimal_places=2, default=0
     )
+
+    objects = InvoiceQuerySet.as_manager()
 
     class Meta:
         ordering = ["-sale_date"]
