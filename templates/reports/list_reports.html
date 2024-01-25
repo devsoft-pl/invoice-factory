@@ -33,7 +33,7 @@
                             var data = google.visualization.arrayToDataTable([
                                 ['Miesiąc', 'Netto', "Brutto"],
                                 {% for net_invoice, gross_invoice in invoices %}
-                                    {% with invoice_net=net_invoice.sum_net invoice_gross=gross_invoice.gross_sum month=net_invoice.month|month_name %}
+                                    {% with invoice_net=net_invoice.net_sum invoice_gross=gross_invoice.gross_sum month=net_invoice.month|month_name %}
                                         ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}, {{ invoice_gross|stringformat:".2f" }}],
                                     {% endwith %}
                                 {% endfor %}
@@ -43,7 +43,7 @@
                                 var data = google.visualization.arrayToDataTable([
                                 ['Miesiąc', 'Netto'],
                                 {% for net_invoice in net_invoices %}
-                                    {% with invoice_net=net_invoice.sum_net month=net_invoice.month|month_name %}
+                                    {% with invoice_net=net_invoice.net_sum month=net_invoice.month|month_name %}
                                         ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}],
                                     {% endwith %}
                                 {% endfor %}
@@ -94,7 +94,7 @@
                             <tr>
                                 <td>Przychód netto</td>
                                 {% for invoice in net_invoices %}
-                                    <td>{{ invoice.sum_net }}</td>
+                                    <td>{{ invoice.net_sum }}</td>
                                 {% endfor %}
                                 <td>Suma</td>
                             </tr>

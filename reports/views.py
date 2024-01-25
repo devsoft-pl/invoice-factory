@@ -13,14 +13,14 @@ def list_reports_view(request):
         Invoice.objects.filter(invoice_type=Invoice.INVOICE_SALES)
         .annotate(month=ExtractMonth("sale_date"))
         .values("month")
-        .annotate(sum_net=Sum("net_amount"))
+        .annotate(net_sum=Sum("net_amount"))
     )
 
     net_sum_per_month = dict(
-        [str(invoice["month"]), invoice["sum_net"]] for invoice in net_invoices
+        [str(invoice["month"]), invoice["net_sum"]] for invoice in net_invoices
     )
     net_invoices = [
-        {"month": month, "sum_net": net_sum_per_month.get(str(month), 0)}
+        {"month": month, "net_sum": net_sum_per_month.get(str(month), 0)}
         for month in range(1, 13)
     ]
 
