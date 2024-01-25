@@ -96,7 +96,7 @@
                                 {% for invoice in net_invoices %}
                                     <td>{{ invoice.net_sum }}</td>
                                 {% endfor %}
-                                <td>Suma</td>
+                                <td>{{ total_net_sum }}</td>
                             </tr>
                         </tbody>
                     {% endif %}  
@@ -107,7 +107,7 @@
                                 {% for invoice in gross_invoices %}
                                     <td>{{ invoice.gross_sum}}</td>
                                 {% endfor %}
-                                <td>Suma</td>
+                                <td>{{ total_gross_sum }}</td>
                             </tr>
                         </tbody>
                     {% endif %}    
