@@ -26,11 +26,11 @@ class TestInvoiceModel:
     def test_returns_str_item_name(self):
         assert self.invoice.__str__() == self.invoice.invoice_number
 
-    def test_returns_net_sum(self):
-        assert self.invoice.net_amount == Decimal("3200")
+    def test_returns_calculated_net_amount(self):
+        assert self.invoice.calculate_net_amount() == Decimal("3200")
 
-    def test_returns_zero_net_sum_if_no_items(self):
-        assert self.invoice_2.net_amount == Decimal("0")
+    def test_returns_zero_calculated_net_amount_if_no_items(self):
+        assert self.invoice_2.calculate_net_amount() == Decimal("0")
 
     def test_returns_tax_amount(self):
         assert self.invoice.tax_amount == Decimal("736")
@@ -38,11 +38,11 @@ class TestInvoiceModel:
     def test_returns_zero_tax_amount_if_no_items(self):
         assert self.invoice_2.tax_amount == Decimal("0")
 
-    def test_returns_gross_amount(self):
-        assert self.invoice.gross_amount == Decimal("3936")
+    def test_returns_calculated_gross_amount(self):
+        assert self.invoice.calculate_gross_amount() == Decimal("3936")
 
-    def test_returns_zero_gross_amount_if_no_items(self):
-        assert self.invoice_2.gross_amount == Decimal("0")
+    def test_returns_zero_calculated_gross_amount_if_no_items(self):
+        assert self.invoice_2.calculate_gross_amount() == Decimal("0")
 
     def test_returns_sell_rate_in_pln(self):
         exchange_rate = ExchangeRateFactory.create(
