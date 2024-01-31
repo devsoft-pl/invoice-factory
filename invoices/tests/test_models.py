@@ -58,14 +58,12 @@ class TestInvoiceModel:
 
 @pytest.mark.django_db
 class TestYearModel:
-
     @pytest.fixture(autouse=True)
     def set_up(self):
         self.year = YearFactory.create()
 
     def test_returns_str_for_year(self):
         assert self.year.__str__() == str(self.year.year)
-
 
 
 @pytest.mark.django_db

@@ -75,7 +75,6 @@ class InvoiceBuyFactory(factory.django.DjangoModelFactory):
 
 
 class YearFactory(factory.django.DjangoModelFactory):
-
     class Meta:
         model = Year
 

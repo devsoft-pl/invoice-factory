@@ -172,7 +172,9 @@ class Invoice(models.Model):
 
 
 class Year(models.Model):
-    year = models.PositiveSmallIntegerField(verbose_name=_("Year"),)
+    year = models.PositiveSmallIntegerField(
+        verbose_name=_("Year"),
+    )
 
     class Meta:
         ordering = ["-year"]

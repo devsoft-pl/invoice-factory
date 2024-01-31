@@ -31,7 +31,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
             "person",
             "invoice_file",
             "net_amount",
-            "gross_amount"
+            "gross_amount",
         ]
 
     def create(self, validated_data):
