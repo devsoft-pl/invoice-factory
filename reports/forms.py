@@ -15,10 +15,3 @@ class ReportFilterForm(forms.Form):
 
     revenue_type.widget.attrs.update({"class": "form-select"})
 
-    def get_filtered_reports(self, reports_list):
-        revenue_type = self.cleaned_data["revenue_type"]
-
-        if revenue_type:
-            reports_list = reports_list.filter(revenue_type=revenue_type)
-
-        return reports_list
