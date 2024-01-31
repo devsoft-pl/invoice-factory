@@ -1,6 +1,8 @@
 import decimal
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -167,6 +169,18 @@ class Invoice(models.Model):
 
         html = render_to_string(template_path, context)
         return html
+
+
+class Year(models.Model):
+    year = models.PositiveSmallIntegerField(verbose_name=_("Year"),)
+
+    def __str__(self):
+        return str(self.year)
+
+
+# @receiver(post_save, sender=Invoice)
+# def create_year_on_invoice(sender, instance: Invoice, created=False, **kwargs):
+#     Year.objects.get_or_create(year=instance.sale_date.year)
 
 
 class CorrectionInvoiceRelation(models.Model):
