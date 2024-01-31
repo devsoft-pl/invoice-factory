@@ -4,7 +4,7 @@ import pytest
 
 from currencies.factories import ExchangeRateFactory
 from invoices.factories import (CorrectionInvoiceRelationFactory,
-                                InvoiceSellFactory)
+                                InvoiceSellFactory, YearFactory)
 from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
 
@@ -54,6 +54,18 @@ class TestInvoiceModel:
 
     def test_returns_invoice_sale(self):
         assert self.invoice.is_sell
+
+
+@pytest.mark.django_db
+class TestYearModel:
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.year = YearFactory.create()
+
+    def test_returns_str_for_year(self):
+        assert self.year.__str__() == str(self.year.year)
+
 
 
 @pytest.mark.django_db
