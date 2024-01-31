@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.translation import gettext as _
 
+from invoices.models import Year
+
 
 class ReportFilterForm(forms.Form):
     NETTO = "netto"
@@ -12,6 +14,8 @@ class ReportFilterForm(forms.Form):
     revenue_type = forms.ChoiceField(
         label=_("Revenue type"), required=False, choices=REVENUES
     )
+    year = forms.ModelChoiceField(queryset=Year.objects.all(), label=_("Year"), required=True, empty_label=None)
 
     revenue_type.widget.attrs.update({"class": "form-select"})
+    year.widget.attrs.update({"class": "form-select"})
 
