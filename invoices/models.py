@@ -178,9 +178,9 @@ class Year(models.Model):
         return str(self.year)
 
 
-# @receiver(post_save, sender=Invoice)
-# def create_year_on_invoice(sender, instance: Invoice, created=False, **kwargs):
-#     Year.objects.get_or_create(year=instance.sale_date.year)
+@receiver(post_save, sender=Invoice)
+def create_year_on_invoice(sender, instance: Invoice, created=False, **kwargs):
+    Year.objects.get_or_create(year=instance.sale_date.year)
 
 
 class CorrectionInvoiceRelation(models.Model):
