@@ -15,7 +15,7 @@ class ReportFilterForm(forms.Form):
         label=_("Revenue type"), required=False, choices=REVENUES
     )
     year = forms.ModelChoiceField(
-        queryset=Year.objects.all(), label=_("Year"), required=True, empty_label=None
+        queryset=Year.objects.all(), label=_("Year"), required=False, empty_label=None
     )
 
     revenue_type.widget.attrs.update({"class": "form-select"})
