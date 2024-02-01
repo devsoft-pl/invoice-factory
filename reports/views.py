@@ -70,7 +70,7 @@ def list_reports_view(request):
                 "total_gross_sum": total_gross_sum,
             }
 
-    context = {
+    context:  dict[str, int | str | list[dict[str, int | str | Decimal]] | list] = {
         "filter_form": filter_form,
         "current_module": "reports",
     }
