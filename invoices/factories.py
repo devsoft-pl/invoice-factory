@@ -7,6 +7,7 @@ from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import CorrectionInvoiceRelation, Invoice, Year
 from persons.factories import PersonFactory
+from users.factories import UserFactory
 
 
 class InvoiceSellFactory(factory.django.DjangoModelFactory):
@@ -79,6 +80,7 @@ class YearFactory(factory.django.DjangoModelFactory):
         model = Year
 
     year = fuzzy.FuzzyInteger(2023)
+    user = factory.SubFactory(UserFactory)
 
 
 class CorrectionInvoiceRelationFactory(factory.django.DjangoModelFactory):

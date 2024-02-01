@@ -3,7 +3,7 @@ from django.utils.translation import gettext as _
 
 from items.admin import ItemInline
 
-from .models import CorrectionInvoiceRelation, Invoice
+from .models import CorrectionInvoiceRelation, Invoice, Year
 
 
 @admin.register(Invoice)
@@ -60,6 +60,13 @@ class InvoiceAdmin(admin.ModelAdmin):
         ),
     )
 
+
+@admin.register(Year)
+class YearAdmin(admin.ModelAdmin):
+    list_display = (
+        "year",
+        "user",
+    )
 
 @admin.register(CorrectionInvoiceRelation)
 class CorrectionInvoiceRelationAdmin(admin.ModelAdmin):
