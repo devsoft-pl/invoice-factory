@@ -68,6 +68,7 @@ class YearAdmin(admin.ModelAdmin):
         "user",
     )
 
+
 @admin.register(CorrectionInvoiceRelation)
 class CorrectionInvoiceRelationAdmin(admin.ModelAdmin):
     list_display = (
