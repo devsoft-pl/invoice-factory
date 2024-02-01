@@ -12,6 +12,7 @@ from companies.models import Company
 from currencies.models import Currency, ExchangeRate
 from invoices.managers import InvoiceQuerySet
 from persons.models import Person
+from users.models import User
 
 
 class Invoice(models.Model):
@@ -174,6 +175,9 @@ class Invoice(models.Model):
 class Year(models.Model):
     year = models.PositiveSmallIntegerField(
         verbose_name=_("Year"),
+    )
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, null=True
     )
 
     class Meta:
