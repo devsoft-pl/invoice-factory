@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -10,7 +12,7 @@ def get_sum_invoices_per_month(invoices):
         [str(invoice["month"]), invoice["sum"]] for invoice in invoices
     )
     invoices = [
-        {"month": month, "sum": sum_per_month.get(str(month), 0)}
+        {"month": month, "sum": sum_per_month.get(str(month), Decimal("0.00"))}
         for month in range(1, 13)
     ]
 
@@ -19,7 +21,12 @@ def get_sum_invoices_per_month(invoices):
 
 @login_required
 def list_reports_view(request):
-    net_invoices = list(Invoice.objects.sales().with_months().with_sum("net_amount"))
+    net_invoices = list(
+        Invoice.objects.filter(company__user=request.user)
+        .sales()
+        .with_months()
+        .with_sum("net_amount")
+    )
     net_invoices = get_sum_invoices_per_month(net_invoices)
 
     net_sum_per_month = dict(
@@ -28,7 +35,10 @@ def list_reports_view(request):
     total_net_sum = sum(net_sum_per_month.values())
 
     gross_invoices = list(
-        Invoice.objects.sales().with_months().with_sum("gross_amount")
+        Invoice.objects.filter(company__user=request.user)
+        .sales()
+        .with_months()
+        .with_sum("gross_amount")
     )
     gross_invoices = get_sum_invoices_per_month(gross_invoices)
 
@@ -44,7 +54,7 @@ def list_reports_view(request):
         "total_net_sum": total_net_sum,
         "gross_invoices": gross_invoices,
         "total_gross_sum": total_gross_sum,
-        "invoices": zip(net_invoices, gross_invoices),
+        "invoices": list(zip(net_invoices, gross_invoices)),
     }
 
     if filter_form.is_valid():
