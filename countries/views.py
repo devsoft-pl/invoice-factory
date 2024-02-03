@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
@@ -47,6 +47,34 @@ def create_country_view(request):
 
     context = {"form": form}
     return render(request, "countries/create_country.html", context)
+
+
+@login_required
+def create_country_ajax_view(request):
+    if request.method != "POST":
+        form = CountryForm(user=request.user)
+    else:
+        form = CountryForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            country = form.save(commit=False)
+            country.user = request.user
+
+            country.save()
+
+            return JsonResponse(
+                {
+                    "success": True,
+                    "id": country.id,
+                    "name": country.country.capitalize(),
+                }
+            )
+
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
+
+    context = {"form": form}
+    return render(request, "countries/create_country_ajax.html", context)
 
 
 @login_required
