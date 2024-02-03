@@ -1,5 +1,64 @@
 {% extends "base.html" %}{% load static %}
 
+{% block extra_js %}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const createVatButton = document.getElementById('createVatButton');
+            
+            const vatModalElement = document.getElementById('vatModal');
+            const vatModalContentElement = document.getElementById('vatModalContent');
+          
+            const url = createVatButton.getAttribute("href");
+
+            createVatButton.addEventListener("click", async (e) => {
+                e.preventDefault();
+                
+                const response = await fetch(url);
+                const data = await response.text();
+                
+                vatModalContentElement.innerHTML = data;
+                
+                const modal = new bootstrap.Modal(vatModalElement, {});
+                modal.show();
+                
+                const createVatSaveButton = document.getElementById('createVatSaveButton');
+                
+                createVatSaveButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    
+                    const form = vatModalContentElement.getElementsByTagName('form')[0]
+                    
+                    const data = new FormData(form)
+                    
+                    const response = await fetch(url, {
+                        method: "POST",
+                        body: data
+                    });
+                    
+                    const json = await response.json();
+                    
+                    if(json.success) {
+                        const selectElement = document.getElementById('id_vat');
+                        
+                        const optionElement = document.createElement('option');
+                        optionElement.setAttribute('value', json.id);
+                        
+                        const optionNameElement = document.createTextNode(json.name);
+                        
+                        optionElement.appendChild(optionNameElement)
+                        selectElement.appendChild(optionElement);
+                        
+                        selectElement.value = json.id.toString()
+                        
+                        modal.hide();
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="container mt-3">
         <div class="row">
@@ -56,7 +115,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.vat.label_tag }}</div>
                     <div class="col-1">{{ form.vat }}</div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'vat_rates:create_vat' %}?next={% url 'items:create_item' invoice.pk %}">Dodaj</a>
+                        <a id="createVatButton" class="btn btn-primary" href="{% url 'vat_rates:create_vat_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.vat.errors %}
@@ -75,5 +134,12 @@
                 </div>
             </form>
         </div>
+    </div>
+    
+    <div class="modal fade" id="vatModal" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content" id="vatModalContent">
+        </div>
+      </div>
     </div>
 {% endblock content %}
