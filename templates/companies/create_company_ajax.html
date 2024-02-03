@@ -1,6 +1,10 @@
 {% load static %}
 <div class="modal-header">
-    <h5 class="modal-title">Dodaj kontrahenta</h5>
+    {% if create_my_company %}
+        <h5 class="modal-title">Dodaj firmę</h5>
+    {% else %}
+        <h5 class="modal-title">Dodaj kontrahenta</h5>
+    {% endif %}
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -97,6 +101,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        <button id="createCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+        {% if create_my_company %}
+            <button id="createMyCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+        {% else %}
+            <button id="createCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+        {% endif %}
     </div>
 </form>

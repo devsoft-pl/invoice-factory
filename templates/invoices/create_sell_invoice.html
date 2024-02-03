@@ -115,6 +115,63 @@
             });
         });
     </script>
+    
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const createMyCompanyButton = document.getElementById('createMyCompanyButton');
+            
+            const myCompanyModalElement = document.getElementById('myCompanyModal');
+            const myCompanyModalContentElement = document.getElementById('myCompanyModalContent');
+          
+            const url = createMyCompanyButton.getAttribute("href");
+
+            createMyCompanyButton.addEventListener("click", async (e) => {
+                e.preventDefault();
+                
+                const response = await fetch(url);
+                const data = await response.text();
+                
+                myCompanyModalContentElement.innerHTML = data;
+                
+                const modal = new bootstrap.Modal(myCompanyModalElement, {});
+                modal.show();
+                
+                const createMyCompanySaveButton = document.getElementById('createMyCompanySaveButton');
+                
+                createMyCompanySaveButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    
+                    const form = myCompanyModalContentElement.getElementsByTagName('form')[0]
+                    
+                    const data = new FormData(form)
+                    
+                    const response = await fetch(url, {
+                        method: "POST",
+                        body: data
+                    });
+                    
+                    const json = await response.json();
+                    
+                    if(json.success) {
+                        const selectElement = document.getElementById('id_company');
+                        
+                        const optionElement = document.createElement('option');
+                        optionElement.setAttribute('value', json.id);
+                        
+                        const optionNameElement = document.createTextNode(json.name);
+                        
+                        optionElement.appendChild(optionNameElement)
+                        selectElement.appendChild(optionElement);
+                        
+                        selectElement.value = json.id.toString()
+                        
+                        modal.hide();
+                    }
+                })
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -145,7 +202,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
                     <div class="col-3">{{ form.company }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
+                        <a id="createMyCompanyButton" class="btn btn-primary" href="{% url 'companies:create_my_company_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.company.errors %}
@@ -266,6 +323,13 @@
     <div class="modal fade" id="companyModal" tabindex="-1">
       <div class="modal-dialog modal-lg">
         <div class="modal-content" id="companyModalContent">
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="myCompanyModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myCompanyModalContent">
         </div>
       </div>
     </div>
