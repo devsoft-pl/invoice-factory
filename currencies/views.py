@@ -62,11 +62,9 @@ def create_currency_ajax_view(request):
 
             currency.save()
 
-            return JsonResponse({
-                "success": True,
-                "id": currency.id,
-                "name": currency.code.upper()
-            })
+            return JsonResponse(
+                {"success": True, "id": currency.id, "name": currency.code.upper()}
+            )
 
         else:
             return JsonResponse({"success": False, "errors": form.errors})
