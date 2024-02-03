@@ -30,6 +30,7 @@
 <ul>
 <li>Python 3+</li>
 <li>Django, Celery, DRF</li>
+<li>JavaScript</li>
 <li>MySQL</li>
 <li>HTML, CSS, Bootstrap</li>
 </ul>
