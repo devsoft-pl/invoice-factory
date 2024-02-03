@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
@@ -47,6 +47,32 @@ def create_currency_view(request):
 
     context = {"form": form}
     return render(request, "currencies/create_currency.html", context)
+
+
+@login_required
+def create_currency_ajax_view(request):
+    if request.method != "POST":
+        form = CurrencyForm(user=request.user)
+    else:
+        form = CurrencyForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            currency = form.save(commit=False)
+            currency.user = request.user
+
+            currency.save()
+
+            return JsonResponse({
+                "success": True,
+                "id": currency.id,
+                "name": currency.code.upper()
+            })
+
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
+
+    context = {"form": form}
+    return render(request, "currencies/create_currency_ajax.html", context)
 
 
 @login_required

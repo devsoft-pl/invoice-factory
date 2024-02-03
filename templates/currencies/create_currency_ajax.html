@@ -1,0 +1,29 @@
+{% load static %}
+<div class="modal-header">
+    <h5 class="modal-title">Dodaj walutę</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>    
+
+<form action="{% url 'currencies:create_currency' %}" method='post'>
+    <div class="modal-body">
+        {% csrf_token %}
+        {{ form.next }}
+        <div class="row mb-2">
+            <div class="col text-end flex align-self-center">{{ form.code.label_tag }}</div>
+            <div class="col-5">{{ form.code }}</div>
+        </div>
+        {% if form.code.errors %}
+            <div class="row">
+                <div class="col-auto offset-6 text-danger">
+                    {{ form.code.errors }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+        <button id="createCurrencySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+    </div>
+</form>
+ 
+
