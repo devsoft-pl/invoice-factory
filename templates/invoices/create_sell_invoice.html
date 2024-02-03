@@ -1,6 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block extra_js %}
+    
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -40,6 +41,63 @@
                     
                     if(json.success) {
                         const selectElement = document.getElementById('id_currency');
+                        
+                        const optionElement = document.createElement('option');
+                        optionElement.setAttribute('value', json.id);
+                        
+                        const optionNameElement = document.createTextNode(json.name);
+                        
+                        optionElement.appendChild(optionNameElement)
+                        selectElement.appendChild(optionElement);
+                        
+                        selectElement.value = json.id.toString()
+                        
+                        modal.hide();
+                    }
+                })
+            });
+        });
+    </script>
+    
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const createCompanyButton = document.getElementById('createCompanyButton');
+            
+            const companyModalElement = document.getElementById('companyModal');
+            const companyModalContentElement = document.getElementById('companyModalContent');
+          
+            const url = createCompanyButton.getAttribute("href");
+
+            createCompanyButton.addEventListener("click", async (e) => {
+                e.preventDefault();
+                
+                const response = await fetch(url);
+                const data = await response.text();
+                
+                companyModalContentElement.innerHTML = data;
+                
+                const modal = new bootstrap.Modal(companyModalElement, {});
+                modal.show();
+                
+                const createCompanySaveButton = document.getElementById('createCompanySaveButton');
+                
+                createCompanySaveButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    
+                    const form = companyModalContentElement.getElementsByTagName('form')[0]
+                    
+                    const data = new FormData(form)
+                    
+                    const response = await fetch(url, {
+                        method: "POST",
+                        body: data
+                    });
+                    
+                    const json = await response.json();
+                    
+                    if(json.success) {
+                        const selectElement = document.getElementById('id_client');
                         
                         const optionElement = document.createElement('option');
                         optionElement.setAttribute('value', json.id);
@@ -99,7 +157,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
                     <div class="col-3">{{ form.client }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
+                        <a id="createCompanyButton" class="btn btn-primary" href="{% url 'companies:create_company_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.client.errors %}
@@ -201,6 +259,13 @@
     <div class="modal fade" id="currencyModal" tabindex="-1">
       <div class="modal-dialog modal-sm">
         <div class="modal-content" id="currencyModalContent">
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="companyModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="companyModalContent">
         </div>
       </div>
     </div>

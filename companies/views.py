@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
@@ -74,6 +74,36 @@ def create_company_view(request, create_my_company=False):
 
     context = {"form": form, "create_my_company": create_my_company}
     return render(request, "companies/create_company.html", context)
+
+
+@login_required
+def create_company_ajax_view(request, create_my_company=False):
+    if request.method != "POST":
+        form = CompanyForm(current_user=request.user)
+    else:
+        form = CompanyForm(data=request.POST, current_user=request.user)
+
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.user = request.user
+
+            if create_my_company:
+                company.is_my_company = True
+
+            company.save()
+
+            return JsonResponse(
+                {
+                    "success": True,
+                    "id": company.id,
+                    "name": company.name,
+                }
+            )
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
+
+    context = {"form": form, "create_my_company": create_my_company}
+    return render(request, "companies/create_company_ajax.html", context)
 
 
 @login_required
