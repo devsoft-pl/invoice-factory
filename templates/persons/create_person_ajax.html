@@ -1,0 +1,94 @@
+{% load static %}
+<div class="modal-header">
+    <h5 class="modal-title">Dodaj konsumenta</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+    
+<form action="{% url 'persons:create_person_ajax' %}" method='post'>
+    <div class="modal-body">
+        {% csrf_token %}
+        {{ form.next }}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.first_name.label_tag }}</div>
+            <div class="col-3">{{ form.first_name }}</div>
+        </div>
+        {% if form.first_name.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.first_name.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.last_name.label_tag }}</div>
+            <div class="col-4">{{ form.last_name }}</div>
+        </div>
+        {% if form.last_name.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.last_name.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.address.label_tag }}</div>
+            <div class="col-4">{{ form.address }}</div>
+        </div>
+        {% if form.address.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.address.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.zip_code.label_tag }}</div>
+            <div class="col-2">{{ form.zip_code }}</div>
+        </div>
+        {% if form.zip_code.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.zip_code.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.city.label_tag }}</div>
+            <div class="col-4">{{ form.city }}</div>
+        </div>
+        {% if form.city.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.city.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.country.label_tag }}</div>
+            <div class="col-3">{{ form.country }}</div>
+            <div class="col">
+                <a id="createCountryButton" class="btn btn-primary" href="{% url 'countries:create_country_ajax' %}">Dodaj</a>
+            </div>
+        </div>
+        {% if form.country.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.country.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.email.label_tag }}</div>
+            <div class="col-4">{{ form.email }}</div>
+        </div>
+        {% if form.email.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.email.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end">{{ form.phone_number.label_tag }}</div>
+            <div class="col-3">{{ form.phone_number }}</div>
+        </div>
+        {% if form.phone_number.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">
+                    {{ form.phone_number.errors }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+        <button id="createPersonSaveButton" type="button" class="btn btn-primary">Zapisz</button>
+    </div>
+</form>

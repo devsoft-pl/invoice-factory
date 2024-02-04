@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
@@ -61,6 +61,33 @@ def create_person_view(request):
 
     context = {"form": form}
     return render(request, "persons/create_person.html", context)
+
+
+@login_required
+def create_person_ajax_view(request):
+    if request.method != "POST":
+        form = PersonForm(current_user=request.user)
+    else:
+        form = PersonForm(current_user=request.user, data=request.POST)
+
+        if form.is_valid():
+            person = form.save(commit=False)
+            person.user = request.user
+
+            person.save()
+
+            return JsonResponse(
+                {
+                    "success": True,
+                    "id": person.id,
+                    "name": person.full_name.capitalize(),
+                }
+            )
+        else:
+            return JsonResponse({"success": False, "errors": form.errors})
+
+    context = {"form": form}
+    return render(request, "persons/create_person_ajax.html", context)
 
 
 @login_required
