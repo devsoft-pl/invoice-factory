@@ -1,80 +1,80 @@
 {% extends "base.html" %}{% load static %}
 
 {% block extra_js %}
-<script>
-    const createOptionElement = (value, label, color = false) => {
-        const optionElement = document.createElement("option");
-        optionElement.setAttribute("value", value);
-        if (color) {
-            optionElement.style.color = "red";
-        }
-        
-        const createTextElement = document.createTextNode(label);
-        optionElement.appendChild(createTextElement);
-        
-        return optionElement;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const selectElement = document.getElementById("id_country");
-        
-        const optionElement = createOptionElement("new_country", "Dodaj nowy kraj", true);
-        selectElement.appendChild(optionElement);
-
-        const cancelElement = document.getElementById("cancelCountryButton");
-        const saveElement = document.getElementById("saveCountryButton");
-        const newCountryInput = document.createElement("input");
-        newCountryInput.classList.add("form-control");
-
-        selectElement.addEventListener("change", () => {
-            if (selectElement.value === "new_country") {
-                cancelElement.classList.remove("d-none");
-                saveElement.classList.remove("d-none");
-                selectElement.classList.add("d-none");
-                selectElement.parentElement.appendChild(newCountryInput);
-                newCountryInput.classList.remove("d-none");
+    <script>
+        const createOptionElement = (value, label, color = false) => {
+            const optionElement = document.createElement("option");
+            optionElement.setAttribute("value", value);
+            if (color) {
+                optionElement.style.color = "red";
             }
-        });
-        
-        const hideEditMode = () => {
-            cancelElement.classList.add("d-none");
-            saveElement.classList.add("d-none");
-            newCountryInput.classList.add("d-none")
-            selectElement.classList.remove("d-none");
-        };
-
-        cancelElement.addEventListener("click", (e) => {
-            e.preventDefault();
-            hideEditMode();
-            selectElement.value = "";
-            newCountryInput.value = "";
-        });
-
-        saveElement.addEventListener("click", async (e) => {
-            e.preventDefault();
-            hideEditMode();
-
-            const url = saveElement.getAttribute("href");
-            const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
-
-            const data = new FormData();
-            data.set("country", newCountryInput.value)
-            data.set("csrfmiddlewaretoken", csrfElement.value)
-
-            const response = await fetch(url, {
-                method: "POST",
-                body: data
+            
+            const createTextElement = document.createTextNode(label);
+            optionElement.appendChild(createTextElement);
+            
+            return optionElement;
+        }
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            const selectElement = document.getElementById("id_country");
+            
+            const optionElement = createOptionElement("new_country", "Dodaj nowy kraj", true);
+            selectElement.appendChild(optionElement);
+    
+            const cancelElement = document.getElementById("cancelCountryButton");
+            const saveElement = document.getElementById("saveCountryButton");
+            const newCountryInput = document.createElement("input");
+            newCountryInput.classList.add("form-control");
+    
+            selectElement.addEventListener("change", () => {
+                if (selectElement.value === "new_country") {
+                    cancelElement.classList.remove("d-none");
+                    saveElement.classList.remove("d-none");
+                    selectElement.classList.add("d-none");
+                    selectElement.parentElement.appendChild(newCountryInput);
+                    newCountryInput.classList.remove("d-none");
+                }
             });
-            const json = await response.json();
             
-            const newCountryOption = createOptionElement(json.id, json.name);
-            selectElement.appendChild(newCountryOption);
-            
-
-            selectElement.value = json.id.toString();
-            newCountryInput.value = "";
+            const hideEditMode = () => {
+                cancelElement.classList.add("d-none");
+                saveElement.classList.add("d-none");
+                newCountryInput.classList.add("d-none")
+                selectElement.classList.remove("d-none");
+            };
+    
+            cancelElement.addEventListener("click", (e) => {
+                e.preventDefault();
+                hideEditMode();
+                selectElement.value = "";
+                newCountryInput.value = "";
+            });
+    
+            saveElement.addEventListener("click", async (e) => {
+                e.preventDefault();
+                hideEditMode();
+    
+                const url = saveElement.getAttribute("href");
+                const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
+    
+                const data = new FormData();
+                data.set("country", newCountryInput.value)
+                data.set("csrfmiddlewaretoken", csrfElement.value)
+    
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: data
+                });
+                const json = await response.json();
+                
+                const newCountryOption = createOptionElement(json.id, json.name);
+                selectElement.appendChild(newCountryOption);
+                
+    
+                selectElement.value = json.id.toString();
+                newCountryInput.value = "";
+            });
         });
-    });
     </script>
 {% endblock %}
 
