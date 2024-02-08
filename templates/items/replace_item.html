@@ -1,5 +1,84 @@
 {% extends "base.html" %}{% load static %}
 
+{% block extra_js %}
+    <script>
+        const createOptionElement = (value, label, color = false) => {
+            const optionElement = document.createElement("option");
+            optionElement.setAttribute("value", value);
+            if (color) {
+                optionElement.style.color = "red";
+            }
+            
+            const createTextElement = document.createTextNode(label);
+            optionElement.appendChild(createTextElement);
+            
+            return optionElement;
+        }
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            const selectElement = document.getElementById("id_vat");
+            
+            const optionElement = createOptionElement("new_vat", "Dodaj nowy vat", true);
+            selectElement.appendChild(optionElement);
+    
+            const cancelElement = document.getElementById("cancelVatButton");
+            const saveElement = document.getElementById("saveVatButton");
+            const newVatInput = document.createElement("input");
+            newVatInput.classList.add("form-control");
+    
+            selectElement.addEventListener("change", () => {
+                if (selectElement.value === "new_vat") {
+                    cancelElement.classList.remove("d-none");
+                    saveElement.classList.remove("d-none");
+                    selectElement.classList.add("d-none");
+                    selectElement.parentElement.appendChild(newVatInput);
+                    newVatInput.classList.remove("d-none");
+                }
+            });
+            
+            const hideEditMode = () => {
+                cancelElement.classList.add("d-none");
+                saveElement.classList.add("d-none");
+                newVatInput.classList.add("d-none")
+                selectElement.classList.remove("d-none");
+            };
+            
+            const initialValue = document.getElementById("id_vat").value;
+            cancelElement.addEventListener("click", (e) => {
+                e.preventDefault();
+                hideEditMode();
+                selectElement.value = initialValue;
+                newVatInput.value = "";
+            });
+    
+            saveElement.addEventListener("click", async (e) => {
+                e.preventDefault();
+                hideEditMode();
+    
+                const url = saveElement.getAttribute("href");
+                const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
+    
+                const data = new FormData();
+                data.set("rate", newVatInput.value)
+                data.set("csrfmiddlewaretoken", csrfElement.value)
+    
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: data
+                });
+                const json = await response.json();
+                
+                const newVatOption = createOptionElement(json.id, json.name);
+                selectElement.appendChild(newVatOption);
+                
+    
+                selectElement.value = json.id.toString();
+                newVatInput.value = "";
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="container mt-3">
         <div class="row">
@@ -57,7 +136,8 @@
                     <div class="col-2 offset-3 text-end">{{ form.vat.label_tag }}</div>
                     <div class="col-1">{{ form.vat }}</div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'vat_rates:create_vat' %}?next={% url 'items:replace_item' item.pk %}">Dodaj</a>
+                        <a id="cancelVatButton" class="btn btn-secondary d-none">Anuluj</a>
+                        <a id="saveVatButton" class="btn btn-primary d-none" href="{% url 'vat_rates:create_vat_ajax' %}">Zapisz</a>
                     </div>
                 </div>
                 {% if form.vat.errors %}
