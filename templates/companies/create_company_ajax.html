@@ -43,7 +43,8 @@
             <div class="col-2 offset-3 text-end">{{ form.country.label_tag }}</div>
             <div class="col-3">{{ form.country }}</div>
             <div class="col">
-                <a id="createCountryButton" class="btn btn-primary" href="{% url 'countries:create_country_ajax' %}">Dodaj</a>
+                <a id="cancelCountryButton" class="btn btn-secondary d-none">Anuluj</a>
+                <a id="saveCountryButton" class="btn btn-primary d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
             </div>
         </div>
         {% if form.country.errors %}
