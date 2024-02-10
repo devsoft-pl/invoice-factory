@@ -23,6 +23,7 @@
     
             const cancelElement = document.getElementById("cancelCountryButton");
             const saveElement = document.getElementById("saveCountryButton");
+            
             const newCountryInput = document.createElement("input");
             newCountryInput.classList.add("form-control");
     
@@ -70,7 +71,6 @@
                 const newCountryOption = createOptionElement(json.id, json.name);
                 selectElement.appendChild(newCountryOption);
                 
-    
                 selectElement.value = json.id.toString();
                 newCountryInput.value = "";
             });
