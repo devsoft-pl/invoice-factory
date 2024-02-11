@@ -53,7 +53,12 @@
     
             saveElement.addEventListener("click", async (e) => {
                 e.preventDefault();
-                hideEditMode();
+                
+                const countryErrors = document.getElementById('id_country_errors');
+                if (countryErrors) {
+                    countryErrors.parentElement.removeChild(countryErrors);    
+                }
+                
     
                 const url = saveElement.getAttribute("href");
                 const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
@@ -67,12 +72,42 @@
                     body: data
                 });
                 const json = await response.json();
-                
-                const newCountryOption = createOptionElement(json.id, json.name);
-                selectElement.appendChild(newCountryOption);
-                
-                selectElement.value = json.id.toString();
-                newCountryInput.value = "";
+                if (json['success'] === false) {
+                    const rowContainer = selectElement.parentElement.parentElement;
+                    
+                    const errorElement = document.createElement('div');
+                    errorElement.setAttribute('id', 'id_country_errors');
+                    errorElement.setAttribute('class', 'row');
+                    
+                    const errorContainer = document.createElement('div');
+                    errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                    errorElement.appendChild(errorContainer);
+                    
+                    const errorUlContainer = document.createElement('ul');
+                    errorUlContainer.setAttribute('class', 'errorlist');
+                    errorContainer.appendChild(errorUlContainer)
+                    
+                    
+                    const countryErrors = json['errors']['country']
+                    
+                    countryErrors.forEach((value) => {
+                        const errorLiElement = document.createElement('li');
+                        const errorLabel = document.createTextNode(value);
+                        errorLiElement.appendChild(errorLabel);
+                        
+                        errorUlContainer.appendChild(errorLiElement);
+                    });
+                    
+                    rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling)
+                } else {
+                    hideEditMode();
+                    
+                    const newCountryOption = createOptionElement(json.id, json.name);
+                    selectElement.appendChild(newCountryOption);
+                    
+                    selectElement.value = json.id.toString();
+                    newCountryInput.value = "";
+                }
             });
         });
     </script>
