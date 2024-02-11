@@ -73,9 +73,6 @@ def create_country_ajax_view(request):
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
-    context = {"form": form}
-    return render(request, "countries/create_country_ajax.html", context)
-
 
 @login_required
 def replace_country_view(request, country_id):
