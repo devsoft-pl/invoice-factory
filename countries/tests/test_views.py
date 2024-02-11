@@ -118,6 +118,52 @@ class TestCreateCountry(TestCountry):
         self.assertEqual(response.status_code, 200)
 
 
+class TestCreateCountryAjax(TestCountry):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("countries:create_country_ajax")
+
+    def test_create_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_create_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane."])
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        country_data = CountryDictFactory(country="polska")
+
+        response = self.client.post(self.url, country_data)
+
+        response_json = response.json()
+        self.assertTrue(response_json["success"])
+        self.assertEqual(response_json["name"], "Polska")
+        self.assertTrue(
+            Country.objects.filter(
+                country=country_data["country"], user=self.user
+            ).count(),
+            1,
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 405)
+
+
 class TestReplaceCountry(TestCountry):
     def setUp(self) -> None:
         super().setUp()
