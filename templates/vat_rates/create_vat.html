@@ -28,9 +28,9 @@
                 <div class="row">
                     <div class="col text-center">
                         {% if request.GET.next %}
-                            <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
                         {% else %}
-                            <a class="btn btn-primary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
+                            <a class="btn btn-secondary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
                         {% endif %}
                         <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
                     </div>

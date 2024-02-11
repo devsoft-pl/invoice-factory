@@ -146,9 +146,9 @@
                 <div class="row">
                     <div class="col text-center">
                         {% if request.GET.next %}
-                            <a class="btn btn-primary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
                         {% endif %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+                        <a class="btn btn-secondary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
                         <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
                     </div>
                 </div>
