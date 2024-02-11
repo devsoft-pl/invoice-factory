@@ -28,8 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const cancelCountryElement = document.getElementById("cancelCountryButton");
         const saveCountryElement = document.getElementById("saveCountryButton");
-        console.log(saveCountryElement)
-        console.log(cancelCountryElement)
 
         const newCountryInput = document.createElement("input");
         newCountryInput.classList.add("form-control");
