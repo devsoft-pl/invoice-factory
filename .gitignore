@@ -4,7 +4,7 @@ venv/
 .env
 celerybeat-schedule
 media/
-static/
+/static
 /logs
 *.mo
 .coverage
