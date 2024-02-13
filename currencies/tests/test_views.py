@@ -110,6 +110,52 @@ class TestCreateCurrency(TestCurrency):
         self.assertEqual(response.status_code, 200)
 
 
+class TestCreateCurrencyAjax(TestCurrency):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("currencies:create_currency_ajax")
+
+    def test_create_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_create_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(response_json["errors"]["code"], ["To pole jest wymagane."])
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        currency_data = CurrencyDictFactory(code="pln")
+
+        response = self.client.post(self.url, currency_data)
+
+        response_json = response.json()
+        self.assertTrue(response_json["success"])
+        self.assertEqual(response_json["name"], "PLN")
+        self.assertTrue(
+            Currency.objects.filter(
+                code=currency_data["code"], user=self.user
+            ).count(),
+            1,
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+
 class TestReplaceCurrency(TestCurrency):
     def setUp(self) -> None:
         super().setUp()
