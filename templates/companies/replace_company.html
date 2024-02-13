@@ -72,6 +72,7 @@
                     body: data
                 });
                 const json = await response.json();
+                
                 if (json['success'] === false) {
                     const rowContainer = selectElement.parentElement.parentElement;
                     
@@ -103,7 +104,6 @@
 
                     const newCountryOption = createOptionElement(json.id, json.name);
                     selectElement.appendChild(newCountryOption);
-
 
                     selectElement.value = json.id.toString();
                     newCountryInput.value = "";
