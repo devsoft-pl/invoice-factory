@@ -40,7 +40,7 @@
             const hideEditMode = () => {
                 cancelElement.classList.add("d-none");
                 saveElement.classList.add("d-none");
-                newCountryInput.classList.add("d-none")
+                newCountryInput.classList.add("d-none");
                 selectElement.classList.remove("d-none");
             };
             
@@ -58,20 +58,20 @@
                 if (countryErrors) {
                     countryErrors.parentElement.removeChild(countryErrors);    
                 }
-                
     
                 const url = saveElement.getAttribute("href");
                 const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
     
                 const data = new FormData();
-                data.set("country", newCountryInput.value)
-                data.set("csrfmiddlewaretoken", csrfElement.value)
+                data.set("country", newCountryInput.value);
+                data.set("csrfmiddlewaretoken", csrfElement.value);
     
                 const response = await fetch(url, {
                     method: "POST",
                     body: data
                 });
                 const json = await response.json();
+                
                 if (json['success'] === false) {
                     const rowContainer = selectElement.parentElement.parentElement;
                     
@@ -85,10 +85,10 @@
                     
                     const errorUlContainer = document.createElement('ul');
                     errorUlContainer.setAttribute('class', 'errorlist');
-                    errorContainer.appendChild(errorUlContainer)
+                    errorContainer.appendChild(errorUlContainer);
                     
                     
-                    const countryErrors = json['errors']['country']
+                    const countryErrors = json['errors']['country'];
                     
                     countryErrors.forEach((value) => {
                         const errorLiElement = document.createElement('li');
@@ -98,7 +98,7 @@
                         errorUlContainer.appendChild(errorLiElement);
                     });
                     
-                    rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling)
+                    rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling);
                 } else {
                     hideEditMode();
                     
