@@ -154,6 +154,7 @@ class TestCreateCurrencyAjax(TestCurrency):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "currencies/create_currency_ajax.html")
 
 
 class TestReplaceCurrency(TestCurrency):
