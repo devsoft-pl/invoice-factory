@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
@@ -52,7 +52,7 @@ def create_vat_view(request):
 @login_required
 def create_vat_ajax_view(request):
     if request.method != "POST":
-        form = VatRateForm(user=request.user)
+        return HttpResponseNotAllowed(permitted_methods=["POST"])
     else:
         form = VatRateForm(data=request.POST, user=request.user)
 
@@ -72,9 +72,6 @@ def create_vat_ajax_view(request):
 
         else:
             return JsonResponse({"success": False, "errors": form.errors})
-
-    context = {"form": form}
-    return render(request, "vat_rates/create_vat_ajax.html", context)
 
 
 @login_required
