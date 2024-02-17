@@ -192,6 +192,99 @@ class TestCreateCompany(TestCompany):
         self.assertEqual(response.status_code, 200)
 
 
+class TestCreateCompanyAjax(TestCompany):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("companies:create_company_ajax")
+
+    def test_create_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_create_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(response_json["errors"]["name"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["nip"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["regon"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["address"], ["To pole jest wymagane."])
+        self.assertEqual(
+            response_json["errors"]["zip_code"], ["To pole jest wymagane."]
+        )
+        self.assertEqual(response_json["errors"]["city"], ["To pole jest wymagane."])
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_my_company_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        country = CountryFactory.create(user=self.user)
+        company_data = CompanyDictFactory(
+            nip="123456789",
+            regon="987654321",
+            country=country.pk,
+            zip_code="00-345",
+            city="Warszawa",
+            email="test@test.pl",
+            phone_number="123456789",
+            is_my_company=True,
+        )
+
+        url = reverse("companies:create_my_company_ajax")
+
+        response = self.client.post(url, company_data)
+
+        response_json = response.json()
+        self.assertTrue(response_json["success"])
+        self.assertEqual(response_json["name"], company_data["name"])
+        self.assertTrue(
+            Company.objects.filter(
+                regon=company_data["regon"], is_my_company=True, user=self.user
+            ).exists()
+        )
+
+    def test_create_client_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        country = CountryFactory.create(user=self.user)
+        company_data = CompanyDictFactory(
+            nip="987654321",
+            regon="123456789",
+            country=country.pk,
+            zip_code="00-345",
+            city="Warszawa",
+            email="test@test.pl",
+            phone_number="123456789",
+            is_my_company=False,
+        )
+
+        url = reverse("companies:create_company_ajax")
+
+        response = self.client.post(url, company_data)
+
+        response_json = response.json()
+        self.assertTrue(response_json["success"])
+        self.assertEqual(response_json["name"], company_data["name"])
+        self.assertTrue(
+            Company.objects.filter(
+                regon=company_data["regon"], is_my_company=False, user=self.user
+            ).exists()
+        )
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/create_company_ajax.html")
+
+
 class TestReplaceCompany(TestCompany):
     def setUp(self) -> None:
         super().setUp()
