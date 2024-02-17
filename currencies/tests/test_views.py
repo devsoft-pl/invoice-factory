@@ -141,9 +141,7 @@ class TestCreateCurrencyAjax(TestCurrency):
         self.assertTrue(response_json["success"])
         self.assertEqual(response_json["name"], "PLN")
         self.assertTrue(
-            Currency.objects.filter(
-                code=currency_data["code"], user=self.user
-            ).count(),
+            Currency.objects.filter(code=currency_data["code"], user=self.user).count(),
             1,
         )
         self.assertEqual(response.status_code, 200)

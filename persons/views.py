@@ -80,7 +80,7 @@ def create_person_ajax_view(request):
                 {
                     "success": True,
                     "id": person.id,
-                    "name": f"{person.first_name.capitalize()} {person.last_name.capitalize()}"
+                    "name": f"{person.first_name.capitalize()} {person.last_name.capitalize()}",
                 }
             )
         else:
