@@ -70,6 +70,7 @@
                     method: "POST",
                     body: data
                 });
+                
                 const json = await response.json();
                 
                 if (json['success'] === false) {
@@ -86,7 +87,6 @@
                     const errorUlContainer = document.createElement('ul');
                     errorUlContainer.setAttribute('class', 'errorlist');
                     errorContainer.appendChild(errorUlContainer);
-                    
                     
                     const countryErrors = json['errors']['country'];
                     
