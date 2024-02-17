@@ -109,6 +109,45 @@ class TestCreateVatRate(TestVatRate):
         self.assertEqual(response.status_code, 200)
 
 
+class TestCreateVatRateAjax(TestVatRate):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("vat_rates:create_vat_ajax")
+
+    def test_create_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(response_json["errors"]["rate"], ['To pole jest wymagane.'])
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {"rate": 99})
+
+        response_json = response.json()
+        self.assertTrue(response_json["success"])
+        self.assertEqual(response_json["name"], 99)
+        self.assertTrue(VatRate.objects.filter(rate=99, user=self.user).count(), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 405)
+
+
 class TestReplaceVatRate(TestVatRate):
     def setUp(self) -> None:
         super().setUp()
