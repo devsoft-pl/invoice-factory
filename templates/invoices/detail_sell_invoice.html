@@ -158,7 +158,7 @@
         {% if not invoice.is_settled %}
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-primary mt-2" href="{% url 'items:create_item_ajax' invoice.pk %}">Dodaj</a>
+                    <a class="btn btn-primary mt-2" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
                 </div>
             </div>
         {% endif %}
