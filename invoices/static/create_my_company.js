@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const url = createMyCompanyButton.getAttribute("href");
 
     myCompanyModalElement.addEventListener('hidden.bs.modal', function (e) {
-      myCompanyModalContentElement.innerHTML = ''
+        myCompanyModalContentElement.innerHTML = ''
     });
 
     createMyCompanyButton.addEventListener("click", async (e) => {
