@@ -126,7 +126,7 @@ class TestCreateVatRateAjax(TestVatRate):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["rate"], ['To pole jest wymagane.'])
+        self.assertEqual(response_json["errors"]["rate"], ["To pole jest wymagane."])
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
