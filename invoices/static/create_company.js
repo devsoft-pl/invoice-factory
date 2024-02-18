@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     companyModalElement.addEventListener('hidden.bs.modal', function (event) {
       companyModalContentElement.innerHTML = ''
-    })
+    });
 
     createCompanyButton.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -21,63 +21,99 @@ document.addEventListener("DOMContentLoaded", function () {
         const modal = new bootstrap.Modal(companyModalElement, {});
         modal.show();
 
-        const selectCountryElement = document.getElementById("id_country");
+        const selectCountryAjaxElement = document.getElementById("id_country");
 
-        const optionCountryElement = createCountryOptionElement("new_country", "Dodaj nowy kraj", true);
-        selectCountryElement.appendChild(optionCountryElement);
+        const optionCountryAjaxElement = createCountryOptionElement("new_country", "Dodaj nowy kraj", true);
+        selectCountryAjaxElement.appendChild(optionCountryAjaxElement);
 
-        const cancelCountryElement = document.getElementById("cancelCountryButton");
-        const saveCountryElement = document.getElementById("saveCountryButton");
+        const cancelCountryAjaxElement = document.getElementById("cancelCountryButton");
+        const saveCountryAjaxElement = document.getElementById("saveCountryButton");
 
-        const newCountryInput = document.createElement("input");
-        newCountryInput.classList.add("form-control");
+        const newCountryAjaxInput = document.createElement("input");
+        newCountryAjaxInput.classList.add("form-control");
 
-        selectCountryElement.addEventListener("change", () => {
-            if (selectCountryElement.value === "new_country") {
-                cancelCountryElement.classList.remove("d-none");
-                saveCountryElement.classList.remove("d-none");
-                selectCountryElement.classList.add("d-none");
-                selectCountryElement.parentElement.appendChild(newCountryInput);
-                newCountryInput.classList.remove("d-none");
+        selectCountryAjaxElement.addEventListener("change", () => {
+            if (selectCountryAjaxElement.value === "new_country") {
+                cancelCountryAjaxElement.classList.remove("d-none");
+                saveCountryAjaxElement.classList.remove("d-none");
+                selectCountryAjaxElement.classList.add("d-none");
+                selectCountryAjaxElement.parentElement.appendChild(newCountryInput);
+                newCountryAjaxInput.classList.remove("d-none");
             }
         });
 
         const hideCountryEditMode = () => {
-            cancelCountryElement.classList.add("d-none");
-            saveCountryElement.classList.add("d-none");
-            newCountryInput.classList.add("d-none")
-            selectCountryElement.classList.remove("d-none");
+            cancelCountryAjaxElement.classList.add("d-none");
+            saveCountryAjaxElement.classList.add("d-none");
+            newCountryAjaxInput.classList.add("d-none")
+            selectCountryAjaxElement.classList.remove("d-none");
         };
 
-        cancelCountryElement.addEventListener("click", (e) => {
+        cancelCountryAjaxElement.addEventListener("click", (e) => {
             e.preventDefault();
             hideCountryEditMode();
-            selectCountryElement.value = "";
-            newCountryInput.value = "";
+            selectCountryAjaxElement.value = "";
+            newCountryAjaxInput.value = "";
         });
 
-        saveCountryElement.addEventListener("click", async (e) => {
+        saveCountryAjaxElement.addEventListener("click", async (e) => {
             e.preventDefault();
-            hideCountryEditMode();
 
-            const urlCountry = saveCountryElement.getAttribute("href");
-            const csrfCountryElement = document.getElementsByName("csrfmiddlewaretoken")[0];
+            const countryAjaxErrors = document.getElementById('id_country_errors');
+            if (countryAjaxErrors) {
+                    countryAjaxErrors.parentElement.removeChild(countryAjaxErrors);
+                }
+
+            const urlCountryAjax = saveCountryAjaxElement.getAttribute("href");
+            const csrfCountryAjaxElement = document.getElementsByName("csrfmiddlewaretoken")[0];
 
             const data = new FormData();
-            data.set("country", newCountryInput.value)
-            data.set("csrfmiddlewaretoken", csrfCountryElement.value)
+            data.set("country", newCountryAjaxInput.value)
+            data.set("csrfmiddlewaretoken", csrfCountryAjaxElement.value)
 
-            const response = await fetch(urlCountry, {
+            const response = await fetch(urlCountryAjax, {
                 method: "POST",
                 body: data
             });
             const json = await response.json();
 
-            const newCountryOption = createCountryOptionElement(json.id, json.name);
-            selectCountryElement.appendChild(newCountryOption);
+            if (json['success'] === false) {
 
-            selectCountryElement.value = json.id.toString();
-            newCountryInput.value = "";
+                const rowAjaxContainer = selectCountryAjaxElement.parentElement.parentElement;
+
+                const errorAjaxElement = document.createElement('div');
+                errorAjaxElement.setAttribute('id', 'id_country_errors');
+                errorAjaxElement.setAttribute('class', 'row');
+
+                const errorAjaxContainer = document.createElement('div');
+                errorAjaxContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                errorAjaxElement.appendChild(errorAjaxContainer);
+
+                const errorUlAjaxContainer = document.createElement('ul');
+                errorUlAjaxContainer.setAttribute('class', 'errorlist');
+                errorAjaxContainer.appendChild(errorUlAjaxContainer);
+
+                const countryAjaxErrors = json['errors']['country'];
+
+                countryAjaxErrors.forEach((value) => {
+                    const errorLiAjaxElement = document.createElement('li');
+                    const errorAjaxLabel = document.createTextNode(value);
+                    errorLiAjaxElement.appendChild(errorAjaxLabel);
+
+                    errorUlAjaxContainer.appendChild(errorLiAjaxElement);
+                });
+
+                rowAjaxContainer.parentElement.insertBefore(errorAjaxElement, rowAjaxContainer.nextSibling);
+            } else {
+                hideCountryEditMode();
+
+                const newCountryAjaxOption = createCountryOptionElement(json.id, json.name);
+                selectCountryAjaxElement.appendChild(newCountryAjaxOption);
+
+                selectCountryAjaxElement.value = json.id.toString();
+                newCountryAjaxInput.value = "";
+            }
+
         });
 
         const createCompanySaveButton = document.getElementById('createCompanySaveButton');
@@ -86,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
 
             const form = companyModalContentElement.getElementsByTagName('form')[0]
-
             const data = new FormData(form)
 
             const response = await fetch(url, {
