@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 cancelCountryAjaxElement.classList.remove("d-none");
                 saveCountryAjaxElement.classList.remove("d-none");
                 selectCountryAjaxElement.classList.add("d-none");
-                selectCountryAjaxElement.parentElement.appendChild(newCountryInput);
+                selectCountryAjaxElement.parentElement.appendChild(newCountryAjaxInput);
                 newCountryAjaxInput.classList.remove("d-none");
             }
         });
