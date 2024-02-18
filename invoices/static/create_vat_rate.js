@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const createVatButton = document.getElementById('createVatButton');
 
     const vatModalElement = document.getElementById('vatModal');
