@@ -79,7 +79,6 @@ class TestCreateCountry(TestCountry):
         self.assertFormError(
             response.context["form"], "country", "To pole jest wymagane."
         )
-        self.assertTemplateUsed(response, "countries/create_country.html")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -103,6 +102,7 @@ class TestCreateCountry(TestCountry):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "countries/create_country.html")
 
 
 class TestCreateCountryAjax(TestCountry):
@@ -171,7 +171,6 @@ class TestReplaceCountry(TestCountry):
         self.assertFormError(
             response.context["form"], "country", "To pole jest wymagane."
         )
-        self.assertTemplateUsed(response, "countries/replace_country.html")
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -204,6 +203,7 @@ class TestReplaceCountry(TestCountry):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "countries/replace_country.html")
 
 
 class TestDeleteCountry(TestCountry):
