@@ -28,8 +28,7 @@ def list_currencies_view(request):
 @login_required
 def create_currency_view(request):
     if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = CurrencyForm(initial=initial, user=request.user)
+        form = CurrencyForm(user=request.user)
     else:
         form = CurrencyForm(data=request.POST, user=request.user)
 
@@ -38,10 +37,6 @@ def create_currency_view(request):
             currency.user = request.user
 
             currency.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
 
             return redirect("currencies:list_currencies")
 

@@ -76,7 +76,6 @@ class TestCreateCurrency(TestCurrency):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "code", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "currencies/create_currency.html")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -91,23 +90,13 @@ class TestCreateCurrency(TestCurrency):
             1,
         )
 
-    def test_create_with_valid_data_and_next(self):
-        self.client.login(username=self.user.email, password="test")
-
-        response = self.client.post(
-            self.url, {"code": "PLN", "next": reverse("invoices:create_sell_invoice")}
-        )
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("invoices:create_sell_invoice"))
-        self.assertTrue(Currency.objects.filter(code="PLN", user=self.user).count(), 1)
-
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "currencies/create_currency.html")
 
 
 class TestCreateCurrencyAjax(TestCurrency):
@@ -173,7 +162,6 @@ class TestReplaceCurrency(TestCurrency):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "code", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "currencies/replace_currency.html")
 
     def test_replace_currency_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -200,6 +188,7 @@ class TestReplaceCurrency(TestCurrency):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "currencies/replace_currency.html")
 
 
 class TestDeleteCurrency(TestCurrency):

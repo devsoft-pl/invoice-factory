@@ -7,7 +7,6 @@
 <form action="{% url 'currencies:create_currency' %}" method='post'>
     <div class="modal-body">
         {% csrf_token %}
-        {{ form.next }}
         <div class="row mb-2">
             <div class="col text-end flex align-self-center">{{ form.code.label_tag }}</div>
             <div class="col-5">{{ form.code }}</div>
