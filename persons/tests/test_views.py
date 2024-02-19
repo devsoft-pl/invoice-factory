@@ -340,6 +340,7 @@ class TestReplacePerson(TestPerson):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "persons/replace_person.html")
 
+
 class TestDeletePerson(TestPerson):
     def setUp(self) -> None:
         super().setUp()
