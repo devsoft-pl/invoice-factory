@@ -124,7 +124,6 @@ class TestCreateCompany(TestCompany):
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
         self.assertFormError(response.context["form"], "nip", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "companies/create_company.html")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -190,6 +189,7 @@ class TestCreateCompany(TestCompany):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/create_company.html")
 
 
 class TestCreateCompanyAjax(TestCompany):
@@ -306,7 +306,6 @@ class TestReplaceCompany(TestCompany):
         self.assertFormError(
             response.context["form"], "regon", "To pole jest wymagane."
         )
-        self.assertTemplateUsed(response, "companies/replace_company.html")
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -380,6 +379,7 @@ class TestReplaceCompany(TestCompany):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "companies/replace_company.html")
 
 
 class TestDeleteCompany(TestCompany):
