@@ -8,24 +8,25 @@
             if (color) {
                 optionElement.style.color = "red";
             }
-            
+
             const createTextElement = document.createTextNode(label);
             optionElement.appendChild(createTextElement);
-            
+
             return optionElement;
         }
-    
+
         document.addEventListener("DOMContentLoaded", () => {
             const selectElement = document.getElementById("id_vat");
-            
+
             const optionElement = createOptionElement("new_vat", "Dodaj nowy vat", true);
             selectElement.appendChild(optionElement);
-    
+
             const cancelElement = document.getElementById("cancelVatButton");
             const saveElement = document.getElementById("saveVatButton");
+            
             const newVatInput = document.createElement("input");
             newVatInput.classList.add("form-control");
-    
+
             selectElement.addEventListener("change", () => {
                 if (selectElement.value === "new_vat") {
                     cancelElement.classList.remove("d-none");
@@ -35,45 +36,77 @@
                     newVatInput.classList.remove("d-none");
                 }
             });
-            
+
             const hideEditMode = () => {
                 cancelElement.classList.add("d-none");
                 saveElement.classList.add("d-none");
                 newVatInput.classList.add("d-none")
                 selectElement.classList.remove("d-none");
             };
-            
-            const initialValue = document.getElementById("id_vat").value;
+
             cancelElement.addEventListener("click", (e) => {
                 e.preventDefault();
                 hideEditMode();
-                selectElement.value = initialValue;
+                selectElement.value = "";
                 newVatInput.value = "";
             });
-    
+
             saveElement.addEventListener("click", async (e) => {
                 e.preventDefault();
-                hideEditMode();
-    
+                
+                const vatErrors = document.getElementById('id_vat_errors');
+                if (vatErrors) {
+                    vatErrors.parentElement.removeChild(vatErrors);    
+                }
+                
                 const url = saveElement.getAttribute("href");
                 const csrfElement = document.getElementsByName("csrfmiddlewaretoken")[0];
-    
+
                 const data = new FormData();
                 data.set("rate", newVatInput.value)
                 data.set("csrfmiddlewaretoken", csrfElement.value)
-    
+
                 const response = await fetch(url, {
                     method: "POST",
                     body: data
                 });
                 const json = await response.json();
                 
-                const newVatOption = createOptionElement(json.id, json.name);
-                selectElement.appendChild(newVatOption);
-                
-    
-                selectElement.value = json.id.toString();
-                newVatInput.value = "";
+                if (json['success'] === false) {
+                    const rowContainer = selectElement.parentElement.parentElement;
+                    
+                    const errorElement = document.createElement('div');
+                    errorElement.setAttribute('id', 'id_vat_errors');
+                    errorElement.setAttribute('class', 'row');
+                    
+                    const errorContainer = document.createElement('div');
+                    errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                    errorElement.appendChild(errorContainer);
+                    
+                    const errorUlContainer = document.createElement('ul');
+                    errorUlContainer.setAttribute('class', 'errorlist');
+                    errorContainer.appendChild(errorUlContainer);
+                    
+                    const vatErrors = json['errors']['rate'];
+                    
+                    vatErrors.forEach((value) => {
+                        const errorLiElement = document.createElement('li');
+                        const errorLabel = document.createTextNode(value);
+                        errorLiElement.appendChild(errorLabel);
+                        
+                        errorUlContainer.appendChild(errorLiElement);
+                    });
+                    
+                    rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling);
+                } else {
+                    hideEditMode();
+
+                    const newVatOption = createOptionElement(json.id, json.name);
+                    selectElement.appendChild(newVatOption);
+
+                    selectElement.value = json.id.toString();
+                    newVatInput.value = "";
+                }    
             });
         });
     </script>
