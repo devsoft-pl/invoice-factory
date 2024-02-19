@@ -1,5 +1,13 @@
 {% extends "base.html" %}{% load static %}
 
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'utils.js' %}"></script>
+    <script type="text/javascript" src="{% static 'create_my_company.js' %}"></script>
+    <script type="text/javascript" src="{% static 'create_company.js' %}"></script>
+    <script type="text/javascript" src="{% static 'create_person.js' %}"></script>
+    <script type="text/javascript" src="{% static 'create_currency.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container mt-3">
         <div class="row">
@@ -33,7 +41,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
                     <div class="col-3">{{ form.company }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
+                        <a id="createMyCompanyButton" class="btn btn-primary" href="{% url 'companies:create_my_company_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.company.errors %}
@@ -45,7 +53,9 @@
                     <div class="row mb-2">
                         <div class="col-2 offset-3 text-end">{{ form.client.label_tag }}</div>
                         <div class="col-3">{{ form.client }}</div>
-                        <div class="col"><a class="btn btn-primary" href="{% url 'companies:create_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
+                        <div class="col">
+                            <a id="createCompanyButton" class="btn btn-primary" href="{% url 'companies:create_company_ajax' %}">Dodaj</a>
+                        </div>
                     </div>
                     {% if form.client.errors %}
                         <div class="row">
@@ -58,7 +68,9 @@
                     <div class="row mb-2">
                         <div class="col-2 offset-3 text-end">{{ form.person.label_tag }}</div>
                         <div class="col-3">{{ form.person }}</div>
-                        <div class="col"><a class="btn btn-primary" href="{% url 'persons:create_person' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a></div>
+                        <div class="col">
+                            <a id="createPersonButton" class="btn btn-primary" href="{% url 'persons:create_person_ajax' %}">Dodaj</a>
+                        </div>
                     </div>
                     {% if form.person.errors %}
                         <div class="row">
@@ -108,7 +120,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.currency.label_tag }}</div>
                     <div class="col-1">{{ form.currency }}</div>
                     <div class="col-2">
-                        <a class="btn btn-primary" href="{% url 'currencies:create_currency' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
+                        <a id="createCurrencyButton" class="btn btn-primary" href="{% url 'currencies:create_currency_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.currency.errors %}
@@ -157,5 +169,29 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="modal fade" id="myCompanyModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myCompanyModalContent">
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="companyModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="companyModalContent">
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="personModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="personModalContent">
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="currencyModal" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content" id="currencyModalContent">
+        </div>
+      </div>
     </div>
 {% endblock content %}

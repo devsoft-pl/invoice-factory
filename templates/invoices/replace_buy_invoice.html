@@ -1,5 +1,10 @@
 {% extends "base.html" %}{% load static %}
 
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'utils.js' %}"></script>
+    <script type="text/javascript" src="{% static 'create_my_company.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container mt-3">
         <div class="row">
@@ -29,7 +34,7 @@
                     <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
                     <div class="col-3">{{ form.company }}</div>
                     <div class="col">
-                        <a class="btn btn-primary" href="{% url 'companies:create_my_company' %}?next={% url 'invoices:create_sell_invoice' %}">Dodaj</a>
+                        <a id="createMyCompanyButton" class="btn btn-primary" href="{% url 'companies:create_my_company_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.company.errors %}
@@ -92,5 +97,11 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="modal fade" id="myCompanyModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="myCompanyModalContent">
+        </div>
+      </div>
     </div>
 {% endblock content %}
