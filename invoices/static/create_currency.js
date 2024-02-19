@@ -31,9 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     currencyErrors.parentElement.removeChild(currencyErrors);
                 }
 
-            const form = currencyModalContentElement.getElementsByTagName('form')[0]
+            const form = currencyModalContentElement.getElementsByTagName('form')[0];
 
-            const data = new FormData(form)
+            const data = new FormData(form);
 
             const response = await fetch(url, {
                 method: "POST",
@@ -78,10 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const optionNameElement = document.createTextNode(json.name);
 
-                optionElement.appendChild(optionNameElement)
+                optionElement.appendChild(optionNameElement);
                 selectElement.appendChild(optionElement);
 
-                selectElement.value = json.id.toString()
+                selectElement.value = json.id.toString();
 
                 modal.hide();
             }
