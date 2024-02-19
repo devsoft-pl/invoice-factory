@@ -14,7 +14,6 @@
         <div class="row mt-2">
             <form action="{% url 'countries:replace_country' country.pk %}" method='post'>
                 {% csrf_token %}
-                {{ form.next }}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.country.label_tag }}</div>
                     <div class="col-3">{{ form.country }}</div>
@@ -26,11 +25,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        {% if request.GET.next %}
-                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                        {% else %}
-                            <a class="btn btn-secondary mt-3" href="{% url 'countries:list_countries' %}">Powrót</a>
-                        {% endif %}
+                        <a class="btn btn-secondary mt-3" href="{% url 'countries:list_countries' %}">Powrót</a>
                         <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>

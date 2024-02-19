@@ -6,7 +6,6 @@ from countries.models import Country
 
 
 class CountryForm(forms.ModelForm):
-    next = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -18,7 +17,7 @@ class CountryForm(forms.ModelForm):
 
     class Meta:
         model = Country
-        fields = ["next", "country"]
+        fields = ["country"]
 
     def clean_country(self):
         country = self.cleaned_data.get("country")

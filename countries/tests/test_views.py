@@ -97,19 +97,6 @@ class TestCreateCountry(TestCountry):
             1,
         )
 
-    def test_create_with_valid_data_and_next(self):
-        self.client.login(username=self.user.email, password="test")
-
-        response = self.client.post(
-            self.url, {"country": "Polska", "next": reverse("companies:create_company")}
-        )
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("companies:create_company"))
-        self.assertTrue(
-            Country.objects.filter(country="Polska", user=self.user).count(), 1
-        )
-
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
 
