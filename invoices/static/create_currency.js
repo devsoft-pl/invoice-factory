@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const url = createCurrencyButton.getAttribute("href");
 
+    currencyModalElement.addEventListener('hidden.bs.modal', function (event) {
+      currencyModalContentElement.innerHTML = ''
+    });
+
     createCurrencyButton.addEventListener("click", async (e) => {
         e.preventDefault();
 
@@ -22,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
         createCurrencySaveButton.addEventListener("click", async (e) => {
             e.preventDefault();
 
+            const currencyErrors = document.getElementById('id_code_errors');
+            if (currencyErrors) {
+                    currencyErrors.parentElement.removeChild(currencyErrors);
+                }
+
             const form = currencyModalContentElement.getElementsByTagName('form')[0]
 
             const data = new FormData(form)
@@ -33,7 +42,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const json = await response.json();
 
-            if (json.success) {
+             if (json['success'] === false) {
+
+                 const selectCurrencyElement = document.getElementById("id_code");
+                 const rowContainer = selectCurrencyElement.parentElement.parentElement;
+
+                 const errorElement = document.createElement('div');
+                 errorElement.setAttribute('id', 'id_code_errors');
+                 errorElement.setAttribute('class', 'row');
+
+                 const errorContainer = document.createElement('div');
+                 errorContainer.setAttribute('class', 'col-auto w-100 text-end text-danger');
+                 errorElement.appendChild(errorContainer);
+
+                 const errorUlContainer = document.createElement('ul');
+                 errorUlContainer.setAttribute('class', 'errorlist');
+                 errorContainer.appendChild(errorUlContainer);
+
+                 const currencyErrors = json['errors']['code'];
+
+                 currencyErrors.forEach((value) => {
+                    const errorLiElement = document.createElement('li');
+                    const errorLabel = document.createTextNode(value);
+                    errorLiElement.appendChild(errorLabel);
+
+                    errorUlContainer.appendChild(errorLiElement);
+                });
+
+                rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling);
+             } else {
                 const selectElement = document.getElementById('id_currency');
 
                 const optionElement = document.createElement('option');
