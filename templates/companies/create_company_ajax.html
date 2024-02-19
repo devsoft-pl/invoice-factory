@@ -11,7 +11,6 @@
 <form action="{% url 'companies:create_company_ajax' %}" method='post'>
     <div class="modal-body">
         {% csrf_token %}
-        {{ form.next }}
         <div class="row mb-2">
             <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
             <div class="col-5">{{ form.name }}</div>

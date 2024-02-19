@@ -133,7 +133,6 @@
         <div class="row mt-2">
             <form action="{% if create_my_company %}{% url 'companies:create_my_company' %}{% else %}{% url 'companies:create_company' %}{% endif %}" method='post'>
                 {% csrf_token %}
-                {{ form.next }}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
                     <div class="col-4">{{ form.name }}</div>
