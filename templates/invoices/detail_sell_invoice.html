@@ -90,7 +90,7 @@
             <div class="col text-center">
                 {% if not invoice.is_settled %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
-                    <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                    <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% else %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_recurring_invoice' invoice.pk %}">Edytuj cykliczność</a>
                 {% endif %}
@@ -164,7 +164,7 @@
         {% endif %}
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-secondary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
                 <a class="btn btn-primary mt-2" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
             </div>
         </div>

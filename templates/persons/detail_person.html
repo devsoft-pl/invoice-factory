@@ -45,9 +45,9 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'persons:list_persons' %}">Powrót</a>
+                <a class="btn btn-secondary mt-3" href="{% url 'persons:list_persons' %}">Powrót</a>
                 <a class="btn btn-primary mt-3" href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
-                <a class="btn btn-primary mt-3" href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
+                <a class="btn btn-danger mt-3" href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
             </div>
         </div>
     </div>

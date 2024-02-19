@@ -56,7 +56,7 @@
         <div class="row mt-2">
             <div class="col text-center">
                 <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_buy_invoice' invoice.pk %}">Edytuj</a>
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
             </div>
         </div>
         <div class="row mt-2">
@@ -111,7 +111,7 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-secondary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
                 <a class="btn btn-primary mt-2" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
             </div>
         </div>
