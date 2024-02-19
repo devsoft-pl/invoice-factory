@@ -110,7 +110,6 @@ class TestCreatePerson(TestPerson):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "persons/create_person.html")
         self.assertFormError(
             response.context["form"], "first_name", "To pole jest wymagane."
         )
@@ -180,6 +179,7 @@ class TestCreatePerson(TestPerson):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "persons/create_person.html")
 
 
 class TestCreatePersonAjax(TestPerson):
@@ -279,7 +279,6 @@ class TestReplacePerson(TestPerson):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "persons/replace_person.html")
         self.assertFormError(
             response.context["form"], "first_name", "To pole jest wymagane."
         )
@@ -339,7 +338,7 @@ class TestReplacePerson(TestPerson):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
-
+        self.assertTemplateUsed(response, "persons/replace_person.html")
 
 class TestDeletePerson(TestPerson):
     def setUp(self) -> None:
