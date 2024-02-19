@@ -180,10 +180,8 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        {% if request.GET.next %}
-                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                        {% endif %}
-                        <button class="btn btn-secondary mt-3" name="submit">Zapisz</button>
+                        <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>
             </form>

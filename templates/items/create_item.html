@@ -127,7 +127,6 @@
         <div class="row mt-2">
             <form action="{% url 'items:create_item' invoice.pk %}" method='post'>
                 {% csrf_token %}
-                {{ form.next }}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
                     <div class="col-5">{{ form.name }}</div>
@@ -179,11 +178,8 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        {% if request.GET.next %}
-                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                        {% endif %}
                         <a class="btn btn-secondary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Dodaj</button>
+                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>
             </form>

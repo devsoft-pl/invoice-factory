@@ -43,7 +43,6 @@ class TestCreateItem(TestItem):
             response.context["form"], "net_price", "To pole jest wymagane."
         )
         self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "items/create_item.html")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -68,6 +67,7 @@ class TestCreateItem(TestItem):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "items/create_item.html")
 
 
 class TestReplaceItem(TestItem):
@@ -94,7 +94,6 @@ class TestReplaceItem(TestItem):
             response.context["form"], "amount", "To pole jest wymagane."
         )
         self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "items/replace_item.html")
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -129,6 +128,7 @@ class TestReplaceItem(TestItem):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "items/replace_item.html")
 
 
 class TestDeleteItem(TestItem):
