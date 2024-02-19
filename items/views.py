@@ -30,35 +30,6 @@ def create_item_view(request, invoice_id):
 
 
 @login_required
-def create_item_ajax_view(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
-
-    if request.method != "POST":
-        form = ItemForm(current_user=request.user)
-    else:
-        form = ItemForm(data=request.POST, current_user=request.user)
-
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.invoice = invoice
-
-            item.save()
-
-            return JsonResponse(
-                {
-                    "success": True,
-                    "id": item.id,
-                    "name": item.name,
-                }
-            )
-        else:
-            return JsonResponse({"success": False, "errors": form.errors})
-
-    context = {"form": form, "invoice": invoice}
-    return render(request, "items/create_item_ajax.html", context)
-
-
-@login_required
 def replace_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
