@@ -14,7 +14,6 @@
         <div class="row mt-2">
             <form action="{% url 'vat_rates:create_vat' %}" method='post'>
                 {% csrf_token %}
-                {{ form.next }}
                 <div class="row mb-2">
                     <div class="col-3 offset-3 text-end">{{ form.rate.label_tag }}</div>
                     <div class="col-1">{{ form.rate }}</div>
@@ -27,11 +26,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col text-center">
-                        {% if request.GET.next %}
-                            <a class="btn btn-secondary mt-3" href="{{ request.GET.next }}">Powrót</a>
-                        {% else %}
-                            <a class="btn btn-secondary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
-                        {% endif %}
+                        <a class="btn btn-secondary mt-3" href="{% url 'vat_rates:list_vat_rates' %}">Powrót</a>
                         <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
                     </div>
                 </div>

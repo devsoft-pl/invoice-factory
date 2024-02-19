@@ -28,8 +28,7 @@ def list_vat_rates_view(request):
 @login_required
 def create_vat_view(request):
     if request.method != "POST":
-        initial = {"next": request.GET.get("next")}
-        form = VatRateForm(initial=initial, user=request.user)
+        form = VatRateForm(user=request.user)
     else:
         form = VatRateForm(data=request.POST, user=request.user)
 
@@ -38,10 +37,6 @@ def create_vat_view(request):
             vat_rate.user = request.user
 
             vat_rate.save()
-
-            next_url = form.cleaned_data["next"]
-            if next_url:
-                return redirect(next_url)
 
             return redirect("vat_rates:list_vat_rates")
 

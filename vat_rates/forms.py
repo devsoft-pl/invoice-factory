@@ -6,8 +6,6 @@ from vat_rates.models import VatRate
 
 
 class VatRateForm(forms.ModelForm):
-    next = forms.CharField(widget=forms.HiddenInput(), required=False)
-
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
@@ -18,7 +16,7 @@ class VatRateForm(forms.ModelForm):
 
     class Meta:
         model = VatRate
-        fields = ["next", "rate"]
+        fields = ["rate"]
 
     def clean_rate(self):
         rate = self.cleaned_data.get("rate")

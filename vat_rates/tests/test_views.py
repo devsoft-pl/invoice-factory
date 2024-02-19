@@ -79,7 +79,6 @@ class TestCreateVatRate(TestVatRate):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "vat_rates/create_vat.html")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -90,23 +89,13 @@ class TestCreateVatRate(TestVatRate):
         self.assertRedirects(response, reverse("vat_rates:list_vat_rates"))
         self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).count(), 1)
 
-    def test_create_with_valid_data_and_next(self):
-        self.client.login(username=self.user.email, password="test")
-
-        response = self.client.post(
-            self.url, {"rate": "23", "next": reverse("vat_rates:create_vat")}
-        )
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("vat_rates:create_vat"))
-        self.assertTrue(VatRate.objects.filter(rate="23", user=self.user).count(), 1)
-
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "vat_rates/create_vat.html")
 
 
 class TestCreateVatRateAjax(TestVatRate):
@@ -166,7 +155,6 @@ class TestReplaceVatRate(TestVatRate):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context["form"], "rate", "To pole jest wymagane.")
-        self.assertTemplateUsed(response, "vat_rates/replace_vat.html")
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -193,6 +181,7 @@ class TestReplaceVatRate(TestVatRate):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "vat_rates/replace_vat.html")
 
 
 class TestDeleteVatRate(TestVatRate):
