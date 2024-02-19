@@ -1,7 +1,6 @@
 from django.urls import path
 
-from items.views import (create_item_view,
-                         delete_item_view, replace_item_view)
+from items.views import create_item_view, delete_item_view, replace_item_view
 
 app_name = "items"
 urlpatterns = [
