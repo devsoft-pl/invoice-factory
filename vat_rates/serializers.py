@@ -8,5 +8,5 @@ class VatRateSerializer(serializers.ModelSerializer):
         model = VatRate
         fields = ("id", "rate", "user")
         extra_kwargs = {
-            "code": {"validators": []},
+            "rate": {"validators": []},
         }

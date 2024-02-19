@@ -8,5 +8,5 @@ class CountrySerializer(serializers.ModelSerializer):
         model = Country
         fields = ("id", "country", "user")
         extra_kwargs = {
-            "code": {"validators": []},
+            "country": {"validators": []},
         }
