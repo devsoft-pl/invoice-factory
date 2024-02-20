@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from invoices.models import Invoice
+from invoices.models import Invoice, Year
 from reports.forms import ReportFilterForm
 
 
@@ -21,8 +21,16 @@ def get_sum_invoices_per_month(invoices):
 
 @login_required
 def list_reports_view(request):
+    filter_form = ReportFilterForm(request.GET)
+
+    year = Year.objects.first()
+
+    if filter_form.is_valid():
+        if filter_form.cleaned_data["year"]:
+            year = filter_form.cleaned_data["year"]
+
     net_invoices = list(
-        Invoice.objects.filter(company__user=request.user)
+        Invoice.objects.filter(company__user=request.user, sale_date__year=year.year)
         .sales()
         .with_months()
         .with_sum("net_amount")
@@ -35,7 +43,7 @@ def list_reports_view(request):
     total_net_sum = sum(net_sum_per_month.values())
 
     gross_invoices = list(
-        Invoice.objects.filter(company__user=request.user)
+        Invoice.objects.filter(company__user=request.user, sale_date__year=year.year)
         .sales()
         .with_months()
         .with_sum("gross_amount")
@@ -46,8 +54,6 @@ def list_reports_view(request):
         [str(invoice["month"]), invoice["sum"]] for invoice in gross_invoices
     )
     total_gross_sum = sum(gross_sum_per_month.values())
-
-    filter_form = ReportFilterForm(request.GET)
 
     extra_context = {
         "net_invoices": net_invoices,
