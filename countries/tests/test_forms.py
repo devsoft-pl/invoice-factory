@@ -13,7 +13,7 @@ class TestCountryForm:
 
     def test_form_with_valid_data(self):
         data = CountryDictFactory()
-        form = CountryForm(user=self.user, data=data)
+        form = CountryForm(current_user=self.user, data=data)
         is_valid = form.is_valid()
 
         assert form.errors == {}
@@ -22,7 +22,7 @@ class TestCountryForm:
     def test_clean_country_returns_error(self):
         country = CountryFactory.create(user=self.user)
         data = CountryDictFactory(country=country.country)
-        form = CountryForm(user=self.user, data=data)
+        form = CountryForm(current_user=self.user, data=data)
         is_valid = form.is_valid()
 
         assert form.errors == {"country": ["Kraj już istnieje"]}

@@ -28,9 +28,9 @@ def list_currencies_view(request):
 @login_required
 def create_currency_view(request):
     if request.method != "POST":
-        form = CurrencyForm(user=request.user)
+        form = CurrencyForm(current_user=request.user)
     else:
-        form = CurrencyForm(data=request.POST, user=request.user)
+        form = CurrencyForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             currency = form.save(commit=False)
@@ -47,9 +47,9 @@ def create_currency_view(request):
 @login_required
 def create_currency_ajax_view(request):
     if request.method != "POST":
-        form = CurrencyForm(user=request.user)
+        form = CurrencyForm(current_user=request.user)
     else:
-        form = CurrencyForm(data=request.POST, user=request.user)
+        form = CurrencyForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             currency = form.save(commit=False)
@@ -76,9 +76,11 @@ def replace_currency_view(request, currency_id):
         raise Http404(_("Currency does not exist"))
 
     if request.method != "POST":
-        form = CurrencyForm(instance=currency, user=request.user)
+        form = CurrencyForm(instance=currency, current_user=request.user)
     else:
-        form = CurrencyForm(instance=currency, data=request.POST, user=request.user)
+        form = CurrencyForm(
+            instance=currency, data=request.POST, current_user=request.user
+        )
 
         if form.is_valid():
             form.save()

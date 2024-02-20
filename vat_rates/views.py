@@ -28,9 +28,9 @@ def list_vat_rates_view(request):
 @login_required
 def create_vat_view(request):
     if request.method != "POST":
-        form = VatRateForm(user=request.user)
+        form = VatRateForm(current_user=request.user)
     else:
-        form = VatRateForm(data=request.POST, user=request.user)
+        form = VatRateForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             vat_rate = form.save(commit=False)
@@ -49,7 +49,7 @@ def create_vat_ajax_view(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=["POST"])
     else:
-        form = VatRateForm(data=request.POST, user=request.user)
+        form = VatRateForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             vat_rate = form.save(commit=False)
@@ -77,9 +77,11 @@ def replace_vat_view(request, vat_id):
         raise Http404(_("Vat rate does not exist"))
 
     if request.method != "POST":
-        form = VatRateForm(instance=vat_rate, user=request.user)
+        form = VatRateForm(instance=vat_rate, current_user=request.user)
     else:
-        form = VatRateForm(instance=vat_rate, data=request.POST, user=request.user)
+        form = VatRateForm(
+            instance=vat_rate, data=request.POST, current_user=request.user
+        )
 
         if form.is_valid():
             form.save()

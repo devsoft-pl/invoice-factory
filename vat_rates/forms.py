@@ -6,8 +6,8 @@ from vat_rates.models import VatRate
 
 
 class VatRateForm(forms.ModelForm):
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
+    def __init__(self, current_user, *args, **kwargs):
+        self.current_user = current_user
         super().__init__(*args, **kwargs)
 
         rate_field: forms.IntegerField = self.fields["rate"]
@@ -20,7 +20,7 @@ class VatRateForm(forms.ModelForm):
 
     def clean_rate(self):
         rate = self.cleaned_data.get("rate")
-        vat_rate = VatRate.objects.filter(rate=rate, user=self.user)
+        vat_rate = VatRate.objects.filter(rate=rate, user=self.current_user)
 
         if vat_rate.exists():
             raise forms.ValidationError(_("Vat rate already exists"))

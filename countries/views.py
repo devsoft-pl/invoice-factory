@@ -28,9 +28,9 @@ def list_countries_view(request):
 @login_required
 def create_country_view(request):
     if request.method != "POST":
-        form = CountryForm(user=request.user)
+        form = CountryForm(current_user=request.user)
     else:
-        form = CountryForm(data=request.POST, user=request.user)
+        form = CountryForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
@@ -49,7 +49,7 @@ def create_country_ajax_view(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(permitted_methods=["POST"])
     else:
-        form = CountryForm(data=request.POST, user=request.user)
+        form = CountryForm(data=request.POST, current_user=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
@@ -77,9 +77,11 @@ def replace_country_view(request, country_id):
         raise Http404(_("Country does not exist"))
 
     if request.method != "POST":
-        form = CountryForm(instance=country, user=request.user)
+        form = CountryForm(instance=country, current_user=request.user)
     else:
-        form = CountryForm(instance=country, data=request.POST, user=request.user)
+        form = CountryForm(
+            instance=country, data=request.POST, current_user=request.user
+        )
 
         if form.is_valid():
             form.save()

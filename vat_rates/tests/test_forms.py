@@ -13,7 +13,7 @@ class TestVatRateForm:
 
     def test_form_with_valid_data(self):
         data = VatRateDictFactory()
-        form = VatRateForm(user=self.user, data=data)
+        form = VatRateForm(current_user=self.user, data=data)
 
         assert form.is_valid()
         assert form.errors == {}
@@ -21,7 +21,7 @@ class TestVatRateForm:
     def test_clean_rate_returns_error(self):
         rate = VatRateFactory.create(user=self.user, rate="23")
         data = VatRateDictFactory(rate=rate.rate)
-        form = VatRateForm(user=self.user, data=data)
+        form = VatRateForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {"rate": ["Stawka VAT już istnieje"]}
