@@ -69,6 +69,10 @@ class InvoiceSellForm(forms.ModelForm):
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
 
+        self.fields["create_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["sale_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["payment_date"].widget.attrs["autocomplete"] = "off"
+
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
         invoice = Invoice.objects.filter(
@@ -143,6 +147,10 @@ class InvoiceSellPersonForm(forms.ModelForm):
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
 
+        self.fields["create_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["sale_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["payment_date"].widget.attrs["autocomplete"] = "off"
+
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
         invoice = Invoice.objects.filter(
@@ -193,7 +201,6 @@ class InvoiceBuyForm(forms.ModelForm):
             self.fields[field].widget.attrs["class"] = "form-control"
             self.fields[field].required = True
 
-        self.fields["invoice_number"].widget.attrs["autocomplete"] = "off"
         self.fields["sale_date"].widget.attrs["autocomplete"] = "off"
         self.fields["payment_date"].widget.attrs["autocomplete"] = "off"
         self.fields["settlement_date"].widget.attrs["autocomplete"] = "off"
