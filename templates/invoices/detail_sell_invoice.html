@@ -32,6 +32,28 @@
             <div class="col-3 offset-3 text-end">Data utworzenia:</div>
             <div class="col-4">{{ invoice.create_date| date:"d.m.Y" }}</div>
         </div>
+        {% if not invoice.correction_invoice_relation %}
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Cykliczność:</div>
+                <div class="col-4">
+                    {% if invoice.is_recurring %}
+                        <span>Tak</span>
+                    {% else %}
+                        <span>Nie</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Ostatni dzień miesiąca:</div>
+                <div class="col-4">
+                    {% if invoice.is_last_day %}
+                        <span>Tak</span>
+                    {% else %}
+                        <span>Nie</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
             <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
@@ -64,18 +86,6 @@
                 <div class="col-4">Nie</div>
             {% endif %}
         </div>
-        {% if not invoice.correction_invoice_relation %}
-            <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Cykliczność:</div>
-                <div class="col-4">
-                    {% if invoice.is_recurring %}
-                        <span>Tak</span>
-                    {% else %}
-                        <span>Nie</span>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Rozliczona:</div>
             <div class="col-4">
