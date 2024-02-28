@@ -29,6 +29,7 @@ class InvoiceSellFactory(factory.django.DjangoModelFactory):
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+    is_last_day = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
     is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
@@ -52,6 +53,7 @@ class InvoiceSellPersonFactory(factory.django.DjangoModelFactory):
     currency = factory.SubFactory(CurrencyFactory)
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+    is_last_day = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
     is_paid = factory.fuzzy.FuzzyChoice([True, False])
 
@@ -104,6 +106,7 @@ class InvoiceSellDictFactory(factory.DictFactory):
     )
     account_number = factory.Sequence(lambda n: "Account number %03d" % n)
     is_recurring = factory.fuzzy.FuzzyChoice([True, False])
+    is_last_day = factory.fuzzy.FuzzyChoice([True, False])
     is_settled = factory.fuzzy.FuzzyChoice([True, False])
     is_paid = factory.fuzzy.FuzzyChoice([True, False])
 

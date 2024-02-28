@@ -52,7 +52,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             _("Additional options"),
             {
                 "fields": (
-                    ("is_recurring",),
+                    ("is_recurring", "is_last_day"),
                     ("settlement_date", "is_settled"),
                     ("invoice_file",),
                 )

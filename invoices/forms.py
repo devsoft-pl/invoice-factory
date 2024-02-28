@@ -24,6 +24,7 @@ class InvoiceSellForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
+            "is_last_day",
             "is_paid",
         ]
 
@@ -67,6 +68,8 @@ class InvoiceSellForm(forms.ModelForm):
                 continue
             if field == "is_recurring":
                 continue
+            if field == "is_last_day":
+                continue
             self.fields[field].widget.attrs["class"] = "form-control"
 
         self.fields["create_date"].widget.attrs["autocomplete"] = "off"
@@ -103,6 +106,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
             "currency",
             "account_number",
             "is_recurring",
+            "is_last_day",
             "is_paid",
         ]
 
@@ -144,6 +148,8 @@ class InvoiceSellPersonForm(forms.ModelForm):
             if field == "is_paid":
                 continue
             if field == "is_recurring":
+                continue
+            if field == "is_last_day":
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
 
