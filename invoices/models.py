@@ -37,13 +37,6 @@ class Invoice(models.Model):
     MONTHLY = 2
     THREE_MONTH = 3
 
-    FREQUENCY = (
-        (WEEKLY, _("Weekly")),
-        (BIWEEKLY, _("Biweekly")),
-        (MONTHLY, _("Monthly")),
-        (THREE_MONTH, _("Three month")),
-    )
-
     invoice_number = models.CharField(
         verbose_name=_("Invoice number"), max_length=30, null=True, blank=True
     )
@@ -63,9 +56,6 @@ class Invoice(models.Model):
         related_name="invoices",
         null=True,
         blank=True,
-    )
-    recurring_frequency = models.IntegerField(
-        verbose_name=_("Recurring frequency"), choices=FREQUENCY, null=True, blank=True
     )
     is_recurring = models.BooleanField(verbose_name=_("Recurring"), default=False)
     is_last_day = models.BooleanField(verbose_name=_("Last day in month"), default=False)
