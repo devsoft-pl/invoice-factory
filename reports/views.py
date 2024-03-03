@@ -30,7 +30,9 @@ def list_reports_view(request):
             year = filter_form.cleaned_data["year"]
 
     net_invoices = list(
-        Invoice.objects.filter(company__user=request.user, sale_date__year=year.year)
+        Invoice.objects.filter(
+            company__user=request.user, sale_date__year=year.year, is_recurring=False
+        )
         .sales()
         .with_months()
         .with_sum("net_amount")
@@ -43,7 +45,9 @@ def list_reports_view(request):
     total_net_sum = sum(net_sum_per_month.values())
 
     gross_invoices = list(
-        Invoice.objects.filter(company__user=request.user, sale_date__year=year.year)
+        Invoice.objects.filter(
+            company__user=request.user, sale_date__year=year.year, is_recurring=False
+        )
         .sales()
         .with_months()
         .with_sum("gross_amount")
