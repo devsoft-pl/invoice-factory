@@ -18,14 +18,21 @@ FIRST_INVOICE_NUMBER = 1
 
 
 def get_invoice_with_max_sale_date():
-    return Invoice.objects.filter(invoice_type=Invoice.INVOICE_SALES, is_recurring=False).order_by("-sale_date", "pk").first()
+    return (
+        Invoice.objects.filter(invoice_type=Invoice.INVOICE_SALES, is_recurring=False)
+        .order_by("-sale_date", "pk")
+        .first()
+    )
 
 
 def get_max_invoice_number():
     max_sale_date_invoice = get_invoice_with_max_sale_date()
 
     current_year = date.today().year
-    if not max_sale_date_invoice or max_sale_date_invoice.sale_date.year != current_year:
+    if (
+        not max_sale_date_invoice
+        or max_sale_date_invoice.sale_date.year != current_year
+    ):
         return FIRST_INVOICE_NUMBER
     else:
         last_invoice_number = max_sale_date_invoice.split("/")[0]
