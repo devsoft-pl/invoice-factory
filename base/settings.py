@@ -160,13 +160,9 @@ CELERY_BEAT_SCHEDULE = {
         "task": "create_invoices_for_recurring",
         "schedule": crontab(minute="0", hour="6"),
     },
-    "check-company-status-from-ceidg": {
-        "task": "check_company_status_for_all_contractors",
-        "schedule": crontab(minute="0", hour="7"),
-    },
     "send-summary-recipients": {
         "task": "send_monthly_summary_to_recipients",
-        "schedule": crontab(minute="0", hour="8"),
+        "schedule": crontab(minute="0", hour="7"),
     },
     "get-exchange-rates-from-nbp": {
         "task": "get_exchange_rates_for_all",
