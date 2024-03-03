@@ -35,7 +35,7 @@ def get_max_invoice_number():
     ):
         return FIRST_INVOICE_NUMBER
     else:
-        last_invoice_number = max_sale_date_invoice.split("/")[0]
+        last_invoice_number = max_sale_date_invoice.invoice_number.split("/")[0]
         return int(last_invoice_number) + 1
 
 
