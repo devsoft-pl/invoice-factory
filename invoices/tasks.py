@@ -22,8 +22,9 @@ def get_invoice_with_max_sale_date():
 
 
 def get_max_invoice_number():
-    current_year = date.today().year
     max_sale_date_invoice = get_invoice_with_max_sale_date()
+
+    current_year = date.today().year
     if not max_sale_date_invoice or max_sale_date_invoice.sale_date.year != current_year:
         return FIRST_INVOICE_NUMBER
     else:
@@ -31,71 +32,31 @@ def get_max_invoice_number():
         return int(last_invoice_number) + 1
 
 
-@app.task(name="create_invoices_for_recurring")
-def create_invoices_for_recurring2():
+def create_recurrent_invoices(invoices):
     today = datetime.today()
-
-    invoices = Invoice.objects.filter(is_recurring=True, sale_date__day=today.day)
-
     for invoice in invoices:
         max_invoice_number = get_max_invoice_number()
-
         payment_date = today + timedelta(
             days=(invoice.payment_date - invoice.sale_date).days
         )
 
-        Invoice.objects.create(
+        new_invoice = Invoice.objects.create(
             invoice_number=f"{max_invoice_number}/{today.year}",
             invoice_type=Invoice.INVOICE_SALES,
             company=invoice.company,
-            is_recurring=False,
-            is_settled=False,
+            client=invoice.client,
+            person=invoice.person,
             create_date=today,
             sale_date=today,
             payment_date=payment_date,
             payment_method=invoice.payment_method,
             currency=invoice.currency,
             account_number=invoice.account_number,
-            client=invoice.client,
-            person=invoice.person,
-            settlement_date=None,
-            is_paid=False,
-        )
-
-
-@app.task(name="create_invoices_for_recurring")
-def create_invoices_for_recurring():
-    logger.info("Trying to create invoices recurring")
-
-    invoices = Invoice.objects.filter(is_recurring=True)
-    date = datetime.today()
-
-    month_range = calendar.monthrange(date.year, date.month)
-    last_day = month_range[1]
-
-    if last_day != date.day:
-        return
-
-    for invoice in invoices:
-        payment_date = date + timedelta(
-            days=(invoice.payment_date - invoice.sale_date).days
-        )
-        new_invoice = Invoice.objects.create(
-            invoice_number=f"{date.month}/{date.year}",
-            invoice_type=Invoice.INVOICE_SALES,
-            company=invoice.company,
             is_recurring=False,
-            is_settled=False,
-            create_date=date,
-            sale_date=date,
-            payment_date=payment_date,
-            payment_method=invoice.payment_method,
-            currency=invoice.currency,
-            account_number=invoice.account_number,
-            client=invoice.client,
-            person=invoice.person,
-            settlement_date=None,
+            is_last_day=invoice.is_last_day,
             is_paid=False,
+            is_settled=False,
+            settlement_date=None,
         )
 
         for item in invoice.items.all():
@@ -127,6 +88,22 @@ def create_invoices_for_recurring():
                 }
             ]
             new_invoice.company.user.send_email(subject, content, files)
+
+
+@app.task(name="create_invoices_for_recurring")
+def create_invoices_for_recurring():
+    today = datetime.today()
+
+    month_range = calendar.monthrange(today.year, today.month)
+    last_day = month_range[1]
+
+    invoices = Invoice.objects.filter(is_recurring=True)
+    if today.day == last_day:
+        invoices = invoices.filter(is_last_day=True)
+    else:
+        invoices = invoices.filter(sale_date__day=today.day, is_last_day=False)
+
+    create_recurrent_invoices(invoices)
 
 
 @app.task(name="send_monthly_summary_to_recipients")
