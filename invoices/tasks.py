@@ -127,6 +127,7 @@ def send_monthly_summary_to_recipients():
             company=company,
             create_date__month=summary_date.month,
             create_date__year=summary_date.year,
+            is_recurring=False
         )
 
         files = []

@@ -161,6 +161,7 @@ class TestSummaryRecipientTasks:
             create_date=self.last_month_date,
             is_settled=False,
             currency=self.currency,
+            is_recurring=False
         )
         self.invoice_2 = InvoiceSellFactory.create(
             company=self.company,
