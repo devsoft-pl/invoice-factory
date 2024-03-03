@@ -22,6 +22,66 @@ class TestRecurrentInvoiceTasks:
         self.currency = CurrencyFactory.create(code="PLN")
 
     @patch("invoices.tasks.datetime")
+    def test_returns_first_invoice_number_when_is_first_in_new_year(
+        self, datetime_mock
+    ):
+        datetime_mock.today.return_value = datetime.date(2024, 1, 31)
+        InvoiceSellFactory.create(
+            is_recurring=True,
+            currency=self.currency,
+            sale_date=datetime_mock.today.return_value,
+            is_last_day=True,
+        )
+        InvoiceSellFactory.create(
+            invoice_number="12/2023",
+            is_recurring=False,
+            currency=self.currency,
+            sale_date=datetime.date(2023, 12, 31),
+            is_last_day=True,
+        )
+
+        create_invoices_for_recurring()
+
+        invoices = Invoice.objects.filter(is_recurring=False, sale_date__year=2024)
+        assert invoices.count() == 1
+        assert invoices.first().invoice_number == "1/2024"
+        assert Invoice.objects.count() == 3
+
+    @patch("invoices.tasks.datetime")
+    def test_returns_second_invoice_number_when_is_second_in_new_year(
+        self, datetime_mock
+    ):
+        datetime_mock.today.return_value = datetime.date(2024, 1, 31)
+        InvoiceSellFactory.create(
+            invoice_number="1/2024",
+            is_recurring=False,
+            currency=self.currency,
+            sale_date=datetime.date(2024, 1, 25),
+        )
+        InvoiceSellFactory.create(
+            is_recurring=True,
+            currency=self.currency,
+            sale_date=datetime_mock.today.return_value,
+            is_last_day=True,
+        )
+
+        create_invoices_for_recurring()
+
+        invoices = Invoice.objects.filter(is_recurring=False, sale_date__year=2024)
+        assert invoices.count() == 2
+
+        invoice = (
+            Invoice.objects.filter(
+                invoice_type=Invoice.INVOICE_SALES, is_recurring=False
+            )
+            .order_by("-sale_date", "pk")
+            .first()
+        )
+        assert invoice.invoice_number == "2/2024"
+
+        assert Invoice.objects.count() == 3
+
+    @patch("invoices.tasks.datetime")
     @pytest.mark.parametrize(
         "current_date, last_day",
         [
