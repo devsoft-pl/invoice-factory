@@ -167,6 +167,7 @@ class TestSummaryRecipientTasks:
             company=self.company,
             create_date=self.last_month_date_2,
             currency=self.currency,
+            is_recurring=False
         )
 
     @patch("summary_recipients.models.SummaryRecipient.send_email")

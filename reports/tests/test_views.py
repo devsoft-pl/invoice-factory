@@ -26,6 +26,7 @@ class TestReport(TestCase):
             currency=self.currency,
             company=self.company,
             sale_date=datetime.date(2023, 1, 31),
+            is_recurring=False
         )
         self.item = ItemFactory.create(invoice=self.invoice)
         self.year = Year.objects.get(year=2023)
