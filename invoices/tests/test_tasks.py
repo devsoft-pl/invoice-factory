@@ -161,13 +161,13 @@ class TestSummaryRecipientTasks:
             create_date=self.last_month_date,
             is_settled=False,
             currency=self.currency,
-            is_recurring=False
+            is_recurring=False,
         )
         self.invoice_2 = InvoiceSellFactory.create(
             company=self.company,
             create_date=self.last_month_date_2,
             currency=self.currency,
-            is_recurring=False
+            is_recurring=False,
         )
 
     @patch("summary_recipients.models.SummaryRecipient.send_email")
