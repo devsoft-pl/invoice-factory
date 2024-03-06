@@ -68,9 +68,11 @@ class Invoice(models.Model):
     create_date = models.DateField(
         verbose_name=_("Create date"), default=timezone.now, editable=True
     )
-    sale_date = models.DateField(verbose_name=_("Sale date"), null=True, blank=True)
+    sale_date = models.DateField(
+        verbose_name=_("Sale date"), default=timezone.now, editable=True
+    )
     payment_date = models.DateField(
-        verbose_name=_("Payment date"), null=True, blank=True
+        verbose_name=_("Payment date"), default=timezone.now, editable=True
     )
     payment_method = models.IntegerField(
         verbose_name=_("Payment method"), choices=PAYMENT_METHOD, null=True, blank=True
