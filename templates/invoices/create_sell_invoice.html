@@ -80,9 +80,6 @@
                         <div class="col-auto offset-5 text-danger">{{ form.create_date.errors }}</div>
                     </div>
                 {% endif %}
-            
-                
-            
                 <div>
                     <div class="row mb-2">
                         <div class="col-2 offset-3 text-end my-auto">{{ form.sale_date.label_tag }}</div>
@@ -100,15 +97,6 @@
                         </div>
                     {% endif %}
                 </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end my-auto">{{ form.payment_date.label_tag }}</div>
                     <div class="col-2">{{ form.payment_date }}</div>
@@ -148,7 +136,7 @@
                         <div class="col-auto offset-5 text-danger">{{ form.account_number.errors }}</div>
                     </div>
                 {% endif %}
-                <div class="row mb-2">
+                <div class="row mb-2" id="isPaidContainerElement">
                     <div class="col-2 offset-3 text-end my-auto">{{ form.is_paid.label_tag }}</div>
                     <div class="col-4 my-auto">{{ form.is_paid }}</div>
                 </div>
