@@ -26,6 +26,10 @@ class TestInvoiceModel:
     def test_returns_str_item_name(self):
         assert self.invoice.__str__() == self.invoice.invoice_number
 
+    def test_returns_recurring_invoice_name(self):
+        self.invoice = InvoiceSellFactory.create(invoice_number="")
+        assert self.invoice.__str__() == 'Cykliczna faktura'
+
     def test_returns_calculated_net_amount(self):
         assert self.invoice.calculate_net_amount() == Decimal("3200")
 
