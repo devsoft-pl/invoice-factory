@@ -86,6 +86,7 @@ class InvoiceSellForm(forms.ModelForm):
         invoice = Invoice.objects.filter(
             invoice_number=invoice_number,
             company__user=self.current_user,
+            is_recurring=False
         )
 
         if self.instance.pk:
