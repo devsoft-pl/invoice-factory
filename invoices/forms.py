@@ -78,6 +78,11 @@ class InvoiceSellForm(forms.ModelForm):
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
+        is_recurring = self.data.get("is_recurring")
+
+        if not is_recurring and not invoice_number:
+            raise forms.ValidationError(_("This field is required."))
+
         invoice = Invoice.objects.filter(
             invoice_number=invoice_number,
             company__user=self.current_user,
