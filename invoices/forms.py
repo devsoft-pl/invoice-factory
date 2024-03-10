@@ -8,6 +8,13 @@ from companies.models import Company
 from currencies.models import Currency
 from invoices.models import CorrectionInvoiceRelation, Invoice
 from persons.models import Person
+import calendar
+
+
+def is_sale_date_last_day_of_month(date):
+    month_range = calendar.monthrange(date.year, date.month)
+    last_day = month_range[1]
+    return date.day == last_day
 
 
 class InvoiceSellForm(forms.ModelForm):
@@ -96,6 +103,15 @@ class InvoiceSellForm(forms.ModelForm):
             raise forms.ValidationError(_("Invoice number already exists"))
 
         return invoice_number
+
+    def clean_sale_date(self):
+        sale_date = self.cleaned_data.get("sale_date")
+        is_last_day = self.data.get("is_last_day")
+        is_recurring = self.data.get("is_recurring")
+
+        if is_recurring and is_last_day and not is_sale_date_last_day_of_month(sale_date):
+            raise forms.ValidationError(_("This field is not last dat of month."))
+        return sale_date
 
 
 class InvoiceSellPersonForm(forms.ModelForm):
