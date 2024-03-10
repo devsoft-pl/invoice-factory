@@ -29,7 +29,7 @@
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.invoice_number.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.invoice_number.label_tag }}</div>
                     <div class="col-3">{{ form.invoice_number }}</div>
                 </div>
                 {% if form.invoice_number.errors %}
@@ -38,7 +38,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.company.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.company.label_tag }}</div>
                     <div class="col-3">{{ form.company }}</div>
                     <div class="col">
                         <a id="createMyCompanyButton" class="btn btn-primary" href="{% url 'companies:create_my_company_ajax' %}">Dodaj</a>
@@ -50,7 +50,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.person.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.person.label_tag }}</div>
                     <div class="col-3">{{ form.person }}</div>
                     <div class="col">
                         <a id="createPersonButton" class="btn btn-primary" href="{% url 'persons:create_person_ajax' %}">Dodaj</a>
@@ -62,7 +62,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.create_date.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.create_date.label_tag }}</div>
                     <div class="col-2">{{ form.create_date }}</div>
                 </div>
                 {% if form.create_date.errors %}
@@ -71,10 +71,10 @@
                     </div>
                 {% endif %}
             <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">
+                    <div class="col-2 offset-3 text-end my-auto">
                         {{ form.is_recurring.label_tag }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 my-auto">
                         {{ form.is_recurring }}
                     </div>
                 </div>
@@ -84,10 +84,10 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">
+                    <div class="col-2 offset-3 text-end my-auto">
                         {{ form.is_last_day.label_tag }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 my-auto">
                         {{ form.is_last_day }}
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.sale_date.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.sale_date.label_tag }}</div>
                     <div class="col-2">{{ form.sale_date }}</div>
                 </div>
                 {% if form.sale_date.errors %}
@@ -106,7 +106,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.payment_date.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.payment_date.label_tag }}</div>
                     <div class="col-2">{{ form.payment_date }}</div>
                 </div>
                 {% if form.payment_date.errors %}
@@ -115,7 +115,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.payment_method.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.payment_method.label_tag }}</div>
                     <div class="col-2">{{ form.payment_method }}</div>
                 </div>
                 {% if form.payment_method.errors %}
@@ -124,7 +124,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.currency.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.currency.label_tag }}</div>
                     <div class="col-1">{{ form.currency }}</div>
                     <div class="col-2">
                         <a id="createCurrencyButton" class="btn btn-primary" href="{% url 'currencies:create_currency_ajax' %}">Dodaj</a>
@@ -136,7 +136,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.account_number.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.account_number.label_tag }}</div>
                     <div class="col-4">{{ form.account_number }}</div>
                 </div>
                 {% if form.account_number.errors %}
@@ -145,8 +145,8 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.is_paid.label_tag }}</div>
-                    <div class="col-4">{{ form.is_paid }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.is_paid.label_tag }}</div>
+                    <div class="col-4 my-auto">{{ form.is_paid }}</div>
                 </div>
                 {% if form.is_paid.errors %}
                     <div class="row">
