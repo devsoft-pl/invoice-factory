@@ -10,3 +10,12 @@ const createCountryOptionElement = (value, label, color = false) => {
 
             return optionElement;
         }
+
+const isLastDayOfMonth = (currentDate) =>{
+    const [day, month, year] = currentDate.split('.').map(Number);
+    const givenDate = new Date(year, month - 1, day);
+    const nextMonthDate = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(nextMonthDate - 1);
+
+    return givenDate.getTime() === lastDayOfMonth.getTime();
+}
