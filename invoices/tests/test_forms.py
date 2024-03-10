@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 
 from companies.factories import CompanyFactory
@@ -7,7 +9,8 @@ from currencies.models import Currency
 from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
                                 InvoiceSellDictFactory, InvoiceSellFactory)
 from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
-                            InvoiceSellPersonForm)
+                            InvoiceSellPersonForm,
+                            is_sale_date_last_day_of_month)
 from invoices.models import Invoice
 from persons.factories import PersonFactory
 from users.factories import UserFactory
@@ -335,3 +338,11 @@ class TestBuyInvoiceForm:
         assert form.errors == {
             "invoice_number": ["Numer faktury już istnieje"],
         }
+
+
+@pytest.mark.parametrize(
+    "date, expected", [[datetime(2024, 3, 11), False], [datetime(2024, 3, 31), True]]
+)
+def test_returns_check_if_date_last_day_of_month(date, expected):
+    result = is_sale_date_last_day_of_month(date)
+    assert result is expected
