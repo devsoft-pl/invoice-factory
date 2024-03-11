@@ -186,9 +186,15 @@ class InvoiceSellPersonForm(forms.ModelForm):
 
     def clean_invoice_number(self):
         invoice_number = self.cleaned_data.get("invoice_number")
+        is_recurring = self.data.get("is_recurring")
+
+        if not is_recurring and not invoice_number:
+            raise forms.ValidationError(_("This field is required."))
+
         invoice = Invoice.objects.filter(
             invoice_number=invoice_number,
             company__user=self.current_user,
+            is_recurring=False,
         )
 
         if self.instance.pk:
@@ -198,6 +204,19 @@ class InvoiceSellPersonForm(forms.ModelForm):
             raise forms.ValidationError(_("Invoice number already exists"))
 
         return invoice_number
+
+    def clean_sale_date(self):
+        sale_date = self.cleaned_data.get("sale_date")
+        is_last_day = self.data.get("is_last_day")
+        is_recurring = self.data.get("is_recurring")
+
+        if (
+            is_recurring
+            and is_last_day
+            and not is_sale_date_last_day_of_month(sale_date)
+        ):
+            raise forms.ValidationError(_("This field is not last dat of month."))
+        return sale_date
 
 
 class InvoiceRecurringForm(forms.ModelForm):
