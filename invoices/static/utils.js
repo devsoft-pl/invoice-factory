@@ -16,6 +16,5 @@ const isLastDayOfMonth = (currentDate) =>{
     const givenDate = new Date(year, month - 1, day);
     const nextMonthDate = new Date(year, month, 1);
     const lastDayOfMonth = new Date(nextMonthDate - 1);
-
-    return givenDate.getTime() === lastDayOfMonth.getTime();
+    return givenDate.getDate() === lastDayOfMonth.getDate();
 }
