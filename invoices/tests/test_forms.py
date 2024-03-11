@@ -261,6 +261,28 @@ class TestSellInvoiceForm:
             ],
         }
 
+    def test_clean_sale_date_returns_error_for_client(self):
+        data = InvoiceSellDictFactory(
+            company=self.company_1,
+            client=self.client_1,
+            currency=self.currency_1,
+            is_recurring=True,
+            is_last_day=True,
+        )
+
+        form = InvoiceSellForm(current_user=self.user, data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+            ],
+            "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
+            "account_number": [
+                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+            ],
+        }
+
     def test_clean_invoice_number_returns_error_for_person(self):
         person = CompanyFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
