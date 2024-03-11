@@ -6,7 +6,7 @@ class PytestTestRunner(object):
         self.failfast = failfast
         self.keepdb = keepdb
 
-    def run_tests(self, test_labels):
+    def run_tests(self, test_labels, *args, **kwargs):
         """Run pytest and return the exitcode.
 
         It translates some of Django's test command option to pytest's.
@@ -26,4 +26,4 @@ class PytestTestRunner(object):
             argv.append("--reuse-db")
 
         argv.extend(test_labels)
-        return pytest.main(argv)
+        return pytest.main(argv, *args, **kwargs)
