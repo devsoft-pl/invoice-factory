@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const isLastDayElement = document.getElementById('id_is_last_day');
-    const saleDateInput = document.getElementById('id_sale_date').value;
+    const saleDateInput = document.getElementById('id_sale_date');
     const saleDateContainer = document.getElementById("saleDateContainer");
 
-    isLastDayElement.addEventListener("change", (e) =>{
+    isLastDayElement.addEventListener("change", (e) => {
         e.preventDefault();
 
         const lastDayErrors = document.getElementById('id_last_day_errors');
@@ -41,7 +41,40 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (isLastDayElement.checked) {
-            if (!isLastDayOfMonth(saleDateInput)) {
+            if (!isLastDayOfMonth(saleDateInput.value)) {
+                const errorElement = document.createElement('div');
+                errorElement.setAttribute('id', 'id_last_day_errors');
+                errorElement.setAttribute('class', 'row');
+
+                const errorContainer = document.createElement('div');
+                errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                errorElement.appendChild(errorContainer);
+
+                const errorUlContainer = document.createElement('ul');
+                errorUlContainer.setAttribute('class', 'errorlist');
+                errorContainer.appendChild(errorUlContainer);
+
+                const errorLiElement = document.createElement('li');
+                const errorLabel = document.createTextNode("To nie jest ostatni dzień miesiąca.");
+                errorLiElement.appendChild(errorLabel);
+
+                errorUlContainer.appendChild(errorLiElement);
+
+                saleDateContainer.parentElement.insertBefore(errorElement, saleDateContainer.nextSibling);
+            }
+        }
+    });
+
+    saleDateInput.addEventListener("changeDate", (e) => {
+        e.preventDefault();
+
+        const lastDayErrors = document.getElementById('id_last_day_errors');
+        if (lastDayErrors) {
+            lastDayErrors.parentElement.removeChild(lastDayErrors);
+        }
+
+        if (isLastDayElement.checked) {
+            if (!isLastDayOfMonth(saleDateInput.value)) {
                 const errorElement = document.createElement('div');
                 errorElement.setAttribute('id', 'id_last_day_errors');
                 errorElement.setAttribute('class', 'row');
