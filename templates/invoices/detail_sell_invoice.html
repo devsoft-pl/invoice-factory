@@ -7,7 +7,13 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'invoices:index' %}">Strona główna</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ invoice.invoice_number }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {% if not invoice.is_recurring %}
+                            {{ invoice.invoice_number }}
+                        {% else %}
+                            <span>Faktura cykliczna</span>
+                        {% endif %}
+                    </li>
                 </ol>
             </nav>
         </div>
@@ -15,6 +21,18 @@
             <div class="col-3 offset-3 text-end">Typ faktury:</div>
             <div class="col-4">{{ invoice.get_invoice_type_display }}</div>
         </div>
+        {% if not invoice.correction_invoice_relation %}
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Cykliczność:</div>
+                <div class="col-4">
+                    {% if invoice.is_recurring %}
+                        <span>Tak</span>
+                    {% else %}
+                        <span>Nie</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}    
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Moja firma:</div>
             <div class="col-4">{{ invoice.company }}</div>
@@ -32,19 +50,13 @@
             <div class="col-3 offset-3 text-end">Data utworzenia:</div>
             <div class="col-4">{{ invoice.create_date| date:"d.m.Y" }}</div>
         </div>
-        {% if not invoice.correction_invoice_relation %}
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
+            <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
+        </div>
+        {% if not invoice.correction_invoice_relation and invoice.is_recurring %}
             <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Cykliczność:</div>
-                <div class="col-4">
-                    {% if invoice.is_recurring %}
-                        <span>Tak</span>
-                    {% else %}
-                        <span>Nie</span>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Ostatni dzień miesiąca:</div>
+                <div class="col-3 offset-3 text-end">Data sprzedaży to ostatni dzień miesiąca:</div>
                 <div class="col-4">
                     {% if invoice.is_last_day %}
                         <span>Tak</span>
@@ -54,10 +66,6 @@
                 </div>
             </div>
         {% endif %}
-        <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
-            <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
-        </div>
         <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Data płatności:</div>
             <div class="col-4">{{ invoice.payment_date| date:"d.m.Y" }}</div>
@@ -78,40 +86,38 @@
                 <div class="col-4">-</div>
             {% endif %}
         </div>
-        <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Opłacona:</div>
-            {% if invoice.is_paid %}
-                <div class="col-4">Tak</div>
-            {% else %}
-                <div class="col-4">Nie</div>
-            {% endif %}
-        </div>
-        <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Rozliczona:</div>
-            <div class="col-4">
-                {% if invoice.is_settled %}
-                    <span>Tak</span>
+        {% if not invoice.is_recurring %}
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Opłacona:</div>
+                {% if invoice.is_paid %}
+                    <div class="col-4">Tak</div>
                 {% else %}
-                    <span>Nie</span>
+                    <div class="col-4">Nie</div>
                 {% endif %}
             </div>
-        </div>
+            <div class="row mb-2">
+                <div class="col-3 offset-3 text-end">Rozliczona:</div>
+                <div class="col-4">
+                    {% if invoice.is_settled %}
+                        <span>Tak</span>
+                    {% else %}
+                        <span>Nie</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
         <div class="row mt-2">
             <div class="col text-center">
                 {% if not invoice.is_settled %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
                     <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
-                {% else %}
-                    <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_recurring_invoice' invoice.pk %}">Edytuj cykliczność</a>
                 {% endif %}
-                {% if not invoice.correction_invoice_relation and not invoice.original_invoice_relation%}
+                {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation and invoice.is_settled %}
                     <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                 {% endif %}
                 <div class="row mt-2" style="color: red">
                     {% if invoice.original_invoice_relation %}
-                        <p>
-                            Do faktury istnieje już <a target="_blank" href="{% url 'invoices:detail_invoice' invoice.original_invoice_relation.correction_invoice.pk %}">faktura korygująca</a>
-                        </p>
+                        <p>Do faktury istnieje już <a target="_blank" href="{% url 'invoices:detail_invoice' invoice.original_invoice_relation.correction_invoice.pk %}">faktura korygująca</a></p>
                     {% endif %}
                 </div>
             </div>
@@ -160,7 +166,7 @@
             {% else %}
             <div class="row mt-2">
                 <div class="col">
-                    <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
+                    <b>Brak pozycji do faktury</b>
                 </div>
             </div>
             {% endif %}
@@ -180,5 +186,3 @@
         </div>
     </div>
 {% endblock content %}
-
-
