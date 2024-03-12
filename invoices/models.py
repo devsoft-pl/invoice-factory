@@ -63,7 +63,7 @@ class Invoice(models.Model):
     )
     is_settled = models.BooleanField(verbose_name=_("Settled"), default=False)
     settlement_date = models.DateField(
-        verbose_name=_("Settlement date"), null=True, blank=True
+        verbose_name=_("Settlement date"), default=timezone.now, editable=True
     )
     create_date = models.DateField(
         verbose_name=_("Create date"), default=timezone.now, editable=True
@@ -113,7 +113,6 @@ class Invoice(models.Model):
         unique_together = ["invoice_number", "company"]
 
     def __str__(self):
-        # return self.invoice_number or f"#{self.id}"
         return self.invoice_number or f'{_("Recurring")} #{self.id}'
 
     def calculate_net_amount(self):
