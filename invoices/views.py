@@ -182,32 +182,6 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     return render(request, "invoices/replace_sell_invoice.html", context)
 
 
-# TODO Logika tylko dla faktur cyklicznych, które są już rozliczone, w celu dezaktywacji ich cykliczności.
-# TODO do przemyśelnia czy to nie bedzie do wywalenia
-@login_required
-def replace_recurring_invoice_view(request, invoice_id):
-    """Logic only for recurring invoices that are already settled, in order to deactivate their recurrence."""
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
-
-    if invoice.company.user != request.user:
-        raise Http404(_("Invoice does not exist"))
-
-    if request.method != "POST":
-        form = InvoiceRecurringForm(instance=invoice)
-        context = {"invoice": invoice, "form": form}
-        return render(request, "invoices/replace_recurring_invoice.html", context)
-    else:
-        form = InvoiceRecurringForm(
-            instance=invoice,
-            data=request.POST,
-        )
-
-        if form.is_valid():
-            form.save()
-
-        return redirect("invoices:detail_invoice", invoice.pk)
-
-
 @login_required
 def replace_buy_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
