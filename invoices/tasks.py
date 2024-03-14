@@ -63,7 +63,6 @@ def create_recurrent_invoices(invoices):
             is_last_day=invoice.is_last_day,
             is_paid=False,
             is_settled=False,
-            settlement_date=None,
         )
 
         for item in invoice.items.all():
