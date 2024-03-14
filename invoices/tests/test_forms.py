@@ -185,6 +185,8 @@ class TestSellInvoiceForm:
         data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
+            is_recurring=False,
+            is_last_day=False,
         )
         form = InvoiceSellForm(
             data=data, current_user=self.user, create_correction=create_correction
@@ -210,6 +212,7 @@ class TestSellInvoiceForm:
             currency=self.currency_1,
             invoice_number=invoice_number,
             account_number="111111111111111",
+            is_recurring=False,
         )
 
         form = InvoiceSellForm(
@@ -233,6 +236,7 @@ class TestSellInvoiceForm:
             currency=self.currency_1,
             invoice_number=invoice_number,
             account_number="111111111111111",
+            is_recurring=False,
         )
 
         form = InvoiceSellPersonForm(
@@ -248,14 +252,17 @@ class TestSellInvoiceForm:
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
-            invoice_number=self.invoice_1.invoice_number,
+            is_recurring=False,
+            is_last_day=False,
         )
 
         form = InvoiceSellForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": ["Numer faktury już istnieje"],
+            "invoice_number": [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+            ],
             "account_number": [
                 "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
             ],
@@ -289,14 +296,17 @@ class TestSellInvoiceForm:
             company=self.company_1,
             person=person,
             currency=self.currency_1,
-            invoice_number=self.invoice_1.invoice_number,
+            is_recurring=False,
+            is_last_day=False,
         )
 
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": ["Numer faktury już istnieje"],
+            "invoice_number": [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+            ],
             "person": [
                 "Wybierz poprawną wartość. Podana nie jest jednym z dostępnych wyborów."
             ],
