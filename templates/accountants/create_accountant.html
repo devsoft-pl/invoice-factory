@@ -22,7 +22,7 @@
             <form action="{% url 'accountants:create_accountant' company.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.name.label_tag }}</div>
                     <div class="col-3">{{ form.name }}</div>
                 </div>
                 {% if form.name.errors %}
@@ -33,7 +33,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.email.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.email.label_tag }}</div>
                     <div class="col-3">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
@@ -44,7 +44,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.phone_number.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.phone_number.label_tag }}</div>
                     <div class="col-2">{{ form.phone_number }}</div>
                 </div>
                 {% if form.phone_number.errors %}

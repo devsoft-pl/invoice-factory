@@ -15,7 +15,7 @@
             <form action="{% url 'vat_rates:create_vat' %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end">{{ form.rate.label_tag }}</div>
+                    <div class="col-3 offset-3 text-end my-auto">{{ form.rate.label_tag }}</div>
                     <div class="col-1">{{ form.rate }}</div>
                     <div class="col">%</div>
                 </div>

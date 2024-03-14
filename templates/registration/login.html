@@ -15,7 +15,7 @@
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.username.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.username.label_tag }}</div>
                     <div class="col-3">{{ form.username }}</div>
                 </div>
                 {% if form.username.errors %}
@@ -24,7 +24,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.password.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.password.label_tag }}</div>
                     <div class="col-3">{{ form.password }}</div>
                 </div>
                 {% if form.password.errors %}

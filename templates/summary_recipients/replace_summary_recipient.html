@@ -24,7 +24,7 @@
             <form action="{% url 'summary_recipients:replace_summary_recipient' summary_recipient.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.description.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.description.label_tag }}</div>
                     <div class="col-3">{{ form.description }}</div>
                 </div>
                 {% if form.description.errors %}
@@ -35,7 +35,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.day.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.day.label_tag }}</div>
                     <div class="col-3">{{ form.day }}</div>
                 </div>
                 {% if form.day.errors %}
@@ -46,7 +46,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.email.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.email.label_tag }}</div>
                     <div class="col-3">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
@@ -57,7 +57,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.settlement_types.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.settlement_types.label_tag }}</div>
                     <div class="col-2">{{ form.settlement_types }}</div>
                 </div>
                 {% if form.settlement_types.errors %}
@@ -68,10 +68,10 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">
+                    <div class="col-2 offset-3 text-end my-auto">
                         {{ form.final_call.label_tag }}
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 my-auto">
                         {{ form.final_call }}
                     </div>
                 </div>

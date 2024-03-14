@@ -130,7 +130,7 @@
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.name.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.name.label_tag }}</div>
                     <div class="col-5">{{ form.name }}</div>
                 </div>
                 {% if form.name.errors %}
@@ -139,7 +139,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.pkwiu.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.pkwiu.label_tag }}</div>
                     <div class="col-2">{{ form.pkwiu }}</div>
                 </div>
                 {% if form.pkwiu.errors %}
@@ -148,7 +148,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.amount.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.amount.label_tag }}</div>
                     <div class="col-1">{{ form.amount }}</div>
                 </div>
                 {% if form.amount.errors %}
@@ -157,7 +157,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.net_price.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.net_price.label_tag }}</div>
                     <div class="col-2">{{ form.net_price }}</div>
                 </div>
                 {% if form.net_price.errors %}
@@ -166,7 +166,7 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end">{{ form.vat.label_tag }}</div>
+                    <div class="col-2 offset-3 text-end my-auto">{{ form.vat.label_tag }}</div>
                     <div class="col-1">{{ form.vat }}</div>
                     <div class="col-2">
                         <a id="cancelVatButton" class="btn btn-secondary d-none">Anuluj</a>

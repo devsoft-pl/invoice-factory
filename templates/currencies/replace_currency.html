@@ -15,7 +15,7 @@
             <form action="{% url 'currencies:replace_currency' currency.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end">{{ form.code.label_tag }}</div>
+                    <div class="col-3 offset-3 text-end my-auto">{{ form.code.label_tag }}</div>
                     <div class="col-1">{{ form.code }}</div>
                 </div>
                 {% if form.code.errors %}
