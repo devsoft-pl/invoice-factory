@@ -208,12 +208,15 @@ class TestCreateSellInvoice(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         data = InvoiceSellDictFactory(
+            is_recurring="",
             invoice_number="1/2023",
             company=self.company.pk,
             client=self.contractor.pk,
-            currency=self.currency.pk,
             account_number="111111111111111",
+            currency=self.currency.pk,
+            is_last_day="",
         )
+
         invoices_before_create = Invoice.objects.filter(
             invoice_number=data["invoice_number"],
             company__user=self.user,
@@ -227,12 +230,14 @@ class TestCreateSellInvoice(TestInvoice):
             Invoice.objects.filter(
                 invoice_number=data["invoice_number"],
                 company__user=self.user,
+                is_recurring=False,
             ).exists()
         )
         self.assertEqual(
             Invoice.objects.filter(
                 invoice_number=data["invoice_number"],
                 company__user=self.user,
+                is_recurring=False,
             ).count(),
             invoices_before_create + 1,
         )
@@ -247,6 +252,8 @@ class TestCreateSellInvoice(TestInvoice):
             person=person.pk,
             currency=self.currency.pk,
             account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
         )
         invoices_before_create = Invoice.objects.filter(
             invoice_number=data["invoice_number"],
@@ -408,7 +415,9 @@ class TestReplaceSellInvoice(TestInvoice):
             response.context["form"], "currency", "To pole jest wymagane."
         )
 
-    def test_replace_with_valid_data_for_client(self):
+    def test_replace_with_valid_data_for_client(
+        self,
+    ):
         self.client.login(username=self.user.email, password="test")
 
         data = InvoiceSellDictFactory(
@@ -417,6 +426,8 @@ class TestReplaceSellInvoice(TestInvoice):
             client=self.contractor.pk,
             currency=self.currency.pk,
             account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
         )
 
         response = self.client.post(self.url, data=data)
@@ -434,7 +445,9 @@ class TestReplaceSellInvoice(TestInvoice):
             ).exists()
         )
 
-    def test_replace_with_valid_data_for_person(self):
+    def test_replace_with_valid_data_for_person(
+        self,
+    ):
         self.client.login(username=self.user.email, password="test")
 
         person_invoice = InvoiceSellPersonFactory.create(
@@ -448,6 +461,8 @@ class TestReplaceSellInvoice(TestInvoice):
             person=person.pk,
             currency=self.currency.pk,
             account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
         )
 
         url = reverse("invoices:replace_sell_invoice", args=[person_invoice.pk])
@@ -504,7 +519,9 @@ class TestReplaceSellInvoice(TestInvoice):
 
         assert create_correction_invoice_number(invoice) == "1/k/2024"
 
-    def test_crete_correction_invoice_if_is_not_settled(self):
+    def test_crete_correction_invoice_if_is_not_settled(
+        self,
+    ):
         self.client.login(username=self.user.email, password="test")
 
         company = CompanyFactory.create(user=self.user, is_my_company=True)
@@ -516,6 +533,8 @@ class TestReplaceSellInvoice(TestInvoice):
             currency=self.currency,
             account_number="111111111111111",
             is_settled=False,
+            is_recurring=False,
+            is_last_day=False,
         )
 
         url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
@@ -523,6 +542,8 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(url)
 
         form = response.context["form"]
+        form.initial["is_recurring"] = ""
+        form.initial["is_last_day"] = ""
         response = self.client.post(url, data=form.initial)
 
         self.assertEqual(response.status_code, 302)
