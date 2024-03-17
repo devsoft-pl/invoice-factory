@@ -36,10 +36,18 @@ class TestSellInvoiceForm:
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
         self.invoice_1 = InvoiceSellFactory.create(
-            invoice_number="1/2022", client=self.client_1, company=self.company_1
+            invoice_number="1/2022",
+            client=self.client_1,
+            company=self.company_1,
+            is_recurring=False,
+            is_last_day=False,
         )
         self.invoice_2 = InvoiceSellFactory.create(
-            invoice_number="4/2022", client=self.client_2, company=self.company_2
+            invoice_number="4/2022",
+            client=self.client_2,
+            company=self.company_2,
+            is_recurring=False,
+            is_last_day=False,
         )
 
     @pytest.mark.parametrize(
@@ -80,23 +88,6 @@ class TestSellInvoiceForm:
         filtered_list = self.form.get_filtered_invoices(invoices_list)
 
         assert filtered_list.count() == 0
-
-    @pytest.mark.parametrize(
-        "invoice_type, expected_count",
-        [[Invoice.INVOICE_SALES, 2], [Invoice.INVOICE_PURCHASE, 0]],
-    )
-    def test_returns_list_with_different_invoice_type(
-        self, invoice_type, expected_count
-    ):
-        request_get = {"invoice_type": invoice_type}
-
-        self.form = InvoiceFilterForm(request_get)
-        self.form.is_valid()
-
-        invoices_list = Invoice.objects.filter(company__user=self.user)
-        filtered_list = self.form.get_filtered_invoices(invoices_list)
-
-        assert filtered_list.count() == expected_count
 
     @pytest.mark.parametrize(
         "company_name, expected_count", [["Dev", 1], ["Devsoft", 1]]
@@ -172,6 +163,23 @@ class TestSellInvoiceForm:
         assert form_companies_ids.count() == user_companies_ids.count()
 
     @pytest.mark.parametrize(
+        "invoice_type, expected_count",
+        [[Invoice.INVOICE_SALES, 2], [Invoice.INVOICE_PURCHASE, 0]],
+    )
+    def test_returns_list_with_different_invoice_type(
+        self, invoice_type, expected_count
+    ):
+        request_get = {"invoice_type": invoice_type}
+
+        self.form = InvoiceFilterForm(request_get)
+        self.form.is_valid()
+
+        invoices_list = Invoice.objects.filter(company__user=self.user)
+        filtered_list = self.form.get_filtered_invoices(invoices_list)
+
+        assert filtered_list.count() == expected_count
+
+    @pytest.mark.parametrize(
         "validator, create_correction",
         [
             [
@@ -203,16 +211,49 @@ class TestSellInvoiceForm:
         assert not is_valid
 
     @pytest.mark.parametrize(
+        "validator, create_correction",
+        [
+            [
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr",
+                False,
+            ],
+            ["Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr", True],
+        ],
+    )
+    def test_form_with_not_valid_data_for_person(self, validator, create_correction):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            company=self.company_1,
+            person=person,
+            is_recurring=False,
+            is_last_day=False,
+        )
+        form = InvoiceSellPersonForm(
+            data=data, current_user=self.user, create_correction=create_correction
+        )
+        is_valid = form.is_valid()
+
+        assert form.errors == {
+            "invoice_number": [validator],
+            "currency": ["To pole jest wymagane."],
+            "account_number": [
+                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+            ],
+        }
+        assert not is_valid
+
+    @pytest.mark.parametrize(
         "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
     )
     def test_invoice_sell_with_valid_data(self, invoice_number, create_correction):
         data = InvoiceSellDictFactory(
+            invoice_number=invoice_number,
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
-            invoice_number=invoice_number,
             account_number="111111111111111",
             is_recurring=False,
+            is_last_day=False,
         )
 
         form = InvoiceSellForm(
@@ -226,17 +267,16 @@ class TestSellInvoiceForm:
     @pytest.mark.parametrize(
         "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
     )
-    def test_invoice_sell_person_with_valid_data(
-        self, invoice_number, create_correction
-    ):
+    def test_invoice_sell_person_valid_data(self, invoice_number, create_correction):
         person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
             company=self.company_1,
-            client=person,
+            person=person,
             currency=self.currency_1,
             invoice_number=invoice_number,
             account_number="111111111111111",
             is_recurring=False,
+            is_last_day=False,
         )
 
         form = InvoiceSellPersonForm(
@@ -247,11 +287,13 @@ class TestSellInvoiceForm:
         assert form.errors == {}
         assert is_valid
 
-    def test_clean_invoice_number_returns_error_for_client(self):
+    def test_clean_invoice_number_returns_error_when_invoice_exists(self):
         data = InvoiceSellDictFactory(
+            invoice_number=self.invoice_1.invoice_number,
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
+            account_number="111111111111111",
             is_recurring=False,
             is_last_day=False,
         )
@@ -260,21 +302,36 @@ class TestSellInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
-            ],
-            "account_number": [
-                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
-            ],
+            "invoice_number": ["Numer faktury już istnieje"],
         }
 
-    def test_clean_sale_date_returns_error_for_client(self):
+    def test_clean_invoice_number_returns_error_when_invoice_exists_for_person(self):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            invoice_number=self.invoice_1.invoice_number,
+            company=self.company_1,
+            person=person,
+            currency=self.currency_1,
+            account_number="111111111111111",
+            is_recurring=False,
+            is_last_day=False,
+        )
+
+        form = InvoiceSellPersonForm(current_user=self.user, data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": ["Numer faktury już istnieje"],
+        }
+
+    def test_clean_sale_date_returns_error(self):
         data = InvoiceSellDictFactory(
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
             is_recurring=True,
             is_last_day=True,
+            account_number="111111111111111",
         )
 
         form = InvoiceSellForm(current_user=self.user, data=data)
@@ -285,19 +342,17 @@ class TestSellInvoiceForm:
                 "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
-            "account_number": [
-                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
-            ],
         }
 
-    def test_clean_invoice_number_returns_error_for_person(self):
-        person = CompanyFactory.create(user=self.user)
+    def test_clean_sale_date_returns_error_for_person(self):
+        person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
             company=self.company_1,
             person=person,
             currency=self.currency_1,
-            is_recurring=False,
-            is_last_day=False,
+            is_recurring=True,
+            is_last_day=True,
+            account_number="111111111111111",
         )
 
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
@@ -307,12 +362,7 @@ class TestSellInvoiceForm:
             "invoice_number": [
                 "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
             ],
-            "person": [
-                "Wybierz poprawną wartość. Podana nie jest jednym z dostępnych wyborów."
-            ],
-            "account_number": [
-                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
-            ],
+            "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }
 
 
