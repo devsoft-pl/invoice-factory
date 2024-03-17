@@ -90,7 +90,12 @@
 </style>
 
 <h1>Faktura VAT</h1>
-<h2>Nr {{ invoice.invoice_number }}</h2>
+{% if invoice.correction_invoice_relation %}
+    <h2>Faktura korygująca numer {{ invoice.invoice_number }}</h2>
+    <h3>Dokument korygowany: Faktura {{ invoice.correction_invoice_relation.invoice.invoice_number }} z dnia {{ invoice.correction_invoice_relation.invoice.create_date }}</h3>
+{% else %}
+    <h2>Faktura numer {{ invoice.invoice_number }}</h2>
+{% endif %}
 
 <table>
     <tr>
