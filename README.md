@@ -22,17 +22,56 @@
 
 <!-- ABOUT THE PROJECT -->
 <u>About The Project</u>
-<p>Application for creating sales and purchase invoices for your company</p>
+<p>This project is a user-friendly invoicing application designed to streamline your business processes. 
+With its intuitive interface and robust features, managing your invoices has never been easier. 
+Here's what you can do with the application:
+</p>
 
+<ul>
+    <li>
+        <b>Add Your Company:</b> Easily add your company details to the system. 
+        You can manage multiple companies under one account, making it convenient for businesses with diverse operations.
+    </li>
+    <li>
+        <b>Manage Contacts:</b> Add an unlimited number of contacts, including both business entities (client) and individuals (person). 
+        Keep track of your clients and partners effortlessly.
+    </li>
+    <li>
+        <b>Create and Edit Invoices:</b> Generate sales or purchase invoices with ease. 
+        Enjoy the flexibility of editing or deleting invoices as needed. 
+        The application allows you to generate invoices in PDF format for seamless sharing and record-keeping.
+    </li>
+    <li>
+        <b>Recurring Invoices:</b> Set up recurring invoices for your clients to automate your billing process. 
+        Forget about monthly invoice creation; the application will handle it for you. 
+        Receive email notifications along with the invoice attachment when a recurring invoice is generated.
+    </li>
+    <li>
+        <b>Automatic Currency Conversion:</b> When invoicing in foreign currencies, let the application take care of currency conversion for you.
+        It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date currency conversion.
+    </li>
+    <li>
+        <b>Month-end Closing:</b> Set a specific day for month-end closing and effortlessly reconcile your invoices. 
+        The application gathers all invoices for the previous month and sends them collectively to the designated recipient, whether it's yourself or your accountant. 
+        Once the month is closed, invoices cannot be edited, ensuring data integrity. If necessary, you can create corrections to invoices.
+    </li>
+</ul>
+
+<p>
+    With its comprehensive features, this invoicing application simplifies your financial management tasks, allowing you to focus on growing your business. 
+    Experience efficiency and convenience with our intuitive invoicing solution.
+</p>
 
 <!-- BUILT WITH -->
 <u>Built With</u>
 <ul>
 <li>Python 3+</li>
-<li>Django, Celery, DRF</li>
+<li>Django 4+, Celery, Redis, DRF</li>
 <li>JavaScript</li>
 <li>MySQL</li>
 <li>HTML, CSS, Bootstrap</li>
+<li>Docker</li>
+<li>Git</li>
 </ul>
 
 
@@ -44,24 +83,14 @@ To get a local copy up and running follow these simple example steps.</p>
 
 <!-- INSTALLATION -->
 <u>Installation</u>
-<p>1. Clone the repo git clone: git@github.com:w-wajda/invoice_manager.git
-Go to the project root directory</p>
-
-
-<!-- APPLICATION VIEW -->
-<u>Application View</u>
-
+<p>1. Clone the repo git clone: git@github.com:w-wajda/invoice_manager.git</p>
 
 <!-- CONTACT -->
 <u>Contact</u>
 
-Email:
+LinkedIn : https://www.linkedin.com/in/wioletta-wajda/
 
-Project Link: 
-
-LinkedIn : 
-
-
+Project Link and Application View: in progress
 
 
 
