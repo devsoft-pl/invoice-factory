@@ -35,14 +35,16 @@
             {% endif %}    
                 {% csrf_token %}
                 {{ form.next }}
-                <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.is_recurring.label_tag }}</div>
-                    <div class="col-4 my-auto">{{ form.is_recurring }}</div>
-                </div>
-                {% if form.is_recurring.errors %}
-                    <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.is_recurring.errors }}</div>
+                {% if not invoice.correction_invoice_relation %}
+                    <div class="row mb-2">
+                        <div class="col-2 offset-3 text-end my-auto">{{ form.is_recurring.label_tag }}</div>
+                        <div class="col-4 my-auto">{{ form.is_recurring }}</div>
                     </div>
+                    {% if form.is_recurring.errors %}
+                        <div class="row">
+                            <div class="col-auto offset-5 text-danger">{{ form.is_recurring.errors }}</div>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 <div class="row mb-2">
                     <div class="col-2 offset-3 text-end my-auto">{{ form.invoice_number.label_tag }}</div>
