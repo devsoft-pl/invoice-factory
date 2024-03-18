@@ -113,7 +113,7 @@ class Invoice(models.Model):
         unique_together = ["invoice_number", "company"]
 
     def __str__(self):
-        return self.invoice_number or f'{_("Recurring")} #{self.id}'
+        return self.invoice_number or f'{_("Recurring")}'
 
     def calculate_net_amount(self):
         net_sum = 0
