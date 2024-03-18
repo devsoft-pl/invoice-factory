@@ -55,6 +55,10 @@ Here's what you can do with the application:
         The application gathers all invoices for the previous month and sends them collectively to the designated recipient, whether it's yourself or your accountant. 
         Once the month is closed, invoices cannot be edited, ensuring data integrity. If necessary, you can create corrections to invoices.
     </li>
+    <li>
+        <b>Revenue Reporting:</b> The application generates revenue reports for issued sales invoices for each year. 
+        Additionally, it creates revenue charts based on these invoices, providing users with quick access to company revenues.
+    </li>
 </ul>
 
 <p>
