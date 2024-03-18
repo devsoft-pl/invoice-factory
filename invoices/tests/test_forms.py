@@ -36,14 +36,14 @@ class TestSellInvoiceForm:
         self.client_2 = CompanyFactory.create(name="Santander", user=self.user)
 
         self.invoice_1 = InvoiceSellFactory.create(
-            invoice_number="1/2022",
+            invoice_number="1/08/2022",
             client=self.client_1,
             company=self.company_1,
             is_recurring=False,
             is_last_day=False,
         )
         self.invoice_2 = InvoiceSellFactory.create(
-            invoice_number="4/2022",
+            invoice_number="4/03/2022",
             client=self.client_2,
             company=self.company_2,
             is_recurring=False,
@@ -51,7 +51,7 @@ class TestSellInvoiceForm:
         )
 
     @pytest.mark.parametrize(
-        "invoice_number, expected_count", [["1", 1], ["1/2022", 1]]
+        "invoice_number, expected_count", [["1", 1], ["1/08/2022", 1]]
     )
     def test_returns_filtered_with_different_parts_of_invoice_name(
         self, invoice_number, expected_count
@@ -79,7 +79,7 @@ class TestSellInvoiceForm:
         assert filtered_list.count() == 2
 
     def test_return_filtered_empty_list_when_invoice_number_not_exist(self):
-        request_get = {"invoice_number": "5/2022"}
+        request_get = {"invoice_number": "5/03/2022"}
 
         self.form = InvoiceFilterForm(request_get)
         self.form.is_valid()
@@ -183,10 +183,13 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr",
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr",
                 False,
             ],
-            ["Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr", True],
+            [
+                "Wprowadź numer faktury korygującej tylko w formacie k/numer/mm/rrrr",
+                True,
+            ],
         ],
     )
     def test_form_with_not_valid_data(self, validator, create_correction):
@@ -214,10 +217,13 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr",
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr",
                 False,
             ],
-            ["Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr", True],
+            [
+                "Wprowadź numer faktury korygującej tylko w formacie k/numer/mm/rrrr",
+                True,
+            ],
         ],
     )
     def test_form_with_not_valid_data_for_person(self, validator, create_correction):
@@ -243,7 +249,8 @@ class TestSellInvoiceForm:
         assert not is_valid
 
     @pytest.mark.parametrize(
-        "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
+        "invoice_number, create_correction",
+        [["1/03/2023", False], ["k/1/04/2023", True]],
     )
     def test_invoice_sell_with_valid_data(self, invoice_number, create_correction):
         data = InvoiceSellDictFactory(
@@ -265,7 +272,8 @@ class TestSellInvoiceForm:
         assert is_valid
 
     @pytest.mark.parametrize(
-        "invoice_number, create_correction", [["1/2023", False], ["1/k/2023", True]]
+        "invoice_number, create_correction",
+        [["1/08/2023", False], ["k/1/12/2023", True]],
     )
     def test_invoice_sell_person_valid_data(self, invoice_number, create_correction):
         person = PersonFactory.create(user=self.user)
@@ -339,7 +347,7 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }
@@ -360,7 +368,7 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }

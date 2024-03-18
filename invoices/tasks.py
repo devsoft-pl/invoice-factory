@@ -39,8 +39,16 @@ def get_max_invoice_number():
         return int(last_invoice_number) + 1
 
 
+def get_right_month_format(month_number):
+    if month_number in ["10", "11", "12"]:
+        return month_number
+    else:
+        return "0" + str(month_number)
+
+
 def create_recurrent_invoices(invoices):
     today = datetime.today()
+    month = get_right_month_format(today.month)
     for invoice in invoices:
         max_invoice_number = get_max_invoice_number()
         payment_date = today + timedelta(
@@ -48,7 +56,7 @@ def create_recurrent_invoices(invoices):
         )
 
         new_invoice = Invoice.objects.create(
-            invoice_number=f"{max_invoice_number}/{today.year}",
+            invoice_number=f"{max_invoice_number}/{month}/{today.year}",
             invoice_type=Invoice.INVOICE_SALES,
             company=invoice.company,
             client=invoice.client,

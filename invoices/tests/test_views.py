@@ -209,7 +209,7 @@ class TestCreateSellInvoice(TestInvoice):
 
         data = InvoiceSellDictFactory(
             is_recurring="",
-            invoice_number="1/2023",
+            invoice_number="1/01/2023",
             company=self.company.pk,
             client=self.contractor.pk,
             account_number="111111111111111",
@@ -247,7 +247,7 @@ class TestCreateSellInvoice(TestInvoice):
 
         person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
-            invoice_number="1/2023",
+            invoice_number="1/01/2023",
             company=self.company.pk,
             person=person.pk,
             currency=self.currency.pk,
@@ -421,7 +421,7 @@ class TestReplaceSellInvoice(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         data = InvoiceSellDictFactory(
-            invoice_number="2/2023",
+            invoice_number="2/05/2023",
             company=self.company.pk,
             client=self.contractor.pk,
             currency=self.currency.pk,
@@ -456,7 +456,7 @@ class TestReplaceSellInvoice(TestInvoice):
         person = PersonFactory.create(user=self.user)
 
         data = InvoiceSellDictFactory(
-            invoice_number="2/2023",
+            invoice_number="2/06/2023",
             company=self.company.pk,
             person=person.pk,
             currency=self.currency.pk,
@@ -515,21 +515,18 @@ class TestReplaceSellInvoice(TestInvoice):
         assert clone(invoice).pk != invoice.pk
 
     def test_create_correction_invoice_number(self):
-        invoice = InvoiceSellFactory.create(invoice_number="1/2024")
+        invoice = InvoiceSellFactory.create(invoice_number="1/03/2024")
 
-        assert create_correction_invoice_number(invoice) == "1/k/2024"
+        assert create_correction_invoice_number(invoice) == "k/1/03/2024"
 
     def test_crete_correction_invoice_if_is_not_settled(
         self,
     ):
         self.client.login(username=self.user.email, password="test")
-
-        company = CompanyFactory.create(user=self.user, is_my_company=True)
-        client = CompanyFactory.create(user=self.user, is_my_company=False)
         invoice = InvoiceSellFactory.create(
-            invoice_number="1/2024",
-            company=company,
-            client=client,
+            invoice_number="1/03/2024",
+            company=self.company,
+            client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
             is_settled=False,
@@ -550,19 +547,16 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertRedirects(response, reverse("invoices:list_invoices"))
         self.assertTrue(
             CorrectionInvoiceRelation.objects.filter(
-                invoice=invoice, correction_invoice__invoice_number="1/k/2024"
+                invoice=invoice, correction_invoice__invoice_number="k/1/03/2024"
             ).exists()
         )
 
     def test_crete_correction_invoice_if_is_settled(self):
         self.client.login(username=self.user.email, password="test")
-
-        company = CompanyFactory.create(user=self.user, is_my_company=True)
-        client = CompanyFactory.create(user=self.user, is_my_company=False)
         invoice = InvoiceSellFactory.create(
-            invoice_number="1/2024",
-            company=company,
-            client=client,
+            invoice_number="1/03/2024",
+            company=self.company,
+            client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
             is_settled=True,
@@ -602,7 +596,7 @@ class TestReplaceBuyInvoice(TestInvoice):
 
         data = InvoiceBuyDictFactory(
             company=self.company.pk,
-            invoice_number="2/2023",
+            invoice_number="2/03/2023",
         )
         files = {"invoice_file": data["invoice_file"]}
 

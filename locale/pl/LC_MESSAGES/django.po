@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-11 12:22+0100\n"
+"POT-Creation-Date: 2024-03-18 21:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr "Email"
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:16 invoices/forms.py:257 invoices/models.py:48
+#: accountants/models.py:16 invoices/forms.py:281 invoices/models.py:48
 #: summary_recipients/models.py:23
 msgid "Company"
 msgstr "Firma"
@@ -60,13 +60,13 @@ msgid "Accountant does not exist"
 msgstr "Księgowa/y nie istnieje"
 
 #: base/validators.py:6
-msgid "Enter invoice number in numbers only in format number/yyyy"
+msgid "Enter invoice number in numbers only in format number/mm/yyyy"
 msgstr ""
-"Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/rrrr"
+"Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
 
 #: base/validators.py:11
-msgid "Enter correction invoice number in only in format number/k/yyyy"
-msgstr "Wprowadź numer faktury korygującej tylko w formacie numer/k/rrrr"
+msgid "Enter correction invoice number in only in format k/number/mm/yyyy"
+msgstr "Wprowadź numer faktury korygującej tylko w formacie k/numer/mm/rrrr"
 
 #: base/validators.py:16
 msgid "Enter the tax ID without special characters with minimum 8 character"
@@ -151,7 +151,7 @@ msgid "City"
 msgstr "Miasto"
 
 #: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:176 persons/models.py:22 vat_rates/models.py:12
+#: invoices/models.py:175 persons/models.py:22 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
@@ -237,27 +237,27 @@ msgstr "Zaawansowane opcje"
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:91
+#: invoices/forms.py:92 invoices/forms.py:192
 msgid "This field is required."
 msgstr "To pole jest wymagane."
 
-#: invoices/forms.py:103 invoices/forms.py:193 invoices/forms.py:246
+#: invoices/forms.py:104 invoices/forms.py:204 invoices/forms.py:270
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:113
+#: invoices/forms.py:118 invoices/forms.py:218
 msgid "This field is not last dat of month."
 msgstr "Data sprzedaży nie jest ostatnim dniem miesiąca"
 
-#: invoices/forms.py:252 invoices/models.py:41
+#: invoices/forms.py:276 invoices/models.py:41
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:254 invoices/models.py:44
+#: invoices/forms.py:278 invoices/models.py:44
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:256 invoices/models.py:92
+#: invoices/forms.py:280 invoices/models.py:92
 msgid "Client"
 msgstr "Kontrahent"
 
@@ -333,28 +333,28 @@ msgstr "Kwota netto"
 msgid "Gross_amount"
 msgstr "Kwota brutto"
 
-#: invoices/models.py:173 reports/forms.py:18
+#: invoices/models.py:172 reports/forms.py:18
 msgid "Year"
 msgstr "Rok"
 
-#: invoices/models.py:194 items/models.py:13
+#: invoices/models.py:193 items/models.py:13
 msgid "Invoice"
 msgstr "Faktura"
 
-#: invoices/models.py:200
+#: invoices/models.py:199
 msgid "Correction Invoice"
 msgstr "Faktura korygująca"
 
-#: invoices/models.py:206
+#: invoices/models.py:205
 msgid "correction invoices relation"
 msgstr "relacja faktur korygujących"
 
-#: invoices/tasks.py:74
+#: invoices/tasks.py:73
 #, python-format
 msgid "New recurring invoice %(nr)s"
 msgstr "Nowa cykliczna faktura %(nr)s"
 
-#: invoices/tasks.py:76
+#: invoices/tasks.py:75
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
@@ -364,11 +364,11 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/tasks.py:150
+#: invoices/tasks.py:149
 msgid "Month summary"
 msgstr "Podsumowanie miesiąca"
 
-#: invoices/tasks.py:152
+#: invoices/tasks.py:151
 msgid ""
 "A monthly summary has been created for company\n"
 "Best regards,\n"
@@ -378,8 +378,8 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice Manager"
 
-#: invoices/views.py:50 invoices/views.py:141 invoices/views.py:193
-#: invoices/views.py:216 invoices/views.py:239 invoices/views.py:251
+#: invoices/views.py:50 invoices/views.py:141 invoices/views.py:190
+#: invoices/views.py:213 invoices/views.py:225
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 

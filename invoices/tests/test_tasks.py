@@ -8,7 +8,7 @@ from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
 from invoices.models import Invoice
 from invoices.tasks import (create_invoices_for_recurring,
-                            send_monthly_summary_to_recipients)
+                            send_monthly_summary_to_recipients, get_right_month_format)
 from items.factories import ItemFactory
 from summary_recipients.factories import SummaryRecipientFactory
 from summary_recipients.models import SummaryRecipient
@@ -32,7 +32,7 @@ class TestRecurrentInvoiceTasks:
             is_last_day=True,
         )
         InvoiceSellFactory.create(
-            invoice_number="12/2023",
+            invoice_number="1/12/2023",
             is_recurring=False,
             currency=self.currency,
             sale_date=datetime.date(2023, 12, 31),
@@ -43,7 +43,7 @@ class TestRecurrentInvoiceTasks:
 
         invoices = Invoice.objects.filter(is_recurring=False, sale_date__year=2024)
         assert invoices.count() == 1
-        assert invoices.first().invoice_number == "1/2024"
+        assert invoices.first().invoice_number == "1/01/2024"
         assert Invoice.objects.count() == 3
 
     @patch("invoices.tasks.datetime")
@@ -52,7 +52,7 @@ class TestRecurrentInvoiceTasks:
     ):
         datetime_mock.today.return_value = datetime.date(2024, 1, 31)
         InvoiceSellFactory.create(
-            invoice_number="1/2024",
+            invoice_number="1/01/2024",
             is_recurring=False,
             currency=self.currency,
             sale_date=datetime.date(2024, 1, 25),
@@ -76,7 +76,7 @@ class TestRecurrentInvoiceTasks:
             .order_by("-sale_date", "pk")
             .first()
         )
-        assert invoice.invoice_number == "2/2024"
+        assert invoice.invoice_number == "2/01/2024"
 
         assert Invoice.objects.count() == 3
 
@@ -137,13 +137,19 @@ class TestRecurrentInvoiceTasks:
         )
 
     @patch("invoices.tasks.datetime")
-    def test_not_creates_new_invoice_if_recurring_is_set_for_false(self, datetime_mock):
+    def test_not_creates_new_invoice_if_recurring_is_false(self, datetime_mock):
         InvoiceSellFactory.create(is_recurring=False, currency=self.currency)
         datetime_mock.today.return_value = datetime.date(2023, 8, 15)
 
         create_invoices_for_recurring()
 
         assert Invoice.objects.count() == 1
+
+    @pytest.mark.parametrize("month, expected", [["10", "10"], ["1", "01"]])
+    def test_returns_right_month_format(self, month, expected):
+        right_month = get_right_month_format(month)
+
+        assert right_month == expected
 
 
 @pytest.mark.django_db
