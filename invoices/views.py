@@ -127,7 +127,7 @@ def clone(instance):
 
 def create_correction_invoice_number(invoice: Invoice):
     invoice_number_parts = invoice.invoice_number.split("/")
-    invoice_number_parts.insert(0, "k")
+    invoice_number_parts.insert(3, "korekta")
     return "/".join(invoice_number_parts)
 
 
