@@ -7,8 +7,8 @@ invoice_number_validator = RegexValidator(
 )
 
 correction_invoice_number_validator = RegexValidator(
-    r"^k/[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
-    _("Enter correction invoice number in only in format k/number/mm/yyyy"),
+    r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}/korekta$",
+    _("Enter correction invoice number in only in format number/mm/yyyy/correction"),
 )
 
 nip_validator = RegexValidator(

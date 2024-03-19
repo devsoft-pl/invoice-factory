@@ -517,7 +517,7 @@ class TestReplaceSellInvoice(TestInvoice):
     def test_create_correction_invoice_number(self):
         invoice = InvoiceSellFactory.create(invoice_number="1/03/2024")
 
-        assert create_correction_invoice_number(invoice) == "k/1/03/2024"
+        assert create_correction_invoice_number(invoice) == "1/03/2024/korekta"
 
     def test_crete_correction_invoice_if_is_not_settled(
         self,
@@ -545,9 +545,10 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("invoices:list_invoices"))
+
         self.assertTrue(
             CorrectionInvoiceRelation.objects.filter(
-                invoice=invoice, correction_invoice__invoice_number="k/1/03/2024"
+                invoice=invoice, correction_invoice__invoice_number="1/03/2024/korekta"
             ).exists()
         )
 

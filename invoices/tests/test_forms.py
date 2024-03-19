@@ -187,7 +187,7 @@ class TestSellInvoiceForm:
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej tylko w formacie k/numer/mm/rrrr",
+                "Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta",
                 True,
             ],
         ],
@@ -221,7 +221,7 @@ class TestSellInvoiceForm:
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej tylko w formacie k/numer/mm/rrrr",
+                "Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta",
                 True,
             ],
         ],
@@ -250,7 +250,7 @@ class TestSellInvoiceForm:
 
     @pytest.mark.parametrize(
         "invoice_number, create_correction",
-        [["1/03/2023", False], ["k/1/04/2023", True]],
+        [["1/03/2023", False], ["1/04/2023/korekta", True]],
     )
     def test_invoice_sell_with_valid_data(self, invoice_number, create_correction):
         data = InvoiceSellDictFactory(
@@ -273,7 +273,7 @@ class TestSellInvoiceForm:
 
     @pytest.mark.parametrize(
         "invoice_number, create_correction",
-        [["1/08/2023", False], ["k/1/12/2023", True]],
+        [["1/08/2023", False], ["1/12/2023/korekta", True]],
     )
     def test_invoice_sell_person_valid_data(self, invoice_number, create_correction):
         person = PersonFactory.create(user=self.user)
