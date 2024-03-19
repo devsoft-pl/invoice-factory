@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
     <script type="text/javascript" src="{% static 'utils.js' %}"></script>
     <script type="text/javascript" src="{% static 'create_my_company.js' %}"></script>
-    <script type="text/javascript" src="{% static 'create_company.js' %}"></script>
-    <script type="text/javascript" src="{% static 'create_person.js' %}"></script>
+    {% if form.instance.client %}
+        <script type="text/javascript" src="{% static 'create_company.js' %}"></script>
+    {% else %}
+        <script type="text/javascript" src="{% static 'create_person.js' %}"></script>
+    {% endif %}
     <script type="text/javascript" src="{% static 'create_currency.js' %}"></script>
     <script type="text/javascript" src="{% static 'create_date_calendar.js' %}"></script>
     <script type="text/javascript" src="{% static 'create_sale_date_calendar.js' %}"></script>
