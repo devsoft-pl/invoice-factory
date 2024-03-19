@@ -53,7 +53,11 @@ Here's what you can do with the application:
     <li>
         <b>Month-end Closing:</b> Set a specific day for month-end closing and effortlessly reconcile your invoices. 
         The application gathers all invoices for the previous month and sends them collectively to the designated recipient, whether it's yourself or your accountant. 
-        Once the month is closed, invoices cannot be edited, ensuring data integrity. If necessary, you can create corrections to invoices.
+        Once the month is closed, invoices cannot be edited, ensuring data integrity.
+    </li>
+    <li>
+        <b>Create a correction for the invoice:</b> If you notice an error on the issued invoice, you have the option to create a correction regardless of whether you have closed the month or not. 
+        The correction allows you to rectify errors on the invoice and include them in the accounting records.
     </li>
     <li>
         <b>Revenue Reporting:</b> The application generates revenue reports for issued sales invoices for each year. 
