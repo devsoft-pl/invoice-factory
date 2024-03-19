@@ -3,8 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const invoiceNumberInput = document.getElementById('id_invoice_number');
     const isLastDayContainerElement = document.getElementById('id_is_last_day').parentElement;
     const isPaidContainerElement = document.getElementById('isPaidContainerElement');
+    const invoiceNumberValue = invoiceNumberInput.value;
 
     if (isRecurringCheckbox.checked) {
+        invoiceNumberInput.value = "";
         invoiceNumberInput.disabled = true;
         isLastDayContainerElement.classList.remove('d-none');
         isPaidContainerElement.classList.add('d-none');
@@ -18,11 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         if (isRecurringCheckbox.checked) {
+            invoiceNumberInput.value = "";
             invoiceNumberInput.disabled = true;
             isLastDayContainerElement.classList.remove('d-none');
             isPaidContainerElement.classList.add('d-none');
         } else {
             invoiceNumberInput.disabled = false;
+            invoiceNumberInput.value = invoiceNumberValue;
             isLastDayContainerElement.classList.add('d-none');
             isPaidContainerElement.classList.remove('d-none');
         }
