@@ -1,11 +1,10 @@
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 
-from users.forms import UserCreationForm, UserForm
+from users.forms import PasswordChangeUserForm, UserCreationForm, UserForm
 
 
 def register_user_view(request):
@@ -27,9 +26,9 @@ def password_change_user_view(request):
         raise Http404(_("User does not authenticated"))
 
     if request.method != "POST":
-        form = PasswordChangeForm(user=request.user)
+        form = PasswordChangeUserForm(user=request.user)
     else:
-        form = PasswordChangeForm(user=request.user, data=request.POST)
+        form = PasswordChangeUserForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
