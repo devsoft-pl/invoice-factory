@@ -101,13 +101,18 @@
                 </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:create_sell_invoice' %}">Dodaj fakturę sprzedażową dla firmy</a>
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:create_sell_person_invoice' %}">Dodaj fakturę sprzedażową dla konsumenta</a>
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:create_buy_invoice' %}">Dodaj fakturę zakupową</a>
-            </div>
+    
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Dodaj
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla firmy</a></li>
+                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura sprzedażowa dla konsumenta</a></li>
+                <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
+            </ul>
         </div>
+    
         <div class="row">
             {% include "pagination.html" with page=invoices %}
         </div>
