@@ -29,51 +29,47 @@
                     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
                         <div class="container-fluid">
                             <a class="navbar-brand" href="{% url 'invoices:index' %}">Strona główna</a>
-                            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavDarkDropdown">
                                 <ul class="navbar-nav">
                                     {% if user.is_authenticated %}
                                         <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
+                                            <a class="nav-link {% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "my_companies" %} active{% endif %}" href="{% url 'companies:list_my_companies' %}">Moje Firmy</a>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Firma</a>
+                                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                                <li><a class="dropdown-item" href="{% url 'companies:list_my_companies' %}">Moje firmy</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'currencies:list_currencies' %}">Waluty</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'countries:list_countries' %}">Kraje</a></li>
+                                            </ul>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "companies" %} active{% endif %}" href="{% url 'companies:list_companies' %}">Kontrahenci</a>
-                                        </li><li class="nav-item">
-                                            <a class="nav-link{% if current_module == "persons" %} active{% endif %}" href="{% url 'persons:list_persons' %}">Konsumenci</a>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Współpraca</a>
+                                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                                <li><a class="dropdown-item" href="{% url 'companies:list_companies' %}">Kontrahenci</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'persons:list_persons' %}">Konsumenci</a></li>
+                                            </ul>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "reports" %} active{% endif %}" href="{% url 'reports:list_reports' %}">Raporty</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "currencies" %} active{% endif %}" href="{% url 'currencies:list_currencies' %}">Waluty</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "countries" %} active{% endif %}" href="{% url 'countries:list_countries' %}">Kraje</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "vat_rates" %} active{% endif %}" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a>
-                                        </li>
+                                        <li class="nav-item"><a class="nav-link{% if current_module == "reports" %} active{% endif %}" href="{% url 'reports:list_reports' %}">Raporty</a></li>
                                     {% endif %}
                                 </ul>
                                 <ul class="navbar-nav">
                                     {% if user.is_authenticated %}
-                                        <li class="nav-item">
-                                            <a class="nav-link{% if current_module == "users" %} active{% endif %}" href="{% url 'users:detail_user' %}">{{ user.email }}</a>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.full_name }}</a>
+                                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                                <li><a class="dropdown-item" href="{% url 'users:detail_user' %}">Mój profil</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'users:replace_user' %}">Edytuj profil</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'users:password_change_user' %}">Zmień hasło</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'users:logout' %}">Wyloguj</a></li>
+                                            </ul>
                                         </li>
-                                    {% endif %}
-                                    {% if user.is_authenticated %}
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'users:logout' %}">Wyloguj</a>
-                                        </li>
-                                    {% else %}
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'users:register_user' %}">Rejestruj</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'users:login' %}">Zaloguj</a>
-                                        </li>
+                                    {% else %} 
+                                        <li class="nav-item"><a class="nav-link" href="{% url 'users:register_user' %}">Rejestruj</a></li>
                                     {% endif %}
                                 </ul>
                             </div>
