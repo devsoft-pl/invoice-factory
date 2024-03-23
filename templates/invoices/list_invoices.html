@@ -101,7 +101,6 @@
                 </div>
             {% endif %}
         </div>
-    
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 Dodaj
@@ -112,7 +111,6 @@
                 <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
             </ul>
         </div>
-    
         <div class="row">
             {% include "pagination.html" with page=invoices %}
         </div>
