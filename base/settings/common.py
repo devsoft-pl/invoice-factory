@@ -6,18 +6,12 @@ from celery.schedules import crontab
 
 env = environ.Env(DEBUG=(bool, False), EMAIL_USE_TLS=(bool, False))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
@@ -92,13 +86,9 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = "base.wsgi.application"
 
-# Database
 DATABASES = {
     "default": env.db(),
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -115,26 +105,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = "pl"
-
 TIME_ZONE = "Europe/Warsaw"
-
 USE_TZ = True
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_THOUSAND_SEPARATOR = True
 THOUSAND_SEPARATOR = "$"
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -142,8 +121,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+MEDIA_BUCKET_NAME = env("MEDIA_BUCKET_NAME", default=None)
+MEDIA_ENDPOINT_URL = env("MEDIA_ENDPOINT_URL", default=None)
+
+STATIC_BUCKET_NAME = env("STATIC_BUCKET_NAME", default=None)
+STATIC_ENDPOINT_URL = env("STATIC_ENDPOINT_URL", default=None)
+
+AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", default=None)
+MEDIA_CUSTOM_DOMAIN = env("MEDIA_CUSTOM_DOMAIN", default=None)
+STATIC_CUSTOM_DOMAIN = env("STATIC_CUSTOM_DOMAIN", default=None)
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -152,6 +139,13 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+
+AWS_ACCESS_KEY_ID = env(  # noqa: F405
+    "AWS_ACCESS_KEY_ID", default="minio_root_user"
+)  # noqa: F405
+AWS_SECRET_ACCESS_KEY = env(  # noqa: F405
+    "AWS_SECRET_ACCESS_KEY", default="minio_root_password"
+)
 
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
@@ -179,6 +173,5 @@ EMAIL_SENDER = env("EMAIL_SENDER")
 CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
 
 AUTH_USER_MODEL = "users.User"
-
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
