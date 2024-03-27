@@ -60,11 +60,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 @receiver(post_save, sender=User)
 def send_welcome_email(sender, instance: User, created=False, **kwargs):
     if created:
-        subject = _(f"Welcome in Factorka")
+        subject = _(f"Welcome in Invoice Factory")
         content = _(
-            "Thanks for your registration in Factorka. Your account details:\n"
+            "Thanks for your registration in Invoice Factory. Your account details:\n"
             "Login: {email}\n"
             "Best regards,\n"
-            "Factorka",
+            "Invoice Factory",
         ).format(email=instance.email)
         User().send_email(subject, content)

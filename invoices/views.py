@@ -8,7 +8,7 @@ from django.utils.translation import gettext as _
 from xhtml2pdf import pisa
 
 from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm,
-                            InvoiceRecurringForm, InvoiceSellForm,
+                            InvoiceSellForm,
                             InvoiceSellPersonForm)
 from invoices.models import CorrectionInvoiceRelation, Invoice
 
