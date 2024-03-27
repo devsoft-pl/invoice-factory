@@ -9,7 +9,7 @@ case $1 in
 
   deplayed_jobs)
     echo "Starting celery workers"
-    exec celery -A base.base_celery:app worker --concurrency=2 --loglevel=INFO
+    exec celery -A base.celery:app worker --concurrency=2 --loglevel=INFO
   ;;
 
   dev)
@@ -24,12 +24,7 @@ case $1 in
 
   scheduled_jobs)
     echo "Starting celery beat"
-    exec celery -A base.base_celery:app beat --loglevel=INFO
-  ;;
-
-  uvicorn)
-    echo "Starting uvicorn"
-    exec uvicorn base.asgi:application --log-level debug --app-dir=/app --host 0.0.0.0 --port 8000
+    exec celery -A base.celery:app beat --loglevel=INFO
   ;;
 
   migrate_db)
