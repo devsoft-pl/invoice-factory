@@ -91,10 +91,10 @@
 
 <h1>Faktura VAT</h1>
 {% if invoice.correction_invoice_relation %}
-    <h2>Faktura korygująca numer {{ invoice.invoice_number }}</h2>
+    <h2>Nr {{ invoice.invoice_number }}</h2>
     <h3>Dokument korygowany: Faktura {{ invoice.correction_invoice_relation.invoice.invoice_number }} z dnia {{ invoice.correction_invoice_relation.invoice.create_date }}</h3>
 {% else %}
-    <h2>Faktura numer {{ invoice.invoice_number }}</h2>
+    <h2>Nr {{ invoice.invoice_number }}</h2>
 {% endif %}
 
 <table>
@@ -130,6 +130,14 @@
         {% if invoice.client %}
             <td class="information" style="width:18%">NIP:</td>
             <td class="specific-information">{{ invoice.client.nip }}</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="information" style="width:18%">REGON:</td>
+        <td class="specific-information">{{ invoice.company.regon }}</td>
+        {% if invoice.client %}
+            <td class="information" style="width:18%">REGON:</td>
+            <td class="specific-information">{{ invoice.client.regon }}</td>
         {% endif %}
     </tr>
 </table>
