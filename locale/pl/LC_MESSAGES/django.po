@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-19 22:01+0100\n"
+"POT-Creation-Date: 2024-03-28 00:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,8 @@ msgstr ""
 #: base/validators.py:11
 msgid ""
 "Enter correction invoice number in only in format number/mm/yyyy/correction"
-msgstr "Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta"
+msgstr ""
+"Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta"
 
 #: base/validators.py:16
 msgid "Enter the tax ID without special characters with minimum 8 character"
@@ -175,12 +176,12 @@ msgid ""
 "CEIDG is not active.\n"
 " Check the contractor's details again\n"
 "Best regards,\n"
-"Invoice Manager"
+"Invoice Factory"
 msgstr ""
 "Status firmy kontrahenta o NIP: %(company_nip)s w CEIDG jest nieaktywny.\n"
 "Sprawdź ponownie dane kontrahenta\n"
 "Z wyrazami szacunku,\n"
-"Invoice Manager"
+"Invoice Factory"
 
 #: countries/forms.py:26
 msgid "Country already exists"
@@ -359,11 +360,11 @@ msgstr "Nowa cykliczna faktura %(nr)s"
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
-"Invoice Manager"
+"Invoice Factory"
 msgstr ""
 "Utworzono nową fakturę cykliczną\n"
 "Z wyrazami szacunku,\n"
-"Invoice Manager"
+"Invoice Factory"
 
 #: invoices/tasks.py:157
 msgid "Month summary"
@@ -373,11 +374,11 @@ msgstr "Podsumowanie miesiąca"
 msgid ""
 "A monthly summary has been created for company\n"
 "Best regards,\n"
-"Invoice Manager"
+"Invoice Factory"
 msgstr ""
 "Dla firmy zostało stworzone miesięczne podsumowanie\n"
 "Z wyrazami szacunku,\n"
-"Invoice Manager"
+"Invoice Factory"
 
 #: invoices/views.py:50 invoices/views.py:141 invoices/views.py:190
 #: invoices/views.py:213 invoices/views.py:225
@@ -490,23 +491,22 @@ msgstr ""
 "opcję zamiast usuwania kont."
 
 #: users/models.py:63
-msgid "Welcome in Factorka"
-msgstr "Witamy w Faktorce"
+msgid "Welcome in Invoice Factory"
+msgstr "Witamy w Invoice Factory"
 
 #: users/models.py:65
-#, python-brace-format
 msgid ""
-"Thanks for your registration in Factorka. Your account details:\n"
+"Thanks for your registration in Invoice Factory. Your account details:\n"
 "Login: {email}\n"
 "Best regards,\n"
-"Factorka"
+"Invoice Factory"
 msgstr ""
-"Dziękujemy za rejestrację w Faktorce. Dane Twojego konta: \n"
+"Dziękujemy za rejestrację w Invoice Factory. Dane Twojego konta: \n"
 "Logowanie: {email} \n"
 "Z wyrazami szacunku,\n"
-"Factorka"
+"Invoice Factory"
 
-#: users/views.py:27
+#: users/views.py:26
 msgid "User does not authenticated"
 msgstr "Użytkownik nie został uwierzytelniony"
 
@@ -521,6 +521,9 @@ msgstr "Stawka VAT"
 #: vat_rates/views.py:77 vat_rates/views.py:100
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid "Welcome in Factorka"
+#~ msgstr "Witamy w Faktorce"
 
 #~ msgid "Recurring invoice"
 #~ msgstr "Cykliczna faktura"
@@ -559,9 +562,6 @@ msgstr "Stawka VAT nie istnieje"
 #~ "Mamy nadzieję, że jeszcze do nas wrócisz \n"
 #~ "Z wyrazami szacunku,\n"
 #~ "Factorka"
-
-#~ msgid "Welcome in Invoice Manager"
-#~ msgstr "Witamy w Invoice Manager"
 
 #~ msgid "Goodbye in Invoice Manager"
 #~ msgstr "Do widzenia w Invoice Manager"
