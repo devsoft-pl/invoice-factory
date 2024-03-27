@@ -37,7 +37,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     import django
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings.dev")
     django.setup()
 
     from django.conf import settings
