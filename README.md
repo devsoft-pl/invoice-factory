@@ -43,16 +43,15 @@ Here's what you can do with the application:
 The app is covered with tests using pytest and unittest, and the coverage is 99% (with some exceptions, such as migrations, configurations).
 
 ## Built With
-<ul>
-<li>Python 3+</li>
-<li>Django 4+, DRF</li>
-<li>Celery, Redis</li>
-<li>JavaScript</li>
-<li>PostgreSQL, MySQL</li>
-<li>HTML, CSS, Bootstrap</li>
-<li>Docker, Docker-compose</li>
-<li>Git</li>
-</ul>
+
+* Python 3+
+* Django 4+, DRF
+* Celery, Redis
+* JavaScript
+* PostgreSQL, MySQL
+* HTML, CSS, Bootstrap
+* Docker, Docker-compose
+* Git
 
 ## How to run the application (docker-compose)
 
