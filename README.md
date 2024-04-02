@@ -1,104 +1,93 @@
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#applicationview">Application View</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+## About The Project
 
-
-<!-- ABOUT THE PROJECT -->
-<u>About The Project</u>
-<p>This project is a user-friendly invoicing application designed to streamline your business processes. 
-With its intuitive interface and robust features, managing your invoices has never been easier. 
+This user-friendly invoicing application is designed to streamline your business processes, offering an intuitive interface and robust features that make managing invoices easier than ever. 
+With its comprehensive features, it simplifies financial management tasks, allowing you to focus on growing your business. 
+Experience efficiency and convenience with our intuitive invoicing solution.
 Here's what you can do with the application:
-</p>
 
 <ul>
     <li>
         <b>Add Your Company:</b> Easily add your company details to the system. 
-        You can manage multiple companies under one account, making it convenient for businesses with diverse operations.
+        You can manage multiple companies under one account.
     </li>
     <li>
-        <b>Manage Contacts:</b> Add an unlimited number of contacts, including both business entities (client) and individuals (person). 
-        Keep track of your clients and partners effortlessly.
+        <b>Manage Contacts:</b> Add an unlimited number of contacts, including both business entities (client) and individuals (person).
     </li>
     <li>
         <b>Create and Edit Invoices:</b> Generate sales or purchase invoices with ease. 
         Enjoy the flexibility of editing or deleting invoices as needed. 
-        The application allows you to generate invoices in PDF format for seamless sharing and record-keeping.
+        The application allows you to generate invoices in PDF.
     </li>
     <li>
-        <b>Recurring Invoices:</b> Set up recurring invoices for your clients to automate your billing process. 
-        Forget about monthly invoice creation; the application will handle it for you. 
-        Receive email notifications along with the invoice attachment when a recurring invoice is generated.
+        <b>Recurring Invoices:</b> Automate your billing process with recurring invoices for clients. 
+        The app handles monthly invoice creation and sends email notifications with attachments for generated recurring invoices.
     </li>
     <li>
-        <b>Automatic Currency Conversion:</b> When invoicing in foreign currencies, let the application take care of currency conversion for you.
-        It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date currency conversion.
+        <b>Automatic Currency Conversion:</b> Let the app handle currency conversion when invoicing in foreign currencies. 
+        It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date conversion.
     </li>
     <li>
-        <b>Month-end Closing:</b> Set a specific day for month-end closing and effortlessly reconcile your invoices. 
-        The application gathers all invoices for the previous month and sends them collectively to the designated recipient, whether it's yourself or your accountant. 
-        Once the month is closed, invoices cannot be edited, ensuring data integrity.
+        <b>Month-end Closing:</b> Specify a day for month-end closing to reconcile invoices effortlessly. 
+        The app gathers previous month's invoices and sends them to the designated recipient. 
+        Once closed, invoices cannot be edited, ensuring data integrity.
     </li>
     <li>
-        <b>Create a correction for the invoice:</b> If you notice an error on the issued invoice, you have the option to create a correction regardless of whether you have closed the month or not. 
-        The correction allows you to rectify errors on the invoice and include them in the accounting records.
+        <b>Create a correction for the invoice:</b> If you spot an error on the invoice, create a correction anytime, even if the month is closed. 
+        Rectify errors and update accounting records.
     </li>
     <li>
-        <b>Revenue Reporting:</b> The application generates revenue reports for issued sales invoices for each year. 
-        Additionally, it creates revenue charts based on these invoices, providing users with quick access to company revenues.
+        <b>Revenue Reporting:</b> The app generates yearly revenue reports and charts from sales invoices, giving users quick access to company revenues.
     </li>
 </ul>
 
-<p>
-    With its comprehensive features, this invoicing application simplifies your financial management tasks, allowing you to focus on growing your business. 
-    Experience efficiency and convenience with our intuitive invoicing solution.
-</p>
+The app is covered with tests using pytest and unittest, and the coverage is 99% (with some exceptions, such as migrations, configurations).
 
-<!-- BUILT WITH -->
-<u>Built With</u>
+## Built With
 <ul>
 <li>Python 3+</li>
-<li>Django 4+, Celery, Redis, DRF</li>
+<li>Django 4+, DRF</li>
+<li>Celery, Redis</li>
 <li>JavaScript</li>
-<li>MySQL</li>
+<li>PostgreSQL, MySQL</li>
 <li>HTML, CSS, Bootstrap</li>
-<li>Docker</li>
+<li>Docker, Docker-compose</li>
 <li>Git</li>
 </ul>
 
+## How to run the application (docker-compose)
 
-<!-- GETTING STARTED -->
-<u>Getting Started</u>
-<p>This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.</p>
+To run the application, you need to have docker and docker-compose installed on your machine. If you don't have it installed, 
+you can download it from [here](https://www.docker.com/products/docker-desktop).
 
+After you have docker and docker-compose installed, you can clone the repository with:
 
-<!-- INSTALLATION -->
-<u>Installation</u>
-<p>1. Clone the repo git clone: git@github.com:w-wajda/invoice_manager.git</p>
+```bash
+clone: git@github.com:w-wajda/invoice_manager.git
+```
+Then you can run the application with:
 
-<!-- CONTACT -->
-<u>Contact</u>
+```bash
+  docker compose up
+  make migrate-docker  # run migrations
+```
+
+And that's it! The application is running on [http://localhost:8000](http://localhost:8000). 
+
+To **stop** the application, you can run:
+
+```bash
+  docker compose down
+```
+
+## Application View
+
+Project Link and Application View: in progress
+
+## Contact
 
 LinkedIn : https://www.linkedin.com/in/wioletta-wajda/
 
-Project Link and Application View: in progress
+
 
 
 
