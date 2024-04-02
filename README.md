@@ -5,40 +5,29 @@ With its comprehensive features, it simplifies financial management tasks, allow
 Experience efficiency and convenience with our intuitive invoicing solution.
 Here's what you can do with the application:
 
-<ul>
-    <li>
-        <b>Add Your Company:</b> Easily add your company details to the system. 
-        You can manage multiple companies under one account.
-    </li>
-    <li>
-        <b>Manage Contacts:</b> Add an unlimited number of contacts, including both business entities (client) and individuals (person).
-    </li>
-    <li>
-        <b>Create and Edit Invoices:</b> Generate sales or purchase invoices with ease. 
-        Enjoy the flexibility of editing or deleting invoices as needed. 
-        The application allows you to generate invoices in PDF.
-    </li>
-    <li>
-        <b>Recurring Invoices:</b> Automate your billing process with recurring invoices for clients. 
-        The app handles monthly invoice creation and sends email notifications with attachments for generated recurring invoices.
-    </li>
-    <li>
-        <b>Automatic Currency Conversion:</b> Let the app handle currency conversion when invoicing in foreign currencies. 
-        It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date conversion.
-    </li>
-    <li>
-        <b>Month-end Closing:</b> Specify a day for month-end closing to reconcile invoices effortlessly. 
-        The app gathers previous month's invoices and sends them to the designated recipient. 
-        Once closed, invoices cannot be edited, ensuring data integrity.
-    </li>
-    <li>
-        <b>Create a correction for the invoice:</b> If you spot an error on the invoice, create a correction anytime, even if the month is closed. 
-        Rectify errors and update accounting records.
-    </li>
-    <li>
-        <b>Revenue Reporting:</b> The app generates yearly revenue reports and charts from sales invoices, giving users quick access to company revenues.
-    </li>
-</ul>
+* **Add Your Company:** Easily add your company details to the system. 
+You can manage multiple companies under one account.
+
+* **Manage Contacts:** Add an unlimited number of contacts, including both business entities (client) and individuals (person).
+
+* **Create and Edit Invoices:** Generate sales or purchase invoices with ease. 
+Enjoy the flexibility of editing or deleting invoices as needed. 
+The application allows you to generate invoices in PDF.
+
+* **Recurring Invoices:** Automate your billing process with recurring invoices for clients. 
+The app handles monthly invoice creation and sends email notifications with attachments for generated recurring invoices.
+
+* **Automatic Currency Conversion:** Let the app handle currency conversion when invoicing in foreign currencies. 
+It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date conversion.
+
+* **Month-end Closing:** Specify a day for month-end closing to reconcile invoices effortlessly. 
+The app gathers previous month's invoices and sends them to the designated recipient. 
+Once closed, invoices cannot be edited, ensuring data integrity.
+
+* **Create a correction for the invoice:** If you spot an error on the invoice, create a correction anytime, even if the month is closed. 
+Rectify errors and update accounting records.
+
+* **Revenue Reporting:** The app generates yearly revenue reports and charts from sales invoices, giving users quick access to company revenues.
 
 The app is covered with tests using pytest and unittest, and the coverage is 99% (with some exceptions, such as migrations, configurations).
 
@@ -48,7 +37,7 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 * Django 4+, DRF
 * Celery, Redis
 * JavaScript
-* PostgreSQL, MySQL
+* PostgreSQL
 * HTML, CSS, Bootstrap
 * Docker, Docker-compose
 * Git
