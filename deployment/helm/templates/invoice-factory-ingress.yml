@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: invoice-factory-ingress
+  namespace: apps
+  labels:
+    app: invoice-factory
+  annotations:
+    kubernetes.io/ingress.class: ingress-nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+    - hosts:
+      - invoices.devsoft.pl
+      secretName: invoice-factory-tls
+
+  rules:
+    - host: invoices.devsoft.pl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: invoice-factory-svc
+                port:
+                  number: 8000

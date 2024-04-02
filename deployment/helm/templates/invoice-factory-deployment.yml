@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-factory
+  labels:
+    app: invoice-factory
+  namespace: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: invoice-factory
+  template:
+    metadata:
+      labels:
+        app: invoice-factory
+    spec:
+      containers:
+      - name: web
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        args: ['web']
+        env:
+          - name: SENTRY_RELEASE
+            value: 0.0.1
+        ports:
+          - name: http
+            containerPort: 8000
+        envFrom:
+          - secretRef:
+              name: invoice-factory-secrets
+
+      - name: celery
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        args: ['deplayed_jobs']
+        envFrom:
+          - secretRef:
+              name: invoice-factory-secrets
+
+      initContainers:
+      - name: migrations
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        args: ['migrate_db']
+        envFrom:
+          - secretRef:
+              name: invoice-factory-secrets
+
+      - name: collectstatic
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        args: ['collectstatic']
+        envFrom:
+          - secretRef:
+              name: invoice-factory-secrets
+      imagePullSecrets:
+        - name: registry-secret

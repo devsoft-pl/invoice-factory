@@ -1,0 +1,48 @@
+---
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: [ self-hosted, linux, x64 ]
+    concurrency: release
+    container:
+      image: python:3-bookworm
+      options: --user 1001
+      env:
+        NODE_ENV: development
+
+    steps:
+      # check-out repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      # install poetry
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+
+      # install requirements
+      - name: Install requirements
+        run: |
+          /github/home/.local/bin/poetry install --only semver
+
+      # semantic release
+      - name: Python Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Set git details
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@devsoft.pl"
+
+          # run semantic-release
+          /github/home/.local/bin/poetry run semantic-release publish
