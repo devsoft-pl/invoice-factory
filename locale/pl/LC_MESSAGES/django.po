@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-28 00:38+0100\n"
+"POT-Creation-Date: 2024-04-03 22:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: accountants/models.py:10 companies/models.py:23 persons/models.py:17
-#: summary_recipients/models.py:28 users/models.py:14
+#: summary_recipients/models.py:26 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
@@ -41,7 +41,7 @@ msgid "Phone number"
 msgstr "Numer telefonu"
 
 #: accountants/models.py:16 invoices/forms.py:281 invoices/models.py:48
-#: summary_recipients/models.py:23
+#: summary_recipients/models.py:21
 msgid "Company"
 msgstr "Firma"
 
@@ -60,56 +60,63 @@ msgid "Accountant does not exist"
 msgstr "Księgowa/y nie istnieje"
 
 #: base/validators.py:6
-msgid "Enter invoice number in numbers only in format number/mm/yyyy"
+msgid ""
+"Please enter the invoice number in numeric format only, following the "
+"pattern number/mm/yyyy"
 msgstr ""
-"Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
+"Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem "
+"numer/mm/rrrr"
 
 #: base/validators.py:11
 msgid ""
-"Enter correction invoice number in only in format number/mm/yyyy/correction"
-msgstr ""
-"Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta"
+"Please enter the correction invoice number in the format number/mm/yyyy/c"
+msgstr "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k"
 
 #: base/validators.py:16
-msgid "Enter the tax ID without special characters with minimum 8 character"
-msgstr "Wpisz NIP bez znaków specjalnych, składający się z min. 8 znaków"
+msgid ""
+"Please enter the tax ID without special characters and with a minimum of 8 "
+"characters"
+msgstr "Wprowadź NIP bez znaków specjalnych i zawierający co najmniej 8 znaków"
 
 #: base/validators.py:21
-msgid "Enter regon in numbers only with minimum 9 character"
-msgstr "Wpisz Regon składający się z min. 9 liczb"
+msgid ""
+"Please enter the REGON using numbers only, with a minimum of 9 characters"
+msgstr "Wprowadź REGON używając tylko cyfr, minimum 9 znaków"
 
 #: base/validators.py:25
-msgid "Enter country three letter code"
-msgstr "Wpisz trzyliterowy kod kraju"
+msgid "Please enter the country code using three letters"
+msgstr "Wprowadź kod kraju, używając trzech liter"
 
 #: base/validators.py:30
 msgid ""
-"Enter account number with minimum 15 character without special characters"
+"Please enter the account number with a minimum of 15 characters, excluding "
+"special characters"
 msgstr ""
-"Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+"Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem "
+"znaków specjalnych"
 
 #: base/validators.py:36
 msgid "Enter the first_name in letters only"
-msgstr "Wpisz imię tylko w postaci liter"
+msgstr "Wprowadź imię wyłącznie literami"
 
 #: base/validators.py:40
-msgid "Enter the last_name in letters only"
-msgstr "Wpisz nazwisko tylko w postaci liter"
+msgid "Please enter the last name using letters only"
+msgstr "Wprowadź nazwisko wyłącznie literami"
 
 #: base/validators.py:44
-msgid "Zip code in numbers only in format xx-xxx"
-msgstr "Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"
+msgid "Please enter the zip code using numbers only in the format xx-xxx"
+msgstr "Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx"
 
 #: base/validators.py:47
-msgid "Enter the city in letters only"
-msgstr "Wpisz miasto tylko w postaci liter"
+msgid "Please enter the city using letters only"
+msgstr "Wprowadź miasto, używając wyłącznie liter"
 
 #: base/validators.py:51
-msgid "Enter the country in letters only"
-msgstr "Wpisz kraj tylko w postaci liter"
+msgid "Please enter the country using letters only"
+msgstr "Wprowadź kraj, używając wyłącznie liter"
 
 #: base/validators.py:55
-msgid "Enter phone number with 9 numbers only"
+msgid "Please enter a phone number with 9 digits only"
 msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
 #: companies/admin.py:15
@@ -178,7 +185,7 @@ msgid ""
 "Best regards,\n"
 "Invoice Factory"
 msgstr ""
-"Status firmy kontrahenta o NIP: %(company_nip)s w CEIDG jest nieaktywny.\n"
+"Status kontrahenta o NIP: %(company_nip)s w CEIDG jest nieaktywny.\n"
 "Sprawdź ponownie dane kontrahenta\n"
 "Z wyrazami szacunku,\n"
 "Invoice Factory"
@@ -239,9 +246,9 @@ msgstr "Zaawansowane opcje"
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:92 invoices/forms.py:192
-msgid "This field is required."
-msgstr "To pole jest wymagane."
+#: invoices/forms.py:92
+msgid "This field is required"
+msgstr "To pole jest wymagane"
 
 #: invoices/forms.py:104 invoices/forms.py:204 invoices/forms.py:270
 msgid "Invoice number already exists"
@@ -250,6 +257,10 @@ msgstr "Numer faktury już istnieje"
 #: invoices/forms.py:118 invoices/forms.py:218
 msgid "This field is not last dat of month."
 msgstr "Data sprzedaży nie jest ostatnim dniem miesiąca"
+
+#: invoices/forms.py:192
+msgid "This field is required."
+msgstr "To pole jest wymagane"
 
 #: invoices/forms.py:276 invoices/models.py:41
 msgid "Invoice number"
@@ -441,27 +452,27 @@ msgstr "Brutto"
 msgid "Revenue type"
 msgstr "Rodzaj przychodu"
 
-#: summary_recipients/models.py:16
+#: summary_recipients/models.py:14
 msgid "Monthly"
 msgstr "Co miesiąc"
 
-#: summary_recipients/models.py:17
+#: summary_recipients/models.py:15
 msgid "Quarterly"
 msgstr "Kwartalnie"
 
-#: summary_recipients/models.py:20
+#: summary_recipients/models.py:18
 msgid "Description"
 msgstr "Opis"
 
-#: summary_recipients/models.py:27
+#: summary_recipients/models.py:25
 msgid "Day of send"
 msgstr "Dzień wysłania"
 
-#: summary_recipients/models.py:30
+#: summary_recipients/models.py:28
 msgid "Settlement types"
 msgstr "Rodzaj rozliczenia"
 
-#: summary_recipients/models.py:32
+#: summary_recipients/models.py:30
 msgid "Final call"
 msgstr "Ostateczne rozliczenie"
 
@@ -495,6 +506,7 @@ msgid "Welcome in Invoice Factory"
 msgstr "Witamy w Invoice Factory"
 
 #: users/models.py:65
+#, python-brace-format
 msgid ""
 "Thanks for your registration in Invoice Factory. Your account details:\n"
 "Login: {email}\n"
@@ -521,6 +533,12 @@ msgstr "Stawka VAT"
 #: vat_rates/views.py:77 vat_rates/views.py:100
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid "Enter country three letter code"
+#~ msgstr "Wpisz trzyliterowy kod kraju"
+
+#~ msgid "Enter the last_name in letters only"
+#~ msgstr "Wpisz nazwisko tylko w postaci liter"
 
 #~ msgid "Welcome in Factorka"
 #~ msgstr "Witamy w Faktorce"
