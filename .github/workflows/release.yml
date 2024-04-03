@@ -45,4 +45,5 @@ jobs:
           git config --global user.email "github-actions@devsoft.pl"
 
           # run semantic-release
+          /github/home/.local/bin/poetry run semantic-release version
           /github/home/.local/bin/poetry run semantic-release publish
