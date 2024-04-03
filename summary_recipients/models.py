@@ -4,8 +4,6 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 from companies.models import Company
-from countries.models import Country
-from users.models import User
 
 
 class SummaryRecipient(models.Model):
