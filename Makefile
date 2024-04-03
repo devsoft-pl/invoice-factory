@@ -1,4 +1,4 @@
-celery_worker:
+pythoncelery_worker:
 	celery -A base.celery worker -l info
 
 celery_beat:
@@ -12,6 +12,9 @@ test_all:
 
 runserver:
 	python manage.py runserver
+
+createsuperuser:
+	python manage.py createsuperuser
 
 makemigrations:
 	python manage.py makemigrations
