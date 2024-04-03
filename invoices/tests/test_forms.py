@@ -183,11 +183,11 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr",
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr",
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta",
+                "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k",
                 True,
             ],
         ],
@@ -206,9 +206,9 @@ class TestSellInvoiceForm:
 
         assert form.errors == {
             "invoice_number": [validator],
-            "currency": ["To pole jest wymagane."],
+            "currency": ["To pole jest wymagane"],
             "account_number": [
-                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+                "Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem znaków specjalnych"
             ],
         }
         assert not is_valid
@@ -217,11 +217,11 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr",
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr",
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej tylko w formacie numer/mm/rrrr/korekta",
+                "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k",
                 True,
             ],
         ],
@@ -241,16 +241,16 @@ class TestSellInvoiceForm:
 
         assert form.errors == {
             "invoice_number": [validator],
-            "currency": ["To pole jest wymagane."],
+            "currency": ["To pole jest wymagane"],
             "account_number": [
-                "Wpisz numer rachunku bez znaków specjalnych składający się z min. 15 znaków"
+                "Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem znaków specjalnych"
             ],
         }
         assert not is_valid
 
     @pytest.mark.parametrize(
         "invoice_number, create_correction",
-        [["1/03/2023", False], ["1/04/2023/korekta", True]],
+        [["1/03/2023", False], ["1/04/2023/k", True]],
     )
     def test_invoice_sell_with_valid_data(self, invoice_number, create_correction):
         data = InvoiceSellDictFactory(
@@ -273,7 +273,7 @@ class TestSellInvoiceForm:
 
     @pytest.mark.parametrize(
         "invoice_number, create_correction",
-        [["1/08/2023", False], ["1/12/2023/korekta", True]],
+        [["1/08/2023", False], ["1/12/2023/k", True]],
     )
     def test_invoice_sell_person_valid_data(self, invoice_number, create_correction):
         person = PersonFactory.create(user=self.user)
@@ -347,7 +347,7 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }
@@ -368,7 +368,7 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Numer faktury należy wprowadzać cyfrowo, wyłącznie w formacie numer/mm/rrrr"
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }
