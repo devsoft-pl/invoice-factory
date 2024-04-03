@@ -53,3 +53,16 @@ exclude = '''
 
 [tool.isort]
 skip = [".git", "migrations", "venv", ".env"]
+
+[tool.semantic_release]
+branch = "master"
+version_variable = "base/__init__.py:__version__"
+version_toml = ["pyproject.toml:tool.poetry.version"]
+version_source = "tag"
+commit_version_number = true # required for version_source = "tag"
+commit_message = "chore(release): release {version}"
+commit_author = "github-actions <actions@devsoft.pl>"
+tag_commit = true
+upload_to_pypi = false
+upload_to_release = true
+hvcs = "github" # gitlab is also supported
