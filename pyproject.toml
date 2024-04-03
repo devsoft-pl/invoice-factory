@@ -31,6 +31,9 @@ gunicorn = "^21.2.0"
 mysqlclient = "2.1.1"
 
 
+[tool.poetry.group.semver.dependencies]
+python-semantic-release = "^9.4.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
