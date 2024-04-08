@@ -38,11 +38,11 @@ class TestCreateItem(TestItem):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "name", "To pole jest wymagane")
         self.assertFormError(
-            response.context["form"], "net_price", "To pole jest wymagane."
+            response.context["form"], "net_price", "To pole jest wymagane"
         )
-        self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "vat", "To pole jest wymagane")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -88,12 +88,12 @@ class TestReplaceItem(TestItem):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "pkwiu", "To pole jest wymagane."
+            response.context["form"], "pkwiu", "To pole jest wymagane"
         )
         self.assertFormError(
-            response.context["form"], "amount", "To pole jest wymagane."
+            response.context["form"], "amount", "To pole jest wymagane"
         )
-        self.assertFormError(response.context["form"], "vat", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "vat", "To pole jest wymagane")
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")

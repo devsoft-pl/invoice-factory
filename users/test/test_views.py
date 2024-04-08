@@ -50,7 +50,7 @@ class TestReplaceUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "email", "To pole jest wymagane."
+            response.context["form"], "email", "To pole jest wymagane"
         )
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
@@ -96,13 +96,13 @@ class TestRegisterUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "email", "To pole jest wymagane."
+            response.context["form"], "email", "To pole jest wymagane"
         )
         self.assertFormError(
-            response.context["form"], "password1", "To pole jest wymagane."
+            response.context["form"], "password1", "To pole jest wymagane"
         )
         self.assertFormError(
-            response.context["form"], "password2", "To pole jest wymagane."
+            response.context["form"], "password2", "To pole jest wymagane"
         )
         self.assertTemplateUsed(response, "registration/register.html")
 
@@ -138,13 +138,13 @@ class TestPasswordChangeUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "old_password", "To pole jest wymagane."
+            response.context["form"], "old_password", "To pole jest wymagane"
         )
         self.assertFormError(
-            response.context["form"], "new_password1", "To pole jest wymagane."
+            response.context["form"], "new_password1", "To pole jest wymagane"
         )
         self.assertFormError(
-            response.context["form"], "new_password2", "To pole jest wymagane."
+            response.context["form"], "new_password2", "To pole jest wymagane"
         )
         self.assertTemplateUsed(response, "registration/password_change_user.html")
 

@@ -122,8 +122,8 @@ class TestCreateCompany(TestCompany):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
-        self.assertFormError(response.context["form"], "nip", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "name", "To pole jest wymagane")
+        self.assertFormError(response.context["form"], "nip", "To pole jest wymagane")
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -209,15 +209,15 @@ class TestCreateCompanyAjax(TestCompany):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["name"], ["To pole jest wymagane."])
-        self.assertEqual(response_json["errors"]["nip"], ["To pole jest wymagane."])
-        self.assertEqual(response_json["errors"]["regon"], ["To pole jest wymagane."])
-        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane."])
-        self.assertEqual(response_json["errors"]["address"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["name"], ["To pole jest wymagane"])
+        self.assertEqual(response_json["errors"]["nip"], ["To pole jest wymagane"])
+        self.assertEqual(response_json["errors"]["regon"], ["To pole jest wymagane"])
+        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane"])
+        self.assertEqual(response_json["errors"]["address"], ["To pole jest wymagane"])
         self.assertEqual(
-            response_json["errors"]["zip_code"], ["To pole jest wymagane."]
+            response_json["errors"]["zip_code"], ["To pole jest wymagane"]
         )
-        self.assertEqual(response_json["errors"]["city"], ["To pole jest wymagane."])
+        self.assertEqual(response_json["errors"]["city"], ["To pole jest wymagane"])
         self.assertEqual(response.status_code, 200)
 
     def test_create_my_company_with_valid_data(self):
@@ -302,9 +302,9 @@ class TestReplaceCompany(TestCompany):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "name", "To pole jest wymagane.")
+        self.assertFormError(response.context["form"], "name", "To pole jest wymagane")
         self.assertFormError(
-            response.context["form"], "regon", "To pole jest wymagane."
+            response.context["form"], "regon", "To pole jest wymagane"
         )
 
     def test_replace_with_valid_data(self):

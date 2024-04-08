@@ -146,13 +146,11 @@ class TestPersonForm:
         is_valid = form.is_valid()
 
         assert form.errors == {
-            "first_name": ["Wpisz imię tylko w postaci liter"],
-            "last_name": ["Wpisz nazwisko tylko w postaci liter"],
-            "zip_code": ["Wpisz kod pocztowy składający się z liczb w formacie xx-xxx"],
-            "city": ["Wpisz miasto tylko w postaci liter"],
-            "phone_number": [
-                "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
-            ],
+            'first_name': ['Wprowadź imię wyłącznie literami'],
+            'last_name': ['Wprowadź nazwisko wyłącznie literami'],
+            'zip_code': ['Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx'],
+            'city': ['Wprowadź miasto, używając wyłącznie liter'],
+            'phone_number': ['Wprowadź numer telefonu składający się wyłącznie z 9 cyfr']
         }
         assert not is_valid
 
