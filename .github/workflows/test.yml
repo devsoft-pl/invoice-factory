@@ -38,6 +38,7 @@ jobs:
       - name: Pytest
         env:
           SECRET_KEY: "abc"
+          DATABASE_URL: "sqlite://test.db"
         run: |
           # run semantic-release
           /github/home/.local/bin/poetry run python manage.py test
