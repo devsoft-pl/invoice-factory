@@ -1,0 +1,42 @@
+---
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: [ self-hosted, linux, x64 ]
+    concurrency: release
+    container:
+      image: python:3-bookworm
+      options: --user 1001
+      env:
+        NODE_ENV: development
+
+    steps:
+      # check-out repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      # install poetry
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+
+      # install requirements
+      - name: Install requirements
+        run: |
+          /github/home/.local/bin/poetry install
+
+      # semantic release
+      - name: Pytest
+        run: |
+          # run semantic-release
+          /github/home/.local/bin/poetry run python manage.py test
