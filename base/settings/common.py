@@ -134,10 +134,10 @@ AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = env("EMAIL_HOST", default="")
+EMAIL_PORT = env("EMAIL_PORT", default="")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
 AWS_ACCESS_KEY_ID = env(  # noqa: F405
@@ -147,7 +147,7 @@ AWS_SECRET_ACCESS_KEY = env(  # noqa: F405
     "AWS_SECRET_ACCESS_KEY", default="minio_root_password"
 )
 
-CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="")
 
 CELERY_BEAT_SCHEDULE = {
     "create-recurring-invoices": {
@@ -168,9 +168,9 @@ LOGIN_URL = "users:login"
 
 TEST_RUNNER = "base.runner.PytestTestRunner"
 
-EMAIL_SENDER = env("EMAIL_SENDER")
+EMAIL_SENDER = env("EMAIL_SENDER", default="")
 
-CEIDG_API_TOKEN = env("CEIDG_API_TOKEN")
+CEIDG_API_TOKEN = env("CEIDG_API_TOKEN", default="")
 
 AUTH_USER_MODEL = "users.User"
 
