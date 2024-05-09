@@ -57,7 +57,7 @@ skip = [".git", "migrations", "venv", ".env"]
 [tool.semantic_release]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 commit_message = "chore(release): {version}"
-tag_format = "v{version}"
+tag_format = "{version}"
 
 [tool.semantic_release.branches.main]
 match = "(main|master)"
