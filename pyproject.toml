@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "invoice-manager"
-version = "0.1.0"
+version = "v0.1.0"
 description = ""
 authors = ["Wioletta Wajda <wioletta.wajda@devsoft.pl>"]
 readme = "README.md"
@@ -58,12 +58,16 @@ skip = [".git", "migrations", "venv", ".env"]
 branch = "master"
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variables = [
-    "base/__init__.py:version",
+    "version.py:__version__",
 ]
 commit_version_number = true # required for version_source = "tag"
 commit_message = "chore(release): release {version}"
 commit_author = "github-actions <actions@devsoft.pl>"
+tag_format = "v{version}"
 tag_commit = true
 upload_to_pypi = false
 upload_to_release = true
 hvcs = "github" # gitlab is also supported
+
+[tool.semantic_release.branches.main]
+match = "(main|master)"
