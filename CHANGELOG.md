@@ -2,6 +2,13 @@
 
 
 
+## v0.1.1 (2024-05-09)
+
+### Fix
+
+* fix: version ([`7b95828`](https://github.com/devsoft-pl/invoices/commit/7b9582823a096bdb9bbb41326853c0b86a96c408))
+
+
 ## v0.1.0 (2024-05-09)
 
 ### Feature
