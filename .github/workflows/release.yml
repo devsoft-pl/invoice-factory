@@ -11,8 +11,7 @@ jobs:
     runs-on: [ self-hosted, linux, x64 ]
     concurrency: release
     container:
-      image: python:3-bookworm
-      options: --user 1001
+      image: izabelak/actions-builder:latest
       env:
         NODE_ENV: development
 
@@ -25,15 +24,9 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0
 
-      # install poetry
-      - name: Install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-
       # install requirements
       - name: Install requirements
-        run: |
-          /github/home/.local/bin/poetry install --only semver
+        run: poetry install --only semver
 
       # semantic release
       - name: Python Semantic Release
@@ -45,5 +38,5 @@ jobs:
           git config --global user.email "github-actions@devsoft.pl"
 
           # run semantic-release
-          /github/home/.local/bin/poetry run semantic-release version
-          /github/home/.local/bin/poetry run semantic-release publish
+          poetry run semantic-release version
+          poetry run semantic-release publish

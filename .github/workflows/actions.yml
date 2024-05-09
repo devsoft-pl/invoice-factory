@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: [ self-hosted, linux, x64 ]
+    container:
+      image: izabelak/actions-builder:latest
     steps:
       - uses: actions/checkout@v4
         with:
