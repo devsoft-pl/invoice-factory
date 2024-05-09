@@ -58,6 +58,9 @@ skip = [".git", "migrations", "venv", ".env"]
 branch = "master"
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_source = "tag"
+version_variables = [
+    "base/__init__.py:version",
+]
 commit_version_number = true # required for version_source = "tag"
 commit_message = "chore(release): release {version}"
 commit_author = "github-actions <actions@devsoft.pl>"
