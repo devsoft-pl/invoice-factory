@@ -56,7 +56,6 @@ skip = [".git", "migrations", "venv", ".env"]
 
 [tool.semantic_release]
 branch = "master"
-version_variable = "base/__init__.py:__version__"
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"
