@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "invoice-manager"
-version = "v0.1.0"
+version = "v0.0.0"
 description = ""
 authors = ["Wioletta Wajda <wioletta.wajda@devsoft.pl>"]
 readme = "README.md"
@@ -55,19 +55,26 @@ exclude = '''
 skip = [".git", "migrations", "venv", ".env"]
 
 [tool.semantic_release]
-branch = "master"
 version_toml = ["pyproject.toml:tool.poetry.version"]
-version_variables = [
-    "version.py:__version__",
-]
-commit_version_number = true # required for version_source = "tag"
-commit_message = "chore(release): release {version}"
-commit_author = "github-actions <actions@devsoft.pl>"
+commit_message = "chore(release): {version}"
 tag_format = "v{version}"
-tag_commit = true
-upload_to_pypi = false
-upload_to_release = true
-hvcs = "github" # gitlab is also supported
 
 [tool.semantic_release.branches.main]
 match = "(main|master)"
+prerelease = false
+prerelease_token = "beta"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "revert"]
+minor_tags = ["feat"]
+patch_tags = ["build", "chore", "ci", "fix", "perf", "style", "refactor", "revert"]
+
+
+[tool.semantic_release.changelog]
+template_dir = "semantic_template"
+changelog_file = "CHANGELOG.md"
+exclude_commit_patterns = ["build", "chore", "ci", "docs", "perf", "refactor", "revert", "style"]
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
