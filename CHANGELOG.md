@@ -722,6 +722,8 @@
 
 ### Fix
 
+* fix: trigger pipelines to test again ([`e2ec52c`](https://github.com/devsoft-pl/invoices/commit/e2ec52c1639c1b77795f68c74db570fc5e1d18c5))
+
 * fix: version ([`76ce669`](https://github.com/devsoft-pl/invoices/commit/76ce6697d2d627ef3b1aa0778ec59b19e07047c3))
 
 * fix: trigger pipelines to test again ([`2c9bb6e`](https://github.com/devsoft-pl/invoices/commit/2c9bb6e4d131c3e4226f088c06e3f32e322bee15))
