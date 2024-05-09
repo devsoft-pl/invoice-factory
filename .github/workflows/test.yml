@@ -5,15 +5,15 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   test:
     runs-on: [ self-hosted, linux, x64 ]
     container:
-      image: python:3-bookworm
-      options: --user 1001
-      env:
-        NODE_ENV: development
+      image: izabelak/actions-builder:latest
 
     steps:
       # check-out repo
@@ -24,27 +24,29 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0
 
-      # install poetry
-      - name: Install poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-
-      # install requirements
-      - name: Install requirements
-        run: |
-          /github/home/.local/bin/poetry install
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: cache deps
+        id: cache-deps
+        uses: actions/cache@v4
         with:
-          cache: poetry
+          path: .venv
+          key: pydeps-${{ hashFiles('**/poetry.lock') }}
 
-      # semantic release
+      - run: poetry install --no-interaction --no-root
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+
+      - run: poetry install --no-interaction
+
       - name: Pytest
         env:
           SECRET_KEY: "abc"
           DATABASE_URL: "sqlite://test.db"
         run: |
-          # run semantic-release
-          /github/home/.local/bin/poetry run python manage.py compilemessages
-          /github/home/.local/bin/poetry run python manage.py test
+          poetry run python manage.py compilemessages
+          poetry run python manage.py test
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: actions/cache/save@v4
+        with:
+          path: .venv
+          key: ${{ steps.cache-deps.outputs.cache-primary-key }}
