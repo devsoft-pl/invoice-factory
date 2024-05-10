@@ -12,10 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: izabelak/actions-builder:latest
     steps:
-      # check-out repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -23,15 +20,12 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0
 
-      - name: Cache pypoetry
-        id: cache-pypoetry
-        uses: maxnowack/local-cache@v2
+      - uses: actions/setup-python@v5
         with:
-          path: ~/.cache/pypoetry
-          key: poetry-cache-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ env.POETRY_VERSION }}
+          python-version: 'pypy3.10'
+          cache: 'poetry'
 
       - name: Install poetry dependencies
-        if: steps.cache-pypoetry.outputs.cache-hit != 'true'
         run: poetry install --no-interaction
 
       - name: Pytest
@@ -45,15 +39,12 @@ jobs:
           poetry run python manage.py compilemessages
           poetry run python manage.py test
 
-
   release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-
-    container:
-      image: izabelak/actions-builder:latest
-      env:
-        NODE_ENV: development
+    permissions:
+      id-token: write
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -64,13 +55,6 @@ jobs:
           fetch-depth: 0
 
       - name: Python Semantic Release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          # Set git details
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@devsoft.pl"
-
-          # run semantic-release
-          python-semantic-release -vv version
-          python-semantic-release -vv publish
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
