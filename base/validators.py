@@ -4,7 +4,8 @@ from django.utils.translation import gettext as _
 invoice_number_validator = RegexValidator(
     r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
     _(
-        "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
+        "Please enter the invoice number in numeric format only, "
+        "following the pattern number/mm/yyyy"
     ),
 )
 
@@ -16,7 +17,8 @@ correction_invoice_number_validator = RegexValidator(
 nip_validator = RegexValidator(
     r"^[0-9a-zA-Z]{8,16}$",
     _(
-        "Please enter the tax ID without special characters and with a minimum of 8 characters"
+        "Please enter the tax ID without special characters "
+        "and with a minimum of 8 characters"
     ),
 )
 
@@ -32,7 +34,8 @@ currency_validator = RegexValidator(
 account_number_validator = RegexValidator(
     r"^[0-9A-Z ]{15,32}$",
     _(
-        "Please enter the account number with a minimum of 15 characters, excluding special characters"
+        "Please enter the account number with a minimum of 15 characters, "
+        "excluding special characters"
     ),
 )
 

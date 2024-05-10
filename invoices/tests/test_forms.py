@@ -191,7 +191,8 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr",
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
+                "zgodnie ze wzorem numer/mm/rrrr",
                 False,
             ],
             [
@@ -216,7 +217,8 @@ class TestSellInvoiceForm:
             "invoice_number": [validator],
             "currency": ["To pole jest wymagane"],
             "account_number": [
-                "Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem znaków specjalnych"
+                "Wprowadź numer konta składający się z co najmniej 15 znaków, "
+                "z wyłączeniem znaków specjalnych"
             ],
         }
         assert not is_valid
@@ -225,7 +227,8 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr",
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
+                "zgodnie ze wzorem numer/mm/rrrr",
                 False,
             ],
             [
@@ -251,7 +254,8 @@ class TestSellInvoiceForm:
             "invoice_number": [validator],
             "currency": ["To pole jest wymagane"],
             "account_number": [
-                "Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem znaków specjalnych"
+                "Wprowadź numer konta składający się z co najmniej 15 znaków, "
+                "z wyłączeniem znaków specjalnych"
             ],
         }
         assert not is_valid
@@ -355,7 +359,8 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr"
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
+                "zgodnie ze wzorem numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }
@@ -376,7 +381,8 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, zgodnie ze wzorem numer/mm/rrrr"
+                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
+                "zgodnie ze wzorem numer/mm/rrrr"
             ],
             "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
         }

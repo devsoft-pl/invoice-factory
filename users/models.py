@@ -23,7 +23,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("Active"),
         default=True,
         help_text=_(
-            "Designates whether this user should be treated as active. Unselect this instead of deleting accounts."
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
         ),
     )
 
@@ -60,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 @receiver(post_save, sender=User)
 def send_welcome_email(sender, instance: User, created=False, **kwargs):
     if created:
-        subject = _(f"Welcome in Invoice Factory")
+        subject = _("Welcome in Invoice Factory")
         content = _(
             "Thanks for your registration in Invoice Factory. Your account details:\n"
             "Login: {email}\n"
