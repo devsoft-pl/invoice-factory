@@ -2,6 +2,13 @@
 
 
 
+## v0.1.6 (2024-05-10)
+
+### Fix
+
+* fix: black ([`8129747`](https://github.com/devsoft-pl/invoices/commit/8129747f376dad603b4a30e5521fe172ce80fb95))
+
+
 ## v0.1.5 (2024-05-10)
 
 
