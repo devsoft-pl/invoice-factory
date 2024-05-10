@@ -2,6 +2,13 @@
 
 
 
+## v0.1.8 (2024-05-10)
+
+### Fix
+
+* fix: fix tests ([`d79e5d9`](https://github.com/devsoft-pl/invoices/commit/d79e5d9a1578876661475fef56f5f6ff2a52855d))
+
+
 ## v0.1.7 (2024-05-10)
 
 ### Fix
