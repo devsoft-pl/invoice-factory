@@ -37,9 +37,9 @@ jobs:
           SECRET_KEY: "abc"
           DATABASE_URL: "sqlite://test.db"
         run: |
-          black --check .
-          flake8 .
-          isort --check-only .
+          poetry run black --check .
+          poetry run flake8 .
+          poetry run isort --check-only .
           poetry run python manage.py compilemessages
           poetry run python manage.py test
 
