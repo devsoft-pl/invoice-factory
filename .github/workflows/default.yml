@@ -14,7 +14,6 @@ jobs:
     runs-on: [ self-hosted, linux, x64 ]
     container:
       image: izabelak/actions-builder:latest
-
     steps:
       # check-out repo
       - name: Checkout repository
@@ -30,15 +29,8 @@ jobs:
         with:
           path: ~/.cache/pypoetry
           key: poetry-cache-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ env.POETRY_VERSION }}
-#
-#      - name: Cache Packages
-#        id: cache-packages
-#        uses: maxnowack/local-cache@v2
-#        with:
-#          path: ~/.local
-#          key: poetry-local-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('.github/workflows/*.yml') }}
 
-      - name: Generate Prime Numbers
+      - name: Install poetry dependencies
         if: steps.cache-pypoetry.outputs.cache-hit != 'true'
         run: poetry install --no-interaction
 
@@ -47,5 +39,38 @@ jobs:
           SECRET_KEY: "abc"
           DATABASE_URL: "sqlite://test.db"
         run: |
+          black --check .
+          flake8 .
+          isort --check-only .
           poetry run python manage.py compilemessages
           poetry run python manage.py test
+
+
+  release:
+    runs-on: [ linux, x64 ]
+    if: github.ref == 'refs/heads/master'
+
+    container:
+      image: izabelak/actions-builder:latest
+      env:
+        NODE_ENV: development
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Python Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Set git details
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@devsoft.pl"
+
+          # run semantic-release
+          python-semantic-release -vv version
+          python-semantic-release -vv publish
