@@ -2,6 +2,13 @@
 
 
 
+## v0.1.3 (2024-05-10)
+
+### Fix
+
+* fix: add pipeline caching ([`dc64946`](https://github.com/devsoft-pl/invoices/commit/dc64946644787c708a8733f5d4390152771a48e1))
+
+
 ## v0.1.2 (2024-05-10)
 
 ### Fix
