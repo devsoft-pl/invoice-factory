@@ -40,7 +40,6 @@ jobs:
           poetry run black --check .
           poetry run flake8 .
           poetry run isort --check-only .
-          poetry run python manage.py compilemessages
           poetry run python manage.py test
 
 

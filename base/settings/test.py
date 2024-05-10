@@ -5,3 +5,4 @@ from .common import *  # noqa: F403, F401 isort:skip
 # STATICFILES_STORAGE = "base.storages.StaticStorage"
 
 DEBUG = True
+LANGUAGE_CODE = "en"
