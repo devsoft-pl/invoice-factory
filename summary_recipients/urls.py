@@ -1,9 +1,11 @@
 from django.urls import path
 
-from summary_recipients.views import (create_summary_recipient_view,
-                                      delete_summary_recipient_view,
-                                      list_summary_recipients_view,
-                                      replace_summary_recipient_view)
+from summary_recipients.views import (
+    create_summary_recipient_view,
+    delete_summary_recipient_view,
+    list_summary_recipients_view,
+    replace_summary_recipient_view,
+)
 
 app_name = "summary_recipients"
 urlpatterns = [

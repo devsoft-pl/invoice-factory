@@ -49,9 +49,7 @@ class TestReplaceUser(TestUser):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response.context["form"], "email", "To pole jest wymagane"
-        )
+        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
     def test_replace_with_valid_data(self):
@@ -95,9 +93,7 @@ class TestRegisterUser(TestUser):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response.context["form"], "email", "To pole jest wymagane"
-        )
+        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
         self.assertFormError(
             response.context["form"], "password1", "To pole jest wymagane"
         )

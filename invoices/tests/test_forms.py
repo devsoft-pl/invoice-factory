@@ -6,11 +6,19 @@ from companies.factories import CompanyFactory
 from companies.models import Company
 from currencies.factories import CurrencyFactory
 from currencies.models import Currency
-from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
-                                InvoiceSellDictFactory, InvoiceSellFactory)
-from invoices.forms import (InvoiceBuyForm, InvoiceFilterForm, InvoiceSellForm,
-                            InvoiceSellPersonForm,
-                            is_sale_date_last_day_of_month)
+from invoices.factories import (
+    InvoiceBuyDictFactory,
+    InvoiceBuyFactory,
+    InvoiceSellDictFactory,
+    InvoiceSellFactory,
+)
+from invoices.forms import (
+    InvoiceBuyForm,
+    InvoiceFilterForm,
+    InvoiceSellForm,
+    InvoiceSellPersonForm,
+    is_sale_date_last_day_of_month,
+)
 from invoices.models import Invoice
 from persons.factories import PersonFactory
 from users.factories import UserFactory

@@ -87,9 +87,7 @@ class TestReplaceItem(TestItem):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(
-            response.context["form"], "pkwiu", "To pole jest wymagane"
-        )
+        self.assertFormError(response.context["form"], "pkwiu", "To pole jest wymagane")
         self.assertFormError(
             response.context["form"], "amount", "To pole jest wymagane"
         )

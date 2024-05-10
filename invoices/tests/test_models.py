@@ -3,8 +3,11 @@ from decimal import Decimal
 import pytest
 
 from currencies.factories import ExchangeRateFactory
-from invoices.factories import (CorrectionInvoiceRelationFactory,
-                                InvoiceSellFactory, YearFactory)
+from invoices.factories import (
+    CorrectionInvoiceRelationFactory,
+    InvoiceSellFactory,
+    YearFactory,
+)
 from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
 

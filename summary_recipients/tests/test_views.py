@@ -2,8 +2,10 @@ from django.test import TestCase
 from django.urls import reverse
 
 from companies.factories import CompanyFactory
-from summary_recipients.factories import (SummaryRecipientDictFactory,
-                                          SummaryRecipientFactory)
+from summary_recipients.factories import (
+    SummaryRecipientDictFactory,
+    SummaryRecipientFactory,
+)
 from summary_recipients.models import SummaryRecipient
 from users.factories import UserFactory
 
@@ -76,9 +78,7 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
             response.context["form"], "description", "To pole jest wymagane"
         )
         self.assertFormError(response.context["form"], "day", "To pole jest wymagane")
-        self.assertFormError(
-            response.context["form"], "email", "To pole jest wymagane"
-        )
+        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
         self.assertFormError(
             response.context["form"], "settlement_types", "To pole jest wymagane"
         )

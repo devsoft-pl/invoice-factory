@@ -1,8 +1,12 @@
 from django.urls import path
 
-from currencies.views import (create_currency_ajax_view, create_currency_view,
-                              delete_currency_view, list_currencies_view,
-                              replace_currency_view)
+from currencies.views import (
+    create_currency_ajax_view,
+    create_currency_view,
+    delete_currency_view,
+    list_currencies_view,
+    replace_currency_view,
+)
 
 app_name = "currencies"
 urlpatterns = [

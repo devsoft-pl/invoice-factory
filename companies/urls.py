@@ -1,9 +1,14 @@
 from django.urls import path
 
-from companies.views import (create_company_ajax_view, create_company_view,
-                             delete_company_view, detail_company_view,
-                             list_companies_view, replace_company_view,
-                             settings_company_view)
+from companies.views import (
+    create_company_ajax_view,
+    create_company_view,
+    delete_company_view,
+    detail_company_view,
+    list_companies_view,
+    replace_company_view,
+    settings_company_view,
+)
 
 app_name = "companies"
 urlpatterns = [

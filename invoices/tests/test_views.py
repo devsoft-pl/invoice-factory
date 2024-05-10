@@ -5,9 +5,13 @@ from parameterized import parameterized
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
-from invoices.factories import (InvoiceBuyDictFactory, InvoiceBuyFactory,
-                                InvoiceSellDictFactory, InvoiceSellFactory,
-                                InvoiceSellPersonFactory)
+from invoices.factories import (
+    InvoiceBuyDictFactory,
+    InvoiceBuyFactory,
+    InvoiceSellDictFactory,
+    InvoiceSellFactory,
+    InvoiceSellPersonFactory,
+)
 from invoices.models import CorrectionInvoiceRelation, Invoice
 from invoices.views import clone, create_correction_invoice_number
 from persons.factories import PersonFactory

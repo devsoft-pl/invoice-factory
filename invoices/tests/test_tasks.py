@@ -7,9 +7,11 @@ from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
 from invoices.models import Invoice
-from invoices.tasks import (create_invoices_for_recurring,
-                            get_right_month_format,
-                            send_monthly_summary_to_recipients)
+from invoices.tasks import (
+    create_invoices_for_recurring,
+    get_right_month_format,
+    send_monthly_summary_to_recipients,
+)
 from items.factories import ItemFactory
 from summary_recipients.factories import SummaryRecipientFactory
 from summary_recipients.models import SummaryRecipient

@@ -1,9 +1,13 @@
 from django import forms
 from django.utils.translation import gettext as _
 
-from base.validators import (city_validator, nip_validator,
-                             phone_number_validator, regon_validator,
-                             zip_code_validator)
+from base.validators import (
+    city_validator,
+    nip_validator,
+    phone_number_validator,
+    regon_validator,
+    zip_code_validator,
+)
 from companies.models import Company
 from countries.models import Country
 

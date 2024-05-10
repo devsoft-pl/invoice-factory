@@ -53,6 +53,7 @@ exclude = '''
 
 [tool.isort]
 skip = [".git", "migrations", "venv", ".env"]
+profile = "black"
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:tool.poetry.version"]
