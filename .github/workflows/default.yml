@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: [ self-hosted, linux, x64 ]
+    runs-on: ubuntu-latest
     container:
       image: izabelak/actions-builder:latest
     steps:
@@ -47,7 +47,7 @@ jobs:
 
 
   release:
-    runs-on: [ linux, x64 ]
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
 
     container:

@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [ linux, x64 ]
+    runs-on: ubuntu-latest
     container:
       image: izabelak/actions-builder:latest
 
@@ -67,7 +67,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [ linux, x64 ]
+    runs-on: ubuntu-latest
     steps:
       - uses: azure/setup-kubectl@v3
         id: install
