@@ -2,6 +2,13 @@
 
 
 
+## v0.1.9 (2024-05-10)
+
+### Fix
+
+* fix: fix pipelines - add checkout on deploy ([`1b9b657`](https://github.com/devsoft-pl/invoices/commit/1b9b657443cbc291975654a1cc8182ea9635d895))
+
+
 ## v0.1.8 (2024-05-10)
 
 ### Fix
