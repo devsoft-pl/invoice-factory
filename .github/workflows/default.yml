@@ -13,6 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # check-out repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -22,7 +23,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: 'pypy3.10'
+          python-version: '3.10'
           cache: 'poetry'
 
       - name: Install poetry dependencies
@@ -39,6 +40,7 @@ jobs:
           poetry run python manage.py compilemessages
           poetry run python manage.py test
 
+
   release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
@@ -54,7 +56,22 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0
 
-      - name: Python Semantic Release
-        uses: python-semantic-release/python-semantic-release@master
+      - uses: actions/setup-python@v5
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          python-version: 'pypy3.10'
+          cache: 'pip'
+
+      - name: Install poetry dependencies
+        run: pip install python-semantic-release
+
+      - name: Python Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Set git details
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@devsoft.pl"
+
+          # run semantic-release
+          python-semantic-release -vv version
+          python-semantic-release -vv publish
