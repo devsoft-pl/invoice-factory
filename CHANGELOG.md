@@ -2,6 +2,13 @@
 
 
 
+## v0.1.7 (2024-05-10)
+
+### Fix
+
+* fix: styling - black, flake8, isort ([`e32c072`](https://github.com/devsoft-pl/invoices/commit/e32c0720baf24fd9c8eddf84bb990ff44d647d8e))
+
+
 ## v0.1.6 (2024-05-10)
 
 ### Fix
