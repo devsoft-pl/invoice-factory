@@ -24,9 +24,23 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0
 
-      - run: poetry install --no-interaction --no-root
+      - name: Cache pypoetry
+        id: cache-pypoetry
+        uses: maxnowack/local-cache@v2
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-cache-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ env.POETRY_VERSION }}
+#
+#      - name: Cache Packages
+#        id: cache-packages
+#        uses: maxnowack/local-cache@v2
+#        with:
+#          path: ~/.local
+#          key: poetry-local-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('.github/workflows/*.yml') }}
 
-      - run: poetry install --no-interaction
+      - name: Generate Prime Numbers
+        if: steps.cache-pypoetry.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction
 
       - name: Pytest
         env:
