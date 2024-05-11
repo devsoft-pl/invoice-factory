@@ -2,6 +2,13 @@
 
 
 
+## v0.1.13 (2024-05-11)
+
+### Fix
+
+* fix: debug false on production ([`aa0cc89`](https://github.com/devsoft-pl/invoices/commit/aa0cc89cdd75de310637bb4fc6ad97dac56389d5))
+
+
 ## v0.1.12 (2024-05-11)
 
 ### Fix
