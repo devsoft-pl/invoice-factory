@@ -2,6 +2,13 @@
 
 
 
+## v0.1.11 (2024-05-11)
+
+### Fix
+
+* fix: add boto ([`e6d2826`](https://github.com/devsoft-pl/invoices/commit/e6d2826074c134567e09f9554ecf0b126bf27eec))
+
+
 ## v0.1.10 (2024-05-11)
 
 ### Fix
