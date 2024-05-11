@@ -2,6 +2,13 @@
 
 
 
+## v0.1.10 (2024-05-11)
+
+### Fix
+
+* fix: settings for production environment ([`0511bfe`](https://github.com/devsoft-pl/invoices/commit/0511bfe2b34d7bd8be1af2572500916aa75cbf98))
+
+
 ## v0.1.9 (2024-05-10)
 
 ### Fix
