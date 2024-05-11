@@ -2,6 +2,13 @@
 
 
 
+## v0.1.12 (2024-05-11)
+
+### Fix
+
+* fix: add uvicorn ([`15969e1`](https://github.com/devsoft-pl/invoices/commit/15969e1fd0db30c7e3502bb8c32fa254b8483cfc))
+
+
 ## v0.1.11 (2024-05-11)
 
 ### Fix
