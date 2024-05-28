@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "invoice-manager"
-version = "0.1.14"
+version = "0.2.0"
 description = ""
 authors = ["Wioletta Wajda <wioletta.wajda@devsoft.pl>"]
 readme = "README.md"

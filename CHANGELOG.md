@@ -2,6 +2,27 @@
 
 
 
+## v0.2.0 (2024-05-28)
+
+### Feature
+
+* feat: add sentry_sdk ([`2d7d6a5`](https://github.com/devsoft-pl/invoices/commit/2d7d6a545778d15d77e12525a3941664676ced59))
+
+* feat: change text to to describe the operation of the application ([`b57d4ab`](https://github.com/devsoft-pl/invoices/commit/b57d4ab4b22fb837944063b57280f24029f66559))
+
+* feat: change of index redirect to the correct url ([`907f4ab`](https://github.com/devsoft-pl/invoices/commit/907f4abd031799258a1f4a4513b4f050a1ee89b2))
+
+* feat: add styling improvements ([`dd1b52c`](https://github.com/devsoft-pl/invoices/commit/dd1b52c2eb0a6e765cf96cbf71a7a9c08f7dd6ca))
+
+* feat: change aplication name to Invoice-Factory ([`78942e8`](https://github.com/devsoft-pl/invoices/commit/78942e83cb87bbace0ab373ad2cabdb816467127))
+
+* feat: add new version jijna2 and request ([`cfd5c53`](https://github.com/devsoft-pl/invoices/commit/cfd5c53101307628afdd9894c7dce6b17c4c581f))
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`856866c`](https://github.com/devsoft-pl/invoices/commit/856866cc94e4f8fbb4f625aa583244bbab9ca972))
+
+
 ## v0.1.14 (2024-05-11)
 
 ### Fix
