@@ -5,8 +5,10 @@ from django.urls import include, path
 from rest_framework.authtoken.views import obtain_auth_token
 
 from base import urls_api
+from invoices.views import index_view
 
 urlpatterns = [
+    path("", index_view, name="index"),
     path("admin/", admin.site.urls),
     path("api/", include(urls_api)),
     path("api-token-auth/", obtain_auth_token),
