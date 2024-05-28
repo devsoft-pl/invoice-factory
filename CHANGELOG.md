@@ -2,6 +2,13 @@
 
 
 
+## v0.4.0 (2024-05-28)
+
+### Feature
+
+* feat: delete f-string ([`93986bc`](https://github.com/devsoft-pl/invoices/commit/93986bcbae13de0239cfeaf1b68c30af08275cda))
+
+
 ## v0.3.0 (2024-05-28)
 
 ### Feature
