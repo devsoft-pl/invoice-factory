@@ -3,6 +3,8 @@ from pathlib import Path
 
 import environ
 from celery.schedules import crontab
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(DEBUG=(bool, False), EMAIL_USE_TLS=(bool, False))
 
@@ -175,3 +177,15 @@ CEIDG_API_TOKEN = env("CEIDG_API_TOKEN", default="")
 AUTH_USER_MODEL = "users.User"
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+
+SENTRY_DSN = env("SENTRY_DSN", default=None)
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
