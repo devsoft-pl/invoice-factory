@@ -2,6 +2,17 @@
 
 
 
+## v0.2.1 (2024-05-28)
+
+### Fix
+
+* fix: change django settings module for celery ([`d6531b2`](https://github.com/devsoft-pl/invoices/commit/d6531b2c480ac0286edd88cefe68691418b0d305))
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`df91ce6`](https://github.com/devsoft-pl/invoices/commit/df91ce60fd8d078b2f62400eeaac8bac1d7c9a46))
+
+
 ## v0.2.0 (2024-05-28)
 
 ### Feature
