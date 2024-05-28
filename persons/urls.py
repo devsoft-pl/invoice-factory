@@ -1,8 +1,13 @@
 from django.urls import path
 
-from persons.views import (create_person_ajax_view, create_person_view,
-                           delete_person_view, detail_person_view,
-                           list_persons_view, replace_person_view)
+from persons.views import (
+    create_person_ajax_view,
+    create_person_view,
+    delete_person_view,
+    detail_person_view,
+    list_persons_view,
+    replace_person_view,
+)
 
 app_name = "persons"
 urlpatterns = [

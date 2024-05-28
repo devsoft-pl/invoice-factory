@@ -33,7 +33,8 @@ def check_company_status(instance_id):
         raise Ignore()
 
     logger.info(
-        f"Trying to check contractor company status for NIP: {company.nip} and user {company.user}"
+        f"Trying to check contractor company status for NIP: "
+        f"{company.nip} and user {company.user}"
     )
 
     is_active = adapter.is_company_active(company.nip)
@@ -41,7 +42,8 @@ def check_company_status(instance_id):
     if not is_active:
         subject = _("Contractor's company status")
         content = _(
-            "The company status of the contractor with the NIP: %(company_nip)s number in CEIDG is not active.\n"
+            "The company status of the contractor with the NIP: "
+            "%(company_nip)s number in CEIDG is not active.\n"
             " Check the contractor's details again\n"
             "Best regards,\n"
             "Invoice Factory"

@@ -3,7 +3,10 @@ from django.utils.translation import gettext as _
 
 invoice_number_validator = RegexValidator(
     r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
-    _("Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"),
+    _(
+        "Please enter the invoice number in numeric format only, "
+        "following the pattern number/mm/yyyy"
+    ),
 )
 
 correction_invoice_number_validator = RegexValidator(
@@ -13,7 +16,10 @@ correction_invoice_number_validator = RegexValidator(
 
 nip_validator = RegexValidator(
     r"^[0-9a-zA-Z]{8,16}$",
-    _("Please enter the tax ID without special characters and with a minimum of 8 characters"),
+    _(
+        "Please enter the tax ID without special characters "
+        "and with a minimum of 8 characters"
+    ),
 )
 
 regon_validator = RegexValidator(
@@ -27,7 +33,10 @@ currency_validator = RegexValidator(
 
 account_number_validator = RegexValidator(
     r"^[0-9A-Z ]{15,32}$",
-    _("Please enter the account number with a minimum of 15 characters, excluding special characters"),
+    _(
+        "Please enter the account number with a minimum of 15 characters, "
+        "excluding special characters"
+    ),
 )
 
 rate_validator = MaxValueValidator(99)
@@ -41,10 +50,13 @@ last_name_validator = RegexValidator(
 )
 
 zip_code_validator = RegexValidator(
-    r"^[0-9]{2}-[0-9]{3}$", _("Please enter the zip code using numbers only in the format xx-xxx")
+    r"^[0-9]{2}-[0-9]{3}$",
+    _("Please enter the zip code using numbers only in the format xx-xxx"),
 )
 
-city_validator = RegexValidator(r"^[a-zA-Z ]+$", _("Please enter the city using letters only"))
+city_validator = RegexValidator(
+    r"^[a-zA-Z ]+$", _("Please enter the city using letters only")
+)
 
 
 country_validator = RegexValidator(

@@ -3,8 +3,11 @@ from decimal import Decimal
 import pytest
 
 from currencies.factories import ExchangeRateFactory
-from invoices.factories import (CorrectionInvoiceRelationFactory,
-                                InvoiceSellFactory, YearFactory)
+from invoices.factories import (
+    CorrectionInvoiceRelationFactory,
+    InvoiceSellFactory,
+    YearFactory,
+)
 from items.factories import ItemFactory
 from vat_rates.factories import VatRateFactory
 
@@ -28,7 +31,7 @@ class TestInvoiceModel:
 
     def test_returns_recurring_invoice_name(self):
         self.invoice = InvoiceSellFactory.create(invoice_number="")
-        assert self.invoice.__str__() == f"Cykliczna"
+        assert self.invoice.__str__() == "Cykliczna"
 
     def test_returns_calculated_net_amount(self):
         assert self.invoice.calculate_net_amount() == Decimal("3200")

@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 from companies.models import Company
-from users.models import User
 
 
 class Accountant(models.Model):

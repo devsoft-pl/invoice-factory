@@ -12,11 +12,11 @@ metadata:
 spec:
   tls:
     - hosts:
-      - invoices.devsoft.pl
+      - invoice-factory.devsoft.pl
       secretName: invoice-factory-tls
 
   rules:
-    - host: invoices.devsoft.pl
+    - host: invoice-factory.devsoft.pl
       http:
         paths:
           - path: /

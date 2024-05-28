@@ -1,11 +1,17 @@
-from django.contrib.auth.views import (PasswordResetCompleteView,
-                                       PasswordResetConfirmView,
-                                       PasswordResetDoneView,
-                                       PasswordResetView)
+from django.contrib.auth.views import (
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
+)
 from django.urls import include, path, reverse_lazy
 
-from users.views import (detail_user_view, password_change_user_view,
-                         register_user_view, replace_user_view)
+from users.views import (
+    detail_user_view,
+    password_change_user_view,
+    register_user_view,
+    replace_user_view,
+)
 
 app_name = "users"
 urlpatterns = [

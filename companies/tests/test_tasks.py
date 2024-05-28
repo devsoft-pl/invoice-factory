@@ -4,8 +4,10 @@ import pytest
 from celery.exceptions import Ignore
 
 from companies.factories import CompanyFactory
-from companies.tasks import (check_company_status,
-                             check_company_status_for_all_contractors)
+from companies.tasks import (
+    check_company_status,
+    check_company_status_for_all_contractors,
+)
 from users.factories import UserFactory
 
 

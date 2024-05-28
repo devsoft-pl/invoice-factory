@@ -6,8 +6,7 @@ from celery.exceptions import Ignore
 
 from currencies.factories import CurrencyFactory
 from currencies.models import ExchangeRate
-from currencies.tasks import (get_exchange_rate_for_currency,
-                              get_exchange_rates_for_all)
+from currencies.tasks import get_exchange_rate_for_currency, get_exchange_rates_for_all
 from users.factories import UserFactory
 
 
