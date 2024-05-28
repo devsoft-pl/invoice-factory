@@ -1,11 +1,16 @@
 from django.urls import path
 
-from invoices.views import (create_buy_invoice_view, create_sell_invoice_view,
-                            create_sell_person_invoice_view,
-                            delete_invoice_view, detail_invoice_view,
-                            list_invoices_view, pdf_invoice_view,
-                            replace_buy_invoice_view,
-                            replace_sell_invoice_view)
+from invoices.views import (
+    create_buy_invoice_view,
+    create_sell_invoice_view,
+    create_sell_person_invoice_view,
+    delete_invoice_view,
+    detail_invoice_view,
+    list_invoices_view,
+    pdf_invoice_view,
+    replace_buy_invoice_view,
+    replace_sell_invoice_view,
+)
 
 app_name = "invoices"
 urlpatterns = [

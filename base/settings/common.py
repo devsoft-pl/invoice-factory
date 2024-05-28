@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 
 import environ
-from celery.schedules import crontab
 import sentry_sdk
+from celery.schedules import crontab
 from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(DEBUG=(bool, False), EMAIL_USE_TLS=(bool, False))
