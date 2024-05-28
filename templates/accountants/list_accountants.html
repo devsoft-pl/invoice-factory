@@ -50,7 +50,7 @@
                 </table>
             {% else %}
                 <div class="row">
-                    <div class="col">
+                    <div class="col mt-3">
                         <b>Brak księgowości</b>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-secondary mt-3" href="{% url 'companies:settings_company' company.pk %}">Powrót</a>
+                <a class="btn btn-secondary" href="{% url 'companies:settings_company' company.pk %}">Powrót</a>
             </div>
         </div>
     </div>

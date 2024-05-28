@@ -71,7 +71,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Lp.</th>
-                            <th>Nazwa</th>
+                            <th style="width: 500px;">Nazwa</th>
                             <th>PKWiU</th>
                             <th>Ilość</th>
                             <th>Cena netto</th>
@@ -86,7 +86,7 @@
                         {% for item in invoice.items.all %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ item.name }}</td>
+                                <td style="width: 500px;">{{ item.name }}</td>
                                 <td>{{ item.pkwiu }}</td>
                                 <td>{{ item.amount }}</td>
                                 <td>{{ item.net_price|floatformat:"2g" }}</td>
@@ -103,8 +103,8 @@
                     </tbody>
                 </table>
             {% else %}
-            <div class="row mt-2">
-                <div class="col">
+            <div class="row">
+                <div class="col mt-3">
                     <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
                 </div>
             </div>
@@ -117,8 +117,8 @@
         </div>
         <div class="row">
             <div class="col text-center">
-                <a class="btn btn-secondary mt-2" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary mt-2" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+                <a class="btn btn-secondary" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-primary" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
             </div>
         </div>
     </div>

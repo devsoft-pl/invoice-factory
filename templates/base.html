@@ -75,7 +75,11 @@
                                 <ul class="navbar-nav">
                                     {% if user.is_authenticated %}
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.full_name }}</a>
+                                            {% if user.first_name and user.last_name %}
+                                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.full_name }}</a>
+                                            {% else %}  
+                                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.email }}</a>
+                                            {% endif %}    
                                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                                 <li><a class="dropdown-item" href="{% url 'users:detail_user' %}">Mój profil</a></li>
                                                 <li><a class="dropdown-item" href="{% url 'users:replace_user' %}">Edytuj profil</a></li>
