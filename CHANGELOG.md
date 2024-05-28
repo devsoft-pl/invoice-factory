@@ -2,6 +2,13 @@
 
 
 
+## v0.3.0 (2024-05-28)
+
+### Feature
+
+* feat: delete sqlite3 ([`b831007`](https://github.com/devsoft-pl/invoices/commit/b8310072a21d68b02944630c56555984395b00c2))
+
+
 ## v0.2.2 (2024-05-28)
 
 ### Fix
