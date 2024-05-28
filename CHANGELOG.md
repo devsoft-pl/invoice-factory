@@ -2,6 +2,13 @@
 
 
 
+## v0.2.2 (2024-05-28)
+
+### Fix
+
+* fix: black and isort ([`ff1576e`](https://github.com/devsoft-pl/invoices/commit/ff1576e991b17c6390e3bae52e0b93fc06338c57))
+
+
 ## v0.2.1 (2024-05-28)
 
 ### Fix
