@@ -2,7 +2,7 @@ import os
 
 from celery import Celery
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings.dev")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "base.settings.production")
 
 app = Celery("invoice_manager")
 
