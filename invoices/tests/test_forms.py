@@ -375,12 +375,10 @@ class TestSellInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            'invoice_number': [
-                'Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy'
+            "invoice_number": [
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
             ],
-            'sale_date': [
-                'This field is not last dat of month.'
-            ]
+            "sale_date": ["This field is not last dat of month."],
         }
 
 
