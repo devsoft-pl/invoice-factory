@@ -2,6 +2,41 @@
 
 
 
+## v0.5.0 (2024-05-30)
+
+### Feature
+
+* feat: delete validators for firs_name, last_name, city, country + update tests ([`a62696e`](https://github.com/devsoft-pl/invoices/commit/a62696e0acb1fe4158d748f770f7a17597867fc1))
+
+* feat: add .flake8 with settings ([`c767adf`](https://github.com/devsoft-pl/invoices/commit/c767adf3a51d50824d2c2314fc0c1b7c755e2ca0))
+
+* feat: delete unused field ([`26d906f`](https://github.com/devsoft-pl/invoices/commit/26d906fe28e5549fd0f737737b163ed9acfeafee))
+
+* feat: black ([`99206e3`](https://github.com/devsoft-pl/invoices/commit/99206e3891d618b34c3d809ab2dffe1c24720714))
+
+* feat: add gettext_lazy to translation ([`532edf7`](https://github.com/devsoft-pl/invoices/commit/532edf7b824aa71103c173826205d5a6b854d798))
+
+* feat: add of settings for tests ([`2431a94`](https://github.com/devsoft-pl/invoices/commit/2431a9428b328d91cad061bde79125eee04ff9b4))
+
+* feat: add set default language ([`e535def`](https://github.com/devsoft-pl/invoices/commit/e535def781eb1741c30075eadaf3b6a2a83817f7))
+
+* feat: add of an english translation ([`267af58`](https://github.com/devsoft-pl/invoices/commit/267af58a873d248c995ea63472946c25601f69fa))
+
+* feat: add language_code en-us ([`eb2185a`](https://github.com/devsoft-pl/invoices/commit/eb2185a54df7a1faad9edef392e6da7fd9206b61))
+
+* feat: add of exceptions ([`a1aa989`](https://github.com/devsoft-pl/invoices/commit/a1aa9891c5e3701e90b0ced6d7a28e773c924daf))
+
+### Fix
+
+* fix: fix test with correct translation ([`79cc7e9`](https://github.com/devsoft-pl/invoices/commit/79cc7e97964a0a6d012dd7f5c8165c30a9837d17))
+
+### Unknown
+
+* Merge pull request #8 from devsoft-pl/fix_tests
+
+Fix tests ([`5c135c7`](https://github.com/devsoft-pl/invoices/commit/5c135c7a6c1117f3e7d8d14af1e34d563db18728))
+
+
 ## v0.4.0 (2024-05-28)
 
 ### Feature
