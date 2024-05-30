@@ -191,12 +191,11 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
-                "zgodnie ze wzorem numer/mm/rrrr",
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k",
+                "Please enter the correction invoice number in the format number/mm/yyyy/c",
                 True,
             ],
         ],
@@ -215,10 +214,9 @@ class TestSellInvoiceForm:
 
         assert form.errors == {
             "invoice_number": [validator],
-            "currency": ["To pole jest wymagane"],
+            "currency": ["This field is required."],
             "account_number": [
-                "Wprowadź numer konta składający się z co najmniej 15 znaków, "
-                "z wyłączeniem znaków specjalnych"
+                "Please enter the account number with a minimum of 15 characters, excluding special characters"
             ],
         }
         assert not is_valid
@@ -227,12 +225,11 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
-                "zgodnie ze wzorem numer/mm/rrrr",
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
                 False,
             ],
             [
-                "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k",
+                "Please enter the correction invoice number in the format number/mm/yyyy/c",
                 True,
             ],
         ],
@@ -252,10 +249,9 @@ class TestSellInvoiceForm:
 
         assert form.errors == {
             "invoice_number": [validator],
-            "currency": ["To pole jest wymagane"],
+            "currency": ["This field is required."],
             "account_number": [
-                "Wprowadź numer konta składający się z co najmniej 15 znaków, "
-                "z wyłączeniem znaków specjalnych"
+                "Please enter the account number with a minimum of 15 characters, excluding special characters"
             ],
         }
         assert not is_valid
@@ -322,7 +318,7 @@ class TestSellInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": ["Numer faktury już istnieje"],
+            "invoice_number": ["Invoice number already exists"],
         }
 
     def test_clean_invoice_number_returns_error_when_invoice_exists_for_person(self):
@@ -341,7 +337,7 @@ class TestSellInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": ["Numer faktury już istnieje"],
+            "invoice_number": ["Invoice number already exists"],
         }
 
     def test_clean_sale_date_returns_error(self):
@@ -359,10 +355,9 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {
             "invoice_number": [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
-                "zgodnie ze wzorem numer/mm/rrrr"
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
             ],
-            "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
+            "sale_date": ["This field is not last dat of month."],
         }
 
     def test_clean_sale_date_returns_error_for_person(self):
@@ -380,11 +375,12 @@ class TestSellInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": [
-                "Wprowadź numer faktury wyłącznie w formacie numerycznym, "
-                "zgodnie ze wzorem numer/mm/rrrr"
+            'invoice_number': [
+                'Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy'
             ],
-            "sale_date": ["Data sprzedaży nie jest ostatnim dniem miesiąca"],
+            'sale_date': [
+                'This field is not last dat of month.'
+            ]
         }
 
 
@@ -440,7 +436,7 @@ class TestBuyInvoiceForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "invoice_number": ["Numer faktury już istnieje"],
+            "invoice_number": ["Invoice number already exists"],
         }
 
 

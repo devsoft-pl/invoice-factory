@@ -61,8 +61,12 @@ class TestCreateAccountant(TestAccountant):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
-        self.assertFormError(response.context["form"], "name", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "email", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "name", "This field is required."
+        )
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -120,8 +124,12 @@ class TestReplaceAccountant(TestAccountant):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
-        self.assertFormError(response.context["form"], "name", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "email", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "name", "This field is required."
+        )
 
     def test_replace_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")

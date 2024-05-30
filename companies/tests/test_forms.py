@@ -123,16 +123,16 @@ class TestCompanyForm:
 
         assert form.errors == {
             "nip": [
-                "Wprowadź NIP bez znaków specjalnych i zawierający co najmniej 8 znaków"
+                "Please enter the tax ID without special characters and with a minimum of 8 characters"
             ],
-            "regon": ["Wprowadź REGON używając tylko cyfr, minimum 9 znaków"],
+            "regon": [
+                "Please enter the REGON using numbers only, with a minimum of 9 characters"
+            ],
             "zip_code": [
-                "Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx"
+                "Please enter the zip code using numbers only in the format xx-xxx"
             ],
-            "city": ["Wprowadź miasto, używając wyłącznie liter"],
-            "phone_number": [
-                "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
-            ],
+            "city": ["Please enter the city using letters only"],
+            "phone_number": ["Please enter a phone number with 9 digits only"],
         }
         assert not is_valid
 
@@ -141,7 +141,7 @@ class TestCompanyForm:
         form = CompanyForm(data=data, current_user=self.user)
         is_valid = form.is_valid()
 
-        assert form.errors["nip"] == ["Nip już istnieje"]
+        assert form.errors["nip"] == ["Nip already exists"]
         assert not is_valid
 
     def test_clean_regon_returns_error(self):
@@ -149,5 +149,5 @@ class TestCompanyForm:
         form = CompanyForm(data=data, current_user=self.user)
         is_valid = form.is_valid()
 
-        assert form.errors["regon"] == ["Regon już istnieje"]
+        assert form.errors["regon"] == ["Regon already exists"]
         assert not is_valid

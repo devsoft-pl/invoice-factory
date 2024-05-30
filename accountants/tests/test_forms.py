@@ -27,8 +27,6 @@ class TestAccountantForm:
         is_valid = form.is_valid()
 
         assert form.errors == {
-            "phone_number": [
-                "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
-            ],
+            "phone_number": ["Please enter a phone number with 9 digits only"],
         }
         assert not is_valid

@@ -49,7 +49,9 @@ class TestReplaceUser(TestUser):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "email", "This field is required."
+        )
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
     def test_replace_with_valid_data(self):
@@ -59,8 +61,8 @@ class TestReplaceUser(TestUser):
             self.url,
             {
                 "username": self.user.email,
-                "first_name": "Test imie",
-                "last_name": "Test nazwisko",
+                "first_name": "First name",
+                "last_name": "Last name",
                 "email": "test@test.pl",
             },
         )
@@ -69,8 +71,8 @@ class TestReplaceUser(TestUser):
         self.assertRedirects(response, reverse("users:detail_user"))
         self.assertTrue(
             User.objects.filter(
-                first_name="Test imie",
-                last_name="Test nazwisko",
+                first_name="First name",
+                last_name="Last name",
                 email="test@test.pl",
                 pk=self.user.pk,
             ).exists()
@@ -93,12 +95,14 @@ class TestRegisterUser(TestUser):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
         self.assertFormError(
-            response.context["form"], "password1", "To pole jest wymagane"
+            response.context["form"], "email", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "password2", "To pole jest wymagane"
+            response.context["form"], "password1", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "password2", "This field is required."
         )
         self.assertTemplateUsed(response, "registration/register.html")
 
@@ -111,7 +115,7 @@ class TestRegisterUser(TestUser):
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("invoices:index"))
+        self.assertRedirects(response, reverse("index"))
         self.assertTrue(User.objects.filter(email="test@test.pl").exists())
 
     def test_get_form(self):
@@ -134,13 +138,13 @@ class TestPasswordChangeUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "old_password", "To pole jest wymagane"
+            response.context["form"], "old_password", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "new_password1", "To pole jest wymagane"
+            response.context["form"], "new_password1", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "new_password2", "To pole jest wymagane"
+            response.context["form"], "new_password2", "This field is required."
         )
         self.assertTemplateUsed(response, "registration/password_change_user.html")
 

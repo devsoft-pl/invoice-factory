@@ -111,18 +111,20 @@ class TestCreatePerson(TestPerson):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "first_name", "To pole jest wymagane"
+            response.context["form"], "first_name", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "last_name", "To pole jest wymagane"
+            response.context["form"], "last_name", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "address", "To pole jest wymagane"
+            response.context["form"], "address", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "zip_code", "To pole jest wymagane"
+            response.context["form"], "zip_code", "This field is required."
         )
-        self.assertFormError(response.context["form"], "city", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "city", "This field is required."
+        )
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -200,15 +202,21 @@ class TestCreatePersonAjax(TestPerson):
         response_json = response.json()
         self.assertFalse(response_json["success"])
         self.assertEqual(
-            response_json["errors"]["first_name"], ["To pole jest wymagane"]
+            response_json["errors"]["first_name"], ["This field is required."]
         )
         self.assertEqual(
-            response_json["errors"]["last_name"], ["To pole jest wymagane"]
+            response_json["errors"]["last_name"], ["This field is required."]
         )
-        self.assertEqual(response_json["errors"]["address"], ["To pole jest wymagane"])
-        self.assertEqual(response_json["errors"]["zip_code"], ["To pole jest wymagane"])
-        self.assertEqual(response_json["errors"]["city"], ["To pole jest wymagane"])
-        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane"])
+        self.assertEqual(
+            response_json["errors"]["address"], ["This field is required."]
+        )
+        self.assertEqual(
+            response_json["errors"]["zip_code"], ["This field is required."]
+        )
+        self.assertEqual(response_json["errors"]["city"], ["This field is required."])
+        self.assertEqual(
+            response_json["errors"]["country"], ["This field is required."]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
@@ -278,18 +286,20 @@ class TestReplacePerson(TestPerson):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "first_name", "To pole jest wymagane"
+            response.context["form"], "first_name", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "last_name", "To pole jest wymagane"
+            response.context["form"], "last_name", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "address", "To pole jest wymagane"
+            response.context["form"], "address", "This field is required."
         )
         self.assertFormError(
-            response.context["form"], "zip_code", "To pole jest wymagane"
+            response.context["form"], "zip_code", "This field is required."
         )
-        self.assertFormError(response.context["form"], "city", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "city", "This field is required."
+        )
 
     def test_replace_with_valid_date(self):
         self.client.login(username=self.user.email, password="test")

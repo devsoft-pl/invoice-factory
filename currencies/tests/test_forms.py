@@ -24,4 +24,4 @@ class TestCurrencyForm:
         form = CurrencyForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {"code": ["Waluta już istnieje"]}
+        assert form.errors == {"code": ["Currency already exists"]}
