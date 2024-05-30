@@ -77,7 +77,7 @@ class TestCreateCountry(TestCountry):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "country", "To pole jest wymagane"
+            response.context["form"], "country", "This field is required."
         )
 
     def test_create_with_valid_data(self):
@@ -122,7 +122,9 @@ class TestCreateCountryAjax(TestCountry):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["country"], ["To pole jest wymagane"])
+        self.assertEqual(
+            response_json["errors"]["country"], ["This field is required."]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
@@ -169,7 +171,7 @@ class TestReplaceCountry(TestCountry):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "country", "To pole jest wymagane"
+            response.context["form"], "country", "This field is required."
         )
 
     def test_replace_with_valid_data(self):

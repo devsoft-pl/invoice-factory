@@ -1,5 +1,5 @@
 from django.core.validators import MaxValueValidator, RegexValidator
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 invoice_number_validator = RegexValidator(
     r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
@@ -41,26 +41,9 @@ account_number_validator = RegexValidator(
 
 rate_validator = MaxValueValidator(99)
 
-first_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$", _("Enter the first_name in letters only")
-)
-
-last_name_validator = RegexValidator(
-    r"^[a-zA-Z ]+$", _("Please enter the last name using letters only")
-)
-
 zip_code_validator = RegexValidator(
     r"^[0-9]{2}-[0-9]{3}$",
     _("Please enter the zip code using numbers only in the format xx-xxx"),
-)
-
-city_validator = RegexValidator(
-    r"^[a-zA-Z ]+$", _("Please enter the city using letters only")
-)
-
-
-country_validator = RegexValidator(
-    r"^[a-zA-Z ]{2,}$", _("Please enter the country using letters only")
 )
 
 phone_number_validator = RegexValidator(

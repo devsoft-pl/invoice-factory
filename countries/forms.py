@@ -1,7 +1,6 @@
 from django import forms
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
-from base.validators import country_validator
 from countries.models import Country
 
 
@@ -12,7 +11,6 @@ class CountryForm(forms.ModelForm):
 
         country_field: forms.CharField = self.fields["country"]
         country_field.widget.attrs["class"] = "form-control"
-        country_field.validators = [country_validator]
 
     class Meta:
         model = Country

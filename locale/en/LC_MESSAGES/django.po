@@ -1,0 +1,512 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-30 08:27+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accountants/admin.py:13 companies/admin.py:21 countries/admin.py:13
+#: currencies/admin.py:13 invoices/admin.py:33 persons/admin.py:20
+#: vat_rates/admin.py:13
+msgid "Basic information"
+msgstr ""
+
+#: accountants/models.py:8 companies/forms.py:75 companies/models.py:10
+#: items/models.py:17
+msgid "Name"
+msgstr ""
+
+#: accountants/models.py:9 companies/models.py:23 persons/models.py:17
+#: summary_recipients/models.py:26 users/models.py:14
+msgid "Email"
+msgstr ""
+
+#: accountants/models.py:11 companies/models.py:25 persons/models.py:19
+msgid "Phone number"
+msgstr ""
+
+#: accountants/models.py:15 invoices/forms.py:283 invoices/models.py:48
+#: summary_recipients/models.py:21
+msgid "Company"
+msgstr ""
+
+#: accountants/models.py:21
+msgid "accountants"
+msgstr ""
+
+#: accountants/views.py:17 accountants/views.py:28 companies/views.py:48
+#: companies/views.py:114 companies/views.py:140 companies/views.py:155
+#: summary_recipients/views.py:17 summary_recipients/views.py:29
+msgid "Company does not exist"
+msgstr ""
+
+#: accountants/views.py:52 accountants/views.py:77
+msgid "Accountant does not exist"
+msgstr ""
+
+#: base/validators.py:7
+msgid ""
+"Please enter the invoice number in numeric format only, following the "
+"pattern number/mm/yyyy"
+msgstr ""
+
+#: base/validators.py:14
+msgid ""
+"Please enter the correction invoice number in the format number/mm/yyyy/c"
+msgstr ""
+
+#: base/validators.py:20
+msgid ""
+"Please enter the tax ID without special characters and with a minimum of 8 "
+"characters"
+msgstr ""
+
+#: base/validators.py:27
+msgid ""
+"Please enter the REGON using numbers only, with a minimum of 9 characters"
+msgstr ""
+
+#: base/validators.py:31
+msgid "Please enter the country code using three letters"
+msgstr ""
+
+#: base/validators.py:37
+msgid ""
+"Please enter the account number with a minimum of 15 characters, excluding "
+"special characters"
+msgstr ""
+
+#: base/validators.py:45
+msgid "Enter the first_name in letters only"
+msgstr ""
+
+#: base/validators.py:49
+msgid "Please enter the last name using letters only"
+msgstr ""
+
+#: base/validators.py:54
+msgid "Please enter the zip code using numbers only in the format xx-xxx"
+msgstr ""
+
+#: base/validators.py:58
+msgid "Please enter the city using letters only"
+msgstr ""
+
+#: base/validators.py:63
+msgid "Please enter the country using letters only"
+msgstr ""
+
+#: base/validators.py:67
+msgid "Please enter a phone number with 9 digits only"
+msgstr ""
+
+#: companies/admin.py:15
+msgid "User info"
+msgstr ""
+
+#: companies/admin.py:27
+msgid "Address data"
+msgstr ""
+
+#: companies/forms.py:57
+msgid "Nip already exists"
+msgstr ""
+
+#: companies/forms.py:69
+msgid "Regon already exists"
+msgstr ""
+
+#: companies/models.py:11
+msgid "NIP"
+msgstr ""
+
+#: companies/models.py:13
+msgid "Regon"
+msgstr ""
+
+#: companies/models.py:18 countries/models.py:8 persons/models.py:15
+msgid "Country"
+msgstr ""
+
+#: companies/models.py:20 persons/models.py:11
+msgid "Address"
+msgstr ""
+
+#: companies/models.py:21 persons/models.py:12
+msgid "ZIP Code"
+msgstr ""
+
+#: companies/models.py:22 persons/models.py:13
+msgid "City"
+msgstr ""
+
+#: companies/models.py:28 countries/models.py:10 currencies/models.py:12
+#: invoices/models.py:175 persons/models.py:22 vat_rates/models.py:12
+msgid "User"
+msgstr ""
+
+#: companies/models.py:31
+msgid "Is my company"
+msgstr ""
+
+#: companies/models.py:38 persons/models.py:26
+msgid "companies"
+msgstr ""
+
+#: companies/tasks.py:43
+msgid "Contractor's company status"
+msgstr ""
+
+#: companies/tasks.py:45
+#, python-format
+msgid ""
+"The company status of the contractor with the NIP: %(company_nip)s number in "
+"CEIDG is not active.\n"
+" Check the contractor's details again\n"
+"Best regards,\n"
+"Invoice Factory"
+msgstr ""
+
+#: countries/forms.py:26
+msgid "Country already exists"
+msgstr ""
+
+#: countries/models.py:14
+msgid "countries"
+msgstr ""
+
+#: countries/views.py:77 countries/views.py:100
+msgid "Country does not exist"
+msgstr ""
+
+#: currencies/forms.py:26
+msgid "Currency already exists"
+msgstr ""
+
+#: currencies/models.py:10
+msgid "Code"
+msgstr ""
+
+#: currencies/models.py:16
+msgid "currencies"
+msgstr ""
+
+#: currencies/models.py:44
+msgid "Buy rate"
+msgstr ""
+
+#: currencies/models.py:47
+msgid "Sell rate"
+msgstr ""
+
+#: currencies/models.py:49
+msgid "Date"
+msgstr ""
+
+#: currencies/models.py:52 invoices/models.py:82
+msgid "Currency"
+msgstr ""
+
+#: currencies/models.py:58
+msgid "exchange rates"
+msgstr ""
+
+#: currencies/views.py:76 currencies/views.py:99
+msgid "Currency does not exist"
+msgstr ""
+
+#: invoices/admin.py:43
+msgid "Advanced options"
+msgstr ""
+
+#: invoices/admin.py:52
+msgid "Additional options"
+msgstr ""
+
+#: invoices/forms.py:94
+msgid "This field is required"
+msgstr ""
+
+#: invoices/forms.py:106 invoices/forms.py:206 invoices/forms.py:272
+msgid "Invoice number already exists"
+msgstr ""
+
+#: invoices/forms.py:120 invoices/forms.py:220
+msgid "This field is not last dat of month."
+msgstr ""
+
+#: invoices/forms.py:194
+msgid "This field is required."
+msgstr ""
+
+#: invoices/forms.py:278 invoices/models.py:41
+msgid "Invoice number"
+msgstr ""
+
+#: invoices/forms.py:280 invoices/models.py:44
+msgid "Invoice type"
+msgstr ""
+
+#: invoices/forms.py:282 invoices/models.py:92
+msgid "Client"
+msgstr ""
+
+#: invoices/models.py:23
+msgid "Sales"
+msgstr ""
+
+#: invoices/models.py:24
+msgid "Purchase"
+msgstr ""
+
+#: invoices/models.py:31
+msgid "Transfer"
+msgstr ""
+
+#: invoices/models.py:32
+msgid "Cash"
+msgstr ""
+
+#: invoices/models.py:54
+msgid "Person"
+msgstr ""
+
+#: invoices/models.py:60
+msgid "Recurring"
+msgstr ""
+
+#: invoices/models.py:62
+msgid "Last day in month"
+msgstr ""
+
+#: invoices/models.py:64
+msgid "Settled"
+msgstr ""
+
+#: invoices/models.py:66
+msgid "Settlement date"
+msgstr ""
+
+#: invoices/models.py:69
+msgid "Create date"
+msgstr ""
+
+#: invoices/models.py:72
+msgid "Sale date"
+msgstr ""
+
+#: invoices/models.py:75
+msgid "Payment date"
+msgstr ""
+
+#: invoices/models.py:78
+msgid "Payment method"
+msgstr ""
+
+#: invoices/models.py:88
+msgid "Account number"
+msgstr ""
+
+#: invoices/models.py:99
+msgid "Invoice file"
+msgstr ""
+
+#: invoices/models.py:101
+msgid "Paid"
+msgstr ""
+
+#: invoices/models.py:103
+msgid "Net amount"
+msgstr ""
+
+#: invoices/models.py:106
+msgid "Gross_amount"
+msgstr ""
+
+#: invoices/models.py:172 reports/forms.py:18
+msgid "Year"
+msgstr ""
+
+#: invoices/models.py:193 items/models.py:13
+msgid "Invoice"
+msgstr ""
+
+#: invoices/models.py:199
+msgid "Correction Invoice"
+msgstr ""
+
+#: invoices/models.py:205
+msgid "correction invoices relation"
+msgstr ""
+
+#: invoices/tasks.py:81
+#, python-format
+msgid "New recurring invoice %(nr)s"
+msgstr ""
+
+#: invoices/tasks.py:83
+msgid ""
+"A new recurring invoice has been created\n"
+"Best regards,\n"
+"Invoice Factory"
+msgstr ""
+
+#: invoices/tasks.py:157
+msgid "Month summary"
+msgstr ""
+
+#: invoices/tasks.py:159
+msgid ""
+"A monthly summary has been created for company\n"
+"Best regards,\n"
+"Invoice Factory"
+msgstr ""
+
+#: invoices/views.py:53 invoices/views.py:144 invoices/views.py:193
+#: invoices/views.py:216 invoices/views.py:228
+msgid "Invoice does not exist"
+msgstr ""
+
+#: items/models.py:18
+msgid "PWKiU"
+msgstr ""
+
+#: items/models.py:19
+msgid "Amount"
+msgstr ""
+
+#: items/models.py:21
+msgid "Net price"
+msgstr ""
+
+#: items/models.py:24
+msgid "Vat"
+msgstr ""
+
+#: items/views.py:37 items/views.py:58
+msgid "Item does not exist"
+msgstr ""
+
+#: persons/admin.py:14
+msgid "Person info"
+msgstr ""
+
+#: persons/admin.py:26
+msgid "Additional information"
+msgstr ""
+
+#: persons/models.py:9 users/models.py:15
+msgid "First name"
+msgstr ""
+
+#: persons/models.py:10 users/models.py:16
+msgid "Last name"
+msgstr ""
+
+#: persons/views.py:41 persons/views.py:99 persons/views.py:120
+msgid "Person does not exist"
+msgstr ""
+
+#: reports/forms.py:12
+msgid "All"
+msgstr ""
+
+#: reports/forms.py:12
+msgid "Netto"
+msgstr ""
+
+#: reports/forms.py:12
+msgid "Gross"
+msgstr ""
+
+#: reports/forms.py:15
+msgid "Revenue type"
+msgstr ""
+
+#: summary_recipients/models.py:14
+msgid "Monthly"
+msgstr ""
+
+#: summary_recipients/models.py:15
+msgid "Quarterly"
+msgstr ""
+
+#: summary_recipients/models.py:18
+msgid "Description"
+msgstr ""
+
+#: summary_recipients/models.py:25
+msgid "Day of send"
+msgstr ""
+
+#: summary_recipients/models.py:28
+msgid "Settlement types"
+msgstr ""
+
+#: summary_recipients/models.py:30
+msgid "Final call"
+msgstr ""
+
+#: summary_recipients/views.py:53 summary_recipients/views.py:80
+msgid "Summary recipient does not exist"
+msgstr ""
+
+#: users/models.py:18
+msgid "Staff status"
+msgstr ""
+
+#: users/models.py:20
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: users/models.py:23
+msgid "Active"
+msgstr ""
+
+#: users/models.py:26
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: users/models.py:64
+msgid "Welcome in Invoice Factory"
+msgstr ""
+
+#: users/models.py:66
+#, python-brace-format
+msgid ""
+"Thanks for your registration in Invoice Factory. Your account details:\n"
+"Login: {email}\n"
+"Best regards,\n"
+"Invoice Factory"
+msgstr ""
+
+#: users/views.py:26
+msgid "User does not authenticated"
+msgstr ""
+
+#: vat_rates/forms.py:26
+msgid "Vat rate already exists"
+msgstr ""
+
+#: vat_rates/models.py:9
+msgid "Rate"
+msgstr ""
+
+#: vat_rates/views.py:77 vat_rates/views.py:100
+msgid "Vat rate does not exist"
+msgstr ""

@@ -144,17 +144,11 @@ class TestPersonForm:
         form = PersonForm(data=data, current_user=self.user)
 
         is_valid = form.is_valid()
-
         assert form.errors == {
-            "first_name": ["Wprowadź imię wyłącznie literami"],
-            "last_name": ["Wprowadź nazwisko wyłącznie literami"],
             "zip_code": [
-                "Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx"
+                "Please enter the zip code using numbers only in the format xx-xxx"
             ],
-            "city": ["Wprowadź miasto, używając wyłącznie liter"],
-            "phone_number": [
-                "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
-            ],
+            "phone_number": ["Please enter a phone number with 9 digits only"],
         }
         assert not is_valid
 

@@ -75,7 +75,9 @@ class TestCreateCurrency(TestCurrency):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "code", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "code", "This field is required."
+        )
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
@@ -116,7 +118,7 @@ class TestCreateCurrencyAjax(TestCurrency):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["code"], ["To pole jest wymagane"])
+        self.assertEqual(response_json["errors"]["code"], ["This field is required."])
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
@@ -161,7 +163,9 @@ class TestReplaceCurrency(TestCurrency):
         response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response.context["form"], "code", "To pole jest wymagane")
+        self.assertFormError(
+            response.context["form"], "code", "This field is required."
+        )
 
     def test_replace_currency_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")

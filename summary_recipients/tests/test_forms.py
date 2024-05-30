@@ -26,6 +26,6 @@ class TestSummaryRecipientForm:
 
         assert not form.is_valid()
         assert form.errors == {
-            "day": ["Wpisz liczbę całkowitą."],
-            "email": ["Podaj poprawny adres e-mail."],
+            "day": ["Enter a whole number."],
+            "email": ["Enter a valid email address."],
         }

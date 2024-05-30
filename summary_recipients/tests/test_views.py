@@ -75,12 +75,14 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "description", "To pole jest wymagane"
+            response.context["form"], "description", "This field is required."
         )
-        self.assertFormError(response.context["form"], "day", "To pole jest wymagane")
-        self.assertFormError(response.context["form"], "email", "To pole jest wymagane")
+        self.assertFormError(response.context["form"], "day", "This field is required.")
         self.assertFormError(
-            response.context["form"], "settlement_types", "To pole jest wymagane"
+            response.context["form"], "email", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "settlement_types", "This field is required."
         )
         self.assertTemplateUsed(
             response, "summary_recipients/create_summary_recipient.html"

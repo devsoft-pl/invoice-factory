@@ -3,7 +3,7 @@ import logging
 import tempfile
 from datetime import date, datetime, timedelta
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
 from base.celery import app

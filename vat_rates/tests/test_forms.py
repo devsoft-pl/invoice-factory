@@ -24,4 +24,4 @@ class TestVatRateForm:
         form = VatRateForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {"rate": ["Stawka VAT już istnieje"]}
+        assert form.errors == {"rate": ["Vat rate already exists"]}

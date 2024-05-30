@@ -2,7 +2,7 @@ from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from users.forms import PasswordChangeUserForm, UserCreationForm, UserForm
 
@@ -15,7 +15,7 @@ def register_user_view(request):
         if form.is_valid():
             new_user = form.save()
             login(request, new_user)
-            return redirect("invoices:index")
+            return redirect("index")
 
     context = {"form": form}
     return render(request, "registration/register.html", context)

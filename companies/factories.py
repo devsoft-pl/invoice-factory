@@ -1,4 +1,4 @@
-import factory
+import factory.fuzzy
 
 from companies.models import Company
 from countries.factories import CountryFactory
