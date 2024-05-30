@@ -2,7 +2,7 @@ import logging
 
 from celery.exceptions import Ignore
 from django.conf import settings
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from base.celery import app
 from companies.govs_adapters.ceidg_adapter import CEIDGAdapter

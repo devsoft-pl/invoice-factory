@@ -1,5 +1,5 @@
 from django.core.validators import MaxValueValidator, RegexValidator
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 invoice_number_validator = RegexValidator(
     r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
