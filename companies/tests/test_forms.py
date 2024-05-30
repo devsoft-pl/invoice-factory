@@ -120,7 +120,6 @@ class TestCompanyForm:
         data = CompanyDictFactory(country=self.country_1)
         form = CompanyForm(data=data, current_user=self.user)
         is_valid = form.is_valid()
-
         assert form.errors == {
             "nip": [
                 "Please enter the tax ID without special characters and with a minimum of 8 characters"
@@ -131,7 +130,6 @@ class TestCompanyForm:
             "zip_code": [
                 "Please enter the zip code using numbers only in the format xx-xxx"
             ],
-            "city": ["Please enter the city using letters only"],
             "phone_number": ["Please enter a phone number with 9 digits only"],
         }
         assert not is_valid

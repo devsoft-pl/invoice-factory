@@ -144,14 +144,10 @@ class TestPersonForm:
         form = PersonForm(data=data, current_user=self.user)
 
         is_valid = form.is_valid()
-
         assert form.errors == {
-            "first_name": ["Enter the first_name in letters only"],
-            "last_name": ["Please enter the last name using letters only"],
             "zip_code": [
                 "Please enter the zip code using numbers only in the format xx-xxx"
             ],
-            "city": ["Please enter the city using letters only"],
             "phone_number": ["Please enter a phone number with 9 digits only"],
         }
         assert not is_valid

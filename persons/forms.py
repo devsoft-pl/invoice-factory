@@ -1,12 +1,6 @@
 from django import forms
 
-from base.validators import (
-    city_validator,
-    first_name_validator,
-    last_name_validator,
-    phone_number_validator,
-    zip_code_validator,
-)
+from base.validators import phone_number_validator, zip_code_validator
 from countries.models import Country
 from persons.models import Person
 
@@ -35,10 +29,7 @@ class PersonForm(forms.ModelForm):
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
-        self.fields["first_name"].validators = [first_name_validator]
-        self.fields["last_name"].validators = [last_name_validator]
         self.fields["zip_code"].validators = [zip_code_validator]
-        self.fields["city"].validators = [city_validator]
         self.fields["phone_number"].validators = [phone_number_validator]
 
 
