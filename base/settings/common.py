@@ -144,7 +144,7 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
 
-EMAIL_CONFIG = env.email_url("EMAIL_URL", default=None)
+EMAIL_CONFIG = env.email_url("EMAIL_URL", default="")
 
 if EMAIL_CONFIG:
     vars().update(EMAIL_CONFIG)
