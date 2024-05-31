@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 import pytest
 
@@ -369,6 +369,7 @@ class TestSellInvoiceForm:
             is_recurring=True,
             is_last_day=True,
             account_number="111111111111111",
+            sale_date=date(2023, 1, 1),
         )
 
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
