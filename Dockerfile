@@ -21,7 +21,7 @@ RUN apt-get update &&\
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc &&\
     echo "deb https://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" \
       > /etc/apt/sources.list.d/postgresql.list &&\
-    apt-get install --no-install-recommends -y postgresql-client redis-tools netcat-openbsd &&\
+    apt-get install --no-install-recommends -y postgresql-client redis-tools netcat-openbsd vim &&\
     groupadd -f -g 11111 app &&\
     useradd -l -u 11111 -g app -d /app -m app &&\
     chown -R app:app /app &&\
