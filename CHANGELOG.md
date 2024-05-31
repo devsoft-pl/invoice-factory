@@ -2,6 +2,13 @@
 
 
 
+## v0.9.6 (2024-05-31)
+
+### Fix
+
+* fix: fix test forms ([`3f4cd7d`](https://github.com/devsoft-pl/invoices/commit/3f4cd7d1a9056271c72ce6893bf2b865abe5e4ee))
+
+
 ## v0.9.5 (2024-05-31)
 
 ### Fix
