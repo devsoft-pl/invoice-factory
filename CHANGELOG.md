@@ -2,6 +2,13 @@
 
 
 
+## v0.9.0 (2024-05-31)
+
+### Feature
+
+* feat: add compilemessages ([`0135913`](https://github.com/devsoft-pl/invoices/commit/0135913f936927387286f8b226043f9405ea31c3))
+
+
 ## v0.8.0 (2024-05-31)
 
 ### Feature
