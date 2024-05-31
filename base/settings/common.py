@@ -143,6 +143,12 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 
+
+EMAIL_CONFIG = env.email_url("EMAIL_URL", default=None)
+
+if EMAIL_CONFIG:
+    vars().update(EMAIL_CONFIG)
+
 AWS_ACCESS_KEY_ID = env(  # noqa: F405
     "AWS_ACCESS_KEY_ID", default="minio_root_user"
 )  # noqa: F405
