@@ -2,6 +2,17 @@
 
 
 
+## v0.9.4 (2024-05-31)
+
+### Fix
+
+* fix: email url fix ([`06f3c4a`](https://github.com/devsoft-pl/invoices/commit/06f3c4aae05e6cc0f20fda7e9d4a1a9290ea2c70))
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`3c4ac06`](https://github.com/devsoft-pl/invoices/commit/3c4ac067f8ae974bceb6784bb73e181f582259a9))
+
+
 ## v0.9.3 (2024-05-31)
 
 ### Fix
