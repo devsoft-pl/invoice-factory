@@ -2,6 +2,17 @@
 
 
 
+## v0.9.7 (2024-05-31)
+
+### Fix
+
+* fix: update name of month ([`d2deab3`](https://github.com/devsoft-pl/invoices/commit/d2deab36e1ea67f8cb78d815aa3db38a4b8c2801))
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`4716123`](https://github.com/devsoft-pl/invoices/commit/4716123f55b50296a1e50093a003e7242bccdae9))
+
+
 ## v0.9.6 (2024-05-31)
 
 ### Fix
