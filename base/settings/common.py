@@ -149,6 +149,9 @@ EMAIL_CONFIG = env.email_url("EMAIL_URL", default=None)
 if EMAIL_CONFIG:
     vars().update(EMAIL_CONFIG)
 
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="invoice-factory@devsoft.pl")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 AWS_ACCESS_KEY_ID = env(  # noqa: F405
     "AWS_ACCESS_KEY_ID", default="minio_root_user"
 )  # noqa: F405
