@@ -2,6 +2,13 @@
 
 
 
+## v0.7.0 (2024-05-31)
+
+### Feature
+
+* feat: install vim ([`d9f5159`](https://github.com/devsoft-pl/invoices/commit/d9f515982be74fba5cc326b03fecc64b0b251ce7))
+
+
 ## v0.6.0 (2024-05-31)
 
 ### Feature
