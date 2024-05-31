@@ -2,6 +2,13 @@
 
 
 
+## v0.9.1 (2024-05-31)
+
+### Fix
+
+* fix: update compilemessages ([`8289758`](https://github.com/devsoft-pl/invoices/commit/8289758ffff42f20f9b0629b3a03db0244f46846))
+
+
 ## v0.9.0 (2024-05-31)
 
 ### Feature
