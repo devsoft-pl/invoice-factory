@@ -137,14 +137,7 @@ AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_HOST = env("EMAIL_HOST", default="")
-EMAIL_PORT = env("EMAIL_PORT", default="")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-EMAIL_USE_TLS = env("EMAIL_USE_TLS")
-
-
-EMAIL_CONFIG = env.email_url("EMAIL_URL", default="")
+EMAIL_CONFIG = env.email_url("EMAIL_URL", default="consolemail://")
 
 if EMAIL_CONFIG:
     vars().update(EMAIL_CONFIG)
