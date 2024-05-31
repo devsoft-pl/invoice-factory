@@ -2,6 +2,23 @@
 
 
 
+## v0.6.0 (2024-05-31)
+
+### Feature
+
+* feat: changed description readme ([`ed285d8`](https://github.com/devsoft-pl/invoices/commit/ed285d864dec2e9d12e9f10f2172385f1d6dfb39))
+
+* feat: add new translated ([`e5ef419`](https://github.com/devsoft-pl/invoices/commit/e5ef419e7e87b8092888f12a49584175ff44d6e6))
+
+* feat: update name of aplication ([`40667c4`](https://github.com/devsoft-pl/invoices/commit/40667c41b1a3f24eb78e9766bd4500ccd95a461c))
+
+### Unknown
+
+* Merge pull request #9 from devsoft-pl/tlumaczenie
+
+Tlumaczenie ([`41965ca`](https://github.com/devsoft-pl/invoices/commit/41965cae11733d3ebfdc4412eeeef41f69937ac5))
+
+
 ## v0.5.0 (2024-05-30)
 
 ### Feature
