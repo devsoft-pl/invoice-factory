@@ -40,7 +40,8 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 * PostgreSQL
 * HTML, CSS, Bootstrap
 * Docker, Docker-compose
-* Git
+* Kubernetes
+* Git, GitHub
 
 ## How to run the application (docker-compose)
 
