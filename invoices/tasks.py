@@ -82,7 +82,7 @@ def create_recurrent_invoices(invoices):
         content = _(
             "A new recurring invoice has been created\n"
             "Best regards,\n"
-            "Invoice Factory"
+            "Invoice-Factory"
         )
 
         html = new_invoice.get_html_for_pdf()
@@ -158,7 +158,7 @@ def send_monthly_summary_to_recipients():
         content = _(
             "A monthly summary has been created for company\n"
             "Best regards,\n"
-            "Invoice Factory"
+            "Invoice-Factory"
         )
 
         summary_recipients = SummaryRecipient.objects.filter(

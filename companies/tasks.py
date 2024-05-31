@@ -46,7 +46,7 @@ def check_company_status(instance_id):
             "%(company_nip)s number in CEIDG is not active.\n"
             " Check the contractor's details again\n"
             "Best regards,\n"
-            "Invoice Factory"
+            "Invoice-Factory"
         ) % {"company_nip": company.nip}
 
         company.user.send_email(subject, content)
