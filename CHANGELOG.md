@@ -2,6 +2,13 @@
 
 
 
+## v0.8.0 (2024-05-31)
+
+### Feature
+
+* feat: install gettext ([`bff9645`](https://github.com/devsoft-pl/invoices/commit/bff96454ac35a5fb27bb15525894fc4ca2b900f3))
+
+
 ## v0.7.0 (2024-05-31)
 
 ### Feature
