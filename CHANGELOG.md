@@ -2,6 +2,13 @@
 
 
 
+## v0.9.2 (2024-05-31)
+
+### Fix
+
+* fix: email config to send email ([`2a99ca5`](https://github.com/devsoft-pl/invoices/commit/2a99ca56cbd7b0be6592aed7cf54db238af1647f))
+
+
 ## v0.9.1 (2024-05-31)
 
 ### Fix
