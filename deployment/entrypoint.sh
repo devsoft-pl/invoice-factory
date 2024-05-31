@@ -4,11 +4,13 @@ set -e
 case $1 in
   web)
     echo "Starting api server"
+    exec python manage.py compilemessages
     exec gunicorn -c deployment/gunicorn.conf.py
   ;;
 
   deplayed_jobs)
     echo "Starting celery workers"
+    exec python manage.py compilemessages
     exec celery -A base.celery:app worker --concurrency=2 --loglevel=INFO
   ;;
 
@@ -24,6 +26,7 @@ case $1 in
 
   scheduled_jobs)
     echo "Starting celery beat"
+    exec python manage.py compilemessages
     exec celery -A base.celery:app beat --loglevel=INFO
   ;;
 
