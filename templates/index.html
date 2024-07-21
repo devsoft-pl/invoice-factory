@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-5">
         <div class="row text-center">
-            <h3><b>Aplikacja do tworzeniu faktur sprzedażowych i zakupowych dla Twojej firmy</b></h3>
+            <h3><b>Aplikacja do tworzeniu faktur sprzedażowych i zakupowych</b></h3>
         </div>
+    
         {% if not user.email %}
-            <div class="row mt-3">
+            <div class="row mt-4">
                 <div class="col text-center">
-                    <b>Jeśli jesteś stałym użytkownikiem: </b>
+                    <b>Stały użytkownik:</b>
                 </div>
                 <div class="col text-center">
-                    <b>Jeśli jesteś nowym użytkownikiem: </b>
+                    <b>Nowy użytkownik:</b>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-1">
                 <div class="col text-center">
                     <a class="btn btn-primary mt-2" href="{% url 'users:login' %}">Zaloguj</a>
                 </div>
@@ -23,31 +24,40 @@
                 </div>
             </div>
         {% endif %}
-        <div class="row mt-4">
+    
+        <div class="row mt-5">
             <p>Ten projekt to przyjazna dla użytkownika aplikacja do fakturowania zaprojektowana w celu usprawnienia procesów biznesowych. Dzięki intuicyjnemu interfejsowi i rozbudowanym funkcjom zarządzanie fakturami nigdy nie było łatwiejsze. Doświadcz wydajności i wygody dzięki naszemu rozwiązaniu. Oto, co możesz zrobić w aplikacji:</p>
         </div>
-        <div class="row mt-2">
-            <span>1. <b>Dodaj swoją firmę:</b> Łatwo dodaj dane swojej firmy do systemu. Możesz zarządzać wieloma firmami w ramach jednego konta, dzięki czemu jest to wygodne dla firm o zróżnicowanej działalności.</span>
-        </div>
-        <div class="row mt-3">
-            <span>2. <b>Zarządzaj kontaktami:</b> Dodaj nieograniczoną liczbę kontaktów, w tym zarówno podmiotów gospodarczych (kontrahenci), jak i osób fizycznych (konsumenci). Śledź swoich klientów i partnerów bez wysiłku.</span>
-        </div>
-        <div class="row mt-3">
-            <span>3. <b>Twórz i edytuj faktury:</b> Z łatwością generuj faktury sprzedaży lub zakupu. Ciesz się elastycznością edycji lub usuwania faktur w razie potrzeby. Aplikacja umożliwia generowanie faktur w formacie PDF w celu płynnego udostępniania i prowadzenia dokumentacji.</span>
-        </div><div class="row mt-3">
-        <span>4. <b>Ustawiaj faktury cykliczne:</b> Skonfiguruj faktury cykliczne dla swoich klientów, aby zautomatyzować proces fakturowania. Zapomnij o comiesięcznym tworzeniu faktur. Aplikacja zajmie się tym za Ciebie. Otrzymuj powiadomienia e-mail wraz z załącznikiem do faktury, gdy wygeneruje się faktura cykliczna.</span>
-        </div>
-        <div class="row mt-3">
-            <span>5. <b>Automatycznie przeliczaj walutę:</b> Podczas fakturowania w obcych walutach, pozwól aplikacji zająć się przeliczaniem walut za Ciebie. Automatycznie pobiera ona kursy walut z Narodowego Banku Polskiego (NBP) w celu dokładnego i aktualnego przeliczania walut.</span>
-        </div>
-        <div class="row mt-3">
-            <span>6. <b>Zamykaj miesiąc:</b> Ustaw konkretny dzień zamknięcia miesiąca i bez wysiłku uzgodnij swoje faktury. Aplikacja gromadzi wszystkie faktury za poprzedni miesiąc i wysyła je zbiorczo do wyznaczonego odbiorcy. Po zamknięciu miesiąca faktury nie mogą być edytowane, co zapewnia integralność danych.</span>
-        </div>
-        <div class="row mt-3">
-            <span>7. <b>Twórz korektę do faktury:</b> Jeśli zauważysz błąd na wystawionej fakturze, masz możliwość stworzenia korekty bez względu na to, czy zamknąłeś miesiąc czy nie. Korekta pozwala na poprawienie błędów w fakturze i uwzględnienie ich w księgach rachunkowych.</span>
-        </div>    
-        <div class="row mt-3">
-            <span>8. <b>Raportuj przychód z wystawionych faktur:</b> Aplikacja generuje raporty przychodów dla wystawionych faktur sprzedaży za każdy rok. Dodatkowo tworzy wykresy przychodów na podstawie tych faktur, zapewniając użytkownikom szybki dostęp do przychodów firmy.</span>
+    
+        <div class="container text-center">
+            <div class="row align-items-start row mt-4">
+                <div class="col">
+                    <b>Dodaj swoją firmę:</b> dodaj dane swojej firmy do systemu i zarządzaj wieloma firmami z jednego konta.
+                </div>
+                <div class="col">
+                    <b>Zarządzaj kontaktami:</b> dodawaj i śledź nieograniczoną liczbę kontaktów, zarówno kontrahentów, jak i konsumentów.
+                </div>
+                <div class="col">
+                    <b>Twórz i edytuj faktury:</b> generuj i edytuj faktury sprzedaży lub zakupu, a także eksportuj je w formacie PDF.
+                </div>
+                <div class="col">
+                    <b>Ustawiaj faktury cykliczne:</b> automatyzuj fakturowanie cykliczne i otrzymuj powiadomienia e-mail z załącznikiem do faktury.
+                </div>
+            </div>
+            <div class="row align-items-start row mt-5">
+                <div class="col">
+                    <b>Automatycznie przeliczaj walutę:</b> aplikacja przelicza waluty zgodnie z aktualnymi kursami NBP.
+                </div>
+                <div class="col">
+                    <b>Zamykaj miesiąc:</b> ustal dzień zamknięcia miesiąca, po którym faktury są wysyłane zbiorczo i nie mogą być edytowane.
+                </div>
+                <div class="col">
+                    <b>Twórz korektę do faktury:</b> twórz korekty faktur w razie błędów, niezależnie od zamknięcia miesiąca.
+                </div>
+                <div class="col">
+                    <b>Raportuj przychód z wystawionych faktur:</b> generuj roczne raporty przychodów i wykresy z wystawionych faktur sprzedaży.
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}
