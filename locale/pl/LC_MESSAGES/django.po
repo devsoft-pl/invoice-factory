@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-31 11:31+0200\n"
+"POT-Creation-Date: 2024-07-21 16:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,6 +161,7 @@ msgid "Contractor's company status"
 msgstr "Status aktywności kontrahentów"
 
 #: companies/tasks.py:45
+#, python-format
 msgid ""
 "The company status of the contractor with the NIP: %(company_nip)s number in "
 "CEIDG is not active.\n"
@@ -489,6 +490,7 @@ msgid "Welcome in Invoice-Factory"
 msgstr "Witamy w Invoice-Factory"
 
 #: users/models.py:66
+#, python-brace-format
 msgid ""
 "Thanks for your registration in Invoice-Factory. Your account details:\n"
 "Login: {email}\n"
