@@ -1,26 +1,42 @@
 # CHANGELOG
 
+## v0.10.0 (2024-07-23)
 
+### Feature
+
+* feat: add sqlite3 to all tests ([`e85f779`](https://github.com/devsoft-pl/invoices/commit/e85f7791862056462c4152e09f178722201961b2))
+
+* feat: add new translated to person form with filter ([`3bf8723`](https://github.com/devsoft-pl/invoices/commit/3bf87235258afe27d8813ba68c04936c8bc9f483))
+
+* feat: change view hompage ([`b6078aa`](https://github.com/devsoft-pl/invoices/commit/b6078aa84394a2c6a950dd76dfbc3b05d66c6cc8))
+
+* feat: addd new translate ([`aee533d`](https://github.com/devsoft-pl/invoices/commit/aee533d7950849505fa2cb6a2c277bdffa4e9439))
+
+* feat: change of setting on the homepage ([`c1079fe`](https://github.com/devsoft-pl/invoices/commit/c1079fec8cbfb1d350f7eb0451e82d7ef02b3ef6))
+
+* feat: update poetry ([`9be80d8`](https://github.com/devsoft-pl/invoices/commit/9be80d8cc3f7936e8cae1cd6e76e98ec8172501f))
 
 ## v0.9.7 (2024-05-31)
-
-### Fix
-
-* fix: update name of month ([`d2deab3`](https://github.com/devsoft-pl/invoices/commit/d2deab36e1ea67f8cb78d815aa3db38a4b8c2801))
 
 ### Unknown
 
 * Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`4716123`](https://github.com/devsoft-pl/invoices/commit/4716123f55b50296a1e50093a003e7242bccdae9))
 
-
 ## v0.9.6 (2024-05-31)
 
 ### Fix
 
+* fix: update name of month ([`d2deab3`](https://github.com/devsoft-pl/invoices/commit/d2deab36e1ea67f8cb78d815aa3db38a4b8c2801))
+
 * fix: fix test forms ([`3f4cd7d`](https://github.com/devsoft-pl/invoices/commit/3f4cd7d1a9056271c72ce6893bf2b865abe5e4ee))
 
-
 ## v0.9.5 (2024-05-31)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`74595d9`](https://github.com/devsoft-pl/invoices/commit/74595d9ff995c4d0cdc7b6652dce45dc5d2478ec))
+
+## v0.9.4 (2024-05-31)
 
 ### Fix
 
@@ -28,26 +44,15 @@
 
 ### Unknown
 
-* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`74595d9`](https://github.com/devsoft-pl/invoices/commit/74595d9ff995c4d0cdc7b6652dce45dc5d2478ec))
-
-
-## v0.9.4 (2024-05-31)
-
-### Fix
-
-* fix: email url fix ([`06f3c4a`](https://github.com/devsoft-pl/invoices/commit/06f3c4aae05e6cc0f20fda7e9d4a1a9290ea2c70))
-
-### Unknown
-
 * Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`3c4ac06`](https://github.com/devsoft-pl/invoices/commit/3c4ac067f8ae974bceb6784bb73e181f582259a9))
-
 
 ## v0.9.3 (2024-05-31)
 
 ### Fix
 
-* fix: email config to send email update ([`b6c2d49`](https://github.com/devsoft-pl/invoices/commit/b6c2d49966728e28bfa659f41fa28d70e568a1a6))
+* fix: email url fix ([`06f3c4a`](https://github.com/devsoft-pl/invoices/commit/06f3c4aae05e6cc0f20fda7e9d4a1a9290ea2c70))
 
+* fix: email config to send email update ([`b6c2d49`](https://github.com/devsoft-pl/invoices/commit/b6c2d49966728e28bfa659f41fa28d70e568a1a6))
 
 ## v0.9.2 (2024-05-31)
 
@@ -55,13 +60,11 @@
 
 * fix: email config to send email ([`2a99ca5`](https://github.com/devsoft-pl/invoices/commit/2a99ca56cbd7b0be6592aed7cf54db238af1647f))
 
-
 ## v0.9.1 (2024-05-31)
 
 ### Fix
 
 * fix: update compilemessages ([`8289758`](https://github.com/devsoft-pl/invoices/commit/8289758ffff42f20f9b0629b3a03db0244f46846))
-
 
 ## v0.9.0 (2024-05-31)
 
@@ -69,20 +72,17 @@
 
 * feat: add compilemessages ([`0135913`](https://github.com/devsoft-pl/invoices/commit/0135913f936927387286f8b226043f9405ea31c3))
 
-
 ## v0.8.0 (2024-05-31)
 
 ### Feature
 
 * feat: install gettext ([`bff9645`](https://github.com/devsoft-pl/invoices/commit/bff96454ac35a5fb27bb15525894fc4ca2b900f3))
 
-
 ## v0.7.0 (2024-05-31)
 
 ### Feature
 
 * feat: install vim ([`d9f5159`](https://github.com/devsoft-pl/invoices/commit/d9f515982be74fba5cc326b03fecc64b0b251ce7))
-
 
 ## v0.6.0 (2024-05-31)
 
@@ -99,7 +99,6 @@
 * Merge pull request #9 from devsoft-pl/tlumaczenie
 
 Tlumaczenie ([`41965ca`](https://github.com/devsoft-pl/invoices/commit/41965cae11733d3ebfdc4412eeeef41f69937ac5))
-
 
 ## v0.5.0 (2024-05-30)
 
@@ -135,13 +134,11 @@ Tlumaczenie ([`41965ca`](https://github.com/devsoft-pl/invoices/commit/41965cae1
 
 Fix tests ([`5c135c7`](https://github.com/devsoft-pl/invoices/commit/5c135c7a6c1117f3e7d8d14af1e34d563db18728))
 
-
 ## v0.4.0 (2024-05-28)
 
 ### Feature
 
 * feat: delete f-string ([`93986bc`](https://github.com/devsoft-pl/invoices/commit/93986bcbae13de0239cfeaf1b68c30af08275cda))
-
 
 ## v0.3.0 (2024-05-28)
 
@@ -149,15 +146,19 @@ Fix tests ([`5c135c7`](https://github.com/devsoft-pl/invoices/commit/5c135c7a6c1
 
 * feat: delete sqlite3 ([`b831007`](https://github.com/devsoft-pl/invoices/commit/b8310072a21d68b02944630c56555984395b00c2))
 
-
 ## v0.2.2 (2024-05-28)
 
 ### Fix
 
 * fix: black and isort ([`ff1576e`](https://github.com/devsoft-pl/invoices/commit/ff1576e991b17c6390e3bae52e0b93fc06338c57))
 
-
 ## v0.2.1 (2024-05-28)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`df91ce6`](https://github.com/devsoft-pl/invoices/commit/df91ce60fd8d078b2f62400eeaac8bac1d7c9a46))
+
+## v0.2.0 (2024-05-28)
 
 ### Fix
 
@@ -165,12 +166,89 @@ Fix tests ([`5c135c7`](https://github.com/devsoft-pl/invoices/commit/5c135c7a6c1
 
 ### Unknown
 
-* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`df91ce6`](https://github.com/devsoft-pl/invoices/commit/df91ce60fd8d078b2f62400eeaac8bac1d7c9a46))
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`856866c`](https://github.com/devsoft-pl/invoices/commit/856866cc94e4f8fbb4f625aa583244bbab9ca972))
 
+## v0.1.14 (2024-05-11)
 
-## v0.2.0 (2024-05-28)
+### Fix
+
+* fix: debug false on production ([`3a31cc8`](https://github.com/devsoft-pl/invoices/commit/3a31cc83f0133a9e61c25b65cc26f00516b5bfa9))
+
+## v0.1.13 (2024-05-11)
+
+### Fix
+
+* fix: debug false on production ([`aa0cc89`](https://github.com/devsoft-pl/invoices/commit/aa0cc89cdd75de310637bb4fc6ad97dac56389d5))
+
+## v0.1.12 (2024-05-11)
+
+### Fix
+
+* fix: add uvicorn ([`15969e1`](https://github.com/devsoft-pl/invoices/commit/15969e1fd0db30c7e3502bb8c32fa254b8483cfc))
+
+## v0.1.11 (2024-05-11)
+
+### Fix
+
+* fix: add boto ([`e6d2826`](https://github.com/devsoft-pl/invoices/commit/e6d2826074c134567e09f9554ecf0b126bf27eec))
+
+## v0.1.10 (2024-05-11)
+
+### Fix
+
+* fix: settings for production environment ([`0511bfe`](https://github.com/devsoft-pl/invoices/commit/0511bfe2b34d7bd8be1af2572500916aa75cbf98))
+
+## v0.1.9 (2024-05-10)
+
+### Fix
+
+* fix: fix pipelines - add checkout on deploy ([`1b9b657`](https://github.com/devsoft-pl/invoices/commit/1b9b657443cbc291975654a1cc8182ea9635d895))
+
+## v0.1.8 (2024-05-10)
+
+### Fix
+
+* fix: fix tests ([`d79e5d9`](https://github.com/devsoft-pl/invoices/commit/d79e5d9a1578876661475fef56f5f6ff2a52855d))
+
+## v0.1.7 (2024-05-10)
+
+### Fix
+
+* fix: styling - black, flake8, isort ([`e32c072`](https://github.com/devsoft-pl/invoices/commit/e32c0720baf24fd9c8eddf84bb990ff44d647d8e))
+
+## v0.1.6 (2024-05-10)
+
+### Fix
+
+* fix: black ([`8129747`](https://github.com/devsoft-pl/invoices/commit/8129747f376dad603b4a30e5521fe172ce80fb95))
+
+## v0.1.5 (2024-05-10)
+
+## v0.1.4 (2024-05-10)
+
+## v0.1.3 (2024-05-10)
+
+### Fix
+
+* fix: add pipeline caching ([`dc64946`](https://github.com/devsoft-pl/invoices/commit/dc64946644787c708a8733f5d4390152771a48e1))
+
+## v0.1.2 (2024-05-10)
+
+### Fix
+
+* fix: add pipeline caching ([`d322b6f`](https://github.com/devsoft-pl/invoices/commit/d322b6f0f0066df8b03b10c4dc492d31921d5984))
+
+## v0.1.1 (2024-05-09)
+
+### Fix
+
+* fix: version ([`7b95828`](https://github.com/devsoft-pl/invoices/commit/7b9582823a096bdb9bbb41326853c0b86a96c408))
+
+## v0.1.0 (2024-05-09)
 
 ### Feature
+
+* feat: izabelak/actions-builder image for pipelines ([`c10c522`](https://github.com/devsoft-pl/invoices/commit/c10c522902b7a0540d8fae3dbdf68416a65236df))
 
 * feat: add sentry_sdk ([`2d7d6a5`](https://github.com/devsoft-pl/invoices/commit/2d7d6a545778d15d77e12525a3941664676ced59))
 
@@ -183,107 +261,6 @@ Fix tests ([`5c135c7`](https://github.com/devsoft-pl/invoices/commit/5c135c7a6c1
 * feat: change aplication name to Invoice-Factory ([`78942e8`](https://github.com/devsoft-pl/invoices/commit/78942e83cb87bbace0ab373ad2cabdb816467127))
 
 * feat: add new version jijna2 and request ([`cfd5c53`](https://github.com/devsoft-pl/invoices/commit/cfd5c53101307628afdd9894c7dce6b17c4c581f))
-
-### Unknown
-
-* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`856866c`](https://github.com/devsoft-pl/invoices/commit/856866cc94e4f8fbb4f625aa583244bbab9ca972))
-
-
-## v0.1.14 (2024-05-11)
-
-### Fix
-
-* fix: debug false on production ([`3a31cc8`](https://github.com/devsoft-pl/invoices/commit/3a31cc83f0133a9e61c25b65cc26f00516b5bfa9))
-
-
-## v0.1.13 (2024-05-11)
-
-### Fix
-
-* fix: debug false on production ([`aa0cc89`](https://github.com/devsoft-pl/invoices/commit/aa0cc89cdd75de310637bb4fc6ad97dac56389d5))
-
-
-## v0.1.12 (2024-05-11)
-
-### Fix
-
-* fix: add uvicorn ([`15969e1`](https://github.com/devsoft-pl/invoices/commit/15969e1fd0db30c7e3502bb8c32fa254b8483cfc))
-
-
-## v0.1.11 (2024-05-11)
-
-### Fix
-
-* fix: add boto ([`e6d2826`](https://github.com/devsoft-pl/invoices/commit/e6d2826074c134567e09f9554ecf0b126bf27eec))
-
-
-## v0.1.10 (2024-05-11)
-
-### Fix
-
-* fix: settings for production environment ([`0511bfe`](https://github.com/devsoft-pl/invoices/commit/0511bfe2b34d7bd8be1af2572500916aa75cbf98))
-
-
-## v0.1.9 (2024-05-10)
-
-### Fix
-
-* fix: fix pipelines - add checkout on deploy ([`1b9b657`](https://github.com/devsoft-pl/invoices/commit/1b9b657443cbc291975654a1cc8182ea9635d895))
-
-
-## v0.1.8 (2024-05-10)
-
-### Fix
-
-* fix: fix tests ([`d79e5d9`](https://github.com/devsoft-pl/invoices/commit/d79e5d9a1578876661475fef56f5f6ff2a52855d))
-
-
-## v0.1.7 (2024-05-10)
-
-### Fix
-
-* fix: styling - black, flake8, isort ([`e32c072`](https://github.com/devsoft-pl/invoices/commit/e32c0720baf24fd9c8eddf84bb990ff44d647d8e))
-
-
-## v0.1.6 (2024-05-10)
-
-### Fix
-
-* fix: black ([`8129747`](https://github.com/devsoft-pl/invoices/commit/8129747f376dad603b4a30e5521fe172ce80fb95))
-
-
-## v0.1.5 (2024-05-10)
-
-
-## v0.1.4 (2024-05-10)
-
-
-## v0.1.3 (2024-05-10)
-
-### Fix
-
-* fix: add pipeline caching ([`dc64946`](https://github.com/devsoft-pl/invoices/commit/dc64946644787c708a8733f5d4390152771a48e1))
-
-
-## v0.1.2 (2024-05-10)
-
-### Fix
-
-* fix: add pipeline caching ([`d322b6f`](https://github.com/devsoft-pl/invoices/commit/d322b6f0f0066df8b03b10c4dc492d31921d5984))
-
-
-## v0.1.1 (2024-05-09)
-
-### Fix
-
-* fix: version ([`7b95828`](https://github.com/devsoft-pl/invoices/commit/7b9582823a096bdb9bbb41326853c0b86a96c408))
-
-
-## v0.1.0 (2024-05-09)
-
-### Feature
-
-* feat: izabelak/actions-builder image for pipelines ([`c10c522`](https://github.com/devsoft-pl/invoices/commit/c10c522902b7a0540d8fae3dbdf68416a65236df))
 
 * feat: add update poetry ([`baa69d2`](https://github.com/devsoft-pl/invoices/commit/baa69d2ad8633c308226a9fe2189d19d963b4439))
 
