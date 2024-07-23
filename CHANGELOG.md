@@ -1,8 +1,22 @@
 # CHANGELOG
 
+## v0.11.0 (2024-07-23)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`3ae54ab`](https://github.com/devsoft-pl/invoices/commit/3ae54abdf2f06a1b0f5ffff68ccac2215715f4dc))
+
 ## v0.10.0 (2024-07-23)
 
 ### Feature
+
+* feat: add sqlite3 to tests ([`08af9cb`](https://github.com/devsoft-pl/invoices/commit/08af9cb54db7f6f2877db6ed69396e002c5e7080))
+
+* feat: add celerybeat to scheduled jobs ([`c292157`](https://github.com/devsoft-pl/invoices/commit/c29215765985f454a272193638c1588eb7c88903))
+
+* feat: add compilemessages ([`69d352c`](https://github.com/devsoft-pl/invoices/commit/69d352cbb9cf7cb75153a88761a45a0c6061eafb))
+
+* feat: add of opening the pdf invoice in another browser window ([`04f4058`](https://github.com/devsoft-pl/invoices/commit/04f40582419f7c1ccaec0763a600d004425c8af4))
 
 * feat: add sqlite3 to all tests ([`e85f779`](https://github.com/devsoft-pl/invoices/commit/e85f7791862056462c4152e09f178722201961b2))
 
