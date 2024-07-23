@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.14.0 (2024-07-23)
+
+### Feature
+
+* feat: change style in  pdf invoice ([`5e8dea4`](https://github.com/devsoft-pl/invoices/commit/5e8dea4b7faa779087294068aa7c8203aebaed68))
+
 ## v0.13.0 (2024-07-23)
 
 ### Feature
