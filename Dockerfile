@@ -43,6 +43,4 @@ EXPOSE 8000
 
 COPY --chown=app:app . .
 
-RUN python manage.py compilemessages
-
 ENTRYPOINT ["/app/deployment/entrypoint.sh"]
