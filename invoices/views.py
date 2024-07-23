@@ -1,4 +1,5 @@
 import copy
+from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -232,7 +233,10 @@ def pdf_invoice_view(request, invoice_id):
 
     html = invoice.get_html_for_pdf()
 
-    pisa_status = pisa.CreatePDF(html, dest=response)
+    def link_callback(uri, rel):
+        return str(Path(rel) / "invoices" / uri.lstrip("/"))
+
+    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
 
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
