@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+
 from base.validators import phone_number_validator, zip_code_validator
 from countries.models import Country
 from persons.models import Person
