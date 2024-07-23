@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.13.0 (2024-07-23)
+
+### Feature
+
+* feat: change static to to display a pdf invoice ([`2b420e7`](https://github.com/devsoft-pl/invoices/commit/2b420e721c56eeb768e3966c80d5bd87b05946a9))
+
 ## v0.12.1 (2024-07-23)
 
 ### Unknown
