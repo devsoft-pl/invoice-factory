@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.12.0 (2024-07-23)
+
+### Feature
+
+* feat: add new settings for databases to tests ([`19fe9ed`](https://github.com/devsoft-pl/invoices/commit/19fe9ed8695f50bc23fa72673fee6aa9f46ac522))
+
+* feat: isort ([`30ae717`](https://github.com/devsoft-pl/invoices/commit/30ae71771dd1a0e2d998f7b9ec8e06e12761fdda))
+
 ## v0.11.0 (2024-07-23)
 
 ### Unknown
