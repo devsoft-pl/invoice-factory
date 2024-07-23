@@ -187,7 +187,7 @@
         <div class="row">
             <div class="col text-center">
                 <a class="btn btn-secondary" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary" href="{% url 'invoices:pdf_invoice' invoice.pk %}">Faktura pdf</a>
+                <a class="btn btn-primary" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
             </div>
         </div>
     </div>

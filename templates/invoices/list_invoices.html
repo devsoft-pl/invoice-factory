@@ -86,7 +86,7 @@
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                                     {% if not invoice.is_recurring %}
                                         {% if invoice.is_sell %}
-                                    	    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}">PDF</a>
+                                    	    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">PDF</a>
                                         {% else %}
                                             <a href="{{ invoice.invoice_file.url }}">PDF</a>
                                         {% endif %}
