@@ -1,14 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-21 16:45+0200\n"
+"POT-Creation-Date: 2024-07-21 17:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,7 +125,7 @@ msgstr "Regon"
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:20 persons/models.py:11
+#: companies/models.py:20 persons/forms.py:39 persons/models.py:11
 msgid "Address"
 msgstr "Adres"
 
@@ -408,11 +402,11 @@ msgstr "Informacje o konsumencie"
 msgid "Additional information"
 msgstr "Dodatkowe opcje"
 
-#: persons/models.py:9 users/models.py:15
+#: persons/forms.py:37 persons/models.py:9 users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: persons/models.py:10 users/models.py:16
+#: persons/forms.py:38 persons/models.py:10 users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
 

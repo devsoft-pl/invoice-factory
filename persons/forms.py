@@ -1,5 +1,5 @@
 from django import forms
-
+from django.utils.translation import gettext_lazy as _
 from base.validators import phone_number_validator, zip_code_validator
 from countries.models import Country
 from persons.models import Person
@@ -34,9 +34,9 @@ class PersonForm(forms.ModelForm):
 
 
 class PersonFilterForm(forms.Form):
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
-    address = forms.CharField(required=False)
+    first_name = forms.CharField(label=_("First name"), required=False)
+    last_name = forms.CharField(label=_("Last name"), required=False)
+    address = forms.CharField(label=_("Address"), required=False)
 
     first_name.widget.attrs.update({"class": "form-control"})
     last_name.widget.attrs.update({"class": "form-control"})
