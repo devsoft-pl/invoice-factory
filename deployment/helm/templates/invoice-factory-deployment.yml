@@ -36,6 +36,13 @@ spec:
           - secretRef:
               name: invoice-factory-secrets
 
+      - name: celerybeat
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        args: ['scheduled_jobs']
+        envFrom:
+          - secretRef:
+              name: invoice-factory-secrets
+
       initContainers:
       - name: migrations
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
