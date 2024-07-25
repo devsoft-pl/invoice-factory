@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v0.14.2 (2024-07-25)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`99418c1`](https://github.com/devsoft-pl/invoices/commit/99418c1d526e4265d6c7dbd6c37f1a0b22acf616))
+
 ## v0.14.1 (2024-07-25)
+
+### Fix
+
+* fix: update translated to send email ([`9d4277e`](https://github.com/devsoft-pl/invoices/commit/9d4277eefe49ccc9cbecd7badc60014f3b00c36b))
 
 ### Unknown
 
