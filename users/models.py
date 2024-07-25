@@ -68,4 +68,4 @@ def send_welcome_email(sender, instance: User, created=False, **kwargs):
             "Best regards,\n"
             "Invoice-Factory",
         ).format(email=instance.email)
-        User().send_email(subject, content)
+        instance.send_email(subject, content)
