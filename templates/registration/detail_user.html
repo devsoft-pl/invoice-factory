@@ -12,7 +12,13 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ user.full_name }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {% if user.first_name and user.last_name %}
+                            {{ user.full_name }}
+                        {% else %}
+                            {{ user.email }}
+                        {% endif %}
+                    </li>
                 </ol>
             </nav>
         </div>
