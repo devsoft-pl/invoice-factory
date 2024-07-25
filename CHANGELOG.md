@@ -1,10 +1,20 @@
 # CHANGELOG
 
+## v0.14.1 (2024-07-25)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`06ccfc1`](https://github.com/devsoft-pl/invoices/commit/06ccfc104d7f682daab4f3493fb41d64cbde90ad))
+
 ## v0.14.0 (2024-07-23)
 
 ### Feature
 
 * feat: change style in  pdf invoice ([`5e8dea4`](https://github.com/devsoft-pl/invoices/commit/5e8dea4b7faa779087294068aa7c8203aebaed68))
+
+### Fix
+
+* fix: update method to send welcom email to new user ([`d04a073`](https://github.com/devsoft-pl/invoices/commit/d04a0736de5a0926d3fb7a3cfaf734d567493780))
 
 ## v0.13.0 (2024-07-23)
 
