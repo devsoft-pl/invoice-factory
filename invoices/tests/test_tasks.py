@@ -79,8 +79,8 @@ class TestRecurrentInvoiceTasks:
             .order_by("-sale_date", "pk")
             .first()
         )
-        assert invoice.invoice_number == "2/01/2024"
 
+        assert invoice.invoice_number == "2/01/2024"
         assert Invoice.objects.count() == 3
 
     @patch("invoices.tasks.datetime")

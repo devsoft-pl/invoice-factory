@@ -1,7 +1,7 @@
 import calendar
 import logging
 import tempfile
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
@@ -18,8 +18,14 @@ FIRST_INVOICE_NUMBER = 1
 
 
 def get_invoice_with_max_sale_date():
+    today = datetime.today()
     return (
-        Invoice.objects.filter(invoice_type=Invoice.INVOICE_SALES, is_recurring=False)
+        Invoice.objects.filter(
+            invoice_type=Invoice.INVOICE_SALES,
+            is_recurring=False,
+            sale_date__year=today.year,
+            sale_date__month=today.month,
+        )
         .order_by("-sale_date", "pk")
         .first()
     )
@@ -28,7 +34,7 @@ def get_invoice_with_max_sale_date():
 def get_max_invoice_number():
     max_sale_date_invoice = get_invoice_with_max_sale_date()
 
-    current_year = date.today().year
+    current_year = datetime.today().year
     if (
         not max_sale_date_invoice
         or max_sale_date_invoice.sale_date.year != current_year
