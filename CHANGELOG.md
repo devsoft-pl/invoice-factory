@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.14.3 (2024-07-25)
+
+### Fix
+
+* fix: correction of pulling out the last invoice in a reccuring invoice ([`f039683`](https://github.com/devsoft-pl/invoices/commit/f0396831dcd02105a32f0f2028c9e86aae9ff430))
+
 ## v0.14.2 (2024-07-25)
 
 ### Unknown
