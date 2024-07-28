@@ -3,6 +3,7 @@ from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -12,7 +13,7 @@ from invoices.forms import (
     InvoiceBuyForm,
     InvoiceFilterForm,
     InvoiceSellForm,
-    InvoiceSellPersonForm,
+    InvoiceSellPersonForm, InvoiceSellPersonToClientForm,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
 
@@ -23,7 +24,9 @@ def index_view(request):
 
 @login_required
 def list_invoices_view(request):
-    invoices_list = Invoice.objects.filter(company__user=request.user)
+    invoices_list = Invoice.objects.filter(
+        Q(company__user=request.user) | Q(person__user=request.user)
+    )
 
     filter_form = InvoiceFilterForm(request.GET)
     if filter_form.is_valid():
@@ -50,8 +53,14 @@ def list_invoices_view(request):
 def detail_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.company.user != request.user:
-        raise Http404(_("Invoice does not exist"))
+    if invoice.company:
+        if invoice.company.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    elif invoice.person:
+        if invoice.person.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    else:
+        raise Exception(_("to sie nie powinno wydarzyc"))
 
     context = {"invoice": invoice}
     if invoice.invoice_type == Invoice.INVOICE_SALES:
@@ -96,6 +105,25 @@ def create_sell_person_invoice_view(request):
 
     context = {"form": form}
     return render(request, "invoices/create_sell_person_invoice.html", context)
+
+
+@login_required
+def create_sell_person_to_client_invoice_view(request):
+    if request.method != "POST":
+        form = InvoiceSellPersonToClientForm(current_user=request.user)
+    else:
+        form = InvoiceSellPersonToClientForm(current_user=request.user, data=request.POST)
+
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.invoice_type = Invoice.INVOICE_SALES
+
+            invoice.save()
+
+            return redirect("invoices:list_invoices")
+
+    context = {"form": form}
+    return render(request, "invoices/create_sell_person_to_client_invoice.html", context)
 
 
 @login_required
@@ -187,6 +215,59 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
 
 
 @login_required
+def replace_sell_person_to_client_invoice_view(request, invoice_id, create_correction=False):
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.company:
+        if invoice.company.user != request.user or (
+            invoice.is_settled and not create_correction
+        ):
+            raise Http404(_("Invoice does not exist"))
+    elif invoice.person:
+        if invoice.person.user != request.user or (
+            invoice.is_settled and not create_correction
+        ):
+            raise Http404(_("Invoice does not exist"))
+    else:
+        raise Exception(_("to sie nie powinno wydarzyc"))
+
+    if create_correction:
+        new_instance = clone(invoice)
+        new_instance.pk = None
+        new_instance.is_recurring = False
+        new_instance.is_settled = False
+        new_instance.invoice_number = create_correction_invoice_number(new_instance)
+    else:
+        new_instance = invoice
+
+    if request.method != "POST":
+        form = InvoiceSellPersonToClientForm(instance=new_instance, current_user=request.user)
+    else:
+        form = InvoiceSellPersonToClientForm(
+            instance=new_instance,
+            data=request.POST,
+            files=request.FILES,
+            current_user=request.user,
+            create_correction=create_correction,
+        )
+
+        if form.is_valid():
+            new_invoice = form.save(commit=False)
+            new_invoice.save()
+            if create_correction:
+                CorrectionInvoiceRelation.objects.get_or_create(
+                    invoice=invoice, correction_invoice=new_invoice
+                )
+
+            if create_correction:
+                return redirect("invoices:list_invoices")
+
+            return redirect("invoices:detail_invoice", invoice.pk)
+
+    context = {"invoice": invoice, "form": form, "create_correction": create_correction}
+    return render(request, "invoices/replace_sell_person_to_client_invoice.html", context)
+
+@login_required
 def replace_buy_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
@@ -213,8 +294,14 @@ def replace_buy_invoice_view(request, invoice_id):
 def delete_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.company.user != request.user:
-        raise Http404(_("Invoice does not exist"))
+    if invoice.company:
+        if invoice.company.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    elif invoice.person:
+        if invoice.person.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    else:
+        raise Exception(_("to sie nie powinno wydarzyc"))
 
     invoice.delete()
 
