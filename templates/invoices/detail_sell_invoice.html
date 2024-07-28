@@ -120,7 +120,11 @@
         <div class="row mt-2">
             <div class="col text-center">
                 {% if not invoice.is_settled %}
-                    <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                    {% if invoice.company %}
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                    {% else %}
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}">Edytuj</a>
+                    {% endif %}    
                     <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% endif %}
                 {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
