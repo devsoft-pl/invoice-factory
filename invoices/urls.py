@@ -10,6 +10,7 @@ from invoices.views import (
     pdf_invoice_view,
     replace_buy_invoice_view,
     replace_sell_invoice_view,
+    create_sell_person_to_client_invoice_view,
 )
 
 app_name = "invoices"
@@ -22,6 +23,11 @@ urlpatterns = [
         "create_sell_person_invoice/",
         create_sell_person_invoice_view,
         name="create_sell_person_invoice",
+    ),
+    path(
+        "create_sell_person_to_client_invoice/",
+        create_sell_person_to_client_invoice_view,
+        name="create_sell_person_to_client_invoice",
     ),
     path(
         "replace_sell_invoice/<int:invoice_id>/",
