@@ -221,6 +221,105 @@ class InvoiceSellPersonForm(forms.ModelForm):
         return sale_date
 
 
+class InvoiceSellPersonToClientForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = [
+            "invoice_number",
+            "person",
+            "client",
+            "create_date",
+            "sale_date",
+            "payment_date",
+            "payment_method",
+            "currency",
+            "account_number",
+            "is_recurring",
+            "is_last_day",
+            "is_paid",
+        ]
+
+    def __init__(self, current_user, create_correction=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_user = current_user
+        self.fields["person"].queryset = Person.objects.filter(user=current_user)
+        self.fields["client"].queryset = Company.objects.filter(
+            user=current_user, is_my_company=False
+        ).order_by("name")
+        self.fields["currency"].queryset = Currency.objects.filter(
+            user=current_user
+        ).order_by("code")
+
+        if (
+            not create_correction
+            and not CorrectionInvoiceRelation.objects.filter(
+                correction_invoice=self.instance
+            ).exists()
+        ):
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [invoice_number_validator]
+        else:
+            invoice_number_field: forms.CharField = self.fields["invoice_number"]
+            invoice_number_field.validators = [correction_invoice_number_validator]
+
+        account_number_field: forms.CharField = self.fields["account_number"]
+        account_number_field.validators = [account_number_validator]
+
+        if not self.data or self.data.get("payment_method") == str(
+            Invoice.CASH_PAYMENT
+        ):
+            self.fields["account_number"].required = False
+        else:
+            self.fields["account_number"].required = True
+
+        for field in self.Meta.fields:
+            if field == "is_paid":
+                continue
+            if field == "is_recurring":
+                continue
+            if field == "is_last_day":
+                continue
+            self.fields[field].widget.attrs["class"] = "form-control"
+
+        self.fields["create_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["sale_date"].widget.attrs["autocomplete"] = "off"
+        self.fields["payment_date"].widget.attrs["autocomplete"] = "off"
+
+    def clean_invoice_number(self):
+        invoice_number = self.cleaned_data.get("invoice_number")
+        is_recurring = self.data.get("is_recurring")
+
+        if not is_recurring and not invoice_number:
+            raise forms.ValidationError(_("This field is required."))
+
+        invoice = Invoice.objects.filter(
+            invoice_number=invoice_number,
+            person__user=self.current_user,
+            is_recurring=False,
+        )
+
+        if self.instance.pk:
+            invoice = invoice.exclude(pk=self.instance.pk)
+
+        if invoice.exists():
+            raise forms.ValidationError(_("Invoice number already exists"))
+
+        return invoice_number
+
+    def clean_sale_date(self):
+        sale_date = self.cleaned_data.get("sale_date")
+        is_last_day = self.data.get("is_last_day")
+        is_recurring = self.data.get("is_recurring")
+
+        if (
+            is_recurring
+            and is_last_day
+            and not is_sale_date_last_day_of_month(sale_date)
+        ):
+            raise forms.ValidationError(_("This field is not last dat of month."))
+        return sale_date
+
+
 class InvoiceRecurringForm(forms.ModelForm):
     class Meta:
         model = Invoice
