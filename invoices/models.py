@@ -49,7 +49,7 @@ class Invoice(models.Model):
         on_delete=models.CASCADE,
         related_name="invoices",
         null=True,
-        blank=True
+        blank=True,
     )
     person = models.ForeignKey(
         Person,

@@ -13,7 +13,8 @@ from invoices.forms import (
     InvoiceBuyForm,
     InvoiceFilterForm,
     InvoiceSellForm,
-    InvoiceSellPersonForm, InvoiceSellPersonToClientForm,
+    InvoiceSellPersonForm,
+    InvoiceSellPersonToClientForm,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
 
@@ -112,7 +113,9 @@ def create_sell_person_to_client_invoice_view(request):
     if request.method != "POST":
         form = InvoiceSellPersonToClientForm(current_user=request.user)
     else:
-        form = InvoiceSellPersonToClientForm(current_user=request.user, data=request.POST)
+        form = InvoiceSellPersonToClientForm(
+            current_user=request.user, data=request.POST
+        )
 
         if form.is_valid():
             invoice = form.save(commit=False)
@@ -123,7 +126,9 @@ def create_sell_person_to_client_invoice_view(request):
             return redirect("invoices:list_invoices")
 
     context = {"form": form}
-    return render(request, "invoices/create_sell_person_to_client_invoice.html", context)
+    return render(
+        request, "invoices/create_sell_person_to_client_invoice.html", context
+    )
 
 
 @login_required
@@ -215,7 +220,9 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
 
 
 @login_required
-def replace_sell_person_to_client_invoice_view(request, invoice_id, create_correction=False):
+def replace_sell_person_to_client_invoice_view(
+    request, invoice_id, create_correction=False
+):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
     if invoice.company:
@@ -241,7 +248,9 @@ def replace_sell_person_to_client_invoice_view(request, invoice_id, create_corre
         new_instance = invoice
 
     if request.method != "POST":
-        form = InvoiceSellPersonToClientForm(instance=new_instance, current_user=request.user)
+        form = InvoiceSellPersonToClientForm(
+            instance=new_instance, current_user=request.user
+        )
     else:
         form = InvoiceSellPersonToClientForm(
             instance=new_instance,
@@ -265,7 +274,10 @@ def replace_sell_person_to_client_invoice_view(request, invoice_id, create_corre
             return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": invoice, "form": form, "create_correction": create_correction}
-    return render(request, "invoices/replace_sell_person_to_client_invoice.html", context)
+    return render(
+        request, "invoices/replace_sell_person_to_client_invoice.html", context
+    )
+
 
 @login_required
 def replace_buy_invoice_view(request, invoice_id):
