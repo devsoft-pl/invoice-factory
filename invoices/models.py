@@ -48,6 +48,8 @@ class Invoice(models.Model):
         verbose_name=_("Company"),
         on_delete=models.CASCADE,
         related_name="invoices",
+        null=True,
+        blank=True
     )
     person = models.ForeignKey(
         Person,
