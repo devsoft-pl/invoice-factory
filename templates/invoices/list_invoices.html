@@ -35,7 +35,7 @@
                             <th>Lp.</th>
                             <th>Nr faktury</th>
                             <th>Typ faktury</th>
-                            <th>Firma</th>
+                            <th>Firma/Konsument</th>
                             <th>Kontrahent/Konsument</th>
                             <th>Data płatności</th>
                             <th>Wartość brutto</th>
@@ -51,7 +51,13 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ invoice }}</td>
                                 <td>{{ invoice.get_invoice_type_display }}</td>
-                                <td>{{ invoice.company.name }}</td>
+                                <td>
+                                    {% if invoice.company %}
+                                        {{ invoice.company.name }}
+                                    {% else %}
+                                        {{ invoice.person.full_name }}
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if invoice.client %}
                                         {{ invoice.client.name }}
@@ -109,12 +115,20 @@
         </div>
         <div class="btn-group dropdown">
             <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                Dodaj
+                Dodaj jako firma
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla firmy</a></li>
+                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
                 <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura sprzedażowa dla konsumenta</a></li>
                 <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
+            </ul>
+        </div>
+        <div class="btn-group dropdown">
+            <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Dodaj jako konsument
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_consumer_to_contractor_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
             </ul>
         </div>
         <div class="row">
