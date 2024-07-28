@@ -38,10 +38,15 @@
                     {% endif %}
                 </div>
             </div>
-        {% endif %}    
+        {% endif %}
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Moja firma:</div>
-            <div class="col-4">{{ invoice.company }}</div>
+            {% if invoice.company %}
+                <div class="col-3 offset-3 text-end">Moja firma:</div>
+                <div class="col-4">{{ invoice.company }}</div>
+            {% else%}
+                <div class="col-3 offset-3 text-end">Konsument:</div>
+                <div class="col-4">{{ invoice.person }}</div>
+            {% endif %}
         </div>
         <div class="row mb-2">
             {% if invoice.client %}
