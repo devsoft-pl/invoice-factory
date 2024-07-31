@@ -61,7 +61,7 @@ def detail_invoice_view(request, invoice_id):
         if invoice.person.user != request.user:
             raise Http404(_("Invoice does not exist"))
     else:
-        raise Exception(_("to sie nie powinno wydarzyc"))
+        raise Exception(_("This should not have happened"))
 
     context = {"invoice": invoice}
     if invoice.invoice_type == Invoice.INVOICE_SALES:
@@ -236,7 +236,7 @@ def replace_sell_person_to_client_invoice_view(
         ):
             raise Http404(_("Invoice does not exist"))
     else:
-        raise Exception(_("to sie nie powinno wydarzyc"))
+        raise Exception(_("This should not have happened"))
 
     if create_correction:
         new_instance = clone(invoice)
@@ -313,7 +313,7 @@ def delete_invoice_view(request, invoice_id):
         if invoice.person.user != request.user:
             raise Http404(_("Invoice does not exist"))
     else:
-        raise Exception(_("to sie nie powinno wydarzyc"))
+        raise Exception(_("This should not have happened"))
 
     invoice.delete()
 
@@ -324,8 +324,14 @@ def delete_invoice_view(request, invoice_id):
 def pdf_invoice_view(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.company.user != request.user:
-        raise Http404(_("Invoice does not exist"))
+    if invoice.company:
+        if invoice.company.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    elif invoice.person:
+        if invoice.person.user != request.user:
+            raise Http404(_("Invoice does not exist"))
+    else:
+        raise Exception(_("This should not have happened"))
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'

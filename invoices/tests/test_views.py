@@ -166,6 +166,7 @@ class TestCreateSellInvoice(TestInvoice):
         self.url = reverse("invoices:create_sell_invoice")
         self.company = CompanyFactory.create(user=self.user, is_my_company=True)
         self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.person = PersonFactory.create(user=self.user)
         self.currency = CurrencyFactory.create(user=self.user)
 
     def test_create_if_not_logged(self):
@@ -181,6 +182,9 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
             response.context["form"], "company", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "client", "This field is required."
         )
         self.assertFormError(
             response.context["form"], "create_date", "This field is required."
@@ -200,6 +204,32 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertTemplateUsed(response, "invoices/create_sell_person_invoice.html")
         self.assertFormError(
             response.context["form"], "company", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "person", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "currency", "This field is required."
+        )
+
+    def test_create_invalid_form_display_errors_for_person_to_client(self):
+        self.client.login(username=self.user.email, password="test")
+
+        url = reverse("invoices:create_sell_person_to_client_invoice")
+        response = self.client.post(url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invoices/create_sell_person_to_client_invoice.html"
+        )
+        self.assertFormError(
+            response.context["form"], "person", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "client", "This field is required."
         )
         self.assertFormError(
             response.context["form"], "create_date", "This field is required."
@@ -249,11 +279,10 @@ class TestCreateSellInvoice(TestInvoice):
     def test_create_with_valid_data_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
-        person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
             invoice_number="1/01/2023",
             company=self.company.pk,
-            person=person.pk,
+            person=self.person.pk,
             currency=self.currency.pk,
             account_number="111111111111111",
             is_recurring="",
@@ -283,6 +312,42 @@ class TestCreateSellInvoice(TestInvoice):
             invoices_before_create + 1,
         )
 
+    def test_create_with_valid_data_for_person_to_client(self):
+        self.client.login(username=self.user.email, password="test")
+
+        data = InvoiceSellDictFactory(
+            invoice_number="1/01/2023",
+            client=self.contractor.pk,
+            person=self.person.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
+        )
+        invoices_before_create = Invoice.objects.filter(
+            invoice_number=data["invoice_number"],
+            person__user=self.user,
+        ).count()
+
+        url = reverse("invoices:create_sell_person_to_client_invoice")
+
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"], person__user=self.user
+            ).exists()
+        )
+        self.assertEqual(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                person__user=self.user,
+            ).count(),
+            invoices_before_create + 1,
+        )
+
     def test_get_form_for_client(self):
         self.client.login(username=self.user.email, password="test")
 
@@ -294,6 +359,14 @@ class TestCreateSellInvoice(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         url = reverse("invoices:create_sell_person_invoice")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_form_for_person_to_client(self):
+        self.client.login(username=self.user.email, password="test")
+
+        url = reverse("invoices:create_sell_person_to_client_invoice")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
@@ -390,6 +463,9 @@ class TestReplaceSellInvoice(TestInvoice):
             response.context["form"], "company", "This field is required."
         )
         self.assertFormError(
+            response.context["form"], "client", "This field is required."
+        )
+        self.assertFormError(
             response.context["form"], "create_date", "This field is required."
         )
         self.assertFormError(
@@ -411,6 +487,38 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
         self.assertFormError(
             response.context["form"], "company", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "person", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "currency", "This field is required."
+        )
+
+    def test_replace_invalid_form_display_errors_for_person_to_client(self):
+        self.client.login(username=self.user.email, password="test")
+
+        person_invoice = InvoiceSellPersonFactory.create(
+            person__user=self.user, is_settled=False, company=self.contractor
+        )
+
+        url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[person_invoice.pk]
+        )
+        response = self.client.post(url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invoices/replace_sell_person_to_client_invoice.html"
+        )
+        self.assertFormError(
+            response.context["form"], "person", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "client", "This field is required."
         )
         self.assertFormError(
             response.context["form"], "create_date", "This field is required."
@@ -449,9 +557,7 @@ class TestReplaceSellInvoice(TestInvoice):
             ).exists()
         )
 
-    def test_replace_with_valid_data_for_person(
-        self,
-    ):
+    def test_replace_with_valid_data_for_person(self):
         self.client.login(username=self.user.email, password="test")
 
         person_invoice = InvoiceSellPersonFactory.create(
@@ -482,6 +588,44 @@ class TestReplaceSellInvoice(TestInvoice):
                 create_date=data["create_date"],
                 currency=data["currency"],
                 company__user=self.user,
+            ).exists()
+        )
+
+    def test_replace_with_valid_data_for_person_to_client(
+        self,
+    ):
+        self.client.login(username=self.user.email, password="test")
+
+        person_invoice = InvoiceSellPersonFactory.create(
+            person__user=self.user, is_settled=False, company=self.contractor
+        )
+        person = PersonFactory.create(user=self.user)
+
+        data = InvoiceSellDictFactory(
+            invoice_number="2/06/2023",
+            client=self.contractor.pk,
+            person=person.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
+        )
+
+        url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[person_invoice.pk]
+        )
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[person_invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                create_date=data["create_date"],
+                currency=data["currency"],
+                person__user=self.user,
             ).exists()
         )
 
