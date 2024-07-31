@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.17.0 (2024-07-31)
+
+### Feature
+
+* feat: add new translated ([`42fcf4a`](https://github.com/devsoft-pl/invoices/commit/42fcf4a336dd3356c6b01371eab481ff1d5584bb))
+
+* feat: add new field nip and pesel to model Person ([`27b6dc3`](https://github.com/devsoft-pl/invoices/commit/27b6dc349620797f1519cc17bbf4078cf4e52370))
+
 ## v0.16.0 (2024-07-31)
 
 ### Unknown
