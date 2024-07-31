@@ -66,6 +66,12 @@ class InvoiceSellForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
+        company_field: forms.CharField = self.fields["company"]
+        company_field.required = True
+
+        client_field: forms.CharField = self.fields["client"]
+        client_field.required = True
+
         if not self.data or self.data.get("payment_method") == str(
             Invoice.CASH_PAYMENT
         ):
@@ -166,6 +172,12 @@ class InvoiceSellPersonForm(forms.ModelForm):
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
 
+        company_field: forms.CharField = self.fields["company"]
+        company_field.required = True
+
+        person_field: forms.CharField = self.fields["person"]
+        person_field.required = True
+
         if not self.data or self.data.get("payment_method") == str(
             Invoice.CASH_PAYMENT
         ):
@@ -264,6 +276,12 @@ class InvoiceSellPersonToClientForm(forms.ModelForm):
 
         account_number_field: forms.CharField = self.fields["account_number"]
         account_number_field.validators = [account_number_validator]
+
+        client_field: forms.CharField = self.fields["client"]
+        client_field.required = True
+
+        person_field: forms.CharField = self.fields["person"]
+        person_field.required = True
 
         if not self.data or self.data.get("payment_method") == str(
             Invoice.CASH_PAYMENT
