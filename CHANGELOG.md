@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## v0.15.0 (2024-07-31)
+
+### Feature
+
+* feat: update pdf invoice with invoice for person to client ([`dec1aa7`](https://github.com/devsoft-pl/invoices/commit/dec1aa7e2f4a4374f3588c78b94798e262820cf1))
+
+* feat: add new form InvoiceSellPersonToClientForm ([`9ffbf5b`](https://github.com/devsoft-pl/invoices/commit/9ffbf5bffaad20ecc7a68e7a9833ab0150efa3ca))
+
+* feat: change appearance od header ([`db3a6ff`](https://github.com/devsoft-pl/invoices/commit/db3a6ffd4a327b78292dc9c06ea470996fdca8f0))
+
+* feat: update migration ([`f724007`](https://github.com/devsoft-pl/invoices/commit/f724007c4e6f99501b91266a9b99d289f9946158))
+
+* feat: update template by detail view when invoice is created of person for client ([`e481c5d`](https://github.com/devsoft-pl/invoices/commit/e481c5da0b41a4708f8966bff708acde658a3ba3))
+
+* feat: new template with create invoice person to client ([`1d0d122`](https://github.com/devsoft-pl/invoices/commit/1d0d122cdf835d3795e0168bb307c8bf6d6f4f14))
+
+* feat: add null=Treu and blank-Treu to field company ([`1198c75`](https://github.com/devsoft-pl/invoices/commit/1198c75d521741834efacefbc0f4fad2cee1310d))
+
+* feat: update migrate by new options ([`fadd2b3`](https://github.com/devsoft-pl/invoices/commit/fadd2b3230c965b80fcfc7ef1348950f84fe27ba))
+
+* feat: update tempalte by create invoice person to client ([`b137d07`](https://github.com/devsoft-pl/invoices/commit/b137d07a3ea304a85e939bc21bc208553393f942))
+
+* feat: add new form to view create invoice by person to client ([`8c61cf3`](https://github.com/devsoft-pl/invoices/commit/8c61cf3dd5a77a4710258092123df83cb3b3d998))
+
+* feat: add new method create invoice by person to client ([`c417d19`](https://github.com/devsoft-pl/invoices/commit/c417d196499bf28174a1fb3ae32616d837a52d5f))
+
+### Fix
+
+* fix: black, isort, flake8 ([`6522122`](https://github.com/devsoft-pl/invoices/commit/65221226f46026ee940105042909c76e9091f5f3))
+
+* fix: change view of template when invoice is created of person for client ([`01a5f9a`](https://github.com/devsoft-pl/invoices/commit/01a5f9a631a967a181be8a9204986bcf40f4bdf9))
+
+* fix: change url name ([`817f120`](https://github.com/devsoft-pl/invoices/commit/817f12053ff43cf68dd34e14350d0cdf83a0e580))
+
+* fix: change the redirection after logging in to the invoices ([`407bfb5`](https://github.com/devsoft-pl/invoices/commit/407bfb5fbab29e03f43d8dddfacc19459279442f))
+
+* fix: update breadcrumb when user have full name or not ([`996e3a3`](https://github.com/devsoft-pl/invoices/commit/996e3a3433cee2bdb2bf6d0a5eb609cf30d74b4a))
+
+### Unknown
+
+* feat:add new view replace_sell_person_to_client_invoice_view, create_sell_person_to_client_invoice_view and update mthod with delete, deatil and list invoices ([`9b661e6`](https://github.com/devsoft-pl/invoices/commit/9b661e6f7d76dc1436dcd115330d3e6bfb1bb243))
+
+* feat:add new url replace_sell_person_to_client_invoice ([`079efb6`](https://github.com/devsoft-pl/invoices/commit/079efb6333a81b11501c1e04f4c6a257dfd62b83))
+
+* feat:add new template for replace invoice when it was created by person for client ([`ee4ea3d`](https://github.com/devsoft-pl/invoices/commit/ee4ea3d7a65bd6cfe7a62faced1aa7069a8619f1))
+
 ## v0.14.3 (2024-07-25)
 
 ### Fix
