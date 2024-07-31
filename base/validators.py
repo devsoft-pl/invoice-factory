@@ -28,12 +28,12 @@ pesel_validator = RegexValidator(
 )
 
 regon_validator = RegexValidator(
-    r"^([0-9]{9}|[0-9]{14})$",
-    _("Please enter the REGON using numbers only, with a minimum of 9 characters"),
+    r"^([0-9]{9,14})$",
+    _("Please enter the REGON using minimum 9 numbers"),
 )
 
 currency_validator = RegexValidator(
-    r"^[a-zA-Z]{3}$", _("Please enter the country code using three letters")
+    r"^[a-zA-Z]{3}$", _("Please enter the country code using 3 letters")
 )
 
 account_number_validator = RegexValidator(
@@ -52,5 +52,5 @@ zip_code_validator = RegexValidator(
 )
 
 phone_number_validator = RegexValidator(
-    r"^[0-9]{9,}$", _("Please enter a phone number with 9 digits only")
+    r"^[0-9]{9,}$", _("Please enter a phone using minimum 9 numbers")
 )
