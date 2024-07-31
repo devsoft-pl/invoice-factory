@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-21 17:11+0200\n"
+"POT-Creation-Date: 2024-07-31 22:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,16 +25,16 @@ msgstr "Podstawowe informacje"
 msgid "Name"
 msgstr "Nazwa"
 
-#: accountants/models.py:9 companies/models.py:23 persons/models.py:17
+#: accountants/models.py:9 companies/models.py:23 persons/models.py:21
 #: summary_recipients/models.py:26 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
-#: accountants/models.py:11 companies/models.py:25 persons/models.py:19
+#: accountants/models.py:11 companies/models.py:25 persons/models.py:23
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:15 invoices/forms.py:283 invoices/models.py:48
+#: accountants/models.py:15 invoices/forms.py:400 invoices/models.py:48
 #: summary_recipients/models.py:21
 msgid "Company"
 msgstr "Firma"
@@ -73,15 +73,19 @@ msgid ""
 msgstr "Wprowadź NIP bez znaków specjalnych i zawierający co najmniej 8 znaków"
 
 #: base/validators.py:27
+msgid "Please enter Pesel with 11 numbers"
+msgstr "Wprowadź PESEL składający się z 11 cyfr"
+
+#: base/validators.py:32
 msgid ""
 "Please enter the REGON using numbers only, with a minimum of 9 characters"
 msgstr "Wprowadź REGON używając tylko cyfr, minimum 9 znaków"
 
-#: base/validators.py:31
+#: base/validators.py:36
 msgid "Please enter the country code using three letters"
-msgstr "Wprowadź kod kraju, używając trzech liter"
+msgstr "Wprowadź kod kraju, używając 3 liter"
 
-#: base/validators.py:37
+#: base/validators.py:42
 msgid ""
 "Please enter the account number with a minimum of 15 characters, excluding "
 "special characters"
@@ -89,11 +93,11 @@ msgstr ""
 "Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem "
 "znaków specjalnych"
 
-#: base/validators.py:46
+#: base/validators.py:51
 msgid "Please enter the zip code using numbers only in the format xx-xxx"
 msgstr "Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx"
 
-#: base/validators.py:50
+#: base/validators.py:55
 msgid "Please enter a phone number with 9 digits only"
 msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
@@ -113,7 +117,7 @@ msgstr "Nip już istnieje"
 msgid "Regon already exists"
 msgstr "Regon już istnieje"
 
-#: companies/models.py:11
+#: companies/models.py:11 persons/models.py:11
 msgid "NIP"
 msgstr "NIP"
 
@@ -121,24 +125,24 @@ msgstr "NIP"
 msgid "Regon"
 msgstr "Regon"
 
-#: companies/models.py:18 countries/models.py:8 persons/models.py:15
+#: companies/models.py:18 countries/models.py:8 persons/models.py:19
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:20 persons/forms.py:39 persons/models.py:11
+#: companies/models.py:20 persons/forms.py:49 persons/models.py:15
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:21 persons/models.py:12
+#: companies/models.py:21 persons/models.py:16
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:22 persons/models.py:13
+#: companies/models.py:22 persons/models.py:17
 msgid "City"
 msgstr "Miasto"
 
 #: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:175 persons/models.py:22 vat_rates/models.py:12
+#: invoices/models.py:177 persons/models.py:26 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
@@ -146,7 +150,7 @@ msgstr "Użytkownik"
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:38 persons/models.py:26
+#: companies/models.py:38 persons/models.py:30
 msgid "companies"
 msgstr "firmy"
 
@@ -164,7 +168,8 @@ msgid ""
 "Invoice-Factory"
 msgstr ""
 "Status kontrahenta o NIP: %(company_nip)s w CEIDG jest nieaktywny.\n"
-"Sprawdź ponownie dane kontrahenta\n\n"
+"Sprawdź ponownie dane kontrahenta\n"
+"\n"
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
@@ -204,7 +209,7 @@ msgstr "Kurs sprzedaży"
 msgid "Date"
 msgstr "Data"
 
-#: currencies/models.py:52 invoices/models.py:82
+#: currencies/models.py:52 invoices/models.py:84
 msgid "Currency"
 msgstr "Waluta"
 
@@ -224,31 +229,32 @@ msgstr "Zaawansowane opcje"
 msgid "Additional options"
 msgstr "Dodatkowe opcje"
 
-#: invoices/forms.py:94
+#: invoices/forms.py:100
 msgid "This field is required"
 msgstr "To pole jest wymagane"
 
-#: invoices/forms.py:106 invoices/forms.py:206 invoices/forms.py:272
+#: invoices/forms.py:112 invoices/forms.py:218 invoices/forms.py:323
+#: invoices/forms.py:389
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:120 invoices/forms.py:220
+#: invoices/forms.py:126 invoices/forms.py:232 invoices/forms.py:337
 msgid "This field is not last dat of month."
 msgstr "Data sprzedaży nie jest ostatnim dniem miesiąca"
 
-#: invoices/forms.py:194
+#: invoices/forms.py:206 invoices/forms.py:311
 msgid "This field is required."
 msgstr "To pole jest wymagane"
 
-#: invoices/forms.py:278 invoices/models.py:41
+#: invoices/forms.py:395 invoices/models.py:41
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:280 invoices/models.py:44
+#: invoices/forms.py:397 invoices/models.py:44
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:282 invoices/models.py:92
+#: invoices/forms.py:399 invoices/models.py:94
 msgid "Client"
 msgstr "Kontrahent"
 
@@ -268,111 +274,120 @@ msgstr "Przelew"
 msgid "Cash"
 msgstr "Gotówka"
 
-#: invoices/models.py:54
+#: invoices/models.py:56
 msgid "Person"
 msgstr "Konsument"
 
-#: invoices/models.py:60
+#: invoices/models.py:62
 msgid "Recurring"
 msgstr "Cykliczna"
 
-#: invoices/models.py:62
+#: invoices/models.py:64
 msgid "Last day in month"
 msgstr "Ostatni dzień miesiąca"
 
-#: invoices/models.py:64
+#: invoices/models.py:66
 msgid "Settled"
 msgstr "Rozliczona"
 
-#: invoices/models.py:66
+#: invoices/models.py:68
 msgid "Settlement date"
 msgstr "Data rozliczenia"
 
-#: invoices/models.py:69
+#: invoices/models.py:71
 msgid "Create date"
 msgstr "Data utworzenia"
 
-#: invoices/models.py:72
+#: invoices/models.py:74
 msgid "Sale date"
 msgstr "Data sprzedaży"
 
-#: invoices/models.py:75
+#: invoices/models.py:77
 msgid "Payment date"
 msgstr "Data płatności"
 
-#: invoices/models.py:78
+#: invoices/models.py:80
 msgid "Payment method"
 msgstr "Rodzaj płatności"
 
-#: invoices/models.py:88
+#: invoices/models.py:90
 msgid "Account number"
 msgstr "Numer konta"
 
-#: invoices/models.py:99
+#: invoices/models.py:101
 msgid "Invoice file"
 msgstr "Typ faktury"
 
-#: invoices/models.py:101
+#: invoices/models.py:103
 msgid "Paid"
 msgstr "Opłacona"
 
-#: invoices/models.py:103
+#: invoices/models.py:105
 msgid "Net amount"
 msgstr "Kwota netto"
 
-#: invoices/models.py:106
+#: invoices/models.py:108
 msgid "Gross_amount"
 msgstr "Kwota brutto"
 
-#: invoices/models.py:172 reports/forms.py:18
+#: invoices/models.py:174 reports/forms.py:18
 msgid "Year"
 msgstr "Rok"
 
-#: invoices/models.py:193 items/models.py:13
+#: invoices/models.py:195 items/models.py:13
 msgid "Invoice"
 msgstr "Faktura"
 
-#: invoices/models.py:199
+#: invoices/models.py:201
 msgid "Correction Invoice"
 msgstr "Faktura korygująca"
 
-#: invoices/models.py:205
+#: invoices/models.py:207
 msgid "correction invoices relation"
 msgstr "relacja faktur korygujących"
 
-#: invoices/tasks.py:81
+#: invoices/tasks.py:87
 #, python-format
 msgid "New recurring invoice %(nr)s"
 msgstr "Nowa cykliczna faktura %(nr)s"
 
-#: invoices/tasks.py:83
+#: invoices/tasks.py:89
 msgid ""
 "A new recurring invoice has been created\n"
 "Best regards,\n"
 "Invoice-Factory"
 msgstr ""
-"Utworzono nową fakturę cykliczną\n\n"
+"Utworzono nową fakturę cykliczną\n"
+"\n"
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
-#: invoices/tasks.py:157
+#: invoices/tasks.py:163
 msgid "Month summary"
 msgstr "Podsumowanie miesiąca"
 
-#: invoices/tasks.py:159
+#: invoices/tasks.py:165
 msgid ""
 "A monthly summary has been created for company\n"
 "Best regards,\n"
 "Invoice-Factory"
 msgstr ""
-"Dla firmy zostało stworzone miesięczne podsumowanie\n\n"
+"Dla firmy zostało stworzone miesięczne podsumowanie\n"
+"\n"
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
-#: invoices/views.py:53 invoices/views.py:144 invoices/views.py:193
-#: invoices/views.py:216 invoices/views.py:228
+#: invoices/views.py:59 invoices/views.py:62 invoices/views.py:178
+#: invoices/views.py:232 invoices/views.py:237 invoices/views.py:287
+#: invoices/views.py:311 invoices/views.py:314 invoices/views.py:329
+#: invoices/views.py:332
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
+
+#: invoices/views.py:64 invoices/views.py:239 invoices/views.py:316
+#: invoices/views.py:334
+msgid "This should not have happened"
+msgstr ""
 
 #: items/models.py:18
 msgid "PWKiU"
@@ -402,13 +417,17 @@ msgstr "Informacje o konsumencie"
 msgid "Additional information"
 msgstr "Dodatkowe opcje"
 
-#: persons/forms.py:37 persons/models.py:9 users/models.py:15
+#: persons/forms.py:47 persons/models.py:9 users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: persons/forms.py:38 persons/models.py:10 users/models.py:16
+#: persons/forms.py:48 persons/models.py:10 users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
+
+#: persons/models.py:13
+msgid "PESEL"
+msgstr "PESEL"
 
 #: persons/views.py:41 persons/views.py:99 persons/views.py:120
 msgid "Person does not exist"
@@ -491,8 +510,11 @@ msgid ""
 "Best regards,\n"
 "Invoice-Factory"
 msgstr ""
-"Dziękujemy za rejestrację w Invoice-Factory. \n\nDane Twojego konta: \n"
-"Logowanie: {email} \n\n"
+"Dziękujemy za rejestrację w Invoice-Factory. \n"
+"\n"
+"Dane Twojego konta: \n"
+"Logowanie: {email} \n"
+"\n"
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
