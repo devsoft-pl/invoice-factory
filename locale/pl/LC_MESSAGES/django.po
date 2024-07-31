@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 22:46+0200\n"
+"POT-Creation-Date: 2024-07-31 23:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,8 +58,7 @@ msgid ""
 "Please enter the invoice number in numeric format only, following the "
 "pattern number/mm/yyyy"
 msgstr ""
-"Wprowadź numer faktury w formacie numerycznym, zgodnie ze wzorem numer/mm/"
-"rrrr"
+"Wprowadź numer faktury w formacie numer/mm/rrrr"
 
 #: base/validators.py:14
 msgid ""
@@ -77,29 +76,27 @@ msgid "Please enter Pesel with 11 numbers"
 msgstr "Wprowadź PESEL składający się z 11 cyfr"
 
 #: base/validators.py:32
-msgid ""
-"Please enter the REGON using numbers only, with a minimum of 9 characters"
-msgstr "Wprowadź REGON używając tylko cyfr, minimum 9 znaków"
+msgid "Please enter the REGON using minimum 9 numbers"
+msgstr "Wprowadź REGON składający się z minimum 9 cyfr"
 
 #: base/validators.py:36
-msgid "Please enter the country code using three letters"
-msgstr "Wprowadź kod kraju, używając 3 liter"
+msgid "Please enter the country code using 3 letters"
+msgstr "Wprowadź kod kraju używając 3 liter"
 
 #: base/validators.py:42
 msgid ""
 "Please enter the account number with a minimum of 15 characters, excluding "
 "special characters"
 msgstr ""
-"Wprowadź numer konta składający się z co najmniej 15 znaków, z wyłączeniem "
-"znaków specjalnych"
+"Wprowadź numer konta bez znaków specjalnych i zawierający co najmniej 15 znaków"
 
 #: base/validators.py:51
 msgid "Please enter the zip code using numbers only in the format xx-xxx"
-msgstr "Wprowadź kod pocztowy, używając tylko cyfr w formacie xx-xxx"
+msgstr "Wprowadź kod pocztowy używając tylko cyfr w formacie xx-xxx"
 
 #: base/validators.py:55
-msgid "Please enter a phone number with 9 digits only"
-msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
+msgid "Please enter a phone using minimum 9 numbers"
+msgstr "Wprowadź PESEL składający się z 11 cyfr"
 
 #: companies/admin.py:15
 msgid "User info"
@@ -387,7 +384,7 @@ msgstr "Faktura nie istnieje"
 #: invoices/views.py:64 invoices/views.py:239 invoices/views.py:316
 #: invoices/views.py:334
 msgid "This should not have happened"
-msgstr ""
+msgstr "To nie powinno się zdarzyć"
 
 #: items/models.py:18
 msgid "PWKiU"
@@ -533,6 +530,9 @@ msgstr "Stawka VAT"
 #: vat_rates/views.py:77 vat_rates/views.py:100
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid "Please enter a phone number with 9 digits only"
+#~ msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
 
 #~ msgid "Enter the first_name in letters only"
 #~ msgstr "Wprowadź imię wyłącznie literami"
