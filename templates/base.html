@@ -51,19 +51,19 @@
                                             <a class="nav-link {% if current_module == "invoices" %} active{% endif %}" aria-current="page" href="{% url 'invoices:list_invoices' %}">Faktury</a>
                                         </li>
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Firma</a>
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Współpraca</a>
                                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                                 <li><a class="dropdown-item" href="{% url 'companies:list_my_companies' %}">Moje firmy</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'currencies:list_currencies' %}">Waluty</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'countries:list_countries' %}">Kraje</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'companies:list_companies' %}">Kontrahenci</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'persons:list_persons' %}">Konsumenci</a></li>
                                             </ul>
                                         </li>
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Współpraca</a>
+                                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ustawienia</a>
                                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                                <li><a class="dropdown-item" href="{% url 'companies:list_companies' %}">Kontrahenci</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'persons:list_persons' %}">Konsumenci</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'currencies:list_currencies' %}">Waluty</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'vat_rates:list_vat_rates' %}">Stawki VAT</a></li>
+                                                <li><a class="dropdown-item" href="{% url 'countries:list_countries' %}">Kraje</a></li>
                                             </ul>
                                         </li>
                                         <li class="nav-item"><a class="nav-link{% if current_module == "reports" %} active{% endif %}" href="{% url 'reports:list_reports' %}">Raporty</a></li>
