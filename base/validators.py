@@ -22,6 +22,11 @@ nip_validator = RegexValidator(
     ),
 )
 
+pesel_validator = RegexValidator(
+    r"^[0-9]{11}$",
+    _("Please enter Pesel with 11 numbers"),
+)
+
 regon_validator = RegexValidator(
     r"^([0-9]{9}|[0-9]{14})$",
     _("Please enter the REGON using numbers only, with a minimum of 9 characters"),

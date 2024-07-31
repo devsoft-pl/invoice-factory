@@ -133,6 +133,8 @@ class TestCreatePerson(TestPerson):
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
+            nip="123456789",
+            pesel="83071415362",
             zip_code="01-453",
             city="Warszawa",
             country=country.pk,
@@ -143,6 +145,8 @@ class TestCreatePerson(TestPerson):
         persons_before_create = Person.objects.filter(
             first_name=data["first_name"],
             last_name=data["last_name"],
+            nip=data["nip"],
+            pesel=data["pesel"],
             address=data["address"],
             zip_code=data["zip_code"],
             city=data["city"],
@@ -167,6 +171,8 @@ class TestCreatePerson(TestPerson):
             Person.objects.filter(
                 first_name=data["first_name"],
                 last_name=data["last_name"],
+                nip=data["nip"],
+                pesel=data["pesel"],
                 address=data["address"],
                 zip_code=data["zip_code"],
                 city=data["city"],
@@ -226,6 +232,8 @@ class TestCreatePersonAjax(TestPerson):
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
+            nip="123456789",
+            pesel="83071415362",
             zip_code="01-453",
             city="Warszawa",
             country=country.pk,
@@ -236,6 +244,8 @@ class TestCreatePersonAjax(TestPerson):
         persons_before_create = Person.objects.filter(
             first_name=data["first_name"],
             last_name=data["last_name"],
+            nip=data["nip"],
+            pesel=data["pesel"],
             address=data["address"],
             zip_code=data["zip_code"],
             city=data["city"],
@@ -251,6 +261,8 @@ class TestCreatePersonAjax(TestPerson):
             Person.objects.filter(
                 first_name=data["first_name"],
                 last_name=data["last_name"],
+                nip=data["nip"],
+                pesel=data["pesel"],
                 address=data["address"],
                 zip_code=data["zip_code"],
                 city=data["city"],
@@ -308,6 +320,8 @@ class TestReplacePerson(TestPerson):
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
+            nip="123456789",
+            pesel="83071415362",
             zip_code="01-453",
             city="Warszawa",
             country=country.pk,
@@ -323,6 +337,8 @@ class TestReplacePerson(TestPerson):
             Person.objects.filter(
                 first_name=data["first_name"],
                 last_name=data["last_name"],
+                nip=data["nip"],
+                pesel=data["pesel"],
                 address=data["address"],
                 zip_code=data["zip_code"],
                 city=data["city"],

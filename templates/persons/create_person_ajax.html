@@ -27,6 +27,24 @@
             </div>
         {% endif %}
         <div class="row mb-2">
+            <div class="col-2 offset-3 text-end my-auto">{{ form.nip.label_tag }}</div>
+            <div class="col-3">{{ form.nip }}</div>
+        </div>
+        {% if form.nip.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.nip.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-2 offset-3 text-end my-auto">{{ form.pesel.label_tag }}</div>
+            <div class="col-3">{{ form.pesel }}</div>
+        </div>
+        {% if form.pesel.errors %}
+            <div class="row">
+                <div class="col-auto offset-5 text-danger">{{ form.pesel.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
             <div class="col-2 offset-3 text-end my-auto">{{ form.address.label_tag }}</div>
             <div class="col-4">{{ form.address }}</div>
         </div>

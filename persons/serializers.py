@@ -10,6 +10,8 @@ class PersonSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
+            "nip",
+            "pesel",
             "address",
             "zip_code",
             "city",

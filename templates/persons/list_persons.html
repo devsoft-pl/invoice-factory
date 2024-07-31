@@ -35,9 +35,9 @@
                             <th>Lp.</th>
                             <th>Imię</th>
                             <th>Nazwisko</th>
+                            <th>NIP</th>
+                            <th>PESEL</th>
                             <th>Adres</th>
-                            <th>Email</th>
-                            <th>Numer telefonu</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -47,17 +47,9 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ person.first_name }}</td>
                                 <td>{{ person.last_name }}</td>
+                                <td>{{ person.nip|default_if_none:"-" }}</td>
+                                <td>{{ person.pesel|default_if_none:"-" }}</td>
                                 <td>{{ person.address }}, {{ person.zip_code }} {{ person.city }}</td>
-                                {% if person.email %}
-                                    <td>{{ person.email }}</td>
-                                {% else %}
-                                    <td>-</td>
-                                {% endif %}
-                                {% if person.phone_number %}
-                                    <td>{{ person.phone_number }}</td>
-                                {% else %}
-                                    <td>-</td>
-                                {% endif %}
                                 <td>
                                     <a href="{% url 'persons:detail_person' person.pk %}">Więcej</a>
                                     <a href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>

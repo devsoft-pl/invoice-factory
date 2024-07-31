@@ -8,6 +8,10 @@ from users.models import User
 class Person(models.Model):
     first_name = models.CharField(_("First name"), max_length=75)
     last_name = models.CharField(_("Last name"), max_length=75)
+    nip = models.CharField(verbose_name=_("NIP"), max_length=13, blank=True, null=True)
+    pesel = models.CharField(
+        verbose_name=_("PESEL"), max_length=11, blank=True, null=True
+    )
     address = models.CharField(verbose_name=_("Address"), max_length=100)
     zip_code = models.CharField(verbose_name=_("ZIP Code"), max_length=10)
     city = models.CharField(verbose_name=_("City"), max_length=60)

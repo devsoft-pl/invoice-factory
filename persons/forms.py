@@ -1,7 +1,12 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from base.validators import phone_number_validator, zip_code_validator
+from base.validators import (
+    nip_validator,
+    pesel_validator,
+    phone_number_validator,
+    zip_code_validator,
+)
 from countries.models import Country
 from persons.models import Person
 
@@ -12,6 +17,8 @@ class PersonForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
+            "nip",
+            "pesel",
             "address",
             "zip_code",
             "city",
@@ -32,6 +39,8 @@ class PersonForm(forms.ModelForm):
 
         self.fields["zip_code"].validators = [zip_code_validator]
         self.fields["phone_number"].validators = [phone_number_validator]
+        self.fields["nip"].validators = [nip_validator]
+        self.fields["pesel"].validators = [pesel_validator]
 
 
 class PersonFilterForm(forms.Form):

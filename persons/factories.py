@@ -11,6 +11,8 @@ class PersonFactory(factory.django.DjangoModelFactory):
 
     first_name = factory.Sequence(lambda n: "First name %03d" % n)
     last_name = factory.Sequence(lambda n: "Last name %03d" % n)
+    nip = factory.Sequence(lambda n: "Nip %03d" % n)
+    pesel = factory.Sequence(lambda n: "Pesel %03d" % n)
     address = factory.Sequence(lambda n: "Address %03d" % n)
     zip_code = factory.Sequence(lambda n: "Zip %03d" % n)
     city = factory.Sequence(lambda n: "City %03d" % n)
@@ -23,6 +25,8 @@ class PersonFactory(factory.django.DjangoModelFactory):
 class PersonDictFactory(factory.DictFactory):
     first_name = factory.Sequence(lambda n: "First name %03d" % n)
     last_name = factory.Sequence(lambda n: "Last name %03d" % n)
+    nip = factory.Sequence(lambda n: "Nip %03d" % n)
+    pesel = factory.Sequence(lambda n: "Pesel %03d" % n)
     address = factory.Sequence(lambda n: "Address %03d" % n)
     zip_code = factory.Sequence(lambda n: "Zip %03d" % n)
     city = factory.Sequence(lambda n: "City %03d" % n)

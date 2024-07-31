@@ -26,6 +26,14 @@
             <div class="col-4">{{ person.last_name }}</div>
         </div>
         <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">NIP:</div>
+            <div class="col-4">{{ person.nip|default_if_none:"-" }}</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3 offset-3 text-end">Pesel:</div>
+            <div class="col-4">{{ person.pesel|default_if_none:"-" }}</div>
+        </div>
+        <div class="row mb-2">
             <div class="col-3 offset-3 text-end">Adres:</div>
             <div class="col-4">{{ person.address }}</div>
         </div>

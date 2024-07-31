@@ -17,6 +17,8 @@ class TestPersonForm:
         self.person_1 = PersonFactory.create(
             first_name="Mateusz",
             last_name="Maciejewski",
+            nip="123456789",
+            pesel="83071415362",
             address="Makowa 1",
             zip_code="01-234",
             city="Warszawa",
@@ -28,6 +30,8 @@ class TestPersonForm:
         self.person_2 = PersonFactory.create(
             first_name="Orfeusz",
             last_name="Tomaszewski",
+            nip="987654321",
+            pesel="85081515363",
             address="Skokowa 3",
             zip_code="05-678",
             city="Wrocław",
@@ -126,6 +130,8 @@ class TestPersonForm:
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
+            nip="123456789",
+            pesel="83071415362",
             zip_code="01-450",
             city="Warszawa",
             country=self.country,
@@ -145,6 +151,10 @@ class TestPersonForm:
 
         is_valid = form.is_valid()
         assert form.errors == {
+            "nip": [
+                "Please enter the tax ID without special characters and with a minimum of 8 characters"
+            ],
+            "pesel": ["Please enter Pesel with 11 numbers"],
             "zip_code": [
                 "Please enter the zip code using numbers only in the format xx-xxx"
             ],
