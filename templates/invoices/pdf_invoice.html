@@ -100,23 +100,43 @@
 <table>
     <tr>
         <td class="information" style="width:18%">SPRZEDAWCA:</td>
-        <td class="specific-information">{{ invoice.company.name }}</td>
+        <td class="specific-information">
+            {% if invoice.company %}
+                {{ invoice.company.name }}
+            {% else %}
+                {{ invoice.person.full_name }}
+            {% endif %}
+        </td>
         <td class="information" style="width:18%">NABYWCA:</td>
-        {% if invoice.person %}
-            <td class="specific-information">{{ invoice.person.full_name }}</td>
-        {% else %}
-            <td class="specific-information">{{ invoice.client.name }}</td>
-        {% endif %}
+        <td class="specific-information">
+            {% if invoice.client %}
+                {{ invoice.client.name }}
+            {% else %}
+                {{ invoice.person.full_name }}
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
-        <td class="specific-information" >{{ invoice.company.address }} <br />{{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}</td>
+        <td class="specific-information">
+            {% if invoice.company %}
+                {{ invoice.company.address }} <br />
+                {{ invoice.company.zip_code }} {{ invoice.company.city }}, {{ invoice.company.country }}
+            {% else %}
+                {{ invoice.person.address }} <br />
+                {{ invoice.person.zip_code }} {{ invoice.person.city }}, {{ invoice.person.country }}
+            {% endif %}
+        </td>
         <td class="information" style="width:18%; vertical-align: top">ADRES:</td>
-        {% if invoice.person %}
-            <td class="specific-information">{{ invoice.person.address }} <br />{{ invoice.person.zip_code }} {{ invoice.person.city }}, {{ invoice.person.country }}</td>
-        {% else %}
-            <td class="specific-information">{{ invoice.client.address }} <br />{{ invoice.client.zip_code }} {{ invoice.client.city }}, {{ invoice.client.country }}</td>
-        {% endif %}
+        <td class="specific-information">
+            {% if invoice.client %}
+                {{ invoice.client.address }} <br />
+                {{ invoice.client.zip_code }} {{ invoice.client.city }}, {{ invoice.client.country }}
+            {% else %}
+                {{ invoice.person.address }} <br />
+                {{ invoice.person.zip_code }} {{ invoice.person.city }}, {{ invoice.person.country }}
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <td style="width:15%"></td>
@@ -125,16 +145,26 @@
         <td></td>
     </tr>
     <tr>
-        <td class="information" style="width:18%">NIP:</td>
-        <td class="specific-information">{{ invoice.company.nip }}</td>
+        {% if invoice.company %}
+            <td class="information" style="width:18%">NIP:</td>
+            <td class="specific-information">{{ invoice.company.nip }}</td>
+        {% else %}
+            <td style="width:15%"></td>
+            <td></td>
+        {% endif %}
         {% if invoice.client %}
             <td class="information" style="width:18%">NIP:</td>
             <td class="specific-information">{{ invoice.client.nip }}</td>
         {% endif %}
     </tr>
     <tr>
-        <td class="information" style="width:18%">REGON:</td>
-        <td class="specific-information">{{ invoice.company.regon }}</td>
+        {% if invoice.company %}
+            <td class="information" style="width:18%">REGON:</td>
+            <td class="specific-information">{{ invoice.company.regon }}</td>
+        {% else %}
+            <td style="width:15%"></td>
+            <td></td>
+        {% endif %}
         {% if invoice.client %}
             <td class="information" style="width:18%">REGON:</td>
             <td class="specific-information">{{ invoice.client.regon }}</td>
