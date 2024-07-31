@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.16.0 (2024-07-31)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`a531c41`](https://github.com/devsoft-pl/invoices/commit/a531c4153867409e3f02a7f87cc63b16d6f3e5c6))
+
 ## v0.15.0 (2024-07-31)
 
 ### Feature
+
+* feat: add new view when invoice when create by consumer to contractor ([`292d6e0`](https://github.com/devsoft-pl/invoices/commit/292d6e0ec41fc74868e2c503c4333f9105abb923))
 
 * feat: update pdf invoice with invoice for person to client ([`dec1aa7`](https://github.com/devsoft-pl/invoices/commit/dec1aa7e2f4a4374f3588c78b94798e262820cf1))
 
