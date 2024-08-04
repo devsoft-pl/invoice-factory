@@ -148,8 +148,8 @@ class TestPersonForm:
     def test_form_with_not_valid_data(self):
         data = PersonDictFactory(country=self.country)
         form = PersonForm(data=data, current_user=self.user)
-
         is_valid = form.is_valid()
+
         assert form.errors == {
             "nip": [
                 "Please enter the tax ID without special characters and with a minimum of 8 characters"
@@ -158,7 +158,7 @@ class TestPersonForm:
             "zip_code": [
                 "Please enter the zip code using numbers only in the format xx-xxx"
             ],
-            "phone_number": ["Please enter a phone number with 9 digits only"],
+            "phone_number": ["Please enter a phone using minimum 9 numbers"],
         }
         assert not is_valid
 
