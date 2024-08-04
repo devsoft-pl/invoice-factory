@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.18.0 (2024-08-04)
+
+### Feature
+
+* feat: add to method filter for person_user ([`8d69cb6`](https://github.com/devsoft-pl/invoices/commit/8d69cb6f3e23b2005782afb8425f22dddca857aa))
+
+* feat: chenage name od button ([`6d33160`](https://github.com/devsoft-pl/invoices/commit/6d331600283d75780bc2924c6ad7b56cf216dfff))
+
+* feat: update validators ([`4d15adf`](https://github.com/devsoft-pl/invoices/commit/4d15adf9093603dbf05ab85014102abc9675c63c))
+
+* feat: add new translated ([`3e16203`](https://github.com/devsoft-pl/invoices/commit/3e16203c5d4d629df705974953de7323f3ee4e30))
+
+### Fix
+
+* fix: fix tests ([`2c9bacc`](https://github.com/devsoft-pl/invoices/commit/2c9bacc828eb63839b42d84d103802b83d23e2b7))
+
 ## v0.17.0 (2024-07-31)
 
 ### Feature
