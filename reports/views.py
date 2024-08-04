@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render
 
 from invoices.models import Invoice, Year
@@ -31,12 +32,16 @@ def list_reports_view(request):
 
     net_invoices = list(
         Invoice.objects.filter(
-            company__user=request.user, sale_date__year=year.year, is_recurring=False
+            Q(company__user=request.user, sale_date__year=year.year, is_recurring=False)
+            | Q(
+                person__user=request.user, sale_date__year=year.year, is_recurring=False
+            )
         )
         .sales()
         .with_months()
         .with_sum("net_amount")
     )
+
     net_invoices = get_sum_invoices_per_month(net_invoices)
 
     net_sum_per_month = dict(
@@ -46,12 +51,16 @@ def list_reports_view(request):
 
     gross_invoices = list(
         Invoice.objects.filter(
-            company__user=request.user, sale_date__year=year.year, is_recurring=False
+            Q(company__user=request.user, sale_date__year=year.year, is_recurring=False)
+            | Q(
+                person__user=request.user, sale_date__year=year.year, is_recurring=False
+            )
         )
         .sales()
         .with_months()
         .with_sum("gross_amount")
     )
+
     gross_invoices = get_sum_invoices_per_month(gross_invoices)
 
     gross_sum_per_month = dict(
