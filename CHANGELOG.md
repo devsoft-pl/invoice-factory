@@ -1,8 +1,18 @@
 # CHANGELOG
 
+## v0.19.0 (2024-08-05)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`c7fb7c2`](https://github.com/devsoft-pl/invoices/commit/c7fb7c2be20ff9c276f0b2259574922feef87e1d))
+
 ## v0.18.0 (2024-08-04)
 
 ### Feature
+
+* feat: add test to user not sent email when user without email ([`dfc7676`](https://github.com/devsoft-pl/invoices/commit/dfc7676f633483f7a07be528b048e9b0449a5a24))
+
+* feat: add new tests to InvoiceSellPersonToClientForm ([`8e0be2a`](https://github.com/devsoft-pl/invoices/commit/8e0be2ae137be6d4f2d443b51ce00ceaf55bcb94))
 
 * feat: add to method filter for person_user ([`8d69cb6`](https://github.com/devsoft-pl/invoices/commit/8d69cb6f3e23b2005782afb8425f22dddca857aa))
 
