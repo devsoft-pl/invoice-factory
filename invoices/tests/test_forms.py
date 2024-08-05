@@ -17,6 +17,7 @@ from invoices.forms import (
     InvoiceFilterForm,
     InvoiceSellForm,
     InvoiceSellPersonForm,
+    InvoiceSellPersonToClientForm,
     is_sale_date_last_day_of_month,
 )
 from invoices.models import Invoice
@@ -257,6 +258,43 @@ class TestSellInvoiceForm:
         assert not is_valid
 
     @pytest.mark.parametrize(
+        "validator, create_correction",
+        [
+            [
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
+                False,
+            ],
+            [
+                "Please enter the correction invoice number in the format number/mm/yyyy/c",
+                True,
+            ],
+        ],
+    )
+    def test_form_with_not_valid_data_for_person_to_client(
+        self, validator, create_correction
+    ):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            person=person,
+            client=self.client_1,
+            is_recurring=False,
+            is_last_day=False,
+        )
+        form = InvoiceSellPersonToClientForm(
+            data=data, current_user=self.user, create_correction=create_correction
+        )
+        is_valid = form.is_valid()
+
+        assert form.errors == {
+            "invoice_number": [validator],
+            "currency": ["This field is required."],
+            "account_number": [
+                "Please enter the account number with a minimum of 15 characters, excluding special characters"
+            ],
+        }
+        assert not is_valid
+
+    @pytest.mark.parametrize(
         "invoice_number, create_correction",
         [["1/03/2023", False], ["1/04/2023/k", True]],
     )
@@ -303,6 +341,32 @@ class TestSellInvoiceForm:
         assert form.errors == {}
         assert is_valid
 
+    @pytest.mark.parametrize(
+        "invoice_number, create_correction",
+        [["1/08/2023", False], ["1/12/2023/k", True]],
+    )
+    def test_invoice_sell_person_to_client_valid_data(
+        self, invoice_number, create_correction
+    ):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            person=person,
+            client=self.client_1,
+            currency=self.currency_1,
+            invoice_number=invoice_number,
+            account_number="111111111111111",
+            is_recurring=False,
+            is_last_day=False,
+        )
+
+        form = InvoiceSellPersonToClientForm(
+            current_user=self.user, data=data, create_correction=create_correction
+        )
+        is_valid = form.is_valid()
+
+        assert form.errors == {}
+        assert is_valid
+
     def test_clean_invoice_number_returns_error_when_invoice_exists(self):
         data = InvoiceSellDictFactory(
             invoice_number=self.invoice_1.invoice_number,
@@ -334,6 +398,34 @@ class TestSellInvoiceForm:
         )
 
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": ["Invoice number already exists"],
+        }
+
+    def test_clean_invoice_number_returns_error_when_invoice_exists_for_person_to_client(
+        self,
+    ):
+        person = PersonFactory.create(user=self.user)
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/07/2022",
+            person=person,
+            client=self.client_1,
+            is_recurring=False,
+            is_last_day=False,
+        )
+        data = InvoiceSellDictFactory(
+            invoice_number=invoice.invoice_number,
+            person=person,
+            client=self.client_1,
+            currency=self.currency_1,
+            account_number="111111111111111",
+            is_recurring=False,
+            is_last_day=False,
+        )
+
+        form = InvoiceSellPersonToClientForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {
@@ -373,6 +465,28 @@ class TestSellInvoiceForm:
         )
 
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
+
+        assert not form.is_valid()
+        assert form.errors == {
+            "invoice_number": [
+                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
+            ],
+            "sale_date": ["This field is not last dat of month."],
+        }
+
+    def test_clean_sale_date_returns_error_for_person_to_client(self):
+        person = PersonFactory.create(user=self.user)
+        data = InvoiceSellDictFactory(
+            person=person,
+            client=self.client_1,
+            currency=self.currency_1,
+            is_recurring=True,
+            is_last_day=True,
+            account_number="111111111111111",
+            sale_date=date(2023, 1, 1),
+        )
+
+        form = InvoiceSellPersonToClientForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
         assert form.errors == {
