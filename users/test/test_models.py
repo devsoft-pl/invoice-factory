@@ -35,6 +35,15 @@ class TestUserModel:
 
         email_message_attach_mock.assert_called_once()
 
+    @patch("users.models.EmailMessage.send")
+    def test_not_sent_email_when_user_without_email(self, email_message_send_mock):
+        subject = "Test temat"
+        content = "Test zawartość"
+        user = UserFactory.create(email="")
+        user.send_email(subject, content)
+
+        email_message_send_mock.assert_not_called()
+
 
 @pytest.mark.django_db
 class TestSendWelcomeEmail:
