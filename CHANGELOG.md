@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.20.0 (2024-08-07)
+
+### Feature
+
+* feat: add new tests and fix method replace_sell_person_to_client_invoice_view ([`fd9ad2a`](https://github.com/devsoft-pl/invoices/commit/fd9ad2ace3fd0019bec4bdf4271419a5370920b6))
+
+* feat: add create correction invoice for invoice is issued by person on client ([`f18b524`](https://github.com/devsoft-pl/invoices/commit/f18b5247f7bf342a98086b0e7efb9a19c114dbd2))
+
 ## v0.19.0 (2024-08-05)
 
 ### Unknown
