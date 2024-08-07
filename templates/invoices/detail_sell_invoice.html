@@ -127,8 +127,14 @@
                     {% endif %}    
                     <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% endif %}
-                {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
-                    <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                {% if invoice.company %}
+                    {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                    {% endif %}
+                {% else %}
+                    {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
+                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                    {% endif %}
                 {% endif %}
                 <div class="row mt-2" style="color: red">
                     {% if invoice.original_invoice_relation %}

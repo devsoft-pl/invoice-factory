@@ -47,6 +47,12 @@ urlpatterns = [
         kwargs={"create_correction": True},
     ),
     path(
+        "create_correction_person_to_client_invoice/<int:invoice_id>/",
+        replace_sell_person_to_client_invoice_view,
+        name="create_correction_person_to_client_invoice",
+        kwargs={"create_correction": True},
+    ),
+    path(
         "replace_buy_invoice/<int:invoice_id>/",
         replace_buy_invoice_view,
         name="replace_buy_invoice",

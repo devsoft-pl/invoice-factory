@@ -35,7 +35,7 @@
         </div>
         <div class="row mt-2">
             {% if create_correction %}
-                <form action="{% url 'invoices:create_correction_invoice' invoice.pk %}" method='post'>
+                <form action="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}" method='post'>
             {% else %}    
                 <form action="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}" method='post'>
             {% endif %}    
