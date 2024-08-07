@@ -225,12 +225,7 @@ def replace_sell_person_to_client_invoice_view(
 ):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
-    if invoice.company:
-        if invoice.company.user != request.user or (
-            invoice.is_settled and not create_correction
-        ):
-            raise Http404(_("Invoice does not exist"))
-    elif invoice.person:
+    if invoice.person:
         if invoice.person.user != request.user or (
             invoice.is_settled and not create_correction
         ):

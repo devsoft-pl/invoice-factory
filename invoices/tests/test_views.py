@@ -11,6 +11,7 @@ from invoices.factories import (
     InvoiceSellDictFactory,
     InvoiceSellFactory,
     InvoiceSellPersonFactory,
+    InvoiceSellPersonToClientFactory,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
 from invoices.views import clone, create_correction_invoice_number
@@ -98,7 +99,7 @@ class TestDetailInvoice(TestInvoice):
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
-    def test_detail_sell_if_logged(self):
+    def test_detail_sell_if_logged_when_is_issued_by_my_company(self):
         self.client.login(username=self.user.email, password="test")
 
         response = self.client.get(self.url)
@@ -106,6 +107,20 @@ class TestDetailInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/detail_sell_invoice.html")
         self.assertEqual(self.sell_invoice.pk, response.context["invoice"].pk)
+
+    def test_details_sales_invoice_if_logged_when_is_issued_by_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory.create(
+            person__user=self.user, currency=self.currency, is_settled=False
+        )
+        url = reverse("invoices:detail_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/detail_sell_invoice.html")
+        self.assertEqual(invoice.pk, response.context["invoice"].pk)
 
     def test_detail_buy_if_logged(self):
         self.client.login(username=self.user.email, password="test")
@@ -128,6 +143,26 @@ class TestDetailInvoice(TestInvoice):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_sell_invoice = InvoiceSellPersonToClientFactory()
+        url = reverse("invoices:detail_invoice", args=[other_sell_invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonFactory(company=None, person=None)
+        url = reverse("invoices:detail_invoice", args=[invoice.pk])
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(url)
+        self.assertEqual(str(context.exception), "This should not have happened")
 
 
 class TestDeleteInvoice(TestInvoice):
@@ -158,6 +193,26 @@ class TestDeleteInvoice(TestInvoice):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_sell_invoice = InvoiceSellPersonToClientFactory()
+        url = reverse("invoices:delete_invoice", args=[other_sell_invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonFactory(company=None, person=None)
+        url = reverse("invoices:delete_invoice", args=[invoice.pk])
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(url)
+        self.assertEqual(str(context.exception), "This should not have happened")
 
 
 class TestCreateSellInvoice(TestInvoice):
@@ -498,35 +553,6 @@ class TestReplaceSellInvoice(TestInvoice):
             response.context["form"], "currency", "This field is required."
         )
 
-    def test_replace_invalid_form_display_errors_for_person_to_client(self):
-        self.client.login(username=self.user.email, password="test")
-
-        person_invoice = InvoiceSellPersonFactory.create(
-            person__user=self.user, is_settled=False, company=self.contractor
-        )
-
-        url = reverse(
-            "invoices:replace_sell_person_to_client_invoice", args=[person_invoice.pk]
-        )
-        response = self.client.post(url, {})
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(
-            response, "invoices/replace_sell_person_to_client_invoice.html"
-        )
-        self.assertFormError(
-            response.context["form"], "person", "This field is required."
-        )
-        self.assertFormError(
-            response.context["form"], "client", "This field is required."
-        )
-        self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
-        )
-        self.assertFormError(
-            response.context["form"], "currency", "This field is required."
-        )
-
     def test_replace_with_valid_data_for_client(
         self,
     ):
@@ -588,44 +614,6 @@ class TestReplaceSellInvoice(TestInvoice):
                 create_date=data["create_date"],
                 currency=data["currency"],
                 company__user=self.user,
-            ).exists()
-        )
-
-    def test_replace_with_valid_data_for_person_to_client(
-        self,
-    ):
-        self.client.login(username=self.user.email, password="test")
-
-        person_invoice = InvoiceSellPersonFactory.create(
-            person__user=self.user, is_settled=False, company=self.contractor
-        )
-        person = PersonFactory.create(user=self.user)
-
-        data = InvoiceSellDictFactory(
-            invoice_number="2/06/2023",
-            client=self.contractor.pk,
-            person=person.pk,
-            currency=self.currency.pk,
-            account_number="111111111111111",
-            is_recurring="",
-            is_last_day="",
-        )
-
-        url = reverse(
-            "invoices:replace_sell_person_to_client_invoice", args=[person_invoice.pk]
-        )
-        response = self.client.post(url, data=data)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(
-            response, reverse("invoices:detail_invoice", args=[person_invoice.pk])
-        )
-        self.assertTrue(
-            Invoice.objects.filter(
-                invoice_number=data["invoice_number"],
-                create_date=data["create_date"],
-                currency=data["currency"],
-                person__user=self.user,
             ).exists()
         )
 
@@ -712,6 +700,182 @@ class TestReplaceSellInvoice(TestInvoice):
         )
 
         url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+
+class TestReplaceSellPersonToClientInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.currency = CurrencyFactory.create(user=self.user)
+        self.person = PersonFactory.create(user=self.user)
+        self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.invoice = InvoiceSellPersonToClientFactory.create(
+            person__user=self.user,
+            client=self.contractor,
+            currency=self.currency,
+            is_settled=False,
+        )
+        self.url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[self.invoice.pk]
+        )
+
+    def test_replace_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_replace_invalid_form_display_errors(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url, {})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invoices/replace_sell_person_to_client_invoice.html"
+        )
+        self.assertFormError(
+            response.context["form"], "person", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "client", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "create_date", "This field is required."
+        )
+        self.assertFormError(
+            response.context["form"], "currency", "This field is required."
+        )
+
+    def test_replace_with_valid_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        data = InvoiceSellDictFactory(
+            invoice_number="2/06/2023",
+            person=self.person.pk,
+            client=self.contractor.pk,
+            currency=self.currency.pk,
+            account_number="111111111111111",
+            is_recurring="",
+            is_last_day="",
+        )
+
+        response = self.client.post(self.url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+            response, reverse("invoices:detail_invoice", args=[self.invoice.pk])
+        )
+        self.assertTrue(
+            Invoice.objects.filter(
+                invoice_number=data["invoice_number"],
+                create_date=data["create_date"],
+                currency=data["currency"],
+                person__user=self.user,
+            ).exists()
+        )
+
+    def test_return_404_if_not_my_invoice(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory()
+
+        url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[invoice.pk]
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_if_invoice_is_not_issued_by_person_or_client(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory(person=None)
+        url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[invoice.pk]
+        )
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(url)
+        self.assertEqual(str(context.exception), "This should not have happened")
+
+    def test_return_404_if_invoice_is_settled_and_is_replace(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory.create(
+            person=self.person, is_settled=True
+        )
+        url = reverse(
+            "invoices:replace_sell_person_to_client_invoice", args=[invoice.pk]
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_form(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_correction_invoice_number(self):
+        invoice = InvoiceSellPersonToClientFactory.create(invoice_number="1/03/2024")
+
+        assert create_correction_invoice_number(invoice) == "1/03/2024/k"
+
+    def test_crete_correction_invoice_if_is_not_settled(
+        self,
+    ):
+        self.client.login(username=self.user.email, password="test")
+        invoice = InvoiceSellPersonToClientFactory.create(
+            invoice_number="1/03/2024",
+            person=self.person,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=False,
+            is_recurring=False,
+            is_last_day=False,
+        )
+
+        url = reverse(
+            "invoices:create_correction_person_to_client_invoice", args=[invoice.pk]
+        )
+
+        response = self.client.get(url)
+
+        form = response.context["form"]
+        form.initial["is_recurring"] = ""
+        form.initial["is_last_day"] = ""
+        response = self.client.post(url, data=form.initial)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+
+        self.assertTrue(
+            CorrectionInvoiceRelation.objects.filter(
+                invoice=invoice, correction_invoice__invoice_number="1/03/2024/k"
+            ).exists()
+        )
+
+    def test_crete_correction_invoice_if_is_settled(self):
+        self.client.login(username=self.user.email, password="test")
+        invoice = InvoiceSellPersonToClientFactory.create(
+            invoice_number="1/03/2024",
+            person=self.person,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=True,
+        )
+
+        url = reverse(
+            "invoices:create_correction_person_to_client_invoice", args=[invoice.pk]
+        )
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -808,3 +972,23 @@ class TestPdfInvoice(TestInvoice):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        other_sell_invoice = InvoiceSellPersonToClientFactory()
+        url = reverse("invoices:pdf_invoice", args=[other_sell_invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory(client=None, person=None)
+        url = reverse("invoices:pdf_invoice", args=[invoice.pk])
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(url)
+        self.assertEqual(str(context.exception), "This should not have happened")
