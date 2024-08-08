@@ -167,7 +167,13 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td style="width: 500px;">{{ item.name }}</td>
-                                <td>{{ item.pkwiu }}</td>
+                                <td>
+                                    {% if item.pkwiu %}
+                                        {{ item.pkwiu }}
+                                    {% else %}
+                                        <span>-</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ item.amount }}</td>
                                 <td>{{ item.net_price|floatformat:"2g" }}</td>
                                 <td>{{ item.net_amount|floatformat:"2g" }}</td>
