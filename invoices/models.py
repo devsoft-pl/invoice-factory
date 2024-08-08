@@ -147,6 +147,15 @@ class Invoice(models.Model):
     def is_sell(self):
         return self.invoice_type == Invoice.INVOICE_SALES
 
+    @property
+    def has_item_with_vat(self):
+        has_vat = False
+        for item in self.items.all():
+            if item.vat:
+                has_vat = True
+
+        return has_vat
+
     def get_html_for_pdf(self):
         items = self.items.all()
 
