@@ -169,7 +169,7 @@
                         <div class="col-auto offset-5 text-danger">{{ form.net_price.errors }}</div>
                     </div>
                 {% endif %}
-                <div class="row mb-2">
+                <div class="row mb-1">
                     <div class="col-2 offset-3 text-end my-auto">{{ form.vat.label_tag }}</div>
                     <div class="col-1">{{ form.vat }}</div>
                     <div class="col-2">
@@ -182,6 +182,9 @@
                         <div class="col-auto offset-5 text-danger">{{ form.vat.errors }}</div>
                     </div>
                 {% endif %}
+                <div class="row mb-2">
+                    <div id="emailHelp" class="form-text offset-5">Wybierz z listy odpowiednią stawkę lub zwolenienie z VAT</div>
+                </div>
                 <div class="row">
                     <div class="col text-center">
                         <a class="btn btn-secondary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
