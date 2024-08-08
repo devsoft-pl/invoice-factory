@@ -21,3 +21,6 @@ class ItemForm(forms.ModelForm):
 
         pkwiu_field: forms.CharField = self.fields["pkwiu"]
         pkwiu_field.required = False
+
+        vat_field: forms.ModelChoiceField = self.fields["vat"]
+        vat_field.empty_label = "ZW"
