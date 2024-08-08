@@ -88,8 +88,11 @@
         text-align: right;
     }
 </style>
-
-<h1>Faktura VAT</h1>
+{% if invoice.has_item_with_vat %}
+    <h1>Faktura VAT</h1>
+{% else %}
+    <h1>Faktura</h1>
+{% endif %}
 {% if invoice.correction_invoice_relation %}
     <h2>Nr {{ invoice.invoice_number }}</h2>
     <h3>Dokument korygowany: Faktura {{ invoice.correction_invoice_relation.invoice.invoice_number }} z dnia {{ invoice.correction_invoice_relation.invoice.create_date }}</h3>
@@ -158,7 +161,7 @@
         {% elif invoice.person.pesel %}
             <td class="information" style="width:18%">PESEL:</td>
             <td class="specific-information">{{ invoice.person.pesel }}</td>
-        {% else %}   
+        {% else %}
             <td style="width:15%"></td>
             <td></td>
         {% endif %}
@@ -227,7 +230,13 @@
             <td>{{ item.amount }}</td>
             <td>{{ item.net_price|floatformat:"2g" }}</td>
             <td>{{ item.net_amount|floatformat:"2g" }}</td>
-            <td >{{ item.vat }} %</td>
+            <td >
+                {% if item.vat %}
+                    {{ item.vat }} %
+                {% else %}
+                    <span>ZW</span>
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
     <tr class="no-border">
@@ -237,7 +246,7 @@
         <td colspan="3"></td>
         <td class="items-background-color"></td>
         <th class="items-background-color">Wartość netto</th>
-        <th class="items-background-color">Wartość VAT</th>
+        <th class="items-background-color">Kwota VAT</th>
         <th class="items-background-color">Wartość brutto</th>
     </tr>
     <tr class="no-border">

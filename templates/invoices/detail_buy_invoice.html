@@ -76,8 +76,8 @@
                             <th>Ilość</th>
                             <th>Cena netto</th>
                             <th>Wartość netto</th>
-                            <th>Vat</th>
-                            <th>Wartość vat</th>
+                            <th>VAT</th>
+                            <th>Kwota VAT</th>
                             <th>Wartość brutto</th>
                             <th>Opcje</th>
                         </tr>
@@ -87,11 +87,23 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td style="width: 500px;">{{ item.name }}</td>
-                                <td>{{ item.pkwiu }}</td>
+                                <td>
+                                    {% if item.pkwiu %}
+                                        {{ item.pkwiu }}
+                                    {% else %}
+                                        <span>-</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ item.amount }}</td>
                                 <td>{{ item.net_price|floatformat:"2g" }}</td>
                                 <td>{{ item.net_amount|floatformat:"2g" }}</td>
-                                <td>{{ item.vat }} %</td>
+                                <td>
+                                    {% if item.vat %}
+                                        {{ item.vat }} %
+                                    {% else %}
+                                        <span>ZW</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ item.tax_amount|floatformat:"2g" }}</td>
                                 <td>{{ item.gross_amount|floatformat:"2g" }}</td>
                                 <td>
