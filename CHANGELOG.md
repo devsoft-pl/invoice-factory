@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.20.1 (2024-08-08)
+
+### Fix
+
+* fix: add pesel or nip when invoice was issued by person to client ([`03c5ffb`](https://github.com/devsoft-pl/invoices/commit/03c5ffb246972505b44174788c7a69cb63829349))
+
 ## v0.20.0 (2024-08-07)
 
 ### Feature
