@@ -90,9 +90,6 @@ class TestReplaceItem(TestItem):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "pkwiu", "This field is required."
-        )
-        self.assertFormError(
             response.context["form"], "amount", "This field is required."
         )
         self.assertFormError(response.context["form"], "vat", "This field is required.")

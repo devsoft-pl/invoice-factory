@@ -33,8 +33,14 @@ def create_item_view(request, invoice_id):
 def replace_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-    if item.invoice.company.user != request.user:
-        raise Http404(_("Item does not exist"))
+    if item.invoice.company:
+        if item.invoice.company.user != request.user:
+            raise Http404(_("Item does not exist"))
+    elif item.invoice.person:
+        if item.invoice.person.user != request.user:
+            raise Http404(_("Item does not exist"))
+    else:
+        raise Exception(_("This should not have happened"))
 
     if request.method != "POST":
         form = ItemForm(instance=item, current_user=request.user)
@@ -54,8 +60,14 @@ def replace_item_view(request, item_id):
 def delete_item_view(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-    if item.invoice.company.user != request.user:
-        raise Http404(_("Item does not exist"))
+    if item.invoice.company:
+        if item.invoice.company.user != request.user:
+            raise Http404(_("Item does not exist"))
+    elif item.invoice.person:
+        if item.invoice.person.user != request.user:
+            raise Http404(_("Item does not exist"))
+    else:
+        raise Exception(_("This should not have happened"))
 
     item.delete()
 
