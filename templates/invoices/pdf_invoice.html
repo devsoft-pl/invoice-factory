@@ -139,22 +139,28 @@
         </td>
     </tr>
     <tr>
-        <td style="width:15%"></td>
-        <td></td>
-        <td style="width:15%"></td>
-        <td></td>
-    </tr>
-    <tr>
         {% if invoice.company %}
             <td class="information" style="width:18%">NIP:</td>
             <td class="specific-information">{{ invoice.company.nip }}</td>
+        {% elif invoice.person.nip %}
+            <td class="information" style="width:18%">NIP:</td>
+            <td class="specific-information">{{ invoice.person.nip }}</td>
         {% else %}
-            <td style="width:15%"></td>
-            <td></td>
+            <td class="information" style="width:18%">PESEL:</td>
+            <td class="specific-information">{{ invoice.person.pesel }}</td>
         {% endif %}
         {% if invoice.client %}
             <td class="information" style="width:18%">NIP:</td>
             <td class="specific-information">{{ invoice.client.nip }}</td>
+        {% elif invoice.person.nip %}
+            <td class="information" style="width:18%">NIP:</td>
+            <td class="specific-information">{{ invoice.person.nip }}</td>
+        {% elif invoice.person.pesel %}
+            <td class="information" style="width:18%">PESEL:</td>
+            <td class="specific-information">{{ invoice.person.pesel }}</td>
+        {% else %}   
+            <td style="width:15%"></td>
+            <td></td>
         {% endif %}
     </tr>
     <tr>
