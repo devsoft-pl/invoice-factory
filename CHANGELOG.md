@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.22.0 (2024-08-08)
+
+### Feature
+
+* feat: update tests - vat is not required ([`0e0f9d9`](https://github.com/devsoft-pl/invoices/commit/0e0f9d908dee234a02111372290a827366d50b85))
+
+* feat: add &#39;ZW&#39; if exempt from Vat ([`232fc48`](https://github.com/devsoft-pl/invoices/commit/232fc485def83836b1955ebc367cd503056ecfa4))
+
+* feat: add prompts with options to select vat rate ([`9f9e926`](https://github.com/devsoft-pl/invoices/commit/9f9e9266284098fccc371d50110da1feaa14ae36))
+
+* feat: vat can be null ([`0489c91`](https://github.com/devsoft-pl/invoices/commit/0489c9146635f2fe045df3886c2aa40285b01098))
+
+* feat: add to vat choice field &#39;ZW&#39; ([`39e337f`](https://github.com/devsoft-pl/invoices/commit/39e337f890af275260fcabf8dfada6d8cf36db7e))
+
+* feat: add method to check whether an item has vat ([`1ccb589`](https://github.com/devsoft-pl/invoices/commit/1ccb58908c82ad25bdc9a5bd4ec4ec96a7fa0f81))
+
 ## v0.21.0 (2024-08-08)
 
 ### Feature
