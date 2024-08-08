@@ -21,7 +21,12 @@ class Item(models.Model):
         verbose_name=_("Net price"), max_digits=9, decimal_places=2
     )
     vat = models.ForeignKey(
-        VatRate, verbose_name=_("Vat"), on_delete=models.CASCADE, related_name="item"
+        VatRate,
+        verbose_name=_("Vat"),
+        on_delete=models.CASCADE,
+        related_name="item",
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -36,6 +41,8 @@ class Item(models.Model):
 
     @property
     def tax_amount(self):
+        if not self.vat:
+            return 0
         return (self.net_amount * self.vat.rate) / 100
 
     @property
