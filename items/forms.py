@@ -18,3 +18,6 @@ class ItemForm(forms.ModelForm):
 
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
+
+        pkwiu_field: forms.CharField = self.fields["pkwiu"]
+        pkwiu_field.required = False
