@@ -19,39 +19,48 @@
         <div class="row mt-2">
             <form method="post" action="{% url 'users:register_user' %}">
                 {% csrf_token %}
+
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.email.label_tag }}</div>
-                    <div class="col-3">{{ form.email }}</div>
+                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.email.label_tag }}</div>
+                    <div class="col-12 col-md-3">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.email.errors }}</div>
+                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.email.errors }}</div>
                     </div>
                 {% endif %}
+            
+            
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.password1.label_tag }}</div>
-                    <div class="col-3">{{ form.password1 }}</div>
+                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.password1.label_tag }}</div>
+                    <div class="col-12 col-md-3">{{ form.password1 }}</div>
                 </div>
                 {% if form.password1.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.password1.errors }}</div>
+                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.password1.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.password2.label_tag }}</div>
-                    <div class="col-3">{{ form.password2 }}</div>
+                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.password2.label_tag }}</div>
+                    <div class="col-12 col-md-3">{{ form.password2 }}</div>
                 </div>
                 {% if form.password2.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.password2.errors }}</div>
+                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.password2.errors }}</div>
                     </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary mt-3" href="{% url 'index' %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Rejestruj</button>
+            
+            
+            
+            
+            
+            
+            
+                <div class="row mt-3">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button class="btn btn-primary mx-2" name="submit">Rejestruj</button>
+                        <a class="btn btn-secondary mx-2" href="{% url 'index' %}">Powrót</a>
                     </div>
-                    
                 </div>
                 <input type="hidden" name="next" value="{% url 'users:detail_user' %}"/>
             </form>
