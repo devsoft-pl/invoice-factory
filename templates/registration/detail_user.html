@@ -22,28 +22,30 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-2">
-            <table class="table table-hover text-center mt-4">
-                <thead class="table-light">
-                    <tr>
-                        <th>Email</th>
-                        <th>Imię</th>
-                        <th>Nazwisko</th>
-                        <th>Opcje</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.first_name|default_if_none:"-" }}</td>
-                        <td>{{ user.last_name|default_if_none:"-" }}</td>
-                        <td>
-                            <a href="{% url 'users:replace_user' %}">Edytuj</a>
-                            <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row mt-3">
+            <div class="table-responsive">
+                <table class="table table-hover text-center mt-4">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Email</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.first_name|default_if_none:"-" }}</td>
+                            <td>{{ user.last_name|default_if_none:"-" }}</td>
+                            <td>
+                                <a href="{% url 'users:replace_user' %}">Edytuj</a>
+                                <a href="{% url 'users:password_change_user' %}">Zmień hasło</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock content %}
