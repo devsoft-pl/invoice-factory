@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v0.26.0 (2024-08-11)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`55bd4a2`](https://github.com/devsoft-pl/invoices/commit/55bd4a2a2b83512f69b4621c7cd5c534fed0608c))
+
 ## v0.25.0 (2024-08-11)
+
+### Feature
+
+* feat: full name in breadcrum if user have full name ([`076ebf2`](https://github.com/devsoft-pl/invoices/commit/076ebf299cc4a41918e2e95efd93a1b4b8fb37e0))
 
 ### Unknown
 
