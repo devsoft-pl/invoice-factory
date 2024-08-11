@@ -1,11 +1,18 @@
 from django.contrib.auth.views import (
+    LoginView,
+    LogoutView,
     PasswordResetCompleteView,
     PasswordResetConfirmView,
     PasswordResetDoneView,
     PasswordResetView,
 )
-from django.urls import include, path, reverse_lazy
+from django.urls import path, reverse_lazy
 
+from users.forms import (
+    LoginUserForm,
+    PasswordResetConfirmUserForm,
+    PasswordResetUserForm,
+)
 from users.views import (
     detail_user_view,
     password_change_user_view,
@@ -15,7 +22,8 @@ from users.views import (
 
 app_name = "users"
 urlpatterns = [
-    path("", include("django.contrib.auth.urls")),
+    path("login/", LoginView.as_view(form_class=LoginUserForm), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", register_user_view, name="register_user"),
     path(
         "password_change_user/", password_change_user_view, name="password_change_user"
@@ -23,7 +31,8 @@ urlpatterns = [
     path(
         "password_reset_user/",
         PasswordResetView.as_view(
-            success_url=reverse_lazy("users:password_reset_done")
+            success_url=reverse_lazy("users:password_reset_done"),
+            form_class=PasswordResetUserForm,
         ),
         name="password_reset",
     ),
@@ -35,7 +44,8 @@ urlpatterns = [
     path(
         "reset_user/<uidb64>/<token>/",
         PasswordResetConfirmView.as_view(
-            success_url=reverse_lazy("users:password_reset_complete")
+            success_url=reverse_lazy("users:password_reset_complete"),
+            form_class=PasswordResetConfirmUserForm,
         ),
         name="password_reset_confirm",
     ),
