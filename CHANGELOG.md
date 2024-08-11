@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.24.0 (2024-08-10)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`fb8bd9f`](https://github.com/devsoft-pl/invoices/commit/fb8bd9fe7bad6d6aa76364414c5673bd71606e33))
+
 ## v0.23.0 (2024-08-10)
 
 ### Feature
+
+* feat: update django 4.2.15 ([`e247886`](https://github.com/devsoft-pl/invoices/commit/e247886ef4496b797a05741d9d83532936e69ca2))
 
 * feat: rwd ([`671d751`](https://github.com/devsoft-pl/invoices/commit/671d751a51e7a41c3927f5e7505cfe282b53a0e2))
 
