@@ -1,6 +1,18 @@
 # CHANGELOG
 
+## v0.25.0 (2024-08-11)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`383a4ea`](https://github.com/devsoft-pl/invoices/commit/383a4ead67da4bbe4dde7dc8a01f7f26a576efd3))
+
 ## v0.24.0 (2024-08-10)
+
+### Feature
+
+* feat: rwd ([`9a4e11a`](https://github.com/devsoft-pl/invoices/commit/9a4e11aa7704572375a1fd60108448280323d8a4))
+
+* feat: add new form for user to make form_class ([`ff85c7e`](https://github.com/devsoft-pl/invoices/commit/ff85c7e5be6b5470b80e17c2915a44f0cacfa050))
 
 ### Unknown
 
