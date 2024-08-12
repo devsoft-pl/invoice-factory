@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.27.0 (2024-08-12)
+
+### Feature
+
+* feat: update password reset email ([`e81f282`](https://github.com/devsoft-pl/invoices/commit/e81f2829bcbe50c2728639941f3258f5dcbf9838))
+
 ## v0.26.0 (2024-08-11)
 
 ### Unknown
