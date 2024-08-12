@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -18,21 +18,30 @@
         </div>
         <div class="row ">
             <form class="mb-0" action="{% url 'reports:list_reports' %}" method='get'>
-                <div class="d-flex justify-content-between mt-2">
-                    {{ filter_form.as_div }}
-                    <div class="d-grid gap-2 col-2 ">
+                <div class="d-md-flex justify-content-between mt-2">
+                    <div class="fieldWrapper">
+                        {{ filter_form.revenue_type.errors }}
+                        <label for="{{ filter_form.revenue_type.id_for_label }}" style="font-weight: bold;">Przychód:</label>
+                        {{ filter_form.revenue_type }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ filter_form.year.errors }}
+                        <label for="{{ filter_form.year.id_for_label }}" style="font-weight: bold;">Rok:</label>
+                        {{ filter_form.year }}
+                    </div>
+                    <div class="d-grid gap-2 col-md-2 col-12">
                         <button class="btn btn-primary">Szukaj</button>
                         <a class="btn btn-outline-primary" href="{% url 'reports:list_reports' %}">Wyczyść</a>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             {% load humanize reports_tags i18n %}
             {% if net_invoices or gross_invoices %}
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script type="text/javascript">
-                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.load('current', {'packages': ['corechart']});
                     google.charts.setOnLoadCallback(drawChart);
                     function drawChart() {
                         {% if net_invoices and gross_invoices %}
@@ -47,37 +56,45 @@
                         {% else %}
                             {% if net_invoices %}
                                 var data = google.visualization.arrayToDataTable([
-                                ['Miesiąc', 'Netto'],
-                                {% for net_invoice in net_invoices %}
-                                    {% with invoice_net=net_invoice.sum month=net_invoice.month|month_name %}
-                                        ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}],
-                                    {% endwith %}
-                                {% endfor %}
-                            ]);
+                                    ['Miesiąc', 'Netto'],
+                                    {% for net_invoice in net_invoices %}
+                                        {% with invoice_net=net_invoice.sum month=net_invoice.month|month_name %}
+                                            ['{% trans month %}', {{ invoice_net|stringformat:".2f" }}],
+                                        {% endwith %}
+                                    {% endfor %}
+                                ]);
                             {% endif %}
                             {% if gross_invoices %}
                                 var data = google.visualization.arrayToDataTable([
-                                ['Miesiąc', 'Brutto'],
-                                {% for gross_invoice in gross_invoices %}
-                                    {% with invoice_gross=gross_invoice.sum month=gross_invoice.month|month_name %}
-                                        ['{% trans month %}', {{ invoice_gross|stringformat:".2f" }}],
-                                    {% endwith %}
-                                {% endfor %}
-                            ]);
+                                    ['Miesiąc', 'Brutto'],
+                                    {% for gross_invoice in gross_invoices %}
+                                        {% with invoice_gross=gross_invoice.sum month=gross_invoice.month|month_name %}
+                                            ['{% trans month %}', {{ invoice_gross|stringformat:".2f" }}],
+                                        {% endwith %}
+                                    {% endfor %}
+                                ]);
                             {% endif %}
-                        {% endif %}        
+                        {% endif %}
                         var options = {
                             hAxis: {titleTextStyle: {color: '#333'}},
-                            vAxis: {minValue: 0}
+                            vAxis: {minValue: 0},
+                            chartArea: {width: '75%', height: '70%'},  // Zmniejszenie obszaru wykresu dla lepszej responsywności
+                            legend: {position: 'top'}  // Ustawienie legendy na górze, co pozwala na lepsze wykorzystanie przestrzeni
                         };
-            
+
                         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                         chart.draw(data, options);
                     }
+
+                    // Obsługa zmiany rozmiaru okna dla responsywnego wykresu
+                    window.onresize = function () {
+                        drawChart();
+                    };
                 </script>
-                <div id="chart_div" style="width: 100%; height: 350px;"></div>
-                <table class="table table-hover text-center mt-3">
-                    <thead class="table-light">
+                <div id="chart_div" class="w-100" style="height: 350px;"></div>
+                <div class="table-responsive">
+                    <table class="table table-hover text-center mt-3">
+                        <thead class="table-light">
                         <tr>
                             <th></th>
                             <th>Styczeń</th>
@@ -93,38 +110,39 @@
                             <th>Listopad</th>
                             <th>Grudzień</th>
                             <th>Suma</th>
+                    </tr>
+                </thead>
+                {% if net_invoices %}
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>Przychód netto</td>
+                            {% for invoice in net_invoices %}
+                                <td>{{ invoice.sum }}</td>
+                            {% endfor %}
+                            <td>{{ total_net_sum }}</td>
                         </tr>
-                    </thead>
-                    {% if net_invoices %}
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <td>Przychód netto</td>
-                                {% for invoice in net_invoices %}
-                                    <td>{{ invoice.sum }}</td>
-                                {% endfor %}
-                                <td>{{ total_net_sum }}</td>
-                            </tr>
-                        </tbody>
-                    {% endif %}  
-                    {% if gross_invoices %}
-                        <tbody>
-                            <tr>
-                                <td>Przychód brutto</td>
-                                {% for invoice in gross_invoices %}
-                                    <td>{{ invoice.sum}}</td>
-                                {% endfor %}
-                                <td>{{ total_gross_sum }}</td>
-                            </tr>
-                        </tbody>
-                    {% endif %}    
-                </table>
-            {% else %}
-                <div class="row">
-                    <div class="col">
-                        <b>Brak raportów</b>
-                    </div>
-                </div>
-            {% endif %}
+                    </tbody>
+                {% endif %}
+                {% if gross_invoices %}
+                    <tbody>
+                        <tr>
+                            <td>Przychód brutto</td>
+                            {% for invoice in gross_invoices %}
+                                <td>{{ invoice.sum }}</td>
+                            {% endfor %}
+                            <td>{{ total_gross_sum }}</td>
+                        </tr>
+                    </tbody>
+                {% endif %}
+            </table>
         </div>
+    {% else %}
+        <div class="row">
+            <div class="col-12 d-flex justify-content-left">
+                <b>Brak raportów</b>
+            </div>
+        </div>
+    {% endif %}
+</div>
     </div>
 {% endblock content %}
