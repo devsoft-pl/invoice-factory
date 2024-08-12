@@ -18,56 +18,62 @@
         </div>
         <div class="row mt-2">
             {% if currencies %}
-                <table class="table table-hover text-center mt-2">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Lp.</th>
-                            <th>Waluta</th>
-                            <th>Kurs kupna (z dnia {% now "Y-m-d" %})</th>
-                            <th>Kurs sprzedaży (z dnia {% now "Y-m-d" %})</th>
-                            <th>Opcje</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        {% for currency in currencies %}
+                <div class="table-responsive">
+                    <table class="table table-hover text-center mt-2">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ currency|upper }}</td>
-                                <td>
-                                    {% if currency.last_exchange_rate %}
-                                        {{ currency.last_exchange_rate.buy_rate }}
-                                    {% else %}
-                                        Brak danych
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if currency.last_exchange_rate %}
-                                        {{ currency.last_exchange_rate.sell_rate }}
-                                    {% else %}
-                                        Brak danych
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
-                                    <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
-                                </td>
+                                <th scope="col">Lp.</th>
+                                <th scope="col">Waluta</th>
+                                <th scope="col">Kurs kupna <br class="d-sm-none">(z dnia {% now "Y-m-d" %})</th>
+                                <th scope="col">Kurs sprzedaży <br class="d-sm-none">(z dnia {% now "Y-m-d" %})</th>
+                                <th scope="col">Opcje</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for currency in currencies %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ currency|upper }}</td>
+                                    <td>
+                                        {% if currency.last_exchange_rate %}
+                                            {{ currency.last_exchange_rate.buy_rate }}
+                                        {% else %}
+                                            Brak danych
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if currency.last_exchange_rate %}
+                                            {{ currency.last_exchange_rate.sell_rate }}
+                                        {% else %}
+                                            Brak danych
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'currencies:replace_currency' currency.pk %}">Edytuj</a>
+                                        <a href="{% url 'currencies:delete_currency' currency.pk %}">Usuń</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
                 <div class="row">
-                    <div class="col mt-3">
+                    <div class="col-12 d-flex justify-content-left">
                         <b>Brak walut</b>
                     </div>
                 </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-2" href="{% url 'currencies:create_currency' %}">Dodaj</a>
+        <div class="row mt-2">
+            <div class="col-12 d-flex justify-content-left">
+                <a class="btn btn-primary mx-2" href="{% url 'currencies:create_currency' %}">Dodaj</a>
             </div>
         </div>
     </div>
-    {% include "pagination.html" with page=currencies %}
+    <div class="row mt-2">
+        <div class="col-12 d-flex justify-content-center">
+            {% include "pagination.html" with page=currencies %}
+        </div>    
+    </div>
 {% endblock content %}
