@@ -1,10 +1,24 @@
 # CHANGELOG
 
+## v0.28.0 (2024-08-12)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`0f5c740`](https://github.com/devsoft-pl/invoices/commit/0f5c740c87d65ffab8faf9d6652ba48491ddfddb))
+
 ## v0.27.0 (2024-08-12)
 
 ### Feature
 
+* feat: add new translated of after update validators ([`c856b3e`](https://github.com/devsoft-pl/invoices/commit/c856b3e0c6e0adefb86fea17323b73b1c2dbc6dd))
+
+* feat: update validators ([`c77ea90`](https://github.com/devsoft-pl/invoices/commit/c77ea90dc6a32a0289a2107dbebe6f8a2b0fd2bf))
+
 * feat: update password reset email ([`e81f282`](https://github.com/devsoft-pl/invoices/commit/e81f2829bcbe50c2728639941f3258f5dcbf9838))
+
+### Fix
+
+* fix: fix tests after update validators ([`4d2d8a6`](https://github.com/devsoft-pl/invoices/commit/4d2d8a6e92886ddd23306aa2ada153f194709229))
 
 ## v0.26.0 (2024-08-11)
 
