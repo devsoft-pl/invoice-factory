@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-31 23:24+0200\n"
+"POT-Creation-Date: 2024-08-12 12:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,50 +53,41 @@ msgstr "Firma nie istnieje"
 msgid "Accountant does not exist"
 msgstr "Księgowa/y nie istnieje"
 
-#: base/validators.py:7
-msgid ""
-"Please enter the invoice number in numeric format only, following the "
-"pattern number/mm/yyyy"
-msgstr ""
-"Wprowadź numer faktury w formacie numer/mm/rrrr"
+#: base/validators.py:6
+msgid "Please  enter the invoice number in the format number/mm/yyyy"
+msgstr "Wprowadź numer faktury w formacie numer/mm/rrrr"
 
-#: base/validators.py:14
-msgid ""
-"Please enter the correction invoice number in the format number/mm/yyyy/c"
+#: base/validators.py:11
+msgid "Please enter the correction invoice number in the format number/mm/yyyy/c"
 msgstr "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k"
 
-#: base/validators.py:20
-msgid ""
-"Please enter the tax ID without special characters and with a minimum of 8 "
-"characters"
-msgstr "Wprowadź NIP bez znaków specjalnych i zawierający co najmniej 8 znaków"
+#: base/validators.py:16
+msgid "Pleas enter a tax ID with a minimum of 8 characters and no special characters"
+msgstr "Wprowadź numer identyfikatora podatkowego składającego się minimum 8 znaków, bez znaków specjalnych"
 
-#: base/validators.py:27
+#: base/validators.py:21
 msgid "Please enter Pesel with 11 numbers"
 msgstr "Wprowadź PESEL składający się z 11 cyfr"
 
-#: base/validators.py:32
-msgid "Please enter the REGON using minimum 9 numbers"
+#: base/validators.py:26
+msgid "Please enter the REGON with a minimum 9 numbers"
 msgstr "Wprowadź REGON składający się z minimum 9 cyfr"
 
-#: base/validators.py:36
-msgid "Please enter the country code using 3 letters"
+#: base/validators.py:30
+msgid "Please enter the country code with 3 letters"
 msgstr "Wprowadź kod kraju używając 3 liter"
 
-#: base/validators.py:42
-msgid ""
-"Please enter the account number with a minimum of 15 characters, excluding "
-"special characters"
-msgstr ""
-"Wprowadź numer konta bez znaków specjalnych i zawierający co najmniej 15 znaków"
+#: base/validators.py:36
+msgid "Please enter the account number with a minimum of 15 characters and no special characters"
+msgstr "Wprowadź numer konta zawierający co najmniej 15 znaków, bez znaków specjalnych"
 
-#: base/validators.py:51
-msgid "Please enter the zip code using numbers only in the format xx-xxx"
+#: base/validators.py:44
+msgid "Please enter the zip code with a numbers in the format xx-xxx"
 msgstr "Wprowadź kod pocztowy używając tylko cyfr w formacie xx-xxx"
 
-#: base/validators.py:55
-msgid "Please enter a phone using minimum 9 numbers"
-msgstr "Wprowadź PESEL składający się z 11 cyfr"
+#: base/validators.py:48
+msgid "Please enter a phone with a minimum 9 numbers"
+msgstr "Wprowadź numer telefonu składający się z 9 cyfr"
 
 #: companies/admin.py:15
 msgid "User info"
@@ -139,7 +130,7 @@ msgid "City"
 msgstr "Miasto"
 
 #: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:177 persons/models.py:26 vat_rates/models.py:12
+#: invoices/models.py:186 persons/models.py:26 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
@@ -327,19 +318,19 @@ msgstr "Kwota netto"
 msgid "Gross_amount"
 msgstr "Kwota brutto"
 
-#: invoices/models.py:174 reports/forms.py:18
+#: invoices/models.py:183 reports/forms.py:18
 msgid "Year"
 msgstr "Rok"
 
-#: invoices/models.py:195 items/models.py:13
+#: invoices/models.py:204 items/models.py:13
 msgid "Invoice"
 msgstr "Faktura"
 
-#: invoices/models.py:201
+#: invoices/models.py:210
 msgid "Correction Invoice"
 msgstr "Faktura korygująca"
 
-#: invoices/models.py:207
+#: invoices/models.py:216
 msgid "correction invoices relation"
 msgstr "relacja faktur korygujących"
 
@@ -375,14 +366,13 @@ msgstr ""
 "Invoice-Factory"
 
 #: invoices/views.py:59 invoices/views.py:62 invoices/views.py:178
-#: invoices/views.py:232 invoices/views.py:237 invoices/views.py:287
-#: invoices/views.py:311 invoices/views.py:314 invoices/views.py:329
-#: invoices/views.py:332
+#: invoices/views.py:232 invoices/views.py:282 invoices/views.py:306
+#: invoices/views.py:309 invoices/views.py:324 invoices/views.py:327
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 
-#: invoices/views.py:64 invoices/views.py:239 invoices/views.py:316
-#: invoices/views.py:334
+#: invoices/views.py:64 invoices/views.py:234 invoices/views.py:311
+#: invoices/views.py:329 items/views.py:43 items/views.py:70
 msgid "This should not have happened"
 msgstr "To nie powinno się zdarzyć"
 
@@ -398,11 +388,11 @@ msgstr "Ilość"
 msgid "Net price"
 msgstr "Cena netto"
 
-#: items/models.py:24
+#: items/models.py:25
 msgid "Vat"
 msgstr "VAT"
 
-#: items/views.py:37 items/views.py:58
+#: items/views.py:38 items/views.py:41 items/views.py:65 items/views.py:68
 msgid "Item does not exist"
 msgstr "Pozycja nie istnieje"
 
@@ -480,8 +470,7 @@ msgstr "Status personelu"
 
 #: users/models.py:20
 msgid "Designates whether the user can log into this admin site."
-msgstr ""
-"Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
+msgstr "Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
 
 #: users/models.py:23
 msgid "Active"
@@ -530,6 +519,17 @@ msgstr "Stawka VAT"
 #: vat_rates/views.py:77 vat_rates/views.py:100
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid ""
+#~ "Please enter the invoice number in numeric format only, following the "
+#~ "pattern number/mm/yyyy"
+#~ msgstr "Wprowadź numer faktury w formacie numer/mm/rrrr"
+
+#~ msgid ""
+#~ "Please enter the tax ID without special characters and with a minimum of "
+#~ "8 characters"
+#~ msgstr ""
+#~ "Wprowadź NIP bez znaków specjalnych i zawierający co najmniej 8 znaków"
 
 #~ msgid "Please enter a phone number with 9 digits only"
 #~ msgstr "Wprowadź numer telefonu składający się wyłącznie z 9 cyfr"
