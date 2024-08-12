@@ -192,7 +192,7 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
+                "Please  enter the invoice number in the format number/mm/yyyy",
                 False,
             ],
             [
@@ -217,7 +217,7 @@ class TestSellInvoiceForm:
             "invoice_number": [validator],
             "currency": ["This field is required."],
             "account_number": [
-                "Please enter the account number with a minimum of 15 characters, excluding special characters"
+                "Please enter the account number with a minimum of 15 characters and no special characters"
             ],
         }
         assert not is_valid
@@ -226,7 +226,7 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
+                "Please  enter the invoice number in the format number/mm/yyyy",
                 False,
             ],
             [
@@ -252,7 +252,7 @@ class TestSellInvoiceForm:
             "invoice_number": [validator],
             "currency": ["This field is required."],
             "account_number": [
-                "Please enter the account number with a minimum of 15 characters, excluding special characters"
+                "Please enter the account number with a minimum of 15 characters and no special characters"
             ],
         }
         assert not is_valid
@@ -261,7 +261,7 @@ class TestSellInvoiceForm:
         "validator, create_correction",
         [
             [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy",
+                "Please  enter the invoice number in the format number/mm/yyyy",
                 False,
             ],
             [
@@ -289,7 +289,7 @@ class TestSellInvoiceForm:
             "invoice_number": [validator],
             "currency": ["This field is required."],
             "account_number": [
-                "Please enter the account number with a minimum of 15 characters, excluding special characters"
+                "Please enter the account number with a minimum of 15 characters and no special characters"
             ],
         }
         assert not is_valid
@@ -434,6 +434,7 @@ class TestSellInvoiceForm:
 
     def test_clean_sale_date_returns_error(self):
         data = InvoiceSellDictFactory(
+            invoice_number="1/05/2024",
             company=self.company_1,
             client=self.client_1,
             currency=self.currency_1,
@@ -445,16 +446,12 @@ class TestSellInvoiceForm:
         form = InvoiceSellForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {
-            "invoice_number": [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
-            ],
-            "sale_date": ["This field is not last dat of month."],
-        }
+        assert form.errors == {"sale_date": ["This field is not last dat of month."]}
 
     def test_clean_sale_date_returns_error_for_person(self):
         person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
+            invoice_number="1/05/2024",
             company=self.company_1,
             person=person,
             currency=self.currency_1,
@@ -467,16 +464,12 @@ class TestSellInvoiceForm:
         form = InvoiceSellPersonForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {
-            "invoice_number": [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
-            ],
-            "sale_date": ["This field is not last dat of month."],
-        }
+        assert form.errors == {"sale_date": ["This field is not last dat of month."]}
 
     def test_clean_sale_date_returns_error_for_person_to_client(self):
         person = PersonFactory.create(user=self.user)
         data = InvoiceSellDictFactory(
+            invoice_number="1/05/2024",
             person=person,
             client=self.client_1,
             currency=self.currency_1,
@@ -489,12 +482,7 @@ class TestSellInvoiceForm:
         form = InvoiceSellPersonToClientForm(current_user=self.user, data=data)
 
         assert not form.is_valid()
-        assert form.errors == {
-            "invoice_number": [
-                "Please enter the invoice number in numeric format only, following the pattern number/mm/yyyy"
-            ],
-            "sale_date": ["This field is not last dat of month."],
-        }
+        assert form.errors == {"sale_date": ["This field is not last dat of month."]}
 
 
 @pytest.mark.django_db

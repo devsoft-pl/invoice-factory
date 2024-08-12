@@ -152,13 +152,13 @@ class TestPersonForm:
 
         assert form.errors == {
             "nip": [
-                "Please enter the tax ID without special characters and with a minimum of 8 characters"
+                "Pleas enter a tax ID with a minimum of 8 characters and no special characters"
             ],
             "pesel": ["Please enter Pesel with 11 numbers"],
             "zip_code": [
-                "Please enter the zip code using numbers only in the format xx-xxx"
+                "Please enter the zip code with a numbers in the format xx-xxx"
             ],
-            "phone_number": ["Please enter a phone using minimum 9 numbers"],
+            "phone_number": ["Please enter a phone with a minimum 9 numbers"],
         }
         assert not is_valid
 

@@ -27,6 +27,6 @@ class TestAccountantForm:
         is_valid = form.is_valid()
 
         assert form.errors == {
-            "phone_number": ["Please enter a phone using minimum 9 numbers"]
+            "phone_number": ["Please enter a phone with a minimum 9 numbers"]
         }
         assert not is_valid
