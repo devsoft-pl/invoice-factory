@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -16,64 +16,93 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <form action="{% url 'companies:list_companies' %}" method='get'>
-                <div class="d-flex justify-content-between mt-2">
-                    {{ filter_form.as_div }}
-                    <div class="d-grid gap-2 col-2 ">
-                        <button class="btn btn-primary">Szukaj</button>
-                        <a class="btn btn-outline-primary" href="{% url 'companies:list_companies' %}">Wyczyść</a>
+                <div class="row">
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.name.errors }}
+                            <label for="{{ filter_form.name.id_for_label }}"
+                                   style="font-weight: bold;">Nazwa:</label>
+                            {{ filter_form.name }}
+                        </div>
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.nip.errors }}
+                            <label for="{{ filter_form.nip.id_for_label }}"
+                                   style="font-weight: bold;">Nip:</label>
+                            {{ filter_form.nip }}
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.regon.errors }}
+                            <label for="{{ filter_form.regon.id_for_label }}"
+                                   style="font-weight: bold;">Regon:</label>
+                            {{ filter_form.regon }}
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-2 justify-content-between row justify-content-center gap-2 m-0 mt-2 mt-md-0">
+                        <div class="col-12 d-flex align-items-end m-0 p-0">
+                            <button class="btn w-100 btn-primary">Szukaj</button>
+                        </div>    
+                        <div class="col-12 d-flex align-items-end m-0 p-0 mb-2">
+                            <a class="btn w-100 btn-outline-primary" href="{% url 'companies:list_companies' %}">Wyczyść</a>
+                        </div>
+                    </div>
+                </div>    
             </form>
         </div>
         <div class="row mt-2">
             {% if companies %}
-                <table class="table table-hover text-center mt-2">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Lp.</th>
-                            <th>Nazwa</th>
-                            <th>NIP</th>
-                            <th>Kraj</th>
-                            <th>Email</th>
-                            <th>Numer telefonu</th>
-                            <th>Opcje</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        {% for company in companies %}
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ company.name }}</td>
-                                <td>{{ company.nip }}</td>
-                                <td>{{ company.country }}</td>
-                                <td>{{ company.email|default_if_none:"-" }}</td>
-                                <td>{{ company.phone_number|default_if_none:"-" }}</td>
-                                <td>
-                                    <a href="{% url 'companies:detail_company' company.pk %}">Więcej</a>
-                                    <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                                    <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
-                                </td>
+                                <th>Lp.</th>
+                                <th>Nazwa</th>
+                                <th>NIP</th>
+                                <th>Kraj</th>
+                                <th>Email</th>
+                                <th>Numer telefonu</th>
+                                <th>Opcje</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for company in companies %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ company.name }}</td>
+                                    <td>{{ company.nip }}</td>
+                                    <td>{{ company.country }}</td>
+                                    <td>{{ company.email|default_if_none:"-" }}</td>
+                                    <td>{{ company.phone_number|default_if_none:"-" }}</td>
+                                    <td>
+                                        <a href="{% url 'companies:detail_company' company.pk %}">Więcej</a>
+                                        <a href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                                        <a href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
                 <div class="row">
-                    <div class="col mt-3">
+                    <div class="col-12 d-flex justify-content-left">
                         <b>Brak kontrahenta</b>
                     </div>
                 </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-2" href="{% url 'companies:create_company' %}">Dodaj</a></h3>
+        <div class="row mt-2">
+            <div class="col-12 d-flex justify-content-left">
+                <a class="btn btn-primary" href="{% url 'companies:create_company' %}">Dodaj</a>
             </div>
         </div>
         <div class="row">
-            {% include "pagination.html" with page=companies %}
+            <div class="col-12 d-flex justify-content-center">
+                {% include "pagination.html" with page=companies %}
+            </div>    
         </div>
     </div>
 {% endblock content %}

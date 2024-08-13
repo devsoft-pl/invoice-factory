@@ -1,14 +1,14 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -16,62 +16,93 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <form action="{% url 'persons:list_persons' %}" method='get'>
-                <div class="d-flex justify-content-between mt-2">
-                    {{ filter_form.as_div }}
-                    <div class="d-grid gap-2 col-2 ">
-                        <button class="btn btn-primary">Szukaj</button>
-                        <a class="btn btn-outline-primary" href="{% url 'persons:list_persons' %}">Wyczyść</a>
+                <div class="row">
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.first_name.errors }}
+                            <label for="{{ filter_form.first_name.id_for_label }}"
+                                   style="font-weight: bold;">Imię:</label>
+                            {{ filter_form.first_name }}
+                        </div>
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.last_name.errors }}
+                            <label for="{{ filter_form.last_name.id_for_label }}"
+                                   style="font-weight: bold;">Nazwisko:</label>
+                            {{ filter_form.last_name }}
+                        </div>
+                    </div>   
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.address.errors }}
+                            <label for="{{ filter_form.address.id_for_label }}"
+                                   style="font-weight: bold;">Adres:</label>
+                            {{ filter_form.address }}
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-2 justify-content-between row justify-content-center gap-2 m-0 mt-2 mt-md-0">
+                        <div class="col-12 d-flex align-items-end m-0 p-0">
+                            <button class="btn w-100 btn-primary">Szukaj</button>
+                        </div>   
+                        <div class="col-12 d-flex align-items-end m-0 p-0 mb-2">
+                            <a class="btn w-100 btn-outline-primary" href="{% url 'persons:list_persons' %}">Wyczyść</a>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
         <div class="row mt-2">
             {% if persons %}
-                <table class="table table-hover text-center mt-2">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Lp.</th>
-                            <th>Imię</th>
-                            <th>Nazwisko</th>
-                            <th>NIP</th>
-                            <th>PESEL</th>
-                            <th>Adres</th>
-                            <th>Opcje</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        {% for person in persons %}
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ person.first_name }}</td>
-                                <td>{{ person.last_name }}</td>
-                                <td>{{ person.nip|default_if_none:"-" }}</td>
-                                <td>{{ person.pesel|default_if_none:"-" }}</td>
-                                <td>{{ person.address }}, {{ person.zip_code }} {{ person.city }}</td>
-                                <td>
-                                    <a href="{% url 'persons:detail_person' person.pk %}">Więcej</a>
-                                    <a href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
-                                    <a href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
-                                </td>
+                                <th>Lp.</th>
+                                <th>Imię</th>
+                                <th>Nazwisko</th>
+                                <th>NIP</th>
+                                <th>PESEL</th>
+                                <th>Adres</th>
+                                <th>Opcje</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for person in persons %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ person.first_name }}</td>
+                                    <td>{{ person.last_name }}</td>
+                                    <td>{{ person.nip|default_if_none:"-" }}</td>
+                                    <td>{{ person.pesel|default_if_none:"-" }}</td>
+                                    <td>{{ person.address }}, {{ person.zip_code }} {{ person.city }}</td>
+                                    <td>
+                                        <a href="{% url 'persons:detail_person' person.pk %}">Więcej</a>
+                                        <a href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
+                                        <a href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
                 <div class="row">
-                    <div class="col mt-3">
+                    <div class="col-12 d-flex justify-content-left">
                         <b>Brak konsumenta</b>
                     </div>
                 </div>
             {% endif %}
         </div>
+        <div class="row mt-2">
+            <div class="col-12 d-flex justify-content-left">
+                <a class="btn btn-primary" href="{% url 'persons:create_person' %}">Dodaj</a></h3>
+            </div>
+        </div>
         <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-2" href="{% url 'persons:create_person' %}">Dodaj</a></h3>
+            <div class="col-12 d-flex justify-content-center">
+                {% include "pagination.html" with page=persons %}
             </div>
         </div>
     </div>
-    {% include "pagination.html" with page=persons %}
 {% endblock content %}
