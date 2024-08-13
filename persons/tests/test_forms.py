@@ -130,8 +130,8 @@ class TestPersonForm:
         data = PersonDictFactory(
             first_name="Jan",
             last_name="Kowalski",
-            nip="123456789",
-            pesel="83071415362",
+            nip="",
+            pesel="",
             zip_code="01-450",
             city="Warszawa",
             country=self.country,
