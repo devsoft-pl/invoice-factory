@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.30.0 (2024-08-13)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`19c8742`](https://github.com/devsoft-pl/invoices/commit/19c8742166a68a47a78d47acf6cec06c4c3122cf))
+
 ## v0.29.0 (2024-08-13)
 
 ### Feature
+
+* feat: add error when person is exist ([`1a123b7`](https://github.com/devsoft-pl/invoices/commit/1a123b73302b85104a772c110eb8422c1c307d23))
 
 * feat: rwd ([`c36b118`](https://github.com/devsoft-pl/invoices/commit/c36b1181e8cc509ae3db4fc79cbc1ed84ac91885))
 
