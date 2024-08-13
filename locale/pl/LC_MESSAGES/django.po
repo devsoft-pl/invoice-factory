@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-12 12:15+0200\n"
+"POT-Creation-Date: 2024-08-13 13:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,12 +58,16 @@ msgid "Please  enter the invoice number in the format number/mm/yyyy"
 msgstr "Wprowadź numer faktury w formacie numer/mm/rrrr"
 
 #: base/validators.py:11
-msgid "Please enter the correction invoice number in the format number/mm/yyyy/c"
+msgid ""
+"Please enter the correction invoice number in the format number/mm/yyyy/c"
 msgstr "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k"
 
 #: base/validators.py:16
-msgid "Pleas enter a tax ID with a minimum of 8 characters and no special characters"
-msgstr "Wprowadź numer identyfikatora podatkowego składającego się minimum 8 znaków, bez znaków specjalnych"
+msgid ""
+"Pleas enter a tax ID with a minimum of 8 characters and no special characters"
+msgstr ""
+"Wprowadź numer identyfikatora podatkowego składającego się minimum 8 znaków, "
+"bez znaków specjalnych"
 
 #: base/validators.py:21
 msgid "Please enter Pesel with 11 numbers"
@@ -78,8 +82,12 @@ msgid "Please enter the country code with 3 letters"
 msgstr "Wprowadź kod kraju używając 3 liter"
 
 #: base/validators.py:36
-msgid "Please enter the account number with a minimum of 15 characters and no special characters"
-msgstr "Wprowadź numer konta zawierający co najmniej 15 znaków, bez znaków specjalnych"
+msgid ""
+"Please enter the account number with a minimum of 15 characters and no "
+"special characters"
+msgstr ""
+"Wprowadź numer konta zawierający co najmniej 15 znaków, bez znaków "
+"specjalnych"
 
 #: base/validators.py:44
 msgid "Please enter the zip code with a numbers in the format xx-xxx"
@@ -97,7 +105,7 @@ msgstr "Informacje o użytkowniku"
 msgid "Address data"
 msgstr "Dane adresowe"
 
-#: companies/forms.py:55
+#: companies/forms.py:55 persons/forms.py:56
 msgid "Nip already exists"
 msgstr "Nip już istnieje"
 
@@ -117,7 +125,7 @@ msgstr "Regon"
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:20 persons/forms.py:49 persons/models.py:15
+#: companies/models.py:20 persons/forms.py:102 persons/models.py:15
 msgid "Address"
 msgstr "Adres"
 
@@ -404,11 +412,19 @@ msgstr "Informacje o konsumencie"
 msgid "Additional information"
 msgstr "Dodatkowe opcje"
 
-#: persons/forms.py:47 persons/models.py:9 users/models.py:15
+#: persons/forms.py:71
+msgid "Pesel already exists"
+msgstr "Pesel już istnieje"
+
+#: persons/forms.py:94
+msgid "Person with given data already exists"
+msgstr "Osoba o podanych danych już istnieje"
+
+#: persons/forms.py:100 persons/models.py:9 users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: persons/forms.py:48 persons/models.py:10 users/models.py:16
+#: persons/forms.py:101 persons/models.py:10 users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
 
@@ -470,7 +486,8 @@ msgstr "Status personelu"
 
 #: users/models.py:20
 msgid "Designates whether the user can log into this admin site."
-msgstr "Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
+msgstr ""
+"Określa, czy użytkownik może zalogować się do tej witryny administracyjnej."
 
 #: users/models.py:23
 msgid "Active"
