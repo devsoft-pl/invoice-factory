@@ -1,14 +1,14 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -16,36 +16,65 @@
                 </ol>
             </nav>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <form action="{% url 'invoices:list_invoices' %}" method='get'>
-                <div class="d-flex justify-content-between mt-2">
-                    {{ filter_form.as_div }}
-                    <div class="d-grid gap-2 col-2 ">
-                        <button class="btn btn-primary">Szukaj</button>
-                        <a class="btn btn-outline-primary" href="{% url 'invoices:list_invoices' %}">Wyczyść</a>
+                <div class="row">
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.invoice_number.errors }}
+                            <label for="{{ filter_form.invoice_number.id_for_label }}" style="font-weight: bold;">Numer faktury:</label>
+                            {{ filter_form.invoice_number }}
+                        </div>
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.invoice_type.errors }}
+                            <label for="{{ filter_form.invoice_type.id_for_label }}" style="font-weight: bold;">Typ faktury:</label>
+                            {{ filter_form.invoice_type }}
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 col-lg-5">
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.company.errors }}
+                            <label for="{{ filter_form.company.id_for_label }}" style="font-weight: bold;">Firma:</label>
+                            {{ filter_form.company }}
+                        </div>
+                        <div class="fieldWrapper mb-2">
+                            {{ filter_form.client.errors }}
+                            <label for="{{ filter_form.client.id_for_label }}" style="font-weight: bold;">Kontrahent:</label>
+                            {{ filter_form.client }}
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-2 justify-content-between row justify-content-center gap-2 m-0 mt-2 mt-md-0">
+                        <div class="col-12 d-flex align-items-end m-0 p-0">
+                            <button class="btn w-100 btn-primary">Szukaj</button>
+                        </div>
+                        <div class="col-12 d-flex align-items-end m-0 p-0 mb-2">
+                            <a class="btn w-100 btn-outline-primary" href="{% url 'invoices:list_invoices' %}">Wyczyść</a>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
         <div class="row mt-2">
             {% if invoices %}
-                <table class="table table-hover text-center mt-2">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Lp.</th>
-                            <th>Nr faktury</th>
-                            <th>Typ faktury</th>
-                            <th>Firma/Konsument</th>
-                            <th>Kontrahent/Konsument</th>
-                            <th>Data płatności</th>
-                            <th>Wartość brutto</th>
-                            <th>Opłacona</th>
-                            <th>Cykliczna</th>
-                            <th>Rozliczona</th>
-                            <th>Opcje</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Lp.</th>
+                                <th>Nr faktury</th>
+                                <th>Typ faktury</th>
+                                <th>Sprzedawca</th>
+                                <th>Nabywca</th>
+                                <th>Data płatności</th>
+                                <th>Wartość brutto</th>
+                                <th class="d-none d-md-table-cell">Opłacona</th>
+                                <th class="d-none d-md-table-cell">Cykliczna</th>
+                                <th class="d-none d-md-table-cell">Rozliczona</th>
+                                <th>Opcje</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
                         {% for invoice in invoices %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
@@ -65,23 +94,23 @@
                                         {{ invoice.person.full_name }}
                                     {% endif %}
                                 </td>
-                                <td>{{ invoice.payment_date| date:"d.m.Y" }}</td>
+                                <td>{{ invoice.payment_date|date:"d.m.Y" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     {% if invoice.is_paid %}
                                         <span>Tak</span>
                                     {% else %}
                                         <span>Nie</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     {% if invoice.is_recurring %}
                                         <span>Tak</span>
                                     {% else %}
                                         <span>Nie</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     {% if invoice.is_settled %}
                                         <span>Tak</span>
                                     {% else %}
@@ -92,7 +121,8 @@
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
                                     {% if not invoice.is_recurring %}
                                         {% if invoice.is_sell %}
-                                    	    <a href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">PDF</a>
+                                            <a href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank"
+                                               rel="noopener noreferrer">PDF</a>
                                         {% else %}
                                             <a href="{{ invoice.invoice_file.url }}">PDF</a>
                                         {% endif %}
@@ -103,36 +133,43 @@
                                 </td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
                 <div class="row">
-                    <div class="col mt-3">
+                    <div class="col-12 d-flex justify-content-left">
                         <b>Brak faktury</b>
                     </div>
                 </div>
             {% endif %}
         </div>
-        <div class="btn-group dropdown">
-            <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                Dodaj jako firma
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
-                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura sprzedażowa dla konsumenta</a></li>
-                <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
-            </ul>
-        </div>
-        <div class="btn-group dropdown">
-            <button class="btn btn-primary dropdown-toggle mt-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                Dodaj jako osoba fizyczna
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_to_client_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
-            </ul>
+        <div class="row mt-2">
+            <div class="col-12 col-md-2 d-grid gap-2 d-flex justify-content-left">
+                <div class="btn-group dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dodaj jako firma
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura sprzedażowa dla konsumenta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dodaj jako osoba fizyczna
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_to_client_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
+                    </ul>
+                </div>
+            </div>    
         </div>
         <div class="row">
-            {% include "pagination.html" with page=invoices %}
+            <div class="col-12 d-flex justify-content-center">
+                {% include "pagination.html" with page=invoices %}
+            </div>    
         </div>
     </div>
 {% endblock content %}
