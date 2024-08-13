@@ -1,67 +1,69 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{% url 'persons:list_persons' %}">Osoby fizyczne</a></li>
-                    <ol class="breadcrumb-item active" aria-current="page">{{ person.full_name }}</ol>
+                    <li class="breadcrumb-item"><a href="{% url 'persons:list_persons' %}">Konsument</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ person.full_name }}</li>
                 </ol>
             </nav>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Imię:</div>
-            <div class="col-4">{{ person.first_name }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Imię:</div>
+            <div class="col-12 col-md-6">{{ person.first_name }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Nazwisko:</div>
-            <div class="col-4">{{ person.last_name }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Nazwisko:</div>
+            <div class="col-12 col-md-6">{{ person.last_name }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">NIP:</div>
-            <div class="col-4">{{ person.nip|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">NIP:</div>
+            <div class="col-12 col-md-6">{{ person.nip|default_if_none:"-" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Pesel:</div>
-            <div class="col-4">{{ person.pesel|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Pesel:</div>
+            <div class="col-12 col-md-6">{{ person.pesel|default_if_none:"-" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Adres:</div>
-            <div class="col-4">{{ person.address }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Adres:</div>
+            <div class="col-12 col-md-6">{{ person.address }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Kod pocztowy:</div>
-            <div class="col-4">{{ person.zip_code }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kod pocztowy:</div>
+            <div class="col-12 col-md-6">{{ person.zip_code }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Miasto:</div>
-            <div class="col-4">{{ person.city }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Miasto:</div>
+            <div class="col-12 col-md-6">{{ person.city }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Kraj:</div>
-            <div class="col-2">{{ person.country }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kraj:</div>
+            <div class="col-12 col-md-6">{{ person.country }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Email:</div>
-            <div class="col-4">{{ person.email|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Email:</div>
+            <div class="col-12 col-md-6">{{ person.email|default_if_none:"-" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Numer telefonu:</div>
-            <div class="col-4">{{ person.phone_number|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Numer telefonu:</div>
+            <div class="col-12 col-md-6">{{ person.phone_number|default_if_none:"-" }}</div>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                <a class="btn btn-secondary mt-3" href="{% url 'persons:list_persons' %}">Powrót</a>
-                <a class="btn btn-primary mt-3" href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
-                <a class="btn btn-danger mt-3" href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
+        
+        
+        <div class="row mt-2 justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center flex-md-row flex-column gap-2">
+                <a class="btn btn-primary" href="{% url 'persons:replace_person' person.pk %}">Edytuj</a>
+                <a class="btn btn-danger" href="{% url 'persons:delete_person' person.pk %}">Usuń</a>
+                <a class="btn btn-secondary" href="{% url 'persons:list_persons' %}">Powrót</a>
             </div>
         </div>
     </div>

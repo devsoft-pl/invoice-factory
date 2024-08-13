@@ -1,73 +1,73 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
                     {% if company.is_my_company %}
                         <li class="breadcrumb-item"><a href="{% url 'companies:list_my_companies' %}">Moja firma</a></li>
                     {% else %}
-                        <li class="breadcrumb-item"><a href="{% url 'companies:list_companies' %}">Kontrahenci</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'companies:list_companies' %}">Kontrahent</a></li>
                     {% endif %}
-                    <ol class="breadcrumb-item active" aria-current="page">{{ company.name }}</ol>
+                    <li class="breadcrumb-item active" aria-current="page">{{ company.name }}</li>
                 </ol>
             </nav>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Nazwa firmy:</div>
-            <div class="col-4">{{ company.name }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Nazwa firmy:</div>
+            <div class="col-12 col-md-6">{{ company.name }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">NIP:</div>
-            <div class="col-4">{{ company.nip }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">NIP:</div>
+            <div class="col-12 col-md-6">{{ company.nip }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Regon:</div>
-            <div class="col-4">{{ company.regon }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Regon:</div>
+            <div class="col-12 col-md-6">{{ company.regon }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Adres:</div>
-            <div class="col-4">{{ company.address }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Adres:</div>
+            <div class="col-12 col-md-6">{{ company.address }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Kod pocztowy:</div>
-            <div class="col-4">{{ company.zip_code }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kod pocztowy:</div>
+            <div class="col-12 col-md-6">{{ company.zip_code }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Miasto:</div>
-            <div class="col-4">{{ company.city }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Miasto:</div>
+            <div class="col-12 col-md-6">{{ company.city }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Kraj:</div>
-            <div class="col-2">{{ company.country }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kraj:</div>
+            <div class="col-12 col-md-6">{{ company.country }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Email:</div>
-            <div class="col-4">{{ company.email|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Email:</div>
+            <div class="col-12 col-md-6">{{ company.email|default_if_none:"-" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Numer telefonu:</div>
-            <div class="col-4">{{ company.phone_number|default_if_none:"-" }}</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Numer telefonu:</div>
+            <div class="col-12 col-md-6">{{ company.phone_number|default_if_none:"-" }}</div>
         </div>
-        <div class="row">
-            <div class="col text-center">
+        <div class="row mt-2 justify-content-center">
+            <div class="col-md-6 d-flex justify-content-center flex-md-row flex-column gap-2">
                 {% if company.is_my_company %}
-                    <a class="btn btn-secondary mt-3" href="{% url 'companies:list_my_companies' %}">Powrót</a>
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
-                    <a class="btn btn-danger mt-3" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-primary" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-primary" href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
+                    <a class="btn btn-danger" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-secondary" href="{% url 'companies:list_my_companies' %}">Powrót</a>
                 {% else %}
-                    <a class="btn btn-secondary mt-3" href="{% url 'companies:list_companies' %}">Powrót</a>
-                    <a class="btn btn-primary mt-3" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                    <a class="btn btn-danger mt-3" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-primary" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-danger" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-secondary" href="{% url 'companies:list_companies' %}">Powrót</a>
                 {% endif %}
             </div>
         </div>
