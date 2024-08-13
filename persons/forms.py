@@ -42,6 +42,59 @@ class PersonForm(forms.ModelForm):
         self.fields["nip"].validators = [nip_validator]
         self.fields["pesel"].validators = [pesel_validator]
 
+    def clean_nip(self):
+        nip = self.cleaned_data.get("nip")
+        if not nip:
+            return nip
+
+        person = Person.objects.filter(nip=nip, user=self.current_user)
+
+        if self.instance.pk:
+            person = person.exclude(pk=self.instance.pk)
+
+        if person.exists():
+            raise forms.ValidationError(_("Nip already exists"))
+
+        return nip
+
+    def clean_pesel(self):
+        pesel = self.cleaned_data.get("pesel")
+        if not pesel:
+            return pesel
+
+        person = Person.objects.filter(pesel=pesel, user=self.current_user)
+
+        if self.instance.pk:
+            person = person.exclude(pk=self.instance.pk)
+
+        if person.exists():
+            raise forms.ValidationError(_("Pesel already exists"))
+
+        return pesel
+
+    def clean(self):
+        first_name = self.cleaned_data.get("first_name")
+        last_name = self.cleaned_data.get("last_name")
+        address = self.cleaned_data.get("address")
+        zip_code = self.cleaned_data.get("zip_code")
+        city = self.cleaned_data.get("city")
+        person = Person.objects.filter(
+            first_name=first_name,
+            last_name=last_name,
+            address=address,
+            city=city,
+            zip_code=zip_code,
+            user=self.current_user,
+        )
+
+        if self.instance.pk:
+            person = person.exclude(pk=self.instance.pk)
+
+        if person.exists():
+            raise forms.ValidationError(_("Person with given data already exists"))
+
+        return self.cleaned_data
+
 
 class PersonFilterForm(forms.Form):
     first_name = forms.CharField(label=_("First name"), required=False)
