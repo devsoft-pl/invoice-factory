@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.29.0 (2024-08-13)
+
+### Feature
+
+* feat: rwd ([`c36b118`](https://github.com/devsoft-pl/invoices/commit/c36b1181e8cc509ae3db4fc79cbc1ed84ac91885))
+
+* feat: add clean to person ([`6dcf760`](https://github.com/devsoft-pl/invoices/commit/6dcf760d11c89444c3fe29555c7fc53cf962336b))
+
+* feat: add new transalted ([`1349985`](https://github.com/devsoft-pl/invoices/commit/13499857927869f56717d216963b96c20f149903))
+
+* feat: add user to unique_together ([`1f1393c`](https://github.com/devsoft-pl/invoices/commit/1f1393cbbfa4a4c385d80f8e374594621fa44321))
+
+* feat: rwd ([`2422114`](https://github.com/devsoft-pl/invoices/commit/242211451706aaf7e2fe1ea5a127b9458a53bf64))
+
+* feat: rwd ([`01ca6c0`](https://github.com/devsoft-pl/invoices/commit/01ca6c009d3ea3d385c0dbb4574e3c044deffcd9))
+
+* feat: rwd ([`14576f3`](https://github.com/devsoft-pl/invoices/commit/14576f3ecd7ce57211a58f6ca05fec3dbec37360))
+
+### Fix
+
+* fix: update test with valid data in person porm ([`a1e09f8`](https://github.com/devsoft-pl/invoices/commit/a1e09f8c3f82abbf283302821627170c81ff463c))
+
 ## v0.28.0 (2024-08-12)
 
 ### Unknown
