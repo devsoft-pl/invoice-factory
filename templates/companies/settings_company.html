@@ -20,12 +20,12 @@
         </div>
         <div class="row mt-2 justify-content-center">
             <div class="col-md-6 d-flex justify-content-center flex-md-row flex-column gap-2">
-                <a class="btn btn-primary" href="{% url 'summary_recipients:list_summary_recipients' company.pk %}">Odbiorca faktur</a>
+                <a class="btn btn-primary" href="{% url 'summary_recipients:list_summary_recipients' company.pk %}">Odbiorcy faktur</a>
                 <a class="btn btn-primary" href="{% url 'accountants:list_accountants' company.pk %}">Księgowość</a>
             </div>
         </div>
         <div class="row mt-3 justify-content-center">
-            <div class="col-auto">
+            <div class="col-md-6 d-flex justify-content-center flex-md-row flex-column">
                 <a class="btn btn-secondary" href="{% url 'companies:list_my_companies' %}">Powrót</a>
             </div>
         </div>
