@@ -58,16 +58,16 @@
             <div class="col-12 col-md-6">{{ company.phone_number|default_if_none:"-" }}</div>
         </div>
         <div class="row mt-2 justify-content-center">
-            <div class="col-md-6 d-flex justify-content-center flex-md-row flex-column gap-2">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                 {% if company.is_my_company %}
-                    <a class="btn btn-primary" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                    <a class="btn btn-primary" href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
-                    <a class="btn btn-danger" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-primary w-100 w-md-auto" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-warning w-100 w-md-auto" href="{% url 'companies:settings_company' company.pk %}">Ustawienia</a>
+                    <a class="btn btn-danger w-100 w-md-auto" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
                     <a class="btn btn-secondary" href="{% url 'companies:list_my_companies' %}">Powrót</a>
                 {% else %}
-                    <a class="btn btn-primary" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
-                    <a class="btn btn-danger" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
-                    <a class="btn btn-secondary" href="{% url 'companies:list_companies' %}">Powrót</a>
+                    <a class="btn btn-primary w-100 w-md-auto" href="{% url 'companies:replace_company' company.pk %}">Edytuj</a>
+                    <a class="btn btn-danger w-100 w-md-auto" href="{% url 'companies:delete_company' company.pk %}">Usuń</a>
+                    <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'companies:list_companies' %}">Powrót</a>
                 {% endif %}
             </div>
         </div>

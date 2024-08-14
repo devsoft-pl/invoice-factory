@@ -8,11 +8,11 @@
                    <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktura</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
                         {% if not invoice.is_recurring %}
                             {{ invoice.invoice_number }}
@@ -24,12 +24,12 @@
             </nav>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Typ faktury:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Typ faktury:</div>
             <div class="col-4">{{ invoice.get_invoice_type_display }}</div>
         </div>
         {% if not invoice.correction_invoice_relation %}
             <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Cykliczność:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Cykliczność:</div>
                 <div class="col-4">
                     {% if invoice.is_recurring %}
                         <span>Tak</span>
@@ -41,33 +41,33 @@
         {% endif %}
         <div class="row mb-2">
             {% if invoice.company %}
-                <div class="col-3 offset-3 text-end">Moja firma:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Moja firma:</div>
                 <div class="col-4">{{ invoice.company }}</div>
             {% else%}
-                <div class="col-3 offset-3 text-end">Konsument:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Konsument:</div>
                 <div class="col-4">{{ invoice.person }}</div>
             {% endif %}
         </div>
         <div class="row mb-2">
             {% if invoice.client %}
-                <div class="col-3 offset-3 text-end">Kontrahent:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kontrahent:</div>
                 <div class="col-4">{{ invoice.client }}</div>
             {% else%}
-                <div class="col-3 offset-3 text-end">Konsument:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Konsument:</div>
                 <div class="col-4">{{ invoice.person }}</div>
             {% endif %}
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data utworzenia:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data utworzenia:</div>
             <div class="col-4">{{ invoice.create_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data sprzedaży:</div>
             <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
         </div>
         {% if not invoice.correction_invoice_relation and invoice.is_recurring %}
             <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Data sprzedaży to ostatni dzień miesiąca:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data sprzedaży to ostatni dzień miesiąca:</div>
                 <div class="col-4">
                     {% if invoice.is_last_day %}
                         <span>Tak</span>
@@ -78,19 +78,19 @@
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data płatności:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data płatności:</div>
             <div class="col-4">{{ invoice.payment_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Sposób płatności:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Sposób płatności:</div>
             <div class="col-4">{{ invoice.get_payment_method_display }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Waluta:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Waluta:</div>
             <div class="col-4">{{ invoice.currency }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Numer konta:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Numer konta:</div>
             {% if invoice.account_number %}
                 <div class="col-4">{{ invoice.account_number }}</div>
             {% else %}
@@ -99,7 +99,7 @@
         </div>
         {% if not invoice.is_recurring %}
             <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Opłacona:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Opłacona:</div>
                 {% if invoice.is_paid %}
                     <div class="col-4">Tak</div>
                 {% else %}
@@ -107,7 +107,7 @@
                 {% endif %}
             </div>
             <div class="row mb-2">
-                <div class="col-3 offset-3 text-end">Rozliczona:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Rozliczona:</div>
                 <div class="col-4">
                     {% if invoice.is_settled %}
                         <span>Tak</span>
@@ -117,104 +117,106 @@
                 </div>
             </div>
         {% endif %}
-        <div class="row mt-2">
-            <div class="col text-center">
+        <div class="row mt-2 justify-content-center">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                 {% if not invoice.is_settled %}
                     {% if invoice.company %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
                     {% else %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}">Edytuj</a>
+                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}">Edytuj</a>
                     {% endif %}    
-                    <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                    <a class="btn btn-danger w-100 w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% endif %}
                 {% if invoice.company %}
                     {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                     {% endif %}
                 {% else %}
                     {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
-                        <a class="btn btn-primary mt-3" href="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                     {% endif %}
                 {% endif %}
-                <div class="row mt-2" style="color: red">
-                    {% if invoice.original_invoice_relation %}
-                        <p>Do faktury istnieje już <a target="_blank" href="{% url 'invoices:detail_invoice' invoice.original_invoice_relation.correction_invoice.pk %}">faktura korygująca</a></p>
-                    {% endif %}
-                </div>
+            </div>
+            <div class="row mt-2 text-center" style="color: red">
+                {% if invoice.original_invoice_relation %}
+                    <p>Do faktury istnieje <a target="_blank" href="{% url 'invoices:detail_invoice' invoice.original_invoice_relation.correction_invoice.pk %}">faktura korygująca</a></p>
+                {% endif %}
             </div>
         </div>
         <div class="row mt-2">
             {% if invoice.items.exists %}
-                <table class="table table-hover text-center mt-2">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Lp.</th>
-                            <th style="width: 500px;">Nazwa</th>
-                            <th>PKWiU</th>
-                            <th>Ilość</th>
-                            <th>Cena netto</th>
-                            <th>Wartość netto</th>
-                            <th>VAT</th>
-                            <th>Kwota VAT</th>
-                            <th>Wartość brutto</th>
-                            {% if not invoice.is_settled %}
-                                <th>Opcje</th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        {% for item in invoice.items.all %}
+                <div class="table-responsive">
+                    <table class="table table-hover text-center mt-2">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td style="width: 500px;">{{ item.name }}</td>
-                                <td>
-                                    {% if item.pkwiu %}
-                                        {{ item.pkwiu }}
-                                    {% else %}
-                                        <span>-</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ item.amount }}</td>
-                                <td>{{ item.net_price|floatformat:"2g" }}</td>
-                                <td>{{ item.net_amount|floatformat:"2g" }}</td>
-                                <td>
-                                    {% if item.vat %}
-                                        {{ item.vat }} %
-                                    {% else %}
-                                        <span>ZW</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ item.tax_amount|floatformat:"2g" }}</td>
-                                <td>{{ item.gross_amount|floatformat:"2g" }}</td>
-                                <td>
-                                    {% if not invoice.is_settled %}
-                                        <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
-                                        <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
-                                    {% endif %}
-                                </td>
+                                <th>Lp.</th>
+                                <th style="width: 500px;">Nazwa</th>
+                                <th>PKWiU</th>
+                                <th>Ilość</th>
+                                <th>Cena netto</th>
+                                <th>Wartość netto</th>
+                                <th>VAT</th>
+                                <th>Kwota VAT</th>
+                                <th>Wartość brutto</th>
+                                {% if not invoice.is_settled %}
+                                    <th>Opcje</th>
+                                {% endif %}
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for item in invoice.items.all %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td style="width: 500px;">{{ item.name }}</td>
+                                    <td>
+                                        {% if item.pkwiu %}
+                                            {{ item.pkwiu }}
+                                        {% else %}
+                                            <span>-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.amount }}</td>
+                                    <td>{{ item.net_price|floatformat:"2g" }}</td>
+                                    <td>{{ item.net_amount|floatformat:"2g" }}</td>
+                                    <td>
+                                        {% if item.vat %}
+                                            {{ item.vat }} %
+                                        {% else %}
+                                            <span>ZW</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.tax_amount|floatformat:"2g" }}</td>
+                                    <td>{{ item.gross_amount|floatformat:"2g" }}</td>
+                                    <td>
+                                        {% if not invoice.is_settled %}
+                                            <a href="{% url 'items:replace_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Edytuj</a>
+                                            <a href="{% url 'items:delete_item' item.pk %}?next={% url 'invoices:detail_invoice' invoice.pk %}">Usuń</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
             <div class="row">
-                <div class="col mt-3">
+                <div class="col-12 d-flex justify-content-left">
                     <b>Brak pozycji do faktury</b>
                 </div>
             </div>
             {% endif %}
         </div>
         {% if not invoice.is_settled %}
-            <div class="row">
-                <div class="col">
-                    <a class="btn btn-primary mt-2" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+            <div class="row mt-2">
+                <div class="col-12 col-md-auto">
+                    <a class="btn btn-primary w-100 w-md-auto" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
                 </div>
             </div>
         {% endif %}
-        <div class="row">
-            <div class="col text-center">
-                <a class="btn btn-secondary" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                <a class="btn btn-success w-md-auto" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
+                <a class="btn btn-secondary w-md-auto" href="{% url 'invoices:list_invoices' %}">Powrót</a>
             </div>
         </div>
     </div>
