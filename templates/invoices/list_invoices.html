@@ -144,26 +144,34 @@
             {% endif %}
         </div>
         <div class="row mt-2">
-            <div class="col-12 col-md-2 d-grid gap-2 d-flex justify-content-left">
-                <div class="btn-group dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                <div class="btn-group dropdown w-100">
+                    <button class="btn btn-primary dropdown-toggle w-100 text-nowrap" type="button"
+                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="min-width: 150px;">
                         Dodaj jako firma
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
-                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura sprzedażowa dla konsumenta</a></li>
-                        <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_invoice' %}">Faktura sprzedażowa
+                            dla kontrahenta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_invoice' %}">Faktura
+                            sprzedażowa dla konsumenta</a></li>
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_buy_invoice' %}">Faktura zakupowa</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="btn-group dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dodaj jako osoba fizyczna
+                <div class="btn-group dropdown w-100 mt-2 mt-md-0">
+                    <button class="btn btn-primary dropdown-toggle w-100 text-nowrap" type="button"
+                            id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="min-width: 150px;">
+                        Dodaj jako osoba
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_to_client_invoice' %}">Faktura sprzedażowa dla kontrahenta</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item" href="{% url 'invoices:create_sell_person_to_client_invoice' %}">Faktura
+                            sprzedażowa dla kontrahenta</a></li>
                     </ul>
                 </div>
-            </div>    
+            </div>
         </div>
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
