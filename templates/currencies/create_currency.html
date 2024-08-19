@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -18,23 +18,28 @@
             </nav>
         </div>
         <div class="row mt-2">
-            <form action="{% url 'currencies:create_currency' %}" method='post'>
+            <form action="{% url 'currencies:create_currency' %}" method="post">
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-3 offset-3 text-end my-auto">{{ form.code.label_tag }}</div>
-                    <div class="col-1">{{ form.code }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.code.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">
+                        {{ form.code }}
+                    </div>
                 </div>
                 {% if form.code.errors %}
                     <div class="row">
-                        <div class="col-auto offset-6 text-danger">
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
                             {{ form.code.errors }}
                         </div>
                     </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary mt-3" href="{% url 'currencies:list_currencies' %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" type="submit">Zapisz</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'currencies:list_currencies' %}">Powrót</a>
                     </div>
                 </div>
             </form>
