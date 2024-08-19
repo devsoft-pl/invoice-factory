@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.37.0 (2024-08-19)
+
+### Feature
+
+* feat: rwd ([`9150857`](https://github.com/devsoft-pl/invoices/commit/9150857bc37783188f30fc4457b7848bf92e77bc))
+
 ## v0.36.0 (2024-08-19)
 
 ### Feature
