@@ -81,7 +81,7 @@
                     errorElement.setAttribute('class', 'row');
                     
                     const errorContainer = document.createElement('div');
-                    errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                    errorContainer.setAttribute('class', 'col-12 col-md-6 offset-md-6 text-danger');
                     errorElement.appendChild(errorContainer);
                     
                     const errorUlContainer = document.createElement('ul');
@@ -114,19 +114,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{% url 'persons:list_persons' %}">Osoby fizyczne</a>
+                        <a href="{% url 'persons:list_persons' %}">Konsument</a>
                     </li>
                     <li class="breadcrumb-item activ"><a href="{% url 'persons:detail_person' person.pk %}">{{ person.full_name }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Edytuj</li>
@@ -138,105 +138,173 @@
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.first_name.label_tag }}</div>
-                    <div class="col-2">{{ form.first_name }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.first_name.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.first_name }}
+                    </div>
                 </div>
                 {% if form.first_name.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.first_name.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.first_name.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.last_name.label_tag }}</div>
-                    <div class="col-3">{{ form.last_name }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.last_name.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.last_name }}
+                    </div>
                 </div>
                 {% if form.last_name.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.last_name.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.last_name.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.nip.label_tag }}</div>
-                    <div class="col-2">{{ form.nip }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.nip.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.nip }}
+                    </div>
                 </div>
                 {% if form.nip.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.nip.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.nip.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.pesel.label_tag }}</div>
-                    <div class="col-2">{{ form.pesel }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.pesel.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.pesel }}
+                    </div>
                 </div>
                 {% if form.pesel.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.pesel.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.pesel.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.address.label_tag }}</div>
-                    <div class="col-3">{{ form.address }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.address.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.address }}
+                    </div>
                 </div>
                 {% if form.address.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.address.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.address.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.zip_code.label_tag }}</div>
-                    <div class="col-1">{{ form.zip_code }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.zip_code.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">
+                        {{ form.zip_code }}
+                    </div>
                 </div>
                 {% if form.zip_code.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.zip_code.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.zip_code.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.city.label_tag }}</div>
-                    <div class="col-3">{{ form.city }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.city.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.city }}
+                    </div>
                 </div>
                 {% if form.city.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.city.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.city.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.country.label_tag }}</div>
-                    <div class="col-2">{{ form.country }}</div>
-                    <div class="col">
-                        <a id="cancelCountryButton" class="btn btn-secondary d-none">Anuluj</a>
-                        <a id="saveCountryButton" class="btn btn-primary d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.country.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.country }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex flex-column flex-md-row mt-2 gap-2">
+                        <a id="saveCountryButton" class="btn btn-primary w-md-auto me-2 d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
+                        <a id="cancelCountryButton" class="btn btn-secondary w-md-auto d-none">Anuluj</a>
                     </div>
                 </div>
                 {% if form.country.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.country.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.country.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.email.label_tag }}</div>
-                    <div class="col-3">{{ form.email }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.email.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.email }}
+                    </div>
                 </div>
                 {% if form.email.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.email.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.email.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.phone_number.label_tag }}</div>
-                    <div class="col-2">{{ form.phone_number }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.phone_number.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-center">
+                        {{ form.phone_number }}
+                    </div>
                 </div>
                 {% if form.phone_number.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
                             {{ form.phone_number.errors }}
                         </div>
                     </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary mt-3" href="{% url 'persons:list_persons' %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" name="submit">Zapisz</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'persons:list_persons' %}">Powrót</a>
                     </div>
                 </div>
             </form>

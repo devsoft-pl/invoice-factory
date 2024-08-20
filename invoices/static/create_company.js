@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorAjaxElement.setAttribute('class', 'row');
 
                 const errorAjaxContainer = document.createElement('div');
-                errorAjaxContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                errorAjaxContainer.setAttribute('class', 'col-12 col-md-6 offset-md-6 text-danger');
                 errorAjaxElement.appendChild(errorAjaxContainer);
 
                 const errorUlAjaxContainer = document.createElement('ul');
