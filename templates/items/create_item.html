@@ -80,7 +80,7 @@
                     errorElement.setAttribute('class', 'row');
                     
                     const errorContainer = document.createElement('div');
-                    errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                    errorContainer.setAttribute('class', 'col-12 col-md-6 offset-md-6 text-danger');
                     errorElement.appendChild(errorContainer);
                     
                     const errorUlContainer = document.createElement('ul');
@@ -113,14 +113,14 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -134,61 +134,97 @@
             <form action="{% url 'items:create_item' invoice.pk %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.name.label_tag }}</div>
-                    <div class="col-5">{{ form.name }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.name.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-4 d-flex align-items-center">
+                        {{ form.name }}
+                    </div>
                 </div>
                 {% if form.name.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.name.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.name.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.pkwiu.label_tag }}</div>
-                    <div class="col-2">{{ form.pkwiu }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.pkwiu.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">
+                        {{ form.pkwiu }}
+                    </div>
                 </div>
                 {% if form.pkwiu.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.pkwiu.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.pkwiu.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.amount.label_tag }}</div>
-                    <div class="col-1">{{ form.amount }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.amount.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 col-lg-1 d-flex align-items-center">
+                        {{ form.amount }}
+                    </div>
                 </div>
                 {% if form.amount.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.amount.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.amount.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.net_price.label_tag }}</div>
-                    <div class="col-2">{{ form.net_price }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.net_price.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">
+                        {{ form.net_price }}
+                    </div>
                 </div>
                 {% if form.net_price.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.net_price.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.net_price.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-1">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.vat.label_tag }}</div>
-                    <div class="col-1">{{ form.vat }}</div>
-                    <div class="col-2">
-                        <a id="cancelVatButton" class="btn btn-secondary d-none">Anuluj</a>
-                        <a id="saveVatButton" class="btn btn-primary d-none" href="{% url 'vat_rates:create_vat_ajax' %}">Zapisz</a>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.vat.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 col-lg-1 d-flex align-items-center">
+                        {{ form.vat }}
+                    </div>
+                    <div class="col-12 col-md-3 d-flex flex-column flex-md-row mt-2 gap-2">
+                        <a id="saveVatButton" class="btn btn-primary w-md-auto d-none" href="{% url 'vat_rates:create_vat_ajax' %}">Zapisz</a>
+                        <a id="cancelVatButton" class="btn btn-secondary w-md-auto d-none">Anuluj</a>
                     </div>
                 </div>
                 {% if form.vat.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.vat.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.vat.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div id="emailHelp" class="form-text offset-5">Wybierz z listy odpowiednią stawkę lub zwolenienie z VAT</div>
+                    <div id="emailHelp" class="col-12 col-md-6 offset-md-6 form-text">Wybierz z listy odpowiednią stawkę lub zwolenienie z VAT</div>
                 </div>
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary mt-3" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" name="submit">Zapisz</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'invoices:detail_invoice' invoice.pk %}">Powrót</a>
+                        
                     </div>
                 </div>
             </form>
