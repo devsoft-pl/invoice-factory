@@ -1,6 +1,20 @@
 # CHANGELOG
 
+## v0.40.0 (2024-08-22)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`c5e74fa`](https://github.com/devsoft-pl/invoices/commit/c5e74fa633d8f33db7edd3176376a717c73efa26))
+
 ## v0.39.0 (2024-08-21)
+
+### Feature
+
+* feat: rwd ([`7fddc82`](https://github.com/devsoft-pl/invoices/commit/7fddc82f8b0e2cb33579c98e00813ff2ec72c81b))
+
+* feat: rwd ([`c35e727`](https://github.com/devsoft-pl/invoices/commit/c35e7277111b2c6a52b0f24da35d8fe047a7b1cb))
+
+* feat: rwd ([`325ae5e`](https://github.com/devsoft-pl/invoices/commit/325ae5e485c9e565bfb3fbd9c368d10cf5e05d23))
 
 ### Unknown
 
