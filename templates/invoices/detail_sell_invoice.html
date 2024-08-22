@@ -117,23 +117,23 @@
                 </div>
             </div>
         {% endif %}
-        <div class="row mt-2 justify-content-center">
+        <div class="row mt-4 justify-content-center">
             <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                 {% if not invoice.is_settled %}
                     {% if invoice.company %}
-                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
+                        <a class="btn btn-primary w-md-auto" href="{% url 'invoices:replace_sell_invoice' invoice.pk %}">Edytuj</a>
                     {% else %}
-                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}">Edytuj</a>
+                        <a class="btn btn-primary w-md-auto" href="{% url 'invoices:replace_sell_person_to_client_invoice' invoice.pk %}">Edytuj</a>
                     {% endif %}    
-                    <a class="btn btn-danger w-100 w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                    <a class="btn btn-danger w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% endif %}
                 {% if invoice.company %}
                     {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
-                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                        <a class="btn btn-primary w-md-auto" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                     {% endif %}
                 {% else %}
                     {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
-                        <a class="btn btn-primary w-100 w-md-auto" href="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
+                        <a class="btn btn-primary w-md-auto" href="{% url 'invoices:create_correction_person_to_client_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                     {% endif %}
                 {% endif %}
             </div>
@@ -201,7 +201,7 @@
             {% else %}
             <div class="row">
                 <div class="col-12 d-flex justify-content-left">
-                    <b>Brak pozycji do faktury</b>
+                    <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
                 </div>
             </div>
             {% endif %}

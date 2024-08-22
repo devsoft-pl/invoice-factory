@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
@@ -18,31 +18,31 @@
             </nav>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Typ faktury:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Typ faktury:</div>
             <div class="col-4">{{ invoice.get_invoice_type_display }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Moja firma:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Moja firma:</div>
             <div class="col-4">{{ invoice.company }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data sprzedaży:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data sprzedaży:</div>
             <div class="col-4">{{ invoice.sale_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data płatności:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data płatności:</div>
             <div class="col-4">{{ invoice.payment_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Data rozliczenia:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Data rozliczenia:</div>
             <div class="col-4">{{ invoice.settlement_date| date:"d.m.Y" }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Plik faktury:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Plik faktury:</div>
             <div class="col-4">{{ invoice.invoice_file }}</div>
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Opłacona:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Opłacona:</div>
             {% if invoice.is_paid %}
                 <div class="col-4">Tak</div>
             {% else %}
@@ -50,7 +50,7 @@
             {% endif %}
         </div>
         <div class="row mb-2">
-            <div class="col-3 offset-3 text-end">Rozliczona:</div>
+            <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Rozliczona:</div>
             <div class="col-4">
                 {% if invoice.is_settled %}
                     <span>Tak</span>
@@ -59,10 +59,10 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col text-center">
-                <a class="btn btn-primary mt-3" href="{% url 'invoices:replace_buy_invoice' invoice.pk %}">Edytuj</a>
-                <a class="btn btn-danger mt-3" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                <a class="btn btn-primary w-md-auto" href="{% url 'invoices:replace_buy_invoice' invoice.pk %}">Edytuj</a>
+                <a class="btn btn-danger w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
             </div>
         </div>
         <div class="row mt-2">
@@ -116,21 +116,21 @@
                 </table>
             {% else %}
             <div class="row">
-                <div class="col mt-3">
+                <div class="col-12 d-flex justify-content-left">
                     <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
                 </div>
             </div>
             {% endif %}
         </div>
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary mt-2" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
+        <div class="row mt-2">
+            <div class="col-12 col-md-auto">
+                <a class="btn btn-primary w-100 w-md-auto" href="{% url 'items:create_item' invoice.pk %}">Dodaj</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                <a class="btn btn-secondary" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                <a class="btn btn-secondary w-md-auto" href="{% url 'invoices:list_invoices' %}">Powrót</a>
+                <a class="btn btn-primary w-md-auto" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
             </div>
         </div>
     </div>
