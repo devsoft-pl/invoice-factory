@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorElement.setAttribute('class', 'row');
 
                 const errorContainer = document.createElement('div');
-                errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                errorContainer.setAttribute('class', 'col-12 col-md-6 offset-md-6 text-danger');
                 errorElement.appendChild(errorContainer);
 
                 const errorUlContainer = document.createElement('ul');
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorElement.setAttribute('class', 'row');
 
                 const errorContainer = document.createElement('div');
-                errorContainer.setAttribute('class', 'col-auto offset-5 text-danger');
+                errorContainer.setAttribute('class', 'col-12 col-md-6 offset-md-6 text-danger');
                 errorElement.appendChild(errorContainer);
 
                 const errorUlContainer = document.createElement('ul');
