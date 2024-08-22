@@ -15,19 +15,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{% url 'index' %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
                             </svg>
                         </a>
                     </li>
                     <li class="breadcrumb-item"><a href="{% url 'invoices:list_invoices' %}">Faktury</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dodaj fakturę sprzedażową dla kontrahenta</li>
+                    <li class="breadcrumb-item active" aria-current="page">Dodaj</li>
                 </ol>
             </nav>
         </div>
@@ -36,125 +36,207 @@
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.is_recurring.label_tag }}</div>
-                    <div class="col-4 my-auto">{{ form.is_recurring }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.is_recurring.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 mt-md-0 d-flex align-items-center">
+                        {{ form.is_recurring }}
+                    </div>
                 </div>
                 {% if form.is_recurring.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.is_recurring.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.is_recurring.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.invoice_number.label_tag }}</div>
-                    <div class="col-3">{{ form.invoice_number }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.invoice_number.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
+                        {{ form.invoice_number }}
+                    </div>
                 </div>
                 {% if form.invoice_number.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.invoice_number.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.invoice_number.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.person.label_tag }}</div>
-                    <div class="col-3">{{ form.person }}</div>
-                    <div class="col">
-                        <a id="createPersonButton" class="btn btn-primary" href="{% url 'persons:create_person_ajax' %}">Dodaj</a>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        Sprzedawca:
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
+                        {{ form.person }}
+                    </div>
+                    <div class="col-12 col-md-auto d-flex flex-md-row flex-column mt-2">
+                        <a id="createPersonButton" class="btn btn-primary w-md-auto" href="{% url 'persons:create_person_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.person.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.person.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.person.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.client.label_tag }}</div>
-                    <div class="col-3">{{ form.client }}</div>
-                    <div class="col">
-                        <a id="createCompanyButton" class="btn btn-primary" href="{% url 'companies:create_company_ajax' %}">Dodaj</a>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        Nabywca:
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
+                        {{ form.client }}
+                    </div>
+                    <div class="col-12 col-md-auto d-flex flex-md-row flex-column mt-2">
+                        <a id="createCompanyButton" class="btn btn-primary w-md-auto" href="{% url 'companies:create_company_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.client.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.client.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.client.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.create_date.label_tag }}</div>
-                    <div class="col-2">{{ form.create_date }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.create_date.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
+                        {{ form.create_date }}
+                    </div>
                 </div>
                 {% if form.create_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.create_date.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.create_date.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2" id="saleDateContainer">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.sale_date.label_tag }}</div>
-                    <div class="col-2">{{ form.sale_date }}</div>
-                    <div class="col-5 my-auto d-none">{{ form.is_last_day }}<span class="ms-2">{{ form.is_last_day.label_tag|cut:":" }}</span></div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.sale_date.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
+                        {{ form.sale_date }}
+                    </div>
+                    <div class="col-12 col-md-3 d-none mt-2 mt-md-0 d-flex align-items-center">
+                        {{ form.is_last_day }}
+                        <span class="ms-2 " style="font-weight: bold;">
+                            {{ form.is_last_day.label_tag|cut:":" }}
+                        </span>
+                    </div>
                 </div>
                 {% if form.sale_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.sale_date.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.sale_date.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 {% if form.is_last_day.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.is_last_day.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.is_last_day.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.payment_date.label_tag }}</div>
-                    <div class="col-2">{{ form.payment_date }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.payment_date.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
+                        {{ form.payment_date }}
+                    </div>
                 </div>
                 {% if form.payment_date.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.payment_date.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.payment_date.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.payment_method.label_tag }}</div>
-                    <div class="col-2">{{ form.payment_method }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.payment_method.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">
+                        {{ form.payment_method }}
+                    </div>
                 </div>
                 {% if form.payment_method.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.payment_method.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.payment_method.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.currency.label_tag }}</div>
-                    <div class="col-1">{{ form.currency }}</div>
-                    <div class="col-2">
-                        <a id="createCurrencyButton" class="btn btn-primary" href="{% url 'currencies:create_currency_ajax' %}">Dodaj</a>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.currency.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-2 col-lg-1 d-flex align-items-center">
+                        {{ form.currency }}
+                    </div>
+                    <div class="col-12 col-md-auto d-flex flex-md-row flex-column mt-2">
+                        <a id="createCurrencyButton" class="btn btn-primary w-md-auto" href="{% url 'currencies:create_currency_ajax' %}">Dodaj</a>
                     </div>
                 </div>
                 {% if form.currency.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.currency.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.currency.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.account_number.label_tag }}</div>
-                    <div class="col-4">{{ form.account_number }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.account_number.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center">
+                        {{ form.account_number }}
+                    </div>
                 </div>
                 {% if form.account_number.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">{{ form.account_number.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
+                            {{ form.account_number.errors }}
+                        </div>
                     </div>
                 {% endif %}
                 <div class="row mb-2" id="isPaidContainerElement">
-                    <div class="col-2 offset-3 text-end my-auto">{{ form.is_paid.label_tag }}</div>
-                    <div class="col-4 my-auto">{{ form.is_paid }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">
+                        {{ form.is_paid.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-3 mt-md-0 d-flex align-items-center">
+                        {{ form.is_paid }}
+                    </div>
                 </div>
                 {% if form.is_paid.errors %}
                     <div class="row">
-                        <div class="col-auto offset-5 text-danger">
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
                             {{ form.is_paid.errors }}
                         </div>
                     </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary mt-3" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                        <button class="btn btn-primary mt-3" name="submit">Zapisz</button>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" name="submit">Zapisz</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'invoices:list_invoices' %}">Powrót</a>
                     </div>
                 </div>
             </form>
