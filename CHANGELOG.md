@@ -1,8 +1,20 @@
 # CHANGELOG
 
+## v0.42.0 (2024-08-26)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`1a9f519`](https://github.com/devsoft-pl/invoices/commit/1a9f5194b7e5a76304a1db18cb2aef8dddddddc1))
+
 ## v0.41.0 (2024-08-22)
 
 ### Feature
+
+* feat: ignore deprecation warning ([`88f9d62`](https://github.com/devsoft-pl/invoices/commit/88f9d6255fa87dee3b9c61e95a4c0afd97745aa7))
+
+* feat: update dependencies ([`b6b4fae`](https://github.com/devsoft-pl/invoices/commit/b6b4fae6762ecb78ba8084d1afdcce60e973bbed))
+
+* feat: update dependencies ([`072cf08`](https://github.com/devsoft-pl/invoices/commit/072cf08a6f2727607dca952926e0a85000703c2d))
 
 * feat: rwd ([`49d091b`](https://github.com/devsoft-pl/invoices/commit/49d091b0cfe9e7a2d6f3e8f2885a1033c8b50e6e))
 
