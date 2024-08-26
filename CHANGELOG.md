@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v0.44.0 (2024-08-26)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`5c3b547`](https://github.com/devsoft-pl/invoices/commit/5c3b547f9e13e900e73d2725e9e3d5c100a0b497))
+
 ## v0.43.0 (2024-08-26)
+
+### Feature
+
+* feat: update filters model instances must be save ([`a337827`](https://github.com/devsoft-pl/invoices/commit/a337827846acd6cf699a3dc171be88b55088d905))
 
 ### Unknown
 
