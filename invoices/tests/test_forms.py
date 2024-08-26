@@ -440,6 +440,7 @@ class TestSellInvoiceForm:
             currency=self.currency_1,
             is_recurring=True,
             is_last_day=True,
+            sale_date=date(2023, 1, 1),
             account_number="111111111111111",
         )
 
