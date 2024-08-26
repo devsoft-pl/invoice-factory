@@ -1,23 +1,21 @@
 ## About The Project
 
-This user-friendly invoicing application is designed to streamline your business processes, offering an intuitive interface and robust features that make managing invoices easier than ever. 
-With its comprehensive features, it simplifies financial management tasks, allowing you to focus on growing your business. 
-Experience efficiency and convenience with our intuitive invoicing solution.
+Invoicing application for companies and individuals to streamline business processes.
 Here's what you can do with the application:
 
-* **Add Your Company:** Easily add your company details to the system. 
+* **Add Your Company:** Add your company details to the system. 
 You can manage multiple companies under one account.
 
-* **Manage Contacts:** Add an unlimited number of contacts, including both business entities (client) and individuals (person).
+* **Manage Contacts:** Add an unlimited number of contacts, including both business entities and individuals.
 
-* **Create and Edit Invoices:** Generate sales or purchase invoices with ease. 
-Enjoy the flexibility of editing or deleting invoices as needed. 
+* **Create and Edit Invoices:** Generate sales or purchase invoices. 
+Edit or delete invoices as needed.. 
 The application allows you to generate invoices in PDF.
 
-* **Recurring Invoices:** Automate your billing process with recurring invoices for clients. 
+* **Recurring Invoices:** Automate your billing process with recurring invoices. 
 The app handles monthly invoice creation and sends email notifications with attachments for generated recurring invoices.
 
-* **Automatic Currency Conversion:** Let the app handle currency conversion when invoicing in foreign currencies. 
+* **Automatic Currency Conversion:** App handle currency conversion when invoicing in foreign currencies. 
 It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date conversion.
 
 * **Month-end Closing:** Specify a day for month-end closing to reconcile invoices effortlessly. 
@@ -33,15 +31,18 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 
 ## Built With
 
-* Python 3+
-* Django 4+, DRF
-* Celery, Redis
-* JavaScript
-* PostgreSQL
-* HTML, CSS, Bootstrap
-* Docker, Docker-compose
-* Kubernetes
-* Git, GitHub
+* Python 3.12,
+* Django 5.1, 
+* DRF,
+* Celery, 
+* Redis,
+* JavaScript,
+* PostgreSQL,
+* HTML, CSS, Bootstrap,
+* Docker, Docker-compose,
+* Kubernetes,
+* Git, 
+* GitHub
 
 ## How to run the application (docker-compose)
 
@@ -68,9 +69,9 @@ To **stop** the application, you can run:
   docker compose down
 ```
 
-## Application View
+## Application Link
 
-Project Link and Application View: in progress
+Link: https://invoice-factory.devsoft.pl/
 
 ## Contact
 
