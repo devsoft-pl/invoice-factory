@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.45.1 (2024-08-26)
+
+### Fix
+
+* fix: fix test with sale_date in dict ([`bcd55e2`](https://github.com/devsoft-pl/invoices/commit/bcd55e23998dcf43a471814cff48b133a6b0437a))
+
 ## v0.45.0 (2024-08-26)
 
 ### Unknown
