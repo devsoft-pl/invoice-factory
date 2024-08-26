@@ -54,7 +54,7 @@ class InvoiceSellForm(forms.ModelForm):
         if (
             not create_correction
             and not CorrectionInvoiceRelation.objects.filter(
-                correction_invoice=self.instance
+                correction_invoice_id=self.instance.pk
             ).exists()
         ):
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
@@ -160,7 +160,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
         if (
             not create_correction
             and not CorrectionInvoiceRelation.objects.filter(
-                correction_invoice=self.instance
+                correction_invoice_id=self.instance.pk
             ).exists()
         ):
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
@@ -265,7 +265,7 @@ class InvoiceSellPersonToClientForm(forms.ModelForm):
         if (
             not create_correction
             and not CorrectionInvoiceRelation.objects.filter(
-                correction_invoice=self.instance
+                correction_invoice_id=self.instance.pk
             ).exists()
         ):
             invoice_number_field: forms.CharField = self.fields["invoice_number"]
