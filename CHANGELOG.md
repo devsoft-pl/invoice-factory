@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v0.45.0 (2024-08-26)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`6e32fb8`](https://github.com/devsoft-pl/invoices/commit/6e32fb8e3061e5ec54cb5ac8ecbaea155bee2397))
+
 ## v0.44.0 (2024-08-26)
+
+### Feature
+
+* feat: update python in dockerfile ([`7aa1c9e`](https://github.com/devsoft-pl/invoices/commit/7aa1c9eb66c1ef735e3a28b86ec410eb29d94ea3))
 
 ### Unknown
 
