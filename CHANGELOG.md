@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.46.0 (2024-08-26)
+
+### Feature
+
+* feat: update with apllication link ([`4d055a3`](https://github.com/devsoft-pl/invoices/commit/4d055a33aa31afa5bd72f4e541d88c5b2e866dba))
+
 ## v0.45.1 (2024-08-26)
 
 ### Fix
