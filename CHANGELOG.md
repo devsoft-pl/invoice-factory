@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v0.43.0 (2024-08-26)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`9dfd5a4`](https://github.com/devsoft-pl/invoices/commit/9dfd5a417b16a45809464befc47a5a07516a6e68))
+
 ## v0.42.0 (2024-08-26)
+
+### Feature
+
+* feat: update github workflows ([`172a19f`](https://github.com/devsoft-pl/invoices/commit/172a19f7230788abdb79ed3bc6a28eb1708ef9e0))
 
 ### Unknown
 
