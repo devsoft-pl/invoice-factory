@@ -59,7 +59,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row mt-4 justify-content-center">
+        <div class="row mt-3 justify-content-center">
             <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                 <a class="btn btn-primary w-md-auto" href="{% url 'invoices:replace_buy_invoice' invoice.pk %}">Edytuj</a>
                 <a class="btn btn-danger w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
@@ -117,7 +117,7 @@
             {% else %}
             <div class="row">
                 <div class="col-12 d-flex justify-content-left">
-                    <b>Brak pozycji do faktury: {{ invoice.invoice_number }}</b>
+                    <b>Brak pozycji do faktury</b>
                 </div>
             </div>
             {% endif %}
@@ -129,8 +129,12 @@
         </div>
         <div class="row mt-2 justify-content-center">
             <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                {% if invoice.items.exists %}
+                    <a class="btn btn-success w-md-auto" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
+                {% else %}
+                    <a class="btn btn-success w-md-auto" href="{{ invoice.invoice_file.url }}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
+                {% endif %}
                 <a class="btn btn-secondary w-md-auto" href="{% url 'invoices:list_invoices' %}">Powrót</a>
-                <a class="btn btn-primary w-md-auto" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
             </div>
         </div>
     </div>
