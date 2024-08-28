@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.50.0 (2024-08-28)
+
+### Feature
+
+* feat: rwd for error element ([`8f0fdd4`](https://github.com/devsoft-pl/invoices/commit/8f0fdd419451e501661dd89c86f1e2256d0dd60f))
+
+* feat: add new translated ([`169f449`](https://github.com/devsoft-pl/invoices/commit/169f44966e185520980325b3bfcce618096284c7))
+
+* feat: rwd ([`152c830`](https://github.com/devsoft-pl/invoices/commit/152c830742b857e664bbddf5d89285708aebe7b6))
+
 ## v0.49.0 (2024-08-28)
 
 ### Feature
