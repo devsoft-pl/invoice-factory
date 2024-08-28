@@ -35,7 +35,7 @@
                          style="font-weight: bold;">
                         {{ form.name.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-5 col-lg-4 d-flex align-items-center">
                         {{ form.name }}
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                          style="font-weight: bold;">
                         {{ form.nip.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
                         {{ form.nip }}
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                          style="font-weight: bold;">
                         {{ form.regon.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
                         {{ form.regon }}
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                          style="font-weight: bold;">
                         {{ form.address.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
                         {{ form.address }}
                     </div>
                 </div>
@@ -127,13 +127,8 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
-                         style="font-weight: bold;">
-                        {{ form.country.label_tag }}
-                    </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
-                        {{ form.country }}
-                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.country.label_tag }}</div>
+                    <div class="col-12 col-md-2 d-flex align-items-center">{{ form.country }}</div>
                     <div class="col-12 col-md-3 d-flex flex-column flex-md-row mt-2 gap-2">
                         <a id="saveCountryButton" class="btn btn-primary w-md-auto d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
                         <a id="cancelCountryButton" class="btn btn-secondary w-md-auto d-none">Anuluj</a>
@@ -151,7 +146,7 @@
                          style="font-weight: bold;">
                         {{ form.email.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-5 col-lg-4 d-flex align-items-center">
                         {{ form.email }}
                     </div>
                 </div>
@@ -167,7 +162,7 @@
                          style="font-weight: bold;">
                         {{ form.phone_number.label_tag }}
                     </div>
-                    <div class="col-12 col-md-3 d-flex align-items-center">
+                    <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">
                         {{ form.phone_number }}
                     </div>
                 </div>
