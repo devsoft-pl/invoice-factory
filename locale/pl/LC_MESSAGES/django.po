@@ -78,8 +78,8 @@ msgid "Please enter the REGON with a minimum 9 numbers"
 msgstr "Wprowadź REGON składający się z minimum 9 cyfr"
 
 #: base/validators.py:30
-msgid "Please enter the country code with 3 letters"
-msgstr "Wprowadź kod kraju używając 3 liter"
+msgid "Please enter the code with 3 letters"
+msgstr "Wprowadź kod z 3 liter"
 
 #: base/validators.py:36
 msgid ""

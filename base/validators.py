@@ -27,7 +27,7 @@ regon_validator = RegexValidator(
 )
 
 currency_validator = RegexValidator(
-    r"^[a-zA-Z]{3}$", _("Please enter the country code with 3 letters")
+    r"^[a-zA-Z]{3}$", _("Please enter the code with 3 letters")
 )
 
 account_number_validator = RegexValidator(
