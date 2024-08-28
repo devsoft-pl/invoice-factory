@@ -81,7 +81,12 @@
                                                 <li><a class="dropdown-item" href="{% url 'users:detail_user' %}">Mój profil</a></li>
                                                 <li><a class="dropdown-item" href="{% url 'users:replace_user' %}">Edytuj profil</a></li>
                                                 <li><a class="dropdown-item" href="{% url 'users:password_change_user' %}">Zmień hasło</a></li>
-                                                <li><a class="dropdown-item" href="{% url 'users:logout' %}">Wyloguj</a></li>
+                                                <li>
+                                                    <form method="post" action="{% url 'users:logout' %}" class="mb-0">
+                                                        {% csrf_token %}
+                                                        <button class="link dropdown-item" href="{% url 'users:logout' %}">Wyloguj</button>
+                                                    </form>
+                                                </li>
                                             </ul>
                                         </li>
                                     {% endif %}

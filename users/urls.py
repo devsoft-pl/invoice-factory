@@ -1,6 +1,5 @@
 from django.contrib.auth.views import (
     LoginView,
-    LogoutView,
     PasswordResetCompleteView,
     PasswordResetConfirmView,
     PasswordResetDoneView,
@@ -14,6 +13,7 @@ from users.forms import (
     PasswordResetUserForm,
 )
 from users.views import (
+    LogoutView,
     detail_user_view,
     password_change_user_view,
     register_user_view,

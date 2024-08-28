@@ -1,5 +1,6 @@
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -60,3 +61,7 @@ def replace_user_view(request):
 
     context = {"user": user, "form": form}
     return render(request, "registration/replace_user.html", context)
+
+
+class LogoutView(BaseLogoutView):
+    http_method_names = ["post", "options", "get"]
