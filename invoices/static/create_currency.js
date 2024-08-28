@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
                  errorElement.setAttribute('class', 'row');
 
                  const errorContainer = document.createElement('div');
-                 errorContainer.setAttribute('class', 'col-auto w-100 text-end text-danger');
+                 errorContainer.setAttribute('class', 'col-12 offset-md-6 text-danger');
                  errorElement.appendChild(errorContainer);
 
                  const errorUlContainer = document.createElement('ul');
