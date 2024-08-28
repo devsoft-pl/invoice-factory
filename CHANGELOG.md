@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.49.0 (2024-08-28)
+
+### Feature
+
+* feat: add storages with static files ([`b68d87c`](https://github.com/devsoft-pl/invoices/commit/b68d87c80c067ca6e409f4170f9bf30e75a834af))
+
+* feat: correct display of the company name, where the invoice is a purchase in the table ([`2f6d83b`](https://github.com/devsoft-pl/invoices/commit/2f6d83b160e4753596e7e5202b08dfb18d74599d))
+
 ## v0.48.0 (2024-08-28)
 
 ### Feature
