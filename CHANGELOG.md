@@ -1,8 +1,24 @@
 # CHANGELOG
 
+## v0.48.0 (2024-08-28)
+
+### Feature
+
+* feat: update LogoutView with http method names: post, get, options ([`8322f0f`](https://github.com/devsoft-pl/invoices/commit/8322f0f68a1a3fac167485dc6958b99d69d22482))
+
+* feat: rwd ([`b17c16f`](https://github.com/devsoft-pl/invoices/commit/b17c16fa6e13720e2808df7b5a324348ab62e4d4))
+
+* feat: rwd ([`357ce51`](https://github.com/devsoft-pl/invoices/commit/357ce51a614e4bf602dea9dcdbc8594387f1d25a))
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`b5596ea`](https://github.com/devsoft-pl/invoices/commit/b5596ea15a02b630785ee05d1d7b73d337e74ced))
+
 ## v0.47.0 (2024-08-27)
 
 ### Feature
+
+* feat: rwd ([`cd64767`](https://github.com/devsoft-pl/invoices/commit/cd64767de296f1c04ffebeb35f4d3535c332fb1c))
 
 * feat: rwd ([`d799606`](https://github.com/devsoft-pl/invoices/commit/d7996069b73f71ecee43606d99650e377632f8f6))
 
