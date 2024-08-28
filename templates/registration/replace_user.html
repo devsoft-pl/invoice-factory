@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -23,40 +23,43 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
             <form action="{% url 'users:replace_user' %}" method='post'>
                 {% csrf_token %}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.email.label_tag }}</div>
-                    <div class="col-12 col-md-3">{{ form.email }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">{{ form.email.label_tag }}</div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.email }}</div>
                 </div>
                 {% if form.email.errors %}
                     <div class="row">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.email.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.email.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.first_name.label_tag }}</div>
-                    <div class="col-12 col-md-3">{{ form.first_name }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">{{ form.first_name.label_tag }}</div>
+                    <div class="col-12 col-md-4 col-lg-2  d-flex align-items-center">{{ form.first_name }}</div>
                 </div>
                 {% if form.first_name.errors %}
                     <div class="row">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.first_name.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.first_name.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.last_name.label_tag }}</div>
-                    <div class="col-12 col-md-3">{{ form.last_name }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">{{ form.last_name.label_tag }}</div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.last_name }}</div>
                 </div>
                 {% if form.last_name.errors %}
                     <div class="row">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.last_name.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.last_name.errors }}</div>
                     </div>
                 {% endif %}
-                <div class="row mt-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <button class="btn btn-primary mx-2" name="submit">Zapisz</button>
-                        <a class="btn btn-secondary mx-2" href="{% url 'users:detail_user' %}">Powrót</a>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" name="submit">Zapisz</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'users:detail_user' %}">Powrót</a>
                     </div>
                 </div>
             </form>

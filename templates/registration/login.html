@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}
 
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         <div class="row">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -16,45 +16,47 @@
                 </ol>
             </nav>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
             <form method="post" action="{% url 'users:login' %}">
                 {% csrf_token %}
                 {{ form.next }}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.username.label_tag }}</div>
-                    <div class="col-12 col-md-3">{{ form.username }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">{{ form.username.label_tag }}</div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.username }}</div>
                 </div>
                 {% if form.username.errors %}
                     <div class="row">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.username.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.username.errors }}</div>
                     </div>
                 {% endif %}
                 <div class="row mb-2">
-                    <div class="col-12 col-md-2 offset-md-3 text-md-end my-auto">{{ form.password.label_tag }}</div>
-                    <div class="col-12 col-md-3">{{ form.password }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                         style="font-weight: bold;">{{ form.password.label_tag }}</div>
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.password }}</div>
                 </div>
                 {% if form.password.errors %}
                     <div class="row">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">{{ form.password.errors }}</div>
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.password.errors }}</div>
                     </div>
                 {% endif %}
                 {% if form.errors %}
-                    <div class="row mb-3">
-                        <div class="col-12 col-md-auto offset-md-5 text-danger">
+                    <div class="row mb-2">
+                        <div class="col-12 col-md-6 offset-md-6 text-danger">
                             <span>Email lub hasło są nieprawidłowe.</span>
                         </div>
                     </div>
                 {% endif %}
-                <div class="row mt-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <button class="btn btn-primary mx-2" name="submit" value="{% url 'invoices:list_invoices' %}">Zaloguj</button>
-                        <a class="btn btn-secondary mx-2" href="{% url 'index' %}">Powrót</a>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+                        <button class="btn btn-primary w-100 w-md-auto" name="submit" value="{% url 'invoices:list_invoices' %}">Zaloguj</button>
+                        <a class="btn btn-secondary w-100 w-md-auto" href="{% url 'index' %}">Powrót</a>
                     </div>
                 </div>
                 <input type="hidden" name="next" value="{% url 'invoices:list_invoices' %}"/>
             </form>
         </div>
-        <div class="row mt-3 text-center">
+        <div class="row mt-2 text-center">
             <span>Nie pamiętasz hasła? <a href="{% url 'users:password_reset' %}">Resetuj hasło</a></span>
         </div>
     </div>
