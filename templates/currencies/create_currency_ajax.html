@@ -8,7 +8,7 @@
         {% csrf_token %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.code.label_tag }}</div>
-            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.code }}</div>
+            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.code }}</div>
         </div>
         {% if form.code.errors %}
             <div class="row">
@@ -18,7 +18,7 @@
             </div>
         {% endif %}
     </div>
-    <div class="modal-footer justify-content-center">
+    <div class="modal-footer justify-content-left">
         <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
             <button id="createCurrencySaveButton" type="button" class="btn btn-primary">Zapisz</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>

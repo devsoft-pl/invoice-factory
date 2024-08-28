@@ -3,14 +3,13 @@
     <h5 class="modal-title">Dodaj konsumenta</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-    
 <form action="{% url 'persons:create_person_ajax' %}" method='post'>
     <div class="modal-body">
         {% csrf_token %}
         {{ form.next }}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.first_name.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.first_name }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.first_name }}</div>
         </div>
         {% if form.first_name.errors %}
             <div class="row">
@@ -19,7 +18,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.last_name.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.last_name }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.last_name }}</div>
         </div>
         {% if form.last_name.errors %}
             <div class="row">
@@ -28,7 +27,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.nip.label_tag }}</div>
-            <div class="col-12 col-md-2 d-flex align-items-center">{{ form.nip }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.nip }}</div>
         </div>
         {% if form.nip.errors %}
             <div class="row">
@@ -37,7 +36,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.pesel.label_tag }}</div>
-            <div class="col-12 col-md-2 d-flex align-items-center">{{ form.pesel }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.pesel }}</div>
         </div>
         {% if form.pesel.errors %}
             <div class="row">
@@ -46,7 +45,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.address.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.address }}</div>
+            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.address }}</div>
         </div>
         {% if form.address.errors %}
             <div class="row">
@@ -55,7 +54,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.zip_code.label_tag }}</div>
-            <div class="col-12 col-md-2 d-flex align-items-center">{{ form.zip_code }}</div>
+            <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">{{ form.zip_code }}</div>
         </div>
         {% if form.zip_code.errors %}
             <div class="row">
@@ -64,7 +63,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.city.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.city }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.city }}</div>
         </div>
         {% if form.city.errors %}
             <div class="row">
@@ -90,7 +89,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.email.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.email }}</div>
+            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.email }}</div>
         </div>
         {% if form.email.errors %}
             <div class="row">
@@ -99,7 +98,7 @@
         {% endif %}
         <div class="row mb-2">
             <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.phone_number.label_tag }}</div>
-            <div class="col-12 col-md-3 d-flex align-items-center">{{ form.phone_number }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.phone_number }}</div>
         </div>
         {% if form.phone_number.errors %}
             <div class="row">
@@ -109,7 +108,7 @@
             </div>
         {% endif %}
     </div>
-    <div class="modal-footer justify-content-center">
+    <div class="modal-footer justify-content-left">
         <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
             <button id="createPersonSaveButton" type="button" class="btn btn-primary">Zapisz</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>

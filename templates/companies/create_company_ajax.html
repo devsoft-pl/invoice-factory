@@ -7,104 +7,105 @@
     {% endif %}
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-
 <form action="{% url 'companies:create_company_ajax' %}" method='post'>
     <div class="modal-body">
         {% csrf_token %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.name.label_tag }}</div>
-            <div class="col-5">{{ form.name }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.name.label_tag }}</div>
+            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.name }}</div>
         </div>
         {% if form.name.errors %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.name.errors }}</div>
+                <div class="col-12 offset-md-6 text-danger">{{ form.name.errors }}</div>
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.nip.label_tag }}</div>
-            <div class="col-3">{{ form.nip }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.nip.label_tag }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.nip }}</div>
         </div>
         {% if form.nip.errors %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.nip.errors }}</div>
+                <div class="col-12 offset-md-6 text-danger">{{ form.nip.errors }}</div>
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.regon.label_tag }}</div>
-            <div class="col-3">{{ form.regon }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.regon.label_tag }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.regon }}</div>
         </div>
         {% if form.regon.errors %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.regon.errors }}</div>
+                <div class="col-12 offset-md-6 text-danger">{{ form.regon.errors }}</div>
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.country.label_tag }}</div>
-            <div class="col-3">{{ form.country }}</div>
-            <div class="col">
-                <a id="cancelCountryButton" class="btn btn-secondary d-none">Anuluj</a>
-                <a id="saveCountryButton" class="btn btn-primary d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.address.label_tag }}</div>
+            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.address }}</div>
+        </div>
+        {% if form.address.errors %}
+            <div class="row">
+                <div class="col-12 offset-md-6 text-danger">{{ form.address.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.zip_code.label_tag }}</div>
+            <div class="col-12 col-md-3 col-lg-2 d-flex align-items-center">{{ form.zip_code }}</div>
+        </div>
+        {% if form.zip_code.errors %}
+            <div class="row">
+                <div class="col-12 offset-md-6 text-danger">{{ form.zip_code.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.city.label_tag }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.city }}</div>
+        </div>
+        {% if form.city.errors %}
+            <div class="row">
+                <div class="col-12 offset-md-6 text-danger">{{ form.city.errors }}</div>
+            </div>
+        {% endif %}
+        <div class="row mb-2">
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.country.label_tag }}</div>
+            <div class="col-12 col-md-2 d-flex align-items-center">{{ form.country }}</div>
+            <div class="col-12 col-md-3 d-flex flex-column flex-md-row mt-2 gap-2">
+                <a id="saveCountryButton" class="btn btn-primary w-md-auto d-none" href="{% url 'countries:create_country_ajax' %}">Zapisz</a>
+                <a id="cancelCountryButton" class="btn btn-secondary w-md-auto d-none">Anuluj</a>
             </div>
         </div>
         {% if form.country.errors %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.country.errors }}</div>
+                <div class="col-12 offset-md-6 text-danger">{{ form.country.errors }}</div>
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.address.label_tag }}</div>
-            <div class="col-5">{{ form.address }}</div>
-        </div>
-        {% if form.address.errors %}
-            <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.address.errors }}</div>
-            </div>
-        {% endif %}
-        <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.zip_code.label_tag }}</div>
-            <div class="col-2">{{ form.zip_code }}</div>
-        </div>
-        {% if form.zip_code.errors %}
-            <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.zip_code.errors }}</div>
-            </div>
-        {% endif %}
-        <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.city.label_tag }}</div>
-            <div class="col-4">{{ form.city }}</div>
-        </div>
-        {% if form.city.errors %}
-            <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.city.errors }}</div>
-            </div>
-        {% endif %}
-        <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.email.label_tag }}</div>
-            <div class="col-4">{{ form.email }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.email.label_tag }}</div>
+            <div class="col-12 col-md-5 d-flex align-items-center">{{ form.email }}</div>
         </div>
         {% if form.email.errors %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">
+                <div class="col-12 offset-md-6 text-danger">
                     {{ form.email.errors }}
                 </div>
             </div>
         {% endif %}
         <div class="row mb-2">
-            <div class="col-2 offset-3 text-end my-auto">{{ form.phone_number.label_tag }}</div>
-            <div class="col-3">{{ form.phone_number }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.phone_number.label_tag }}</div>
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">{{ form.phone_number }}</div>
         </div>
         {% if form.phone_number %}
             <div class="row">
-                <div class="col-auto offset-5 text-danger">{{ form.phone_number.errors }}</div>
+                <div class="col-12 offset-md-6 text-danger">{{ form.phone_number.errors }}</div>
             </div>
         {% endif %}
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-        {% if create_my_company %}
-            <button id="createMyCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
-        {% else %}
-            <button id="createCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
-        {% endif %}
+    <div class="modal-footer justify-content-left">
+        <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
+            {% if create_my_company %}
+                <button id="createMyCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+            {% else %}
+                <button id="createCompanySaveButton" type="button" class="btn btn-primary">Zapisz</button>
+            {% endif %}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+        </div>
     </div>
 </form>
