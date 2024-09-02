@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.51.1 (2024-09-02)
+
+### Fix
+
+* fix: js ajax for my company + refactor ([`820867a`](https://github.com/devsoft-pl/invoices/commit/820867a87bc46c3dd29ec689ede221231ca8c296))
+
 ## v0.51.0 (2024-08-28)
 
 ### Feature
