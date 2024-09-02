@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const hideVatEditMode = () => {
             cancelVatAjaxElement.classList.add("d-none");
             saveVatAjaxElement.classList.add("d-none");
-            newVatAjaxInput.classList.add("d-none")
+            newVatAjaxInput.classList.add("d-none");
             selectVatAjaxElement.classList.remove("d-none");
         };
 
@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const csrfVatAjaxElement = document.getElementsByName("csrfmiddlewaretoken")[0];
 
             const data = new FormData();
-            data.set("country", newVatAjaxInput.value)
-            data.set("csrfmiddlewaretoken", csrfVatAjaxElement.value)
+            data.set("country", newVatAjaxInput.value);
+            data.set("csrfmiddlewaretoken", csrfVatAjaxElement.value);
 
             const response = await fetch(urlVatAjax, {
                 method: "POST",
@@ -121,8 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
         createItemSaveButton.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const form = itemModalContentElement.getElementsByTagName('form')[0]
-            const data = new FormData(form)
+            const form = itemModalContentElement.getElementsByTagName('form')[0];
+            const data = new FormData(form);
 
             const response = await fetch(url, {
                 method: "POST",
@@ -139,13 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const optionNameElement = document.createTextNode(json.name);
 
-                optionElement.appendChild(optionNameElement)
+                optionElement.appendChild(optionNameElement);
                 selectElement.appendChild(optionElement);
 
-                selectElement.value = json.id.toString()
+                selectElement.value = json.id.toString();
 
                 modal.hide();
             }
-        })
+        });
     });
 });

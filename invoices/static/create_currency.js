@@ -59,17 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
                  errorUlContainer.setAttribute('class', 'errorlist');
                  errorContainer.appendChild(errorUlContainer);
 
-                 const currencyErrors = json['errors']['code'];
+                 if (json['errors'].hasOwnProperty('code')) {
+                     const currencyErrors = json['errors']['code'];
 
-                 currencyErrors.forEach((value) => {
-                    const errorLiElement = document.createElement('li');
-                    const errorLabel = document.createTextNode(value);
-                    errorLiElement.appendChild(errorLabel);
+                     currencyErrors.forEach((value) => {
+                         const errorLiElement = document.createElement('li');
+                         const errorLabel = document.createTextNode(value);
+                         errorLiElement.appendChild(errorLabel);
 
-                    errorUlContainer.appendChild(errorLiElement);
-                });
+                         errorUlContainer.appendChild(errorLiElement);
+                     });
 
-                rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling);
+                     rowContainer.parentElement.insertBefore(errorElement, rowContainer.nextSibling);
+                 }
              } else {
                 const selectElement = document.getElementById('id_currency');
 
@@ -85,6 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 modal.hide();
             }
-        })
+        });
     });
 });

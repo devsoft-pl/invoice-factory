@@ -133,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 'id_country_errors',
                 'id_email_errors',
                 'id_phone_number_errors'
-
             ];
 
             fieldsWithErrors.forEach((idFieldError) => {
