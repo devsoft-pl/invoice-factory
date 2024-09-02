@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const hideCountryEditMode = () => {
             cancelCountryAjaxElement.classList.add("d-none");
             saveCountryAjaxElement.classList.add("d-none");
-            newCountryAjaxInput.classList.add("d-none")
+            newCountryAjaxInput.classList.add("d-none");
             selectCountryAjaxElement.classList.remove("d-none");
         };
 
@@ -61,15 +61,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const countryAjaxErrors = document.getElementById('id_country_errors');
             if (countryAjaxErrors) {
-                    countryAjaxErrors.parentElement.removeChild(countryAjaxErrors);
-                }
+                countryAjaxErrors.parentElement.removeChild(countryAjaxErrors);
+            }
 
             const urlCountryAjax = saveCountryAjaxElement.getAttribute("href");
             const csrfCountryAjaxElement = document.getElementsByName("csrfmiddlewaretoken")[0];
 
             const data = new FormData();
-            data.set("country", newCountryAjaxInput.value)
-            data.set("csrfmiddlewaretoken", csrfCountryAjaxElement.value)
+            data.set("country", newCountryAjaxInput.value);
+            data.set("csrfmiddlewaretoken", csrfCountryAjaxElement.value);
 
             const response = await fetch(urlCountryAjax, {
                 method: "POST",
@@ -94,17 +94,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorUlAjaxContainer.setAttribute('class', 'errorlist');
                 errorAjaxContainer.appendChild(errorUlAjaxContainer);
 
-                const countryAjaxErrors = json['errors']['country'];
+                if (json['errors'].hasOwnProperty('country')) {
+                    const countryAjaxErrors = json['errors']['country'];
 
-                countryAjaxErrors.forEach((value) => {
-                    const errorLiAjaxElement = document.createElement('li');
-                    const errorAjaxLabel = document.createTextNode(value);
-                    errorLiAjaxElement.appendChild(errorAjaxLabel);
+                    countryAjaxErrors.forEach((value) => {
+                        const errorLiAjaxElement = document.createElement('li');
+                        const errorAjaxLabel = document.createTextNode(value);
+                        errorLiAjaxElement.appendChild(errorAjaxLabel);
 
-                    errorUlAjaxContainer.appendChild(errorLiAjaxElement);
-                });
+                        errorUlAjaxContainer.appendChild(errorLiAjaxElement);
+                    });
 
-                rowAjaxContainer.parentElement.insertBefore(errorAjaxElement, rowAjaxContainer.nextSibling);
+                    rowAjaxContainer.parentElement.insertBefore(errorAjaxElement, rowAjaxContainer.nextSibling);
+                }
             } else {
                 hideCountryEditMode();
 
@@ -121,8 +123,28 @@ document.addEventListener("DOMContentLoaded", function () {
         createMyCompanySaveButton.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const form = myCompanyModalContentElement.getElementsByTagName('form')[0]
-            const data = new FormData(form)
+            const fieldsWithErrors= [
+                'id_name_errors',
+                'id_nip_errors',
+                'id_regon_errors',
+                'id_address_errors',
+                'id_zip_code_errors',
+                'id_city_errors',
+                'id_country_errors',
+                'id_email_errors',
+                'id_phone_number_errors'
+
+            ];
+
+            fieldsWithErrors.forEach((idFieldError) => {
+                const fieldErrors = document.getElementById(idFieldError);
+                if (fieldErrors) {
+                    fieldErrors.parentElement.removeChild(fieldErrors);
+                }
+            });
+
+            const form = myCompanyModalContentElement.getElementsByTagName('form')[0];
+            const data = new FormData(form);
 
             const response = await fetch(url, {
                 method: "POST",
@@ -139,13 +161,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const optionNameElement = document.createTextNode(json.name);
 
-                optionElement.appendChild(optionNameElement)
+                optionElement.appendChild(optionNameElement);
                 selectElement.appendChild(optionElement);
 
-                selectElement.value = json.id.toString()
+                selectElement.value = json.id.toString();
 
                 modal.hide();
+            } else {
+                createFormErrors("name", json['errors']);
+                createFormErrors("nip", json['errors']);
+                createFormErrors("regon", json['errors']);
+                createFormErrors("address", json['errors']);
+                createFormErrors("zip_code", json['errors']);
+                createFormErrors("city", json['errors']);
+                createFormErrors("country", json['errors']);
+                createFormErrors("email", json['errors']);
+                createFormErrors("phone_number", json['errors']);
             }
-        })
+        });
     });
 });
