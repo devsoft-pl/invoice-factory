@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.52.0 (2024-09-04)
+
+### Feature
+
+* feat: rwd + add hamburger ([`e5cac6d`](https://github.com/devsoft-pl/invoices/commit/e5cac6d62b4f1fd902031f8a1a49a983b911f6ea))
+
 ## v0.51.2 (2024-09-02)
 
 ### Fix
