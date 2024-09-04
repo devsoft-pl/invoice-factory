@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.53.0 (2024-09-04)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`aed536b`](https://github.com/devsoft-pl/invoices/commit/aed536babfacb0feedb883711fc1da7e3606e4ec))
+
 ## v0.52.0 (2024-09-04)
 
 ### Feature
+
+* feat: update in rwd ([`6fe963b`](https://github.com/devsoft-pl/invoices/commit/6fe963b62a7d1c8a611cac2029356ca77c603662))
 
 * feat: rwd + add hamburger ([`e5cac6d`](https://github.com/devsoft-pl/invoices/commit/e5cac6d62b4f1fd902031f8a1a49a983b911f6ea))
 
