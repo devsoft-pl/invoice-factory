@@ -38,7 +38,7 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 * Redis,
 * JavaScript,
 * PostgreSQL,
-* HTML, CSS, Bootstrap,
+* HTML, CSS, Bootstrap, RWD
 * Docker, Docker-compose,
 * Kubernetes,
 * Git, 
