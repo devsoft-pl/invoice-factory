@@ -2,6 +2,7 @@ import calendar
 import logging
 import tempfile
 from datetime import datetime, timedelta
+from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
@@ -93,10 +94,13 @@ def create_recurrent_invoices(invoices):
 
         html = new_invoice.get_html_for_pdf()
 
+        def link_callback(uri, rel):
+            return str(Path(rel) / "invoices" / uri.lstrip("/"))
+
         # create and open temporary file as invoice_file
         with tempfile.NamedTemporaryFile(suffix=".pdf") as invoice_file:
             # write rendered PDF to invoice_file
-            pisa.CreatePDF(html, dest=invoice_file)
+            pisa.CreatePDF(html, dest=invoice_file, link_callback=link_callback)
 
             # go to beginning of file
             invoice_file.seek(0)
