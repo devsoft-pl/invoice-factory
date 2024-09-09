@@ -104,10 +104,14 @@
                                 <td>{{ invoice.payment_date|date:"d.m.Y" }}</td>
                                 <td>{{ invoice.gross_amount|floatformat:"2g" }}</td>
                                 <td class="d-none d-md-table-cell">
-                                    {% if invoice.is_paid %}
-                                        <span>Tak</span>
+                                    {% if invoice.is_recurring %}
+                                        <span>-</span>
                                     {% else %}
-                                        <span>Nie</span>
+                                        {% if invoice.is_paid %}
+                                            <span>Tak</span>
+                                        {% else %}
+                                            <span>Nie</span>
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                                 <td class="d-none d-md-table-cell">
@@ -118,10 +122,14 @@
                                     {% endif %}
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    {% if invoice.is_settled %}
-                                        <span>Tak</span>
+                                    {% if invoice.is_recurring %}
+                                        <span>-</span>
                                     {% else %}
-                                        <span>Nie</span>
+                                        {% if invoice.is_settled %}
+                                            <span>Tak</span>
+                                        {% else %}
+                                            <span>Nie</span>
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                                 <td>
