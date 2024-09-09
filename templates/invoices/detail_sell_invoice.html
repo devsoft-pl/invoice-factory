@@ -215,7 +215,7 @@
         {% endif %}
         <div class="row mt-2 justify-content-center">
             <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
-                {% if invoice.items.exists %}
+                {% if invoice.items.exists and not invoice.is_recurring %}
                     <a class="btn btn-success w-md-auto" href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">Faktura pdf</a>
                 {% endif %}
                 <a class="btn btn-secondary w-md-auto" href="{% url 'invoices:list_invoices' %}">Powrót</a>
