@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.55.0 (2024-09-09)
+
+### Feature
+
+* feat: change label name to buyer and seller ([`5e0e438`](https://github.com/devsoft-pl/invoices/commit/5e0e438dc45cd5a87fc343d76af7927bceed49f9))
+
+* feat: change label name to buyer and seller ([`34194f2`](https://github.com/devsoft-pl/invoices/commit/34194f2188e15be884cbcc28ae72ba3720f3356a))
+
+* feat: change label name to buyer ([`f37adf6`](https://github.com/devsoft-pl/invoices/commit/f37adf62b0f6063c37c2495a5c2e91fcf4cf65ab))
+
+* feat: pdf invoice open in second page ([`be94002`](https://github.com/devsoft-pl/invoices/commit/be9400264f172a2ac18c1fa052463fd2f12510d5))
+
+* feat: recurring invoice cannot be paid or settled ([`bbd966a`](https://github.com/devsoft-pl/invoices/commit/bbd966a703aa14b4d78542d4508b8b172676fd1f))
+
+### Fix
+
+* fix: add send pdf to email wiht correct css ([`8cf2673`](https://github.com/devsoft-pl/invoices/commit/8cf26735a098c644d4d95fddbad8dd6c7096dc97))
+
 ## v0.54.0 (2024-09-09)
 
 ### Feature
