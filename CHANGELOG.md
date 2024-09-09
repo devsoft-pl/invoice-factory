@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.54.0 (2024-09-09)
+
+### Feature
+
+* feat: pdf not visible id invoice is  recurring ([`785bf16`](https://github.com/devsoft-pl/invoices/commit/785bf169ff0c7f1cb3f6c7e2a819e2fa19b48518))
+
 ## v0.53.0 (2024-09-04)
 
 ### Unknown
