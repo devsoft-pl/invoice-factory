@@ -41,19 +41,19 @@
         {% endif %}
         <div class="row mb-2">
             {% if invoice.company %}
-                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Moja firma:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Sprzedawca:</div>
                 <div class="col-4">{{ invoice.company }}</div>
             {% else%}
-                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Konsument:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Sprzedawca:</div>
                 <div class="col-4">{{ invoice.person }}</div>
             {% endif %}
         </div>
         <div class="row mb-2">
             {% if invoice.client %}
-                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Kontrahent:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Nabywca:</div>
                 <div class="col-4">{{ invoice.client }}</div>
             {% else%}
-                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Konsument:</div>
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Nabywca:</div>
                 <div class="col-4">{{ invoice.person }}</div>
             {% endif %}
         </div>
