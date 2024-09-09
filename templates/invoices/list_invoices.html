@@ -140,7 +140,7 @@
                                                 <a href="{% url 'invoices:pdf_invoice' invoice.pk %}" target="_blank" rel="noopener noreferrer">PDF</a>
                                             {% endif %}    
                                         {% else %}
-                                            <a href="{{ invoice.invoice_file.url }}">PDF</a>
+                                            <a href="{{ invoice.invoice_file.url }}" target="_blank">PDF</a>
                                         {% endif %}
                                     {% endif %}
                                     {% if not invoice.is_settled %}
