@@ -97,13 +97,15 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 col-md-auto">
-                <a class="btn btn-primary w-100 w-md-auto" href="{% url 'companies:create_my_company' %}">Dodaj</a></h3>
+                <a class="btn btn-primary w-100 w-md-auto" href="{% url 'companies:create_my_company' %}">Dodaj</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                {% include "pagination.html" with page=companies %}
-            </div>    
-        </div>
+        {% if total_companies > 10 %}
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    {% include "pagination.html" with page=companies %}
+                </div>    
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

@@ -96,13 +96,15 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 col-md-auto">
-                <a class="btn btn-primary w-100 w-md-auto" href="{% url 'persons:create_person' %}">Dodaj</a></h3>
+                <a class="btn btn-primary w-100 w-md-auto" href="{% url 'persons:create_person' %}">Dodaj</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center">
-                {% include "pagination.html" with page=persons %}
+        {% if total_persons > 10 %}
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    {% include "pagination.html" with page=persons %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock content %}
