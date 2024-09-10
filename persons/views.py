@@ -16,6 +16,8 @@ def list_persons_view(request):
     if filter_form.is_valid():
         persons_list = filter_form.get_filtered_persons(persons_list)
 
+    total_persons = persons_list.count()
+
     paginator = Paginator(persons_list, 10)
     page = request.GET.get("page")
     try:
@@ -27,6 +29,7 @@ def list_persons_view(request):
 
     context = {
         "persons": persons,
+        "total_persons": total_persons,
         "filter_form": filter_form,
         "current_module": "persons",
     }

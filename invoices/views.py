@@ -33,6 +33,8 @@ def list_invoices_view(request):
     if filter_form.is_valid():
         invoices_list = filter_form.get_filtered_invoices(invoices_list)
 
+    total_invoices = invoices_list.count()
+
     paginator = Paginator(invoices_list, 10)
     page = request.GET.get("page")
     try:
@@ -44,6 +46,7 @@ def list_invoices_view(request):
 
     context = {
         "invoices": invoices,
+        "total_invoices": total_invoices,
         "filter_form": filter_form,
         "current_module": "invoices",
     }

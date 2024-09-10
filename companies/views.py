@@ -19,6 +19,8 @@ def list_companies_view(request, my_companies=False):
     if filter_form.is_valid():
         companies_list = filter_form.get_filtered_companies(companies_list)
 
+    total_companies = companies_list.count()
+
     paginator = Paginator(companies_list, 10)
     page = request.GET.get("page")
     try:
@@ -28,7 +30,11 @@ def list_companies_view(request, my_companies=False):
     except EmptyPage:
         companies = paginator.page(paginator.num_pages)
 
-    context = {"companies": companies, "filter_form": filter_form}
+    context = {
+        "companies": companies,
+        "total_companies": total_companies,
+        "filter_form": filter_form,
+    }
 
     if my_companies:
         context.update({"current_module": "my_companies"})

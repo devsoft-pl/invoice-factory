@@ -12,6 +12,8 @@ from countries.models import Country
 def list_countries_view(request):
     countries_list = Country.objects.filter(user=request.user)
 
+    total_countries = countries_list.count()
+
     paginator = Paginator(countries_list, 10)
     page = request.GET.get("page")
     try:
@@ -21,7 +23,11 @@ def list_countries_view(request):
     except EmptyPage:
         countries = paginator.page(paginator.num_pages)
 
-    context = {"countries": countries, "current_module": "countries"}
+    context = {
+        "countries": countries,
+        "total_countries": total_countries,
+        "current_module": "countries",
+    }
     return render(request, "countries/list_countries.html", context)
 
 

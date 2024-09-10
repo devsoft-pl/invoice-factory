@@ -12,6 +12,8 @@ from currencies.models import Currency
 def list_currencies_view(request):
     currencies_list = Currency.objects.filter(user=request.user)
 
+    total_currencies = currencies_list.count()
+
     paginator = Paginator(currencies_list, 10)
     page = request.GET.get("page")
     try:
@@ -21,7 +23,11 @@ def list_currencies_view(request):
     except EmptyPage:
         currencies = paginator.page(paginator.num_pages)
 
-    context = {"currencies": currencies, "current_module": "currencies"}
+    context = {
+        "currencies": currencies,
+        "total_currencies": total_currencies,
+        "current_module": "currencies",
+    }
     return render(request, "currencies/list_currencies.html", context)
 
 

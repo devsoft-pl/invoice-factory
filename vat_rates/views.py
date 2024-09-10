@@ -12,6 +12,8 @@ from vat_rates.models import VatRate
 def list_vat_rates_view(request):
     vat_list = VatRate.objects.filter(user=request.user)
 
+    total_vat_list = vat_list.count()
+
     paginator = Paginator(vat_list, 10)
     page = request.GET.get("page")
     try:
@@ -21,7 +23,11 @@ def list_vat_rates_view(request):
     except EmptyPage:
         vat_rates = paginator.page(paginator.num_pages)
 
-    context = {"vat_rates": vat_rates, "current_module": "vat_rates"}
+    context = {
+        "vat_rates": vat_rates,
+        "total_vat_list": total_vat_list,
+        "current_module": "vat_rates",
+    }
     return render(request, "vat_rates/list_vat_rates.html", context)
 
 
