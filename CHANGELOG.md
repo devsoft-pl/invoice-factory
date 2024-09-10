@@ -1,8 +1,18 @@
 # CHANGELOG
 
+## v0.56.0 (2024-09-10)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`97d2817`](https://github.com/devsoft-pl/invoices/commit/97d2817e38fe6ccb8be62f3d4bae1f173471c8f6))
+
 ## v0.55.0 (2024-09-09)
 
 ### Feature
+
+* feat: add pagination when objects list is bigger than ten ([`a5fe965`](https://github.com/devsoft-pl/invoices/commit/a5fe965928c2f50c7074d1777952703aaaf65e64))
+
+* feat: add list length check ([`1e5b914`](https://github.com/devsoft-pl/invoices/commit/1e5b914937b7bee3c4b55e13480135ad8c5dda4f))
 
 * feat: change label name to buyer and seller ([`5e0e438`](https://github.com/devsoft-pl/invoices/commit/5e0e438dc45cd5a87fc343d76af7927bceed49f9))
 
@@ -15,6 +25,8 @@
 * feat: recurring invoice cannot be paid or settled ([`bbd966a`](https://github.com/devsoft-pl/invoices/commit/bbd966a703aa14b4d78542d4508b8b172676fd1f))
 
 ### Fix
+
+* fix: minor corrections in kod ([`2cb9517`](https://github.com/devsoft-pl/invoices/commit/2cb95171c217f82fee8badb3275903c4b52978a0))
 
 * fix: add send pdf to email wiht correct css ([`8cf2673`](https://github.com/devsoft-pl/invoices/commit/8cf26735a098c644d4d95fddbad8dd6c7096dc97))
 
