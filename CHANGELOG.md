@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.58.0 (2024-09-12)
+
+### Feature
+
+* feat: update fotter ([`c3a6bde`](https://github.com/devsoft-pl/invoices/commit/c3a6bdee5e2019e8450a2cba1d2949fd657a9d09))
+
 ## v0.57.0 (2024-09-12)
 
 ### Feature
