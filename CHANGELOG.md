@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.57.0 (2024-09-12)
+
+### Feature
+
+* feat: add footer with email, term, faq, privacy-policy ([`0769fd2`](https://github.com/devsoft-pl/invoices/commit/0769fd27769d86da726b7264d46c3063a924df3e))
+
 ## v0.56.0 (2024-09-10)
 
 ### Unknown
