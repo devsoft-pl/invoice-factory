@@ -1,6 +1,4 @@
-wsgi_app = "base.asgi:application"
-pythonpath = "/.venv/lib/python3.9/site-packages"
-worker_class = "uvicorn.workers.UvicornWorker"
+wsgi_app = "base.wsgi:application"
 bind = "0.0.0.0:8000"
 raw_env = ["DJANGO_SETTINGS_MODULE=base.settings.production"]
 chdir = "/app"
