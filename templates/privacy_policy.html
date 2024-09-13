@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-2">
+        <h1 class="text-center">Polityka prywatności</h1>
+        <h3>I. Obowiązek administracyjny</h3>
+        <h3>II. Pliki Cookies</h3>
+    </div>
+    <footer>
+        <div class="container-fluid bg-primary text-white mt-5 py-4 rounded">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">© 2024 Wioletta Wajda</div>
+                <div class="col-12 col-md-1 col-lg-4 text-center"></div>
+                <div class="col-12 col-md-7 col-lg-5 d-flex justify-content-center align-items-center">
+                    <a href="{% url 'privacy_policy' %}" class="btn btn-primary text-white mx-0">Polityka prywatności</a>
+                    <a href="{% url 'terms' %}" class="btn btn-primary text-white mx-0">Regulamin</a>
+                    <a href="{% url 'faq' %}" class="btn btn-primary text-white mx-0">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock content %}

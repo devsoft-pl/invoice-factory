@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-2">
+        <h1 class="text-center">Regulamin</h1>
+    
+        <h3>1. Pojęcia ogólne</h3>
+        <h3>2. Postanowienia ogólne</h3>
+        <h3>3. Warunki używania Serwisu</h3>
+        <h3>4. Warunki oraz zasady rejestracji</h3>
+        <h3>5. Warunki komunikacji i świadczenia pozostałych usług w Serwisie</h3>
+        <h3>6. Gromadzenie danych o Usługobiorcach</h3>
+        <h3>7. Prawa autorskie</h3>
+        <h3>8. Zmiany Regulaminu</h3>
+        <h3>9. Postanowienia końcowe</h3>
+    
+    </div>
+    <footer>
+        <div class="container-fluid bg-primary text-white mt-5 py-4 rounded">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">© 2024 Wioletta Wajda</div>
+                <div class="col-12 col-md-1 col-lg-4 text-center"></div>
+                <div class="col-12 col-md-7 col-lg-5 d-flex justify-content-center align-items-center">
+                    <a href="{% url 'privacy_policy' %}" class="btn btn-primary text-white mx-0">Polityka prywatności</a>
+                    <a href="{% url 'terms' %}" class="btn btn-primary text-white mx-0">Regulamin</a>
+                    <a href="{% url 'faq' %}" class="btn btn-primary text-white mx-0">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+{% endblock content %}
