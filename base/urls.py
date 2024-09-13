@@ -2,10 +2,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from base import urls_api
-from invoices.views import faq_view, index_view, privacy_policy_view, terms_view
+from invoices.views import index_view
 
 urlpatterns = [
     path("", index_view, name="index"),
@@ -23,7 +24,7 @@ urlpatterns = [
     path("accountants/", include("accountants.urls")),
     path("summary_recipients/", include("summary_recipients.urls")),
     path("persons/", include("persons.urls")),
-    path("faq/", faq_view, name="faq"),
-    path("terms/", terms_view, name="terms"),
-    path("privacy-policy/", privacy_policy_view, name="privacy_policy"),
+    path("faq/", TemplateView.as_view(template_name='faq.html'), name="faq"),
+    path("terms/", TemplateView.as_view(template_name='terms.html'), name="terms"),
+    path("privacy-policy/", TemplateView.as_view(template_name='privacy_policy.html'), name="privacy_policy"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
