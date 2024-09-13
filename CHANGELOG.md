@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.60.0 (2024-09-13)
+
+### Feature
+
+* feat: delete view  method with terms, faq and privacy-policy ([`b46dd4f`](https://github.com/devsoft-pl/invoices/commit/b46dd4fad69e5bc8cdce1053c916c866eaf7cd7a))
+
+* feat: add TemplateView to faq, terms and privacy-policy ([`480086e`](https://github.com/devsoft-pl/invoices/commit/480086ec2d2f42a246c31808e83987d93db7139d))
+
+* feat: add templates ([`4775169`](https://github.com/devsoft-pl/invoices/commit/477516925a5610d6f81b913a6e7c4d58746051ff))
+
+### Fix
+
+* fix: fix conf ([`10187ba`](https://github.com/devsoft-pl/invoices/commit/10187ba56b93160da1179d609776a1c8f24c13c3))
+
 ## v0.59.0 (2024-09-13)
 
 ### Feature
