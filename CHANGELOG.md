@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.59.0 (2024-09-13)
+
+### Feature
+
+* feat: add correct url to privacy-policy, terms and faq ([`29b6145`](https://github.com/devsoft-pl/invoices/commit/29b61457e5e423bf75803514ec362a411ae3e7f9))
+
+* feat: add new view faq, terms, privacy-policy ([`a1a3e35`](https://github.com/devsoft-pl/invoices/commit/a1a3e35083bcd5f173a82c1ed591d112ed827d41))
+
 ## v0.58.0 (2024-09-12)
 
 ### Feature
