@@ -24,7 +24,11 @@ urlpatterns = [
     path("accountants/", include("accountants.urls")),
     path("summary_recipients/", include("summary_recipients.urls")),
     path("persons/", include("persons.urls")),
-    path("faq/", TemplateView.as_view(template_name='faq.html'), name="faq"),
-    path("terms/", TemplateView.as_view(template_name='terms.html'), name="terms"),
-    path("privacy-policy/", TemplateView.as_view(template_name='privacy_policy.html'), name="privacy_policy"),
+    path("faq/", TemplateView.as_view(template_name="faq.html"), name="faq"),
+    path("terms/", TemplateView.as_view(template_name="terms.html"), name="terms"),
+    path(
+        "privacy-policy/",
+        TemplateView.as_view(template_name="privacy_policy.html"),
+        name="privacy_policy",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

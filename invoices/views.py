@@ -344,4 +344,3 @@ def pdf_invoice_view(request, invoice_id):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
-
