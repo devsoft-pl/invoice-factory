@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.61.0 (2024-09-13)
+
+### Feature
+
+* feat: black ([`0f01b13`](https://github.com/devsoft-pl/invoices/commit/0f01b13ce67f7fe8e8107aa9e5cf9c202780dc04))
+
 ## v0.60.0 (2024-09-13)
 
 ### Feature
