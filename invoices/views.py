@@ -344,3 +344,15 @@ def pdf_invoice_view(request, invoice_id):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
+
+
+def faq_view(request):
+    return render(request, "faq.html")
+
+
+def terms_view(request):
+    return render(request, "terms.html")
+
+
+def privacy_policy_view(request):
+    return render(request, "privacy_policy.html")
