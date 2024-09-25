@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.62.0 (2024-09-25)
+
+### Feature
+
+* feat: update poetry by cryptography ([`b02b019`](https://github.com/devsoft-pl/invoices/commit/b02b0193e9fbb3db6ea1bfceb90eb33fdbd730bb))
+
 ## v0.61.0 (2024-09-13)
 
 ### Feature
