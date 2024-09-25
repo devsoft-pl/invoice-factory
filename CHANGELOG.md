@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.63.0 (2024-09-25)
+
+### Feature
+
+* feat: hide footer ([`2d3e1e8`](https://github.com/devsoft-pl/invoices/commit/2d3e1e892fa158fe4f2e6a5e98a1c1a1370ddda2))
+
 ## v0.62.0 (2024-09-25)
 
 ### Feature
