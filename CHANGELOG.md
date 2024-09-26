@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.64.1 (2024-09-26)
+
+### Fix
+
+* fix: black ([`29ca940`](https://github.com/devsoft-pl/invoices/commit/29ca940e25db6c555ea46acf86b6118d033aa3b7))
+
 ## v0.64.0 (2024-09-26)
 
 ### Feature
