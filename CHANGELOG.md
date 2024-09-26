@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.64.0 (2024-09-26)
+
+### Feature
+
+* feat: add field client, person, is_recurring to list display ([`795ea88`](https://github.com/devsoft-pl/invoices/commit/795ea888c39c6a0571ec6037b53231c0f2f559a5))
+
+* feat: update verbose_name_plural ([`5671f6d`](https://github.com/devsoft-pl/invoices/commit/5671f6d2ed443972e931bd35bd244dc6a86e7ac2))
+
+### Fix
+
+* fix: fix create recurrent invoice ([`57577c6`](https://github.com/devsoft-pl/invoices/commit/57577c612a94e4db1439f805fa3068acf9e541dc))
+
 ## v0.63.0 (2024-09-25)
 
 ### Feature
