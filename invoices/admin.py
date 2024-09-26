@@ -11,12 +11,14 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         "invoice_number",
         "company",
+        "client",
+        "person",
         "payment_date",
         "net_amount",
-        "gross_amount",
         "currency",
+        "is_recurring",
         "is_settled",
-        "is_paid",
+        "is_paid"
     )
     list_filter = (
         "is_recurring",
