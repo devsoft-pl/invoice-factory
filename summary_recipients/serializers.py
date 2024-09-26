@@ -14,4 +14,5 @@ class SummaryRecipientSerializer(serializers.ModelSerializer):
             "email",
             "settlement_types",
             "final_call",
+            "is_last_day",
         ]

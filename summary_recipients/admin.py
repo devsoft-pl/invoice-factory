@@ -12,6 +12,7 @@ class SummaryRecipientAdmin(admin.ModelAdmin):
         "settlement_types",
         "company",
         "final_call",
+        "is_last_day",
     )
     list_filter = (
         "day",
