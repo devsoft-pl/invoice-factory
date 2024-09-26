@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.64.2 (2024-09-26)
+
+### Unknown
+
+* Merge branch &#39;master&#39; of github.com:devsoft-pl/invoices ([`bc09551`](https://github.com/devsoft-pl/invoices/commit/bc09551cc0f19085453e38aa595624d799132bcd))
+
 ## v0.64.1 (2024-09-26)
 
 ### Fix
+
+* fix: fix test with create recurring invoice ([`1af8267`](https://github.com/devsoft-pl/invoices/commit/1af82674e0786063188fa782cf5be972da9ab95d))
 
 * fix: black ([`29ca940`](https://github.com/devsoft-pl/invoices/commit/29ca940e25db6c555ea46acf86b6118d033aa3b7))
 
