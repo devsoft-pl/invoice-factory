@@ -22,6 +22,8 @@ class TestRecurrentInvoiceTasks:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.currency = CurrencyFactory.create(code="PLN")
+        self.company = CompanyFactory.create(is_my_company=True)
+        self.client = CompanyFactory.create(is_my_company=False)
 
     @patch("invoices.tasks.datetime")
     def test_returns_first_invoice_number_when_is_first_in_new_year(
@@ -33,6 +35,8 @@ class TestRecurrentInvoiceTasks:
             currency=self.currency,
             sale_date=datetime_mock.today.return_value,
             is_last_day=True,
+            company=self.company,
+            client=self.client,
         )
         InvoiceSellFactory.create(
             invoice_number="1/12/2023",
@@ -40,6 +44,8 @@ class TestRecurrentInvoiceTasks:
             currency=self.currency,
             sale_date=datetime.date(2023, 12, 31),
             is_last_day=True,
+            company=self.company,
+            client=self.client,
         )
 
         create_invoices_for_recurring()
@@ -59,12 +65,16 @@ class TestRecurrentInvoiceTasks:
             is_recurring=False,
             currency=self.currency,
             sale_date=datetime.date(2024, 1, 25),
+            company=self.company,
+            client=self.client,
         )
         InvoiceSellFactory.create(
             is_recurring=True,
             currency=self.currency,
             sale_date=datetime_mock.today.return_value,
             is_last_day=True,
+            company=self.company,
+            client=self.client,
         )
 
         create_invoices_for_recurring()
@@ -100,6 +110,8 @@ class TestRecurrentInvoiceTasks:
             currency=self.currency,
             sale_date=current_date,
             is_last_day=last_day,
+            company=self.company,
+            client=self.client,
         )
         ItemFactory.create_batch(2, invoice=invoice)
 
@@ -128,6 +140,8 @@ class TestRecurrentInvoiceTasks:
             currency=self.currency,
             sale_date=current_date,
             is_last_day=last_day,
+            company=self.company,
+            client=self.client,
         )
         ItemFactory.create_batch(2, invoice=invoice)
 
