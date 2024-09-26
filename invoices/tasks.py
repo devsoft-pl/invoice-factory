@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 FIRST_INVOICE_NUMBER = 1
 
 
-def get_invoice_with_max_sale_date():
+def get_invoice_with_max_sale_date(company, person):
     today = datetime.today()
     return (
         Invoice.objects.filter(
@@ -26,14 +26,16 @@ def get_invoice_with_max_sale_date():
             is_recurring=False,
             sale_date__year=today.year,
             sale_date__month=today.month,
+            company=company,
+            person=person,
         )
         .order_by("-sale_date", "pk")
         .first()
     )
 
 
-def get_max_invoice_number():
-    max_sale_date_invoice = get_invoice_with_max_sale_date()
+def get_max_invoice_number(company, person):
+    max_sale_date_invoice = get_invoice_with_max_sale_date(company, person)
 
     current_year = datetime.today().year
     if (
@@ -57,7 +59,7 @@ def create_recurrent_invoices(invoices):
     today = datetime.today()
     month = get_right_month_format(today.month)
     for invoice in invoices:
-        max_invoice_number = get_max_invoice_number()
+        max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
         payment_date = today + timedelta(
             days=(invoice.payment_date - invoice.sale_date).days
         )
