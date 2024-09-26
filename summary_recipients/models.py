@@ -22,7 +22,7 @@ class SummaryRecipient(models.Model):
         on_delete=models.CASCADE,
         related_name="summary_recipients",
     )
-    day = models.IntegerField(verbose_name=_("Day of send"))
+    day = models.PositiveIntegerField(verbose_name=_("Day of send"))
     email = models.EmailField(_("Email"))
     settlement_types = models.IntegerField(
         verbose_name=_("Settlement types"), choices=SETTLEMENT_TYPES

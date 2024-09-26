@@ -47,3 +47,5 @@ zip_code_validator = RegexValidator(
 phone_number_validator = RegexValidator(
     r"^[0-9]{9,}$", _("Please enter a phone with a minimum 9 numbers")
 )
+
+max_day_validator = MaxValueValidator(31)
