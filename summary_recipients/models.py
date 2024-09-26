@@ -28,6 +28,9 @@ class SummaryRecipient(models.Model):
         verbose_name=_("Settlement types"), choices=SETTLEMENT_TYPES
     )
     final_call = models.BooleanField(verbose_name=_("Final call"), default=False)
+    is_last_day = models.BooleanField(
+        verbose_name=_("Last day in month"), default=False
+    )
 
     def __str__(self):
         return self.description

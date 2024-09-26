@@ -27,7 +27,7 @@ class Person(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = _("companies")
+        verbose_name_plural = _("persons")
         ordering = ["last_name"]
         unique_together = [
             "first_name",
