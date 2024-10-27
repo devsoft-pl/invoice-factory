@@ -49,7 +49,7 @@ def get_max_invoice_number(company, person):
 
 
 def get_right_month_format(month_number):
-    if month_number in ["10", "11", "12"]:
+    if month_number in [10, 11, 12]:
         return month_number
     else:
         return "0" + str(month_number)

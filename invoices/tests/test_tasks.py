@@ -162,11 +162,30 @@ class TestRecurrentInvoiceTasks:
 
         assert Invoice.objects.count() == 1
 
-    @pytest.mark.parametrize("month, expected", [["10", "10"], ["1", "01"]])
+    @pytest.mark.parametrize("month, expected", [[10, 10], [1, "01"]])
     def test_returns_right_month_format(self, month, expected):
         right_month = get_right_month_format(month)
 
         assert right_month == expected
+
+    @patch("invoices.tasks.datetime")
+    def test_returns_correct_invoice_number_when_month_is_october(self, datetime_mock):
+        datetime_mock.today.return_value = datetime.date(2024, 10, 27)
+        InvoiceSellFactory.create(
+            is_recurring=True,
+            currency=self.currency,
+            sale_date=datetime_mock.today.return_value,
+            is_last_day=False,
+            company=self.company,
+            client=self.client,
+        )
+
+        create_invoices_for_recurring()
+
+        invoices = Invoice.objects.filter(is_recurring=False, sale_date__year=2024)
+        assert invoices.count() == 1
+        assert Invoice.objects.count() == 2
+        assert invoices.first().invoice_number == "1/10/2024"
 
 
 @pytest.mark.django_db
