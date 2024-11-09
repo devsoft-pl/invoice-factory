@@ -77,7 +77,7 @@ minor_tags = ["feat"]
 patch_tags = ["build", "chore", "ci", "fix", "perf", "style", "refactor", "revert"]
 
 
-[tool.semantic_release.changelog]
+[changelog.default_templates.changelog_file]
 template_dir = "semantic_template"
 changelog_file = "CHANGELOG.md"
 exclude_commit_patterns = ["build", "chore", "ci", "docs", "perf", "refactor", "revert", "style"]
