@@ -1,4 +1,4 @@
-## About The Project
+## Invoice Factory
 
 Invoicing application for companies and individuals to streamline business processes.
 Here's what you can do with the application:
