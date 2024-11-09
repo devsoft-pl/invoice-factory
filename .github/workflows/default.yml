@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: 'pypy3.10'
+          python-version: 'pypy3.12'
           cache: 'pip'
 
       - name: Install poetry dependencies
