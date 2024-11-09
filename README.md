@@ -31,8 +31,8 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 
 ## Built With
 
-* Python 3.12,
-* Django 5.1, 
+* Python 3.12.7,
+* Django 5.1.3, 
 * DRF,
 * Celery, 
 * Redis,
