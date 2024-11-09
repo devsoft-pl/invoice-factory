@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v0.65.1 (2024-11-09)
+
+### Bug Fixes
+
+* fix: dockerfile ([`9f3dd45`](https://github.com/devsoft-pl/invoices/commit/9f3dd451b1662c2780f1289fce9e188995e10c79))
+
+
 ## v0.65.0 (2024-11-09)
 
 ### Bug Fixes
@@ -8,6 +15,10 @@
 * fix: readme.md ([`a24638c`](https://github.com/devsoft-pl/invoices/commit/a24638cd6820848545ff221f689bd473760f83b8))
 
 * fix: fix correct invoice number when month is 10, 11, 12 ([`6fd6657`](https://github.com/devsoft-pl/invoices/commit/6fd66578935d9a12338910682c7338e18128516b))
+
+### Chores
+
+* chore(release): 0.65.0 ([`51eb7f7`](https://github.com/devsoft-pl/invoices/commit/51eb7f75f4855f0d9cb12180f9e31b2ba5bf0907))
 
 ### Features
 
