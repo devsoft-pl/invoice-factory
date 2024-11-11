@@ -1,4 +1,4 @@
-pythoncelery_worker:
+celery_worker:
 	celery -A base.celery worker -l info
 
 celery_beat:
