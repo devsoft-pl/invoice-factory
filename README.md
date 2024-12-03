@@ -3,13 +3,11 @@
 Invoicing application for companies and individuals to streamline business processes.
 Here's what you can do with the application:
 
-* **Add Your Company:** Add your company details to the system. 
-You can manage multiple companies under one account.
+* **Add Your Company:** You can manage multiple companies under one account.
 
 * **Manage Contacts:** Add an unlimited number of contacts, including both business entities and individuals.
 
-* **Create and Edit Invoices:** Generate sales or purchase invoices. 
-Edit or delete invoices as needed.. 
+* **Create and Edit Invoices:** Generate sales or purchase invoices. Edit or delete invoices as needed.
 The application allows you to generate invoices in PDF.
 
 * **Recurring Invoices:** Automate your billing process with recurring invoices. 
@@ -31,18 +29,15 @@ The app is covered with tests using pytest and unittest, and the coverage is 99%
 
 ## Built With
 
-* Python 3.12,
-* Django 5.1, 
+* Python,
+* Django,
 * DRF,
-* Celery, 
-* Redis,
+* Celery,
 * JavaScript,
 * PostgreSQL,
-* HTML, CSS, Bootstrap, RWD
-* Docker, Docker-compose,
+* Bootstrap,
+* Docker,
 * Kubernetes,
-* Git, 
-* GitHub
 
 ## How to run the application (docker-compose)
 
