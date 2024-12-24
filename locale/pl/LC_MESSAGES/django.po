@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 12:02+0100\n"
+"POT-Creation-Date: 2024-12-24 12:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -138,7 +138,7 @@ msgid "City"
 msgstr "Miasto"
 
 #: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:186 persons/models.py:26 vat_rates/models.py:12
+#: invoices/models.py:187 persons/models.py:26 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
@@ -326,19 +326,27 @@ msgstr "Kwota netto"
 msgid "Gross_amount"
 msgstr "Kwota brutto"
 
-#: invoices/models.py:183 reports/forms.py:18
+#: invoices/models.py:114
+msgid "invoices"
+msgstr "faktury"
+
+#: invoices/models.py:184 reports/forms.py:18
 msgid "Year"
 msgstr "Rok"
 
-#: invoices/models.py:204 items/models.py:13
+#: invoices/models.py:191
+msgid "years"
+msgstr "lata"
+
+#: invoices/models.py:206 items/models.py:13
 msgid "Invoice"
 msgstr "Faktura"
 
-#: invoices/models.py:210
+#: invoices/models.py:212
 msgid "Correction Invoice"
 msgstr "Faktura korygująca"
 
-#: invoices/models.py:216
+#: invoices/models.py:218
 msgid "correction invoices relation"
 msgstr "relacja faktur korygujących"
 
@@ -434,7 +442,7 @@ msgstr "PESEL"
 
 #: persons/models.py:30
 msgid "persons"
-msgstr "Konsumenci"
+msgstr "konsumenci"
 
 #: persons/views.py:44 persons/views.py:102 persons/views.py:123
 msgid "Person does not exist"
@@ -480,6 +488,10 @@ msgstr "Rodzaj rozliczenia"
 msgid "Final call"
 msgstr "Ostateczne rozliczenie"
 
+#: summary_recipients/models.py:36
+msgid "summary recipients"
+msgstr "odbiorcy podsumowania"
+
 #: summary_recipients/views.py:53 summary_recipients/views.py:80
 msgid "Summary recipient does not exist"
 msgstr "Odbiorca podsumowania nie istnieje"
@@ -505,11 +517,15 @@ msgstr ""
 "Określa, czy ten użytkownik powinien być traktowany jako aktywny. Odznacz tę "
 "opcję zamiast usuwania kont."
 
-#: users/models.py:64
+#: users/models.py:32
+msgid "users"
+msgstr "użytkownicy"
+
+#: users/models.py:67
 msgid "Welcome in Invoice-Factory"
 msgstr "Witamy w Invoice-Factory"
 
-#: users/models.py:66
+#: users/models.py:69
 #, python-brace-format
 msgid ""
 "Thanks for your registration in Invoice-Factory. Your account details:\n"
@@ -536,6 +552,10 @@ msgstr "Stawka VAT już istnieje"
 #: vat_rates/models.py:9
 msgid "Rate"
 msgstr "Stawka VAT"
+
+#: vat_rates/models.py:19
+msgid "vat rates"
+msgstr "stawki vat"
 
 #: vat_rates/views.py:83 vat_rates/views.py:106
 msgid "Vat rate does not exist"
