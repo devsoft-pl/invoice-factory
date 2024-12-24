@@ -32,6 +32,9 @@ class SummaryRecipient(models.Model):
         verbose_name=_("Last day in month"), default=False
     )
 
+    class Meta:
+        verbose_name_plural = _("summary recipients")
+
     def __str__(self):
         return self.description
 

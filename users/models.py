@@ -28,6 +28,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
+    class Meta:
+        verbose_name_plural = _("users")
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"

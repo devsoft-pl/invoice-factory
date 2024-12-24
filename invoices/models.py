@@ -111,6 +111,7 @@ class Invoice(models.Model):
     objects = InvoiceQuerySet.as_manager()
 
     class Meta:
+        verbose_name_plural = _("invoices")
         ordering = ["-sale_date"]
         unique_together = ["invoice_number", "company"]
 
@@ -187,6 +188,7 @@ class Year(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = _("years")
         ordering = ["-year"]
 
     def __str__(self):

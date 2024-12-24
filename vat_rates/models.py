@@ -16,5 +16,6 @@ class VatRate(models.Model):
         return str(self.rate)
 
     class Meta:
+        verbose_name_plural = _("vat rates")
         ordering = ["rate"]
         unique_together = ["rate", "user"]
