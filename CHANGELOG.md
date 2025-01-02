@@ -1,12 +1,25 @@
 # CHANGELOG
 
 
+## v0.66.1 (2025-01-02)
+
+### Bug Fixes
+
+- Dockerfile imports fix
+  ([`4d66d75`](https://github.com/devsoft-pl/invoices/commit/4d66d7571dad40fece8b65fdb073425afa4da975))
+
+
 ## v0.66.0 (2025-01-02)
 
 ### Bug Fixes
 
 - Pyproject.toml version
   ([`64f768a`](https://github.com/devsoft-pl/invoices/commit/64f768a0ea29e4e7880b6d5e7942f6a364cf7dc5))
+
+### Chores
+
+- **release**: 0.66.0
+  ([`fd01d33`](https://github.com/devsoft-pl/invoices/commit/fd01d3366f422dbee740d723f66fc6cb6b4b79db))
 
 ### Features
 
