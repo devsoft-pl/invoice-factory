@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bullseye as base
+FROM python:3.12-slim-bullseye AS base
 
 # Setup env
 ENV LANG=C.UTF-8
@@ -27,7 +27,7 @@ RUN apt-get update &&\
     chown -R app:app /app &&\
     curl -sSL https://install.python-poetry.org | python -
 
-FROM base as builder-deps
+FROM base AS builder-deps
 
 RUN apt-get install build-essential --no-install-recommends -y
 
