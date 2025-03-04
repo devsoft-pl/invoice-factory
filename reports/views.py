@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
@@ -24,7 +25,7 @@ def get_sum_invoices_per_month(invoices):
 def list_reports_view(request):
     filter_form = ReportFilterForm(request.GET)
 
-    year = Year.objects.first()
+    year = Year.objects.first() or Year(year=datetime.now().year)
 
     if filter_form.is_valid():
         if filter_form.cleaned_data["year"]:
