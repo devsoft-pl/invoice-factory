@@ -1,7 +1,20 @@
 # CHANGELOG
 
 
+## v0.69.0 (2025-03-04)
+
+### Features
+
+- Add default year when is no invoice
+  ([`b763499`](https://github.com/devsoft-pl/invoices/commit/b763499c7cc0122bc2b2616f5663e0f1239cb8d7))
+
+
 ## v0.68.0 (2025-03-04)
+
+### Chores
+
+- **release**: 0.68.0
+  ([`56c45a7`](https://github.com/devsoft-pl/invoices/commit/56c45a7aabdb4e6a47ec270dad1dae90e7ba173a))
 
 ### Features
 
