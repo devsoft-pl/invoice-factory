@@ -1,7 +1,20 @@
 # CHANGELOG
 
 
+## v0.70.0 (2025-03-04)
+
+### Features
+
+- Add new version for django, xhtml2pdf, jinja2
+  ([`a7570ae`](https://github.com/devsoft-pl/invoices/commit/a7570ae45f8874967cd703bafa81c0728bfbfb9f))
+
+
 ## v0.69.0 (2025-03-04)
+
+### Chores
+
+- **release**: 0.69.0
+  ([`976d5df`](https://github.com/devsoft-pl/invoices/commit/976d5df8421254a9d30593878f80e8fc56c68814))
 
 ### Features
 
