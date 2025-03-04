@@ -27,3 +27,9 @@ makemessages:
 
 compilemessages:
 	python manage.py compilemessages
+
+postgres:
+	docker compose up postgres -d
+
+postgres-down:
+	docker compose down postgres
