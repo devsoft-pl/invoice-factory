@@ -677,14 +677,14 @@ test = ["flake8", "isort", "pytest"]
 
 [[package]]
 name = "django"
-version = "5.1.4"
+version = "5.1.6"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "Django-5.1.4-py3-none-any.whl", hash = "sha256:236e023f021f5ce7dee5779de7b286565fdea5f4ab86bae5338e3f7b69896cf0"},
-    {file = "Django-5.1.4.tar.gz", hash = "sha256:de450c09e91879fa5a307f696e57c851955c910a438a35e6b4c895e86bedc82a"},
+    {file = "Django-5.1.6-py3-none-any.whl", hash = "sha256:8d203400bc2952fbfb287c2bbda630297d654920c72a73cc82a9ad7926feaad5"},
+    {file = "Django-5.1.6.tar.gz", hash = "sha256:1e39eafdd1b185e761d9fab7a9f0b9fa00af1b37b25ad980a8aa0dac13535690"},
 ]
 
 [package.dependencies]
@@ -1045,14 +1045,14 @@ colors = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "jinja2"
-version = "3.1.4"
+version = "3.1.5"
 description = "A very fast and expressive template engine."
 optional = false
 python-versions = ">=3.7"
 groups = ["main", "semver"]
 files = [
-    {file = "jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d"},
-    {file = "jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369"},
+    {file = "jinja2-3.1.5-py3-none-any.whl", hash = "sha256:aba0f4dc9ed8013c424088f68a5c226f7d6097ed89b246d7749c2ec4175c6adb"},
+    {file = "jinja2-3.1.5.tar.gz", hash = "sha256:8fefff8dc3034e27bb80d67c671eb8a9bc424c0ef4c0826edbff304cceff43bb"},
 ]
 
 [package.dependencies]
@@ -2611,14 +2611,14 @@ files = [
 
 [[package]]
 name = "xhtml2pdf"
-version = "0.2.16"
+version = "0.2.17"
 description = "PDF generator using HTML and CSS"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "xhtml2pdf-0.2.16-py3-none-any.whl", hash = "sha256:b37040127627aee42f76f25ebbd5798308ffc93edaf4850a4d3dd894160ebb53"},
-    {file = "xhtml2pdf-0.2.16.tar.gz", hash = "sha256:7391adac12afb086561667cdc8d6ef0ac4afe5097bd97383622d42b6343dee71"},
+    {file = "xhtml2pdf-0.2.17-py3-none-any.whl", hash = "sha256:61a7ecac829fed518f7dbcb916e9d56bea6e521e02e54644b3d0ca33f0658315"},
+    {file = "xhtml2pdf-0.2.17.tar.gz", hash = "sha256:09ddbc31aa0e38a16f2f3cb73be89af5f7c968c17a564afdd685d280e39c526d"},
 ]
 
 [package.dependencies]
@@ -2628,12 +2628,12 @@ Pillow = ">=8.1.1"
 pyHanko = ">=0.12.1"
 pyhanko-certvalidator = ">=0.19.5"
 pypdf = ">=3.1.0"
-python-bidi = ">=0.4.2"
+python-bidi = ">=0.5.0"
 reportlab = ">=4.0.4,<5"
 svglib = ">=1.2.1"
 
 [package.extras]
-docs = ["sphinx (>=6)", "sphinx-rtd-theme (>=0.5.0)"]
+docs = ["sphinx (>=6)", "sphinx-rtd-theme (>=0.5.0)", "sphinx_reredirects (>=0.1.3)"]
 pycairo = ["reportlab[pycairo] (>=4.0.4,<5)"]
 release = ["build", "twine"]
 renderpm = ["reportlab[renderpm] (>=4.0.4,<5)"]
@@ -2642,4 +2642,4 @@ test = ["coverage (>=5.3)", "tomli (>=2.0.1) ; python_version < \"3.11\"", "tox"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12.7"
-content-hash = "f9ef271ff0e110d3999ce2616b0861dcd37d812a2d7c9f12e05812ec0470fa1f"
+content-hash = "e77b650c7a68e6af9bcf1f8d1a2f7d72ed44b6b4a319eb8a0ff7d421a0c8e2eb"
