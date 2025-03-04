@@ -1,7 +1,23 @@
 # CHANGELOG
 
 
+## v0.68.0 (2025-03-04)
+
+### Features
+
+- Add new field
+  ([`a083153`](https://github.com/devsoft-pl/invoices/commit/a0831539002f3898fa92525e30c5ab83d6fbc03d))
+
+- Update environment of postgres
+  ([`f2e7e8a`](https://github.com/devsoft-pl/invoices/commit/f2e7e8ad27ed3c6e48c3d8182bc1ba221ba69c4c))
+
+
 ## v0.67.0 (2025-03-04)
+
+### Chores
+
+- **release**: 0.67.0
+  ([`4af9df2`](https://github.com/devsoft-pl/invoices/commit/4af9df2ebba18206ec4f6a05c1063a64936457c5))
 
 ### Features
 
