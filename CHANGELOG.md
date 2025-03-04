@@ -1,12 +1,25 @@
 # CHANGELOG
 
 
+## v0.67.0 (2025-03-04)
+
+### Features
+
+- Add env exmaple
+  ([`bdcd7f0`](https://github.com/devsoft-pl/invoices/commit/bdcd7f06d89cd46bb3fbb2f5a3e2f42698ca41cf))
+
+
 ## v0.66.1 (2025-01-02)
 
 ### Bug Fixes
 
 - Dockerfile imports fix
   ([`4d66d75`](https://github.com/devsoft-pl/invoices/commit/4d66d7571dad40fece8b65fdb073425afa4da975))
+
+### Chores
+
+- **release**: 0.66.1
+  ([`f645b21`](https://github.com/devsoft-pl/invoices/commit/f645b21c0d19d0fa331d328de5387975f4cc8196))
 
 
 ## v0.66.0 (2025-01-02)
