@@ -19,6 +19,13 @@ const isLastDayOfMonth = (currentDate) =>{
     return givenDate.getDate() === lastDayOfMonth.getDate();
 }
 
+const isLastDay = (currentDay) =>{
+    if (typeof currentDay !== 'number' || currentDay < 0 || currentDay > 31) {
+        return false;
+    }
+    return [28, 29, 30, 31].includes(currentDay);
+}
+
 const createFormErrors = (fieldName, errors) => {
         const selectElement = document.getElementById("id_" + fieldName);
         const rowContainer = selectElement.parentElement.parentElement;
