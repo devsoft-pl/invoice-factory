@@ -20,7 +20,7 @@ class SummaryRecipientForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         for field in self.Meta.fields:
-            if field == "final_call":
+            if field in ["final_call", "is_last_day"]:
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
 
