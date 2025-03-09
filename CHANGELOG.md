@@ -1,7 +1,26 @@
 # CHANGELOG
 
 
+## v0.71.0 (2025-03-09)
+
+### Features
+
+- Add new function to check day is last day od month
+  ([`5c2335d`](https://github.com/devsoft-pl/invoices/commit/5c2335d5d7f790f1afd523dd39ad02578c8b4762))
+
+- Update name of method
+  ([`2018269`](https://github.com/devsoft-pl/invoices/commit/2018269780f69f28cbcf1f82272ac94b6e91b492))
+
+- Update task monthly summary with selections of last day of month
+  ([`1876b5c`](https://github.com/devsoft-pl/invoices/commit/1876b5cbf7f283a51bbe8dc3f484be2ee84ddaad))
+
+
 ## v0.70.0 (2025-03-04)
+
+### Chores
+
+- **release**: 0.70.0
+  ([`bc47497`](https://github.com/devsoft-pl/invoices/commit/bc47497a962f16eee9e84ee6f9dd09f6ff43f833))
 
 ### Features
 
