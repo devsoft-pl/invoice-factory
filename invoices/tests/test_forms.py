@@ -18,7 +18,7 @@ from invoices.forms import (
     InvoiceSellForm,
     InvoiceSellPersonForm,
     InvoiceSellPersonToClientForm,
-    is_sale_date_last_day_of_month,
+    is_last_day_of_month,
 )
 from invoices.models import Invoice
 from persons.factories import PersonFactory
@@ -546,5 +546,5 @@ class TestBuyInvoiceForm:
     "date, expected", [[datetime(2024, 3, 11), False], [datetime(2024, 3, 31), True]]
 )
 def test_returns_check_if_date_last_day_of_month(date, expected):
-    result = is_sale_date_last_day_of_month(date)
+    result = is_last_day_of_month(date)
     assert result is expected

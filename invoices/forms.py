@@ -14,7 +14,7 @@ from invoices.models import CorrectionInvoiceRelation, Invoice
 from persons.models import Person
 
 
-def is_sale_date_last_day_of_month(date):
+def is_last_day_of_month(date):
     month_range = calendar.monthrange(date.year, date.month)
     last_day = month_range[1]
     return date.day == last_day
@@ -118,11 +118,7 @@ class InvoiceSellForm(forms.ModelForm):
         is_last_day = self.data.get("is_last_day")
         is_recurring = self.data.get("is_recurring")
 
-        if (
-            is_recurring
-            and is_last_day
-            and not is_sale_date_last_day_of_month(sale_date)
-        ):
+        if is_recurring and is_last_day and not is_last_day_of_month(sale_date):
             raise forms.ValidationError(_("This field is not last dat of month."))
         return sale_date
 
@@ -224,11 +220,7 @@ class InvoiceSellPersonForm(forms.ModelForm):
         is_last_day = self.data.get("is_last_day")
         is_recurring = self.data.get("is_recurring")
 
-        if (
-            is_recurring
-            and is_last_day
-            and not is_sale_date_last_day_of_month(sale_date)
-        ):
+        if is_recurring and is_last_day and not is_last_day_of_month(sale_date):
             raise forms.ValidationError(_("This field is not last dat of month."))
         return sale_date
 
@@ -329,11 +321,7 @@ class InvoiceSellPersonToClientForm(forms.ModelForm):
         is_last_day = self.data.get("is_last_day")
         is_recurring = self.data.get("is_recurring")
 
-        if (
-            is_recurring
-            and is_last_day
-            and not is_sale_date_last_day_of_month(sale_date)
-        ):
+        if is_recurring and is_last_day and not is_last_day_of_month(sale_date):
             raise forms.ValidationError(_("This field is not last dat of month."))
         return sale_date
 
