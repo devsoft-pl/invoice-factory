@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
 from base.celery import app
-from companies.models import Company
+from invoices.forms import is_last_day_of_month
 from invoices.models import Invoice
 from summary_recipients.models import SummaryRecipient
 
@@ -137,11 +137,16 @@ def send_monthly_summary_to_recipients():
     logger.info("Trying to send summary to recipients")
 
     today = datetime.today()
+    is_last_day = is_last_day_of_month(today)
     summary_date = today - timedelta(days=today.day)
 
-    companies = Company.objects.filter(is_my_company=True)
+    if is_last_day:
+        summary_recipients = SummaryRecipient.objects.filter(is_last_day=True)
+    else:
+        summary_recipients = SummaryRecipient.objects.filter(day=today.day)
 
-    for company in companies:
+    for summary_recipient in summary_recipients:
+        company = summary_recipient.company
         invoices = Invoice.objects.filter(
             company=company,
             create_date__month=summary_date.month,
@@ -173,14 +178,9 @@ def send_monthly_summary_to_recipients():
             "Invoice-Factory"
         )
 
-        summary_recipients = SummaryRecipient.objects.filter(
-            day=today.day, company=company
-        )
+        summary_recipient.send_email(subject, content, files)
 
-        for summary_recipient in summary_recipients:
-            summary_recipient.send_email(subject, content, files)
-
-            if summary_recipient.final_call:
-                for invoice in invoices:
-                    invoice.is_settled = True
-                    invoice.save()
+        if summary_recipient.final_call:
+            for invoice in invoices:
+                invoice.is_settled = True
+                invoice.save()
