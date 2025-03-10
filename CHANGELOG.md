@@ -1,7 +1,20 @@
 # CHANGELOG
 
 
+## v0.73.0 (2025-03-10)
+
+### Features
+
+- Add new translated
+  ([`ede2763`](https://github.com/devsoft-pl/invoices/commit/ede2763da081bc3e45349f9cbdf18b1112b8ca64))
+
+
 ## v0.72.0 (2025-03-10)
+
+### Chores
+
+- **release**: 0.72.0
+  ([`8235131`](https://github.com/devsoft-pl/invoices/commit/8235131a624969360b95f9741fc95a62ccb4794a))
 
 ### Features
 
