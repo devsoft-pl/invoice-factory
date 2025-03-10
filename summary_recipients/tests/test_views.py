@@ -92,7 +92,8 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
         self.client.login(username=self.user.email, password="test")
 
         summary_recipient_data = SummaryRecipientDictFactory(
-            company=self.user_company.pk
+            company=self.user_company.pk,
+            is_last_day="",
         )
 
         response = self.client.post(self.url, summary_recipient_data)
@@ -150,7 +151,8 @@ class TestReplaceSummaryRecipient(TestSummaryRecipient):
         self.client.login(username=self.user.email, password="test")
 
         summary_recipient_data = SummaryRecipientDictFactory(
-            company=self.user_company.pk
+            company=self.user_company.pk,
+            is_last_day="",
         )
 
         response = self.client.post(self.url, summary_recipient_data)
