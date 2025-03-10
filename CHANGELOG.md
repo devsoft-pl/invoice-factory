@@ -1,7 +1,38 @@
 # CHANGELOG
 
 
+## v0.72.0 (2025-03-10)
+
+### Features
+
+- Add error to field day when day is not last day of month
+  ([`949f872`](https://github.com/devsoft-pl/invoices/commit/949f872e074c62241374826b0e592b860d082fb0))
+
+- Add method clean_day
+  ([`55d2c2c`](https://github.com/devsoft-pl/invoices/commit/55d2c2c5f849572714d8cd47143544ab86fa9ae8))
+
+- Add test to clean day when returns error
+  ([`598022a`](https://github.com/devsoft-pl/invoices/commit/598022afb129bdcffa4b909530c508ecfcf255c1))
+
+- Correct redirect when form is valid in view with replace summary recipient
+  ([`f8e2017`](https://github.com/devsoft-pl/invoices/commit/f8e2017a3360912fd2330d9321736273c95f4cb3))
+
+- Delete unused method isLastDay
+  ([`a13bffb`](https://github.com/devsoft-pl/invoices/commit/a13bffbb10a19b469affcec3e931a2bbb1361dc0))
+
+- Fix tests
+  ([`a6d1a1d`](https://github.com/devsoft-pl/invoices/commit/a6d1a1d1abe559b6f40be7222ca7e7054ab28ccf))
+
+- Fix validation field day when day is not last day in month
+  ([`7478bb0`](https://github.com/devsoft-pl/invoices/commit/7478bb065daf97b3b15e95f4f7840b98c6c0ebfa))
+
+
 ## v0.71.0 (2025-03-09)
+
+### Chores
+
+- **release**: 0.71.0
+  ([`a69d76c`](https://github.com/devsoft-pl/invoices/commit/a69d76c17c0995a07f60f1e3d5f23e00321353e2))
 
 ### Features
 
