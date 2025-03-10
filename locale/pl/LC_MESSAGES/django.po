@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 12:48+0100\n"
+"POT-Creation-Date: 2025-03-11 00:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Email"
 msgid "Phone number"
 msgstr "Numer telefonu"
 
-#: accountants/models.py:15 invoices/forms.py:400 invoices/models.py:48
+#: accountants/models.py:15 invoices/forms.py:388 invoices/models.py:48
 #: summary_recipients/models.py:21
 msgid "Company"
 msgstr "Firma"
@@ -229,28 +229,28 @@ msgstr "Dodatkowe opcje"
 msgid "This field is required"
 msgstr "To pole jest wymagane"
 
-#: invoices/forms.py:112 invoices/forms.py:218 invoices/forms.py:323
-#: invoices/forms.py:389
+#: invoices/forms.py:112 invoices/forms.py:214 invoices/forms.py:315
+#: invoices/forms.py:377
 msgid "Invoice number already exists"
 msgstr "Numer faktury już istnieje"
 
-#: invoices/forms.py:126 invoices/forms.py:232 invoices/forms.py:337
+#: invoices/forms.py:122 invoices/forms.py:224 invoices/forms.py:325
 msgid "This field is not last dat of month."
-msgstr "Data sprzedaży nie jest ostatnim dniem miesiąca"
+msgstr "To nie jest ostatni dnień miesiąca."
 
-#: invoices/forms.py:206 invoices/forms.py:311
+#: invoices/forms.py:202 invoices/forms.py:303
 msgid "This field is required."
 msgstr "To pole jest wymagane"
 
-#: invoices/forms.py:395 invoices/models.py:41
+#: invoices/forms.py:383 invoices/models.py:41
 msgid "Invoice number"
 msgstr "Numer faktury"
 
-#: invoices/forms.py:397 invoices/models.py:44
+#: invoices/forms.py:385 invoices/models.py:44
 msgid "Invoice type"
 msgstr "Typ faktury"
 
-#: invoices/forms.py:399 invoices/models.py:94
+#: invoices/forms.py:387 invoices/models.py:94
 msgid "Client"
 msgstr "Kontrahent"
 
@@ -274,7 +274,7 @@ msgstr "Gotówka"
 msgid "Person"
 msgstr "Konsument"
 
-#: invoices/models.py:62
+#: invoices/models.py:62 invoices/models.py:119
 msgid "Recurring"
 msgstr "Cykliczna"
 
@@ -366,11 +366,11 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
-#: invoices/tasks.py:169
+#: invoices/tasks.py:174
 msgid "Month summary"
 msgstr "Podsumowanie miesiąca"
 
-#: invoices/tasks.py:171
+#: invoices/tasks.py:176
 msgid ""
 "A monthly summary has been created for company\n"
 "Best regards,\n"
@@ -464,6 +464,10 @@ msgstr "Brutto"
 msgid "Revenue type"
 msgstr "Rodzaj przychodu"
 
+#: summary_recipients/forms.py:38
+msgid "This field is not last day of month."
+msgstr "To nie jest ostatni dnień miesiąca."
+
 #: summary_recipients/models.py:14
 msgid "Monthly"
 msgstr "Co miesiąc"
@@ -492,7 +496,7 @@ msgstr "Ostateczne rozliczenie"
 msgid "summary recipients"
 msgstr "odbiorcy podsumowania"
 
-#: summary_recipients/views.py:53 summary_recipients/views.py:80
+#: summary_recipients/views.py:53 summary_recipients/views.py:81
 msgid "Summary recipient does not exist"
 msgstr "Odbiorca podsumowania nie istnieje"
 
