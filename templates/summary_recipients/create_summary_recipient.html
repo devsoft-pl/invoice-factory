@@ -50,18 +50,19 @@
                     </div>
                 {% endif %}
                 <div class="row mb-2" id="dayContainer">
-                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center font-weight-bold">{{ form.day.label_tag }}</div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center" style="font-weight: bold;">{{ form.day.label_tag }}</div>
                     <div class="col-12 col-md-2 col-lg-2 d-flex align-items-center">{{ form.day }}</div>
-                    <div class="col-12 col-md-3 mt-2 mt-md-0 d-flex align-items-center">
+                    <div class="col-12 col-md-3 mt-2 mt-md-0 d-flex align-items-center" style="font-weight: bold;">
                         {{ form.is_last_day }}
                         <span class="ms-2 font-weight-bold">{{ form.is_last_day.label_tag|cut:":" }}</span></div>
                 </div>
-                <div id="id_last_day_errors_container"></div>
-                {% if form.day.errors %}
+                <div id="id_last_day_errors_container">
+                    {% if form.day.errors %}
                     <div class="row">
                         <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.day.errors }}</div>
                     </div>
                 {% endif %}
+                </div>
                 {% if form.is_last_day.errors %}
                     <div class="row">
                         <div class="col-12 col-md-6 offset-md-6 text-danger">{{ form.is_last_day.errors }}</div>

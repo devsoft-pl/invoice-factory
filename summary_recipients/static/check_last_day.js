@@ -2,9 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const dayInput = document.getElementById('id_day');
     const isLastDayElement = document.getElementById('id_is_last_day');
     const errorContainer = document.getElementById('id_last_day_errors_container');
+    const form = document.querySelector('form');
+
+    function isLastDay(day) {
+        const lastDays = [28, 29, 30, 31];
+        return lastDays.includes(day);
+    }
 
     function removeLastDayError() {
-        errorContainer.innerHTML = ''; // Usuwamy wszystkie błędy
+        errorContainer.innerHTML = '';
+        dayInput.classList.remove('is-invalid');
     }
 
     function showLastDayError() {
@@ -24,17 +31,31 @@ document.addEventListener("DOMContentLoaded", function () {
         errorElement.appendChild(errorContent);
 
         errorContainer.appendChild(errorElement);
+        dayInput.classList.add('is-invalid');
     }
 
     function validateLastDay() {
         removeLastDayError();
-        const dayValue = parseInt(dayInput.value, 10);
 
-        if (isLastDayElement.checked && (!dayValue || !isLastDay(dayValue))) {
+        const dayValue = parseInt(dayInput.value, 10);
+        const isLastDayChecked = isLastDayElement.checked;
+
+        if (isLastDayChecked && (!dayValue || !isLastDay(dayValue))) {
             showLastDayError();
+            return false;
         }
+
+        return true;
     }
 
     isLastDayElement.addEventListener("change", validateLastDay);
     dayInput.addEventListener("change", validateLastDay);
+
+    form.addEventListener('submit', function (event) {
+        const isValid = validateLastDay();
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
 });

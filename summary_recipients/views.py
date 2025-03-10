@@ -60,9 +60,10 @@ def replace_summary_recipient_view(request, summary_recipient_id):
         if form.is_valid():
             form.save()
 
-        return redirect(
-            "summary_recipients:list_summary_recipients", summary_recipient.company.pk
-        )
+            return redirect(
+                "summary_recipients:list_summary_recipients",
+                summary_recipient.company.pk,
+            )
 
     context = {
         "summary_recipient": summary_recipient,
