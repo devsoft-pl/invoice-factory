@@ -1,4 +1,5 @@
 import copy
+from datetime import datetime
 from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
@@ -6,6 +7,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
@@ -17,6 +19,7 @@ from invoices.forms import (
     InvoiceSellPersonToClientForm,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
+from invoices.tasks import get_max_invoice_number, get_right_month_format
 
 
 def index_view(request):
@@ -163,6 +166,51 @@ def clone(instance):
     except AttributeError:
         pass
     return cloned
+
+
+def duplicate_invoice_view(request, invoice_id):
+    today = datetime.today()
+    month = get_right_month_format(today.month)
+
+    invoice = get_object_or_404(Invoice, pk=invoice_id)
+
+    if invoice.company.user != request.user or invoice.is_recurring:
+        raise Http404(_("Invoice does not exist"))
+
+    if invoice.person:
+        form_klass = InvoiceSellPersonForm
+    else:
+        form_klass = InvoiceSellForm
+
+    new_instance = clone(invoice)
+    max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
+    new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
+    new_instance.is_settled = False
+    new_instance.save()
+    for item in invoice.items.all():
+        new_item = clone(item)
+        new_item.invoice = new_instance
+        new_item.save()
+
+    if request.method != "POST":
+        form = form_klass(instance=new_instance, current_user=request.user)
+    else:
+        form = form_klass(
+            instance=new_instance,
+            data=request.POST,
+            files=request.FILES,
+            current_user=request.user,
+        )
+
+        if form.is_valid():
+            new_invoice = form.save(commit=False)
+            new_invoice.save()
+            return redirect(reverse("invoices:list_invoices"))
+        else:
+            return redirect("invoices:detail_invoice", invoice.pk)
+
+    context = {"invoice": new_instance, "form": form, "duplicate": True}
+    return render(request, "invoices/replace_sell_invoice.html", context)
 
 
 def create_correction_invoice_number(invoice: Invoice):

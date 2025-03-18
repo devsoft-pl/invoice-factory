@@ -39,7 +39,7 @@
         <div class="row mt-2">
             {% if create_correction %}
                 <form action="{% url 'invoices:create_correction_invoice' invoice.pk %}" method='post'>
-            {% else %}    
+            {% else %}
                 <form action="{% url 'invoices:replace_sell_invoice' invoice.pk %}" method='post'>
             {% endif %}    
                 {% csrf_token %}
