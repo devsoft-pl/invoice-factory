@@ -29,7 +29,7 @@ def get_invoice_with_max_sale_date(company, person):
             company=company,
             person=person,
         )
-        .order_by("-sale_date", "pk")
+        .order_by("-sale_date", "-pk")
         .first()
     )
 
