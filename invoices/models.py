@@ -157,6 +157,11 @@ class Invoice(models.Model):
 
         return has_vat
 
+    @property
+    def has_items(self):
+        return self.items.exists()
+
+
     def get_html_for_pdf(self):
         items = self.items.all()
 
