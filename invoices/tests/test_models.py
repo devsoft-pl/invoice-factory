@@ -62,6 +62,13 @@ class TestInvoiceModel:
     def test_returns_invoice_sale(self):
         assert self.invoice.is_sell
 
+    def test_returns_true_when_has_items(self):
+        assert self.invoice.has_items
+
+    def test_returns_false_when_no_items(self):
+        invoice = InvoiceSellFactory.create()
+        assert not invoice.has_items
+
 
 @pytest.mark.django_db
 class TestYearModel:
