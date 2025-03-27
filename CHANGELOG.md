@@ -1,7 +1,41 @@
 # CHANGELOG
 
 
+## v0.74.0 (2025-03-27)
+
+### Features
+
+- Add create duplicate invoice form company or person
+  ([`b813398`](https://github.com/devsoft-pl/invoices/commit/b8133989f32f03c507af3cc13cff68aa799d9469))
+
+- Add duplicate invoice for my company or individual
+  ([`d6765ec`](https://github.com/devsoft-pl/invoices/commit/d6765ec4498b7003bbd980f25d72c73885eb968f))
+
+- Add duplicate invoice in detail invoice
+  ([`373bbd1`](https://github.com/devsoft-pl/invoices/commit/373bbd1518e413706b9cb4fd64a2d200b1edb123))
+
+- Black, flake, isort
+  ([`ecddfd0`](https://github.com/devsoft-pl/invoices/commit/ecddfd02cc930a4a32399716a4c22b8d6ff544c2))
+
+- Change order_by to -pk in method get_invoice_with_max_sale_date
+  ([`e0c605e`](https://github.com/devsoft-pl/invoices/commit/e0c605e6f2d01e2b9b021f6380191df1b3fe1475))
+
+- Check if has items in invoice
+  ([`1cbd06f`](https://github.com/devsoft-pl/invoices/commit/1cbd06f3885ff86a854062b15299e1d33499732b))
+
+- Tests duplicate invoice
+  ([`94fa163`](https://github.com/devsoft-pl/invoices/commit/94fa163318728f0e6c3b33f717ff7d351cbb9e5b))
+
+- Tests for check if invoice has items
+  ([`a40ef71`](https://github.com/devsoft-pl/invoices/commit/a40ef71fdfae81baa4dd60ba77cbffcf75c8680f))
+
+
 ## v0.73.0 (2025-03-10)
+
+### Chores
+
+- **release**: 0.73.0
+  ([`1346a08`](https://github.com/devsoft-pl/invoices/commit/1346a0869940a7620c1468358a951666f8e0eeb3))
 
 ### Features
 
