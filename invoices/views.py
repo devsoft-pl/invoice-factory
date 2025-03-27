@@ -167,6 +167,7 @@ def clone(instance):
         pass
     return cloned
 
+
 @login_required
 def duplicate_company_invoice_view(request, invoice_id):
     today = datetime.today()
@@ -237,7 +238,9 @@ def duplicate_individual_invoice_view(request, invoice_id):
         new_item.save()
 
     if request.method != "POST":
-        form = InvoiceSellPersonToClientForm(instance=new_instance, current_user=request.user)
+        form = InvoiceSellPersonToClientForm(
+            instance=new_instance, current_user=request.user
+        )
     else:
         form = InvoiceSellPersonToClientForm(
             instance=new_instance,
@@ -254,7 +257,10 @@ def duplicate_individual_invoice_view(request, invoice_id):
             return redirect("invoices:detail_invoice", invoice.pk)
 
     context = {"invoice": new_instance, "form": form, "duplicate": True}
-    return render(request, "invoices/replace_sell_person_to_client_invoice.html", context)
+    return render(
+        request, "invoices/replace_sell_person_to_client_invoice.html", context
+    )
+
 
 def create_correction_invoice_number(invoice: Invoice):
     invoice_number_parts = invoice.invoice_number.split("/")

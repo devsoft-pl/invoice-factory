@@ -7,13 +7,13 @@ from invoices.views import (
     create_sell_person_to_client_invoice_view,
     delete_invoice_view,
     detail_invoice_view,
+    duplicate_company_invoice_view,
+    duplicate_individual_invoice_view,
     list_invoices_view,
     pdf_invoice_view,
     replace_buy_invoice_view,
     replace_sell_invoice_view,
     replace_sell_person_to_client_invoice_view,
-    duplicate_individual_invoice_view,
-    duplicate_company_invoice_view,
 )
 
 app_name = "invoices"
