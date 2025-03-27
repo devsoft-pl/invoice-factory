@@ -704,6 +704,76 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_duplicate_company_invoice_if_is_not_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/03/2024",
+            company=self.company,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=False,
+            is_recurring=False,
+        )
+
+        url = reverse("invoices:duplicate_company_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_no_duplicate_company_invoice_if_is_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/03/2024",
+            company=self.company,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=False,
+            is_recurring=True,
+        )
+
+        url = reverse("invoices:duplicate_company_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_duplicate_individual_invoice_if_is_not_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+        person = PersonFactory.create(user=self.user)
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/03/2024",
+            person=person,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=False,
+            is_recurring=False,
+        )
+
+        url = reverse("invoices:duplicate_individual_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_duplicate_individual_invoice_if_is_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+        person = PersonFactory.create(user=self.user)
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/03/2024",
+            person=person,
+            client=self.contractor,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_settled=False,
+            is_recurring=True,
+        )
+
+        url = reverse("invoices:duplicate_individual_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
 
 class TestReplaceSellPersonToClientInvoice(TestInvoice):
     def setUp(self) -> None:
