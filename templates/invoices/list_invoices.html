@@ -134,13 +134,6 @@
                                 </td>
                                 <td>
                                     <a href="{% url 'invoices:detail_invoice' invoice.pk %}">Więcej</a>
-                                    {% if not invoice.is_recurring and invoice.is_sell and invoice.has_items %}
-                                        {% if invoice.company %}
-                                            <a href="{% url 'invoices:duplicate_company_invoice' invoice.pk %}">Duplikuj</a>
-                                        {% else %}
-                                            <a href="{% url 'invoices:duplicate_individual_invoice' invoice.pk %}">Duplikuj</a>
-                                        {% endif %}
-                                    {% endif %}
                                     {% if not invoice.is_recurring %}
                                         {% if invoice.is_sell %}
                                             {% if invoice.items.exists %}
