@@ -1,7 +1,26 @@
 # CHANGELOG
 
 
+## v0.75.0 (2025-04-09)
+
+### Features
+
+- Invoice with correction can not be duplicated
+  ([`8fd3b3c`](https://github.com/devsoft-pl/invoices/commit/8fd3b3cbd7f4baabae68d93599506f1f684f67cd))
+
+- Invoice without items can not have correction
+  ([`0ca0d2a`](https://github.com/devsoft-pl/invoices/commit/0ca0d2a4b38b37fbef93539ac11c936dcd525bb1))
+
+- Update readme
+  ([`f6b2e68`](https://github.com/devsoft-pl/invoices/commit/f6b2e684a70778f0db93bdbbd944e52e2551180e))
+
+
 ## v0.74.0 (2025-03-27)
+
+### Chores
+
+- **release**: 0.74.0
+  ([`b299519`](https://github.com/devsoft-pl/invoices/commit/b299519500a12c6fce5dc296e152bc9e884b38b5))
 
 ### Features
 
