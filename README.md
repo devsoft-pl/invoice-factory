@@ -64,6 +64,18 @@ To **stop** the application, you can run:
   docker compose down
 ```
 
+### Running the application with local with python manage.py runserver
+
+```bash
+    python manage.py runserver
+```
+
+Be sure that postgres is up before:
+
+```bash
+    docker compose up postgres -d
+```
+
 ## Application Link
 
 Link: https://invoice-factory.devsoft.pl/
