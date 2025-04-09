@@ -127,7 +127,7 @@
                     {% endif %}    
                     <a class="btn btn-danger w-md-auto" href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
                 {% endif %}
-                {% if not invoice.is_recurring and invoice.is_sell and invoice.has_items %}
+                {% if not invoice.is_recurring and invoice.has_items and not invoice.has_correction_invoice %}
                     {% if invoice.company %}
                         <a class="btn btn-secondary w-md-auto" href="{% url 'invoices:duplicate_company_invoice' invoice.pk %}">Duplikuj</a>
                     {% else %}

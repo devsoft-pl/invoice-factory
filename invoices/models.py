@@ -161,6 +161,10 @@ class Invoice(models.Model):
     def has_items(self):
         return self.items.exists()
 
+    @property
+    def has_correction_invoice(self):
+        return hasattr(self, "correction_invoice_relation")
+
     def get_html_for_pdf(self):
         items = self.items.all()
 
