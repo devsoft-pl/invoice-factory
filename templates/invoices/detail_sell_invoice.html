@@ -135,7 +135,7 @@
                     {% endif %}
                 {% endif %}
                 {% if invoice.company %}
-                    {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation %}
+                    {% if not invoice.is_recurring and not invoice.original_invoice_relation and not invoice.correction_invoice_relation and invoice.has_items %}
                         <a class="btn btn-primary w-md-auto" href="{% url 'invoices:create_correction_invoice' invoice.pk %}">Dodaj fakturę korygującą</a>
                     {% endif %}
                 {% else %}
