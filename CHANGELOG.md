@@ -1,12 +1,25 @@
 # CHANGELOG
 
 
+## v0.76.2 (2025-05-07)
+
+### Bug Fixes
+
+- Update YAML file reference from invoice-manager to invoice-factory in CI/CD configuration
+  ([`0f38753`](https://github.com/devsoft-pl/invoice-factory/commit/0f387534a535a03264ce87abcfa70f57461a5a05))
+
+
 ## v0.76.1 (2025-05-07)
 
 ### Bug Fixes
 
 - Update token references from GH_TOKEN to GITHUB_TOKEN in CI/CD configuration
   ([`7e3967e`](https://github.com/devsoft-pl/invoice-factory/commit/7e3967ed431357491cff3f149dc20a6ac80ddfe3))
+
+### Chores
+
+- **release**: 0.76.1
+  ([`8e95b44`](https://github.com/devsoft-pl/invoice-factory/commit/8e95b44e2fe42c6c0fab4f0467751fad39950e98))
 
 
 ## v0.76.0 (2025-05-07)
