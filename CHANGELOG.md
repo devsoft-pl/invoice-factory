@@ -1,7 +1,20 @@
 # CHANGELOG
 
 
+## v0.76.1 (2025-05-07)
+
+### Bug Fixes
+
+- Update token references from GH_TOKEN to GITHUB_TOKEN in CI/CD configuration
+  ([`7e3967e`](https://github.com/devsoft-pl/invoice-factory/commit/7e3967ed431357491cff3f149dc20a6ac80ddfe3))
+
+
 ## v0.76.0 (2025-05-07)
+
+### Chores
+
+- **release**: 0.76.0
+  ([`70fcfb3`](https://github.com/devsoft-pl/invoice-factory/commit/70fcfb3c3a0a3e55d5f2184cc262b0bfc686978b))
 
 ### Features
 
