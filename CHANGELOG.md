@@ -1,12 +1,25 @@
 # CHANGELOG
 
 
+## v0.76.3 (2025-05-07)
+
+### Chores
+
+- Remove coverage step from CI/CD configuration
+  ([`2ed9cf7`](https://github.com/devsoft-pl/invoice-factory/commit/2ed9cf7eaf7e8bbcb46473cb52bc823a01d26010))
+
+
 ## v0.76.2 (2025-05-07)
 
 ### Bug Fixes
 
 - Update YAML file reference from invoice-manager to invoice-factory in CI/CD configuration
   ([`0f38753`](https://github.com/devsoft-pl/invoice-factory/commit/0f387534a535a03264ce87abcfa70f57461a5a05))
+
+### Chores
+
+- **release**: 0.76.2
+  ([`a9844df`](https://github.com/devsoft-pl/invoice-factory/commit/a9844df8eef1237d365eb1f69f4e9b558997ec7c))
 
 
 ## v0.76.1 (2025-05-07)
