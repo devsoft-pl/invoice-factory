@@ -1,12 +1,38 @@
 # CHANGELOG
 
 
+## v0.77.0 (2025-05-07)
+
+### Chores
+
+- Remove coverage step from CI/CD configuration
+  ([`b6ff971`](https://github.com/devsoft-pl/invoice-factory/commit/b6ff97102b9dc4e5e3a18a05f586750d7affc69f))
+
+- **release**: 0.76.3
+  ([`e78bdd7`](https://github.com/devsoft-pl/invoice-factory/commit/e78bdd7e2331f9ccae8b2b50d7e3f58835b98de9))
+
+### Features
+
+- Add section for creating invoice duplicates in README
+  ([`de1a360`](https://github.com/devsoft-pl/invoice-factory/commit/de1a360ffc87baa6704acba811574d3e9f339035))
+
+- Show navbar toggler button only for authenticated users
+  ([`cb085ee`](https://github.com/devsoft-pl/invoice-factory/commit/cb085ee304880dde2006cecc908aff8faa86116d))
+
+- Update layout in index.html for better responsiveness and add section for creating invoice
+  duplicates
+  ([`6055085`](https://github.com/devsoft-pl/invoice-factory/commit/60550850d8ea8a66023ea7a25358dde167e829d8))
+
+
 ## v0.76.3 (2025-05-07)
 
 ### Chores
 
 - Remove coverage step from CI/CD configuration
   ([`2ed9cf7`](https://github.com/devsoft-pl/invoice-factory/commit/2ed9cf7eaf7e8bbcb46473cb52bc823a01d26010))
+
+- **release**: 0.76.3
+  ([`97d703e`](https://github.com/devsoft-pl/invoice-factory/commit/97d703e73a6df6de17bffb2fd97c7c688809b941))
 
 
 ## v0.76.2 (2025-05-07)
