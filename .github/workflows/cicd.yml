@@ -167,7 +167,7 @@ jobs:
 
       - name: Update container tag to new version
         run: |
-          YAML_FILE=argocd/apps/invoice-manager.yaml
+          YAML_FILE=argocd/apps/invoice-factory.yaml
           IMAGE_TAG="${{ needs.release.outputs.version }}"
           yq -i ".spec.source.helm.values |= (from_yaml | .image.tag=\"$IMAGE_TAG\" | to_yaml)" ${YAML_FILE}
 
