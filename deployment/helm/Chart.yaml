@@ -1,6 +1,0 @@
-apiVersion: v2
-name: invoice-factory
-description: A Helm chart for invoice factory (django)
-
-type: application
-version: 1.0.0
