@@ -13,6 +13,9 @@ The application allows you to generate invoices in PDF.
 * **Recurring Invoices:** Automate your billing process with recurring invoices. 
 The app handles monthly invoice creation and sends email notifications with attachments for generated recurring invoices.
 
+* **Create invoice duplicates:** Copy existing invoices with a single click. 
+The application automatically assigns the next number.
+
 * **Automatic Currency Conversion:** App handle currency conversion when invoicing in foreign currencies. 
 It automatically fetches exchange rates from the National Bank of Poland (NBP) for accurate and up-to-date conversion.
 
