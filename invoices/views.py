@@ -28,8 +28,12 @@ def index_view(request):
 
 @login_required
 def list_invoices_view(request):
-    invoices_list = Invoice.objects.filter(
-        Q(company__user=request.user) | Q(person__user=request.user)
+    invoices_list = (
+        Invoice.objects.filter(
+            Q(company__user=request.user) | Q(person__user=request.user)
+        )
+        .select_related("company", "person", "client")
+        .prefetch_related("items")
     )
 
     filter_form = InvoiceFilterForm(request.GET)
