@@ -22,5 +22,9 @@ class TestItemModel:
     def test_returns_tax_amount(self):
         assert self.item.tax_amount == Decimal("552")
 
+    def test_tax_amount_when_vat_is_none(self):
+        item = ItemFactory.create(amount=2, net_price=1200, vat=None)
+        assert item.tax_amount == Decimal("0")
+
     def test_returns_gross_amount(self):
         assert self.item.gross_amount == Decimal("2952")

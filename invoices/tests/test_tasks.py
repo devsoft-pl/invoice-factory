@@ -245,3 +245,19 @@ class TestSummaryRecipientTasks:
         self.invoice_1.refresh_from_db()
 
         assert self.invoice_1.is_settled is expected_value
+
+    def test_is_last_day_of_month(self):
+        last_day = datetime.date(2023, 8, 31)
+        not_last_day = datetime.date(2023, 8, 25)
+
+        assert (
+            InvoiceSellFactory.create(is_last_day=True, sale_date=last_day).is_last_day
+            is True
+        )
+
+        assert (
+            InvoiceSellFactory.create(
+                is_last_day=False, sale_date=not_last_day
+            ).is_last_day
+            is False
+        )
