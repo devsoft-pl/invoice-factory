@@ -236,7 +236,10 @@ class TestSummaryRecipientTasks:
     @pytest.mark.parametrize(
         "final_call, expected_value", [[True, True], [False, False]]
     )
-    def test_if_invoice_is_settled_on_final_call(self, final_call, expected_value):
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    def test_if_invoice_is_settled_on_final_call(
+        self, send_email_mock, final_call, expected_value
+    ):
         SummaryRecipientFactory.create(
             company=self.company, day=self.today.day, final_call=final_call
         )
@@ -245,3 +248,29 @@ class TestSummaryRecipientTasks:
         self.invoice_1.refresh_from_db()
 
         assert self.invoice_1.is_settled is expected_value
+        send_email_mock.assert_called_once()
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    def test_send_monthly_summary_on_last_day_of_month(self, send_email_mock):
+        today = datetime.datetime(year=2024, month=10, day=31)
+        last_month_date = datetime.datetime(year=2024, month=9, day=15)
+
+        invoice = InvoiceSellFactory.create(
+            company=self.company,
+            create_date=last_month_date,
+            is_settled=False,
+            currency=self.currency,
+            is_recurring=False,
+        )
+
+        SummaryRecipientFactory.create(
+            company=self.company, is_last_day=True, day=31, final_call=True
+        )
+
+        with patch("invoices.tasks.datetime") as datetime_mock:
+            datetime_mock.today.return_value = today
+            send_monthly_summary_to_recipients()
+        invoice.refresh_from_db()
+
+        assert invoice.is_settled is True
+        send_email_mock.assert_called_once()

@@ -69,6 +69,20 @@ class TestInvoiceModel:
         invoice = InvoiceSellFactory.create()
         assert not invoice.has_items
 
+    def test_invoice_has_correction_invoice_relation_exists(self):
+        correction_invoice = InvoiceSellFactory.create()
+        original_invoice = InvoiceSellFactory.create()
+
+        CorrectionInvoiceRelationFactory(
+            invoice=original_invoice, correction_invoice=correction_invoice
+        )
+
+        assert correction_invoice.has_correction_invoice
+        assert not original_invoice.has_correction_invoice
+
+    def test_invoice_does_not_have_correction_invoice_relation(self):
+        assert not self.invoice.has_correction_invoice
+
 
 @pytest.mark.django_db
 class TestYearModel:

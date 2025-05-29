@@ -5,10 +5,10 @@ celery_beat:
 	celery -A base.celery beat -l info
 
 coverage_html:
-	coverage run manage.py test -v 2  && coverage html
+	coverage run -m pytest && coverage html
 
 test_all:
-	 python manage.py test
+	 pytest .
 
 runserver:
 	python manage.py runserver

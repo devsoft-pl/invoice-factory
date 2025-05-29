@@ -162,6 +162,43 @@ class TestPersonForm:
         }
         assert not is_valid
 
+    def test_form_with_person_already_exists(self):
+        data = PersonDictFactory(
+            pesel=self.person_1.pesel,
+            nip=self.person_1.nip,
+            zip_code="01-450",
+            phone_number="111111112",
+            country=self.country,
+        )
+        form = PersonForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
+
+        assert form.errors == {
+            "nip": ["Nip already exists"],
+            "pesel": ["Pesel already exists"],
+        }
+        assert not is_valid
+
+    def test_form_with_person_data_already_exists(self):
+        data = PersonDictFactory(
+            first_name=self.person_1.first_name,
+            last_name=self.person_1.last_name,
+            address=self.person_1.address,
+            zip_code=self.person_1.zip_code,
+            city=self.person_1.city,
+            pesel=85081515178,
+            nip=1234567890,
+            phone_number=555555555,
+            country=self.country,
+        )
+        form = PersonForm(data=data, current_user=self.user)
+        is_valid = form.is_valid()
+
+        assert form.errors == {
+            "__all__": ["Person with given data already exists"],
+        }
+        assert not is_valid
+
     def test_filtered_countries_current_user(self):
         self.form = PersonForm(current_user=self.user)
         form_countries_ids = self.form.fields["country"].queryset.values_list(

@@ -171,8 +171,6 @@ CELERY_BEAT_SCHEDULE = {
 
 LOGIN_URL = "users:login"
 
-TEST_RUNNER = "base.runner.PytestTestRunner"
-
 EMAIL_SENDER = env("EMAIL_SENDER", default="")
 
 CEIDG_API_TOKEN = env("CEIDG_API_TOKEN", default="")

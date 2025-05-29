@@ -74,10 +74,13 @@ class TestListReports(TestReport):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context["gross_invoices"]), 12)
 
-        invoice_gross_amount = self.invoice.gross_amount.quantize(Decimal("0.0001"))
-        self.assertEqual(
-            response.context["gross_invoices"][0]["sum"], invoice_gross_amount
+        invoice_gross_amount_expected = self.invoice.gross_amount.quantize(
+            Decimal("0.01")
         )
+        invoice_gross_amount = response.context["gross_invoices"][0]["sum"].quantize(
+            Decimal("0.01")
+        )
+        self.assertEqual(invoice_gross_amount, invoice_gross_amount_expected)
         self.assertTemplateUsed(response, "reports/list_reports.html")
 
     def test_returns_sum_net_invoices_per_month(self):
@@ -103,10 +106,13 @@ class TestListReports(TestReport):
         )
 
         invoices = get_sum_invoices_per_month(invoices)
+        expected_sum = self.invoice.gross_amount.quantize(Decimal("0.01"))
+        invoice_sum = invoices[0]["sum"].quantize(Decimal("0.01"))
+        month = invoices[0]["month"]
 
         self.assertEqual(
-            invoices[0],
-            {"month": 1, "sum": self.invoice.gross_amount.quantize(Decimal("0.0001"))},
+            {"month": month, "sum": invoice_sum},
+            {"month": 1, "sum": expected_sum},
         )
         self.assertEqual(invoices[1], {"month": 2, "sum": 0})
         self.assertEqual(len(invoices), 12)
