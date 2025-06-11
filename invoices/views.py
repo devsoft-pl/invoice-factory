@@ -215,8 +215,6 @@ def duplicate_individual_invoice_view(request, invoice_id):
     if invoice.person:
         if invoice.person.user != request.user or invoice.is_recurring:
             raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
 
     new_instance: Invoice = clone(invoice)
     max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
