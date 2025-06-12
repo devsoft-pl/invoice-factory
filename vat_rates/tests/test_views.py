@@ -75,7 +75,7 @@ class TestCreateVatRate(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {})
+        response = self.client.post(self.url, {"rate": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
@@ -113,7 +113,7 @@ class TestCreateVatRateAjax(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {})
+        response = self.client.post(self.url, {"rate": ""})
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
@@ -153,7 +153,7 @@ class TestReplaceVatRate(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {})
+        response = self.client.post(self.url, {"rate": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
