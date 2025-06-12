@@ -1,6 +1,10 @@
+import datetime
+from unittest.mock import patch
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from companies.factories import CompanyFactory
@@ -15,6 +19,7 @@ from invoices.factories import (
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
 from invoices.views import clone, create_correction_invoice_number
+from items.factories import ItemFactory
 from persons.factories import PersonFactory
 from users.factories import UserFactory
 
@@ -236,16 +241,16 @@ class TestCreateSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
@@ -258,16 +263,16 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/create_sell_person_invoice.html")
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_create_invalid_form_display_errors_for_person_to_client(self):
@@ -281,16 +286,16 @@ class TestCreateSellInvoice(TestInvoice):
             response, "invoices/create_sell_person_to_client_invoice.html"
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_create_with_valid_data_for_client(self):
@@ -445,10 +450,10 @@ class TestCreateBuyInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "invoice_number", "This field is required."
+            response.context["form"], "invoice_number", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "sale_date", "This field is required."
+            response.context["form"], "sale_date", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/create_buy_invoice.html")
 
@@ -515,16 +520,16 @@ class TestReplaceSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
@@ -541,16 +546,16 @@ class TestReplaceSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_replace_with_valid_data_for_client(
@@ -704,22 +709,80 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_duplicate_company_invoice_if_is_not_recurring(self):
+
+class TestDuplicateCompanyInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.invoice = self.user_sales_invoices[0]
+        self.company = CompanyFactory.create(user=self.user, is_my_company=True)
+        self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.currency = CurrencyFactory.create(user=self.user)
+        self.url = reverse("invoices:duplicate_company_invoice", args=[self.invoice.pk])
+
+    def test_duplicate_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_return_404_if_not_my_invoice(self):
         self.client.login(username=self.user.email, password="test")
+
+        url = reverse(
+            "invoices:duplicate_company_invoice", args=[self.other_sell_invoice.pk]
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    @patch("invoices.tasks.datetime")
+    def test_duplicate_company_for_person(self, datetime_mock):
+        self.client.login(username=self.user.email, password="test")
+        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
+        person = PersonFactory.create(user=self.user)
+        invoice = InvoiceSellPersonFactory.create(
+            invoice_number="1/03/2024",
+            company=self.company,
+            person=person,
+            currency=self.currency,
+            account_number="111111111111111",
+            is_recurring=False,
+        )
+        ItemFactory.create(invoice=invoice)
+
+        url = reverse("invoices:duplicate_company_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        new_invoice = response.context["invoice"]
+        self.assertEqual(new_invoice.invoice_number, "1/06/2025")
+        self.assertEqual(new_invoice.items.count(), 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
+
+    @patch("invoices.tasks.datetime")
+    def test_duplicate_company_for_contractor(self, datetime_mock):
+        self.client.login(username=self.user.email, password="test")
+        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
         invoice = InvoiceSellFactory.create(
             invoice_number="1/03/2024",
             company=self.company,
             client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
-            is_settled=False,
             is_recurring=False,
         )
+        ItemFactory.create(invoice=invoice)
 
         url = reverse("invoices:duplicate_company_invoice", args=[invoice.pk])
 
         response = self.client.get(url)
+
+        new_invoice = response.context["invoice"]
+        self.assertEqual(new_invoice.invoice_number, "1/06/2025")
+        self.assertEqual(new_invoice.items.count(), 1)
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
     def test_no_duplicate_company_invoice_if_is_recurring(self):
         self.client.login(username=self.user.email, password="test")
@@ -729,7 +792,6 @@ class TestReplaceSellInvoice(TestInvoice):
             client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
-            is_settled=False,
             is_recurring=True,
         )
 
@@ -738,34 +800,67 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
-    def test_duplicate_individual_invoice_if_is_not_recurring(self):
-        self.client.login(username=self.user.email, password="test")
-        person = PersonFactory.create(user=self.user)
-        invoice = InvoiceSellFactory.create(
+
+class TestDuplicateIndividualInvoice(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.currency = CurrencyFactory.create(user=self.user)
+        self.person = PersonFactory.create(user=self.user)
+        self.contractor = CompanyFactory.create(user=self.user, is_my_company=False)
+        self.invoice = InvoiceSellPersonToClientFactory.create(
             invoice_number="1/03/2024",
-            person=person,
+            person=self.person,
             client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
-            is_settled=False,
             is_recurring=False,
         )
+
+        self.url = reverse(
+            "invoices:duplicate_individual_invoice", args=[self.invoice.pk]
+        )
+
+    def test_duplicate_if_not_logged(self):
+        response = self.client.get(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    def test_return_404_if_not_my_invoice(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory()
 
         url = reverse("invoices:duplicate_individual_invoice", args=[invoice.pk])
 
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
 
-    def test_duplicate_individual_invoice_if_is_recurring(self):
+        self.assertEqual(response.status_code, 404)
+
+    @patch("invoices.tasks.datetime")
+    def test_duplicate_individual_for_contractor(self, datetime_mock):
         self.client.login(username=self.user.email, password="test")
-        person = PersonFactory.create(user=self.user)
-        invoice = InvoiceSellFactory.create(
+        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
+
+        ItemFactory.create(invoice=self.invoice)
+
+        response = self.client.get(self.url)
+
+        new_invoice = response.context["invoice"]
+        self.assertEqual(new_invoice.invoice_number, "1/06/2025")
+        self.assertEqual(new_invoice.items.count(), 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response, "invoices/replace_sell_person_to_client_invoice.html"
+        )
+
+    def test_no_duplicate_individual_invoice_if_is_recurring(self):
+        self.client.login(username=self.user.email, password="test")
+        invoice = InvoiceSellPersonToClientFactory.create(
             invoice_number="1/03/2024",
-            person=person,
+            person=self.person,
             client=self.contractor,
             currency=self.currency,
             account_number="111111111111111",
-            is_settled=False,
             is_recurring=True,
         )
 
@@ -806,16 +901,16 @@ class TestReplaceSellPersonToClientInvoice(TestInvoice):
             response, "invoices/replace_sell_person_to_client_invoice.html"
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):
@@ -970,7 +1065,7 @@ class TestReplaceBuyInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "sale_date", "This field is required."
+            response.context["form"], "sale_date", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/replace_buy_invoice.html")
 
@@ -1062,3 +1157,13 @@ class TestPdfInvoice(TestInvoice):
         with self.assertRaises(Exception) as context:
             self.client.get(url)
         self.assertEqual(str(context.exception), "This should not have happened")
+
+    def test_return_errors_when_pisa_failed(self):
+        self.client.login(username=self.user.email, password="test")
+
+        with patch("invoices.views.pisa.CreatePDF") as mock_pisa:
+            mock_pisa.return_value.err = True
+            response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "We had some errors")

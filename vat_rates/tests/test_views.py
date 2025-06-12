@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from users.factories import UserFactory
@@ -79,7 +80,7 @@ class TestCreateVatRate(TestVatRate):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "rate", "This field is required."
+            response.context["form"], "rate", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -113,22 +114,30 @@ class TestCreateVatRateAjax(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {})
+        response = self.client.post(self.url, {"rate": ""})
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["rate"], ["This field is required."])
+        self.assertEqual(
+            response_json["errors"]["rate"], [_("This field is required.")]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {"rate": 99})
+        vat_rates = list(VatRate.objects.all().values_list("rate", flat=True))
+        other_vat_rates = [rate for rate in range(99) if rate not in vat_rates]
+        new_vat_rate = other_vat_rates[0]
+
+        response = self.client.post(self.url, {"rate": new_vat_rate})
 
         response_json = response.json()
         self.assertTrue(response_json["success"])
-        self.assertEqual(response_json["name"], 99)
-        self.assertTrue(VatRate.objects.filter(rate=99, user=self.user).count(), 1)
+        self.assertEqual(response_json["name"], new_vat_rate)
+        self.assertTrue(
+            VatRate.objects.filter(rate=new_vat_rate, user=self.user).count(), 1
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_get_form(self):
@@ -157,7 +166,7 @@ class TestReplaceVatRate(TestVatRate):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "rate", "This field is required."
+            response.context["form"], "rate", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):

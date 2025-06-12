@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from users.factories import UserFactory
 from users.models import User
@@ -50,7 +51,7 @@ class TestReplaceUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "email", "This field is required."
+            response.context["form"], "email", _("This field is required.")
         )
         self.assertTemplateUsed(response, "registration/replace_user.html")
 
@@ -96,13 +97,13 @@ class TestRegisterUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "email", "This field is required."
+            response.context["form"], "email", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "password1", "This field is required."
+            response.context["form"], "password1", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "password2", "This field is required."
+            response.context["form"], "password2", _("This field is required.")
         )
         self.assertTemplateUsed(response, "registration/register.html")
 
@@ -138,13 +139,13 @@ class TestPasswordChangeUser(TestUser):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "old_password", "This field is required."
+            response.context["form"], "old_password", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "new_password1", "This field is required."
+            response.context["form"], "new_password1", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "new_password2", "This field is required."
+            response.context["form"], "new_password2", _("This field is required.")
         )
         self.assertTemplateUsed(response, "registration/password_change_user.html")
 

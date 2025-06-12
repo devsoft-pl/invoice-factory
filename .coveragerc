@@ -4,7 +4,7 @@ branch = False
 timid = False
 
 [report]
-show_missing = False
+show_missing = True
 fail_under = 95
 include = *.py
 omit =
@@ -19,7 +19,9 @@ omit =
     base/settings/production.py
     base/settings/test.py
     base/settings/common.py
+    base/settings/dev.py
     base/storages.py
+    base/mixins.py
     */tests/*
     */migrations/*
     factories.py

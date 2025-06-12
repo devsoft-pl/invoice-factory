@@ -7,7 +7,6 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
@@ -187,9 +186,12 @@ def duplicate_company_invoice_view(request, invoice_id):
     else:
         form_klass = InvoiceSellForm
 
-    new_instance = clone(invoice)
+    new_instance: Invoice = clone(invoice)
     max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
     new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
+    new_instance.sale_date = today
+    new_instance.create_date = today
+    new_instance.payment_date = today
     new_instance.is_settled = False
     new_instance.save()
     for item in invoice.items.all():
@@ -197,22 +199,7 @@ def duplicate_company_invoice_view(request, invoice_id):
         new_item.invoice = new_instance
         new_item.save()
 
-    if request.method != "POST":
-        form = form_klass(instance=new_instance, current_user=request.user)
-    else:
-        form = form_klass(
-            instance=new_instance,
-            data=request.POST,
-            files=request.FILES,
-            current_user=request.user,
-        )
-
-        if form.is_valid():
-            new_invoice = form.save(commit=False)
-            new_invoice.save()
-            return redirect(reverse("invoices:list_invoices"))
-        else:
-            return redirect("invoices:detail_invoice", invoice.pk)
+    form = form_klass(instance=new_instance, current_user=request.user)
 
     context = {"invoice": new_instance, "form": form, "duplicate": True}
     return render(request, "invoices/replace_sell_invoice.html", context)
@@ -228,12 +215,13 @@ def duplicate_individual_invoice_view(request, invoice_id):
     if invoice.person:
         if invoice.person.user != request.user or invoice.is_recurring:
             raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
 
-    new_instance = clone(invoice)
+    new_instance: Invoice = clone(invoice)
     max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
     new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
+    new_instance.sale_date = today
+    new_instance.create_date = today
+    new_instance.payment_date = today
     new_instance.is_settled = False
     new_instance.save()
     for item in invoice.items.all():
@@ -241,24 +229,9 @@ def duplicate_individual_invoice_view(request, invoice_id):
         new_item.invoice = new_instance
         new_item.save()
 
-    if request.method != "POST":
-        form = InvoiceSellPersonToClientForm(
-            instance=new_instance, current_user=request.user
-        )
-    else:
-        form = InvoiceSellPersonToClientForm(
-            instance=new_instance,
-            data=request.POST,
-            files=request.FILES,
-            current_user=request.user,
-        )
-
-        if form.is_valid():
-            new_invoice = form.save(commit=False)
-            new_invoice.save()
-            return redirect(reverse("invoices:list_invoices"))
-        else:
-            return redirect("invoices:detail_invoice", invoice.pk)
+    form = InvoiceSellPersonToClientForm(
+        instance=new_instance, current_user=request.user
+    )
 
     context = {"invoice": new_instance, "form": form, "duplicate": True}
     return render(

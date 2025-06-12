@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from countries.factories import CountryDictFactory, CountryFactory
@@ -77,7 +78,7 @@ class TestCreateCountry(TestCountry):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "country", "This field is required."
+            response.context["form"], "country", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -123,7 +124,7 @@ class TestCreateCountryAjax(TestCountry):
         response_json = response.json()
         self.assertFalse(response_json["success"])
         self.assertEqual(
-            response_json["errors"]["country"], ["This field is required."]
+            response_json["errors"]["country"], [_("This field is required.")]
         )
         self.assertEqual(response.status_code, 200)
 
@@ -171,7 +172,7 @@ class TestReplaceCountry(TestCountry):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "country", "This field is required."
+            response.context["form"], "country", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):
