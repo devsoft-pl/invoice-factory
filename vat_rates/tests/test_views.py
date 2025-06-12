@@ -6,6 +6,7 @@ from parameterized import parameterized
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 from vat_rates.models import VatRate
+from django.utils.translation import gettext_lazy as _
 
 
 class TestVatRate(TestCase):
@@ -75,11 +76,11 @@ class TestCreateVatRate(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {"rate": ""})
+        response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "rate", "This field is required."
+            response.context["form"], "rate", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -117,7 +118,7 @@ class TestCreateVatRateAjax(TestVatRate):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["rate"], ["This field is required."])
+        self.assertEqual(response_json["errors"]["rate"], [_("This field is required.")])
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
@@ -153,11 +154,11 @@ class TestReplaceVatRate(TestVatRate):
     def test_invalid_form_display_errors(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.post(self.url, {"rate": ""})
+        response = self.client.post(self.url, {})
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "rate", "This field is required."
+            response.context["form"], "rate", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):
