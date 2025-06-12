@@ -2,7 +2,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
-from invoices.factories import InvoiceSellFactory
+from invoices.factories import (
+    InvoiceSellFactory,
+    InvoiceSellPersonFactory,
+    InvoiceSellPersonToClientFactory,
+)
 from items.factories import ItemDictFactory, ItemFactory
 from items.models import Item
 from users.factories import UserFactory
@@ -133,6 +137,30 @@ class TestReplaceItem(TestItem):
 
         self.assertEqual(response.status_code, 404)
 
+    def test_return_404_if_item_not_exist_in_person_invoice(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory()
+
+        item = ItemFactory.create(invoice=invoice)
+        url = reverse("items:replace_item", args=[item.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_when_no_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonFactory(company=None, person=None)
+        item = ItemFactory(invoice=invoice)
+        self.url = reverse("items:replace_item", args=[item.pk])
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(self.url)
+
+        self.assertEqual(str(context.exception), "This should not have happened")
+
     def test_get_form(self):
         self.client.login(username=self.user.email, password="test")
 
@@ -171,3 +199,27 @@ class TestDeleteItem(TestItem):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 404)
+
+    def test_return_404_if_item_not_exist_in_person_invoice(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory()
+
+        item = ItemFactory.create(invoice=invoice)
+        url = reverse("items:delete_item", args=[item.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_raise_exception_when_no_company_or_person(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonFactory(company=None, person=None)
+        item = ItemFactory(invoice=invoice)
+        self.url = reverse("items:delete_item", args=[item.pk])
+
+        with self.assertRaises(Exception) as context:
+            self.client.get(self.url)
+
+        self.assertEqual(str(context.exception), "This should not have happened")
