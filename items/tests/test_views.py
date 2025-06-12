@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from invoices.factories import (
     InvoiceSellFactory,
@@ -43,16 +44,16 @@ class TestCreateItem(TestItem):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "name", "This field is required."
+            response.context["form"], "name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "amount", "This field is required."
+            response.context["form"], "amount", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "net_price", "This field is required."
+            response.context["form"], "net_price", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "net_price", "This field is required."
+            response.context["form"], "net_price", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -98,16 +99,16 @@ class TestReplaceItem(TestItem):
         response = self.client.post(self.url, {})
 
         self.assertFormError(
-            response.context["form"], "name", "This field is required."
+            response.context["form"], "name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "amount", "This field is required."
+            response.context["form"], "amount", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "net_price", "This field is required."
+            response.context["form"], "net_price", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "net_price", "This field is required."
+            response.context["form"], "net_price", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):

@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from currencies.factories import CurrencyDictFactory, CurrencyFactory
@@ -76,7 +77,7 @@ class TestCreateCurrency(TestCurrency):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "code", "This field is required."
+            response.context["form"], "code", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -118,7 +119,9 @@ class TestCreateCurrencyAjax(TestCurrency):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["code"], ["This field is required."])
+        self.assertEqual(
+            response_json["errors"]["code"], [_("This field is required.")]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
@@ -164,7 +167,7 @@ class TestReplaceCurrency(TestCurrency):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "code", "This field is required."
+            response.context["form"], "code", _("This field is required.")
         )
 
     def test_replace_currency_with_valid_data(self):

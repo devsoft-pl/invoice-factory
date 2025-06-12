@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from countries.factories import CountryFactory
@@ -111,19 +112,19 @@ class TestCreatePerson(TestPerson):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "first_name", "This field is required."
+            response.context["form"], "first_name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "last_name", "This field is required."
+            response.context["form"], "last_name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "address", "This field is required."
+            response.context["form"], "address", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "zip_code", "This field is required."
+            response.context["form"], "zip_code", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "city", "This field is required."
+            response.context["form"], "city", _("This field is required.")
         )
 
     def test_create_with_valid_data(self):
@@ -208,20 +209,22 @@ class TestCreatePersonAjax(TestPerson):
         response_json = response.json()
         self.assertFalse(response_json["success"])
         self.assertEqual(
-            response_json["errors"]["first_name"], ["This field is required."]
+            response_json["errors"]["first_name"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["last_name"], ["This field is required."]
+            response_json["errors"]["last_name"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["address"], ["This field is required."]
+            response_json["errors"]["address"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["zip_code"], ["This field is required."]
+            response_json["errors"]["zip_code"], [_("This field is required.")]
         )
-        self.assertEqual(response_json["errors"]["city"], ["This field is required."])
         self.assertEqual(
-            response_json["errors"]["country"], ["This field is required."]
+            response_json["errors"]["city"], [_("This field is required.")]
+        )
+        self.assertEqual(
+            response_json["errors"]["country"], [_("This field is required.")]
         )
         self.assertEqual(response.status_code, 200)
 
@@ -298,19 +301,19 @@ class TestReplacePerson(TestPerson):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "first_name", "This field is required."
+            response.context["form"], "first_name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "last_name", "This field is required."
+            response.context["form"], "last_name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "address", "This field is required."
+            response.context["form"], "address", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "zip_code", "This field is required."
+            response.context["form"], "zip_code", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "city", "This field is required."
+            response.context["form"], "city", _("This field is required.")
         )
 
     def test_replace_with_valid_date(self):
