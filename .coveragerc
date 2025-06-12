@@ -4,7 +4,7 @@ branch = False
 timid = False
 
 [report]
-show_missing = False
+show_missing = True
 fail_under = 95
 include = *.py
 omit =
