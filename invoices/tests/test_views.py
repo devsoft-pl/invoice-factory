@@ -4,6 +4,7 @@ from unittest.mock import patch
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from companies.factories import CompanyFactory
@@ -240,16 +241,16 @@ class TestCreateSellInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/create_sell_invoice.html")
 
@@ -262,16 +263,16 @@ class TestCreateSellInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/create_sell_person_invoice.html")
         self.assertFormError(
-            response.context["form"], "company", "This field is required."
+            response.context["form"], "company", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_create_invalid_form_display_errors_for_person_to_client(self):
@@ -285,16 +286,16 @@ class TestCreateSellInvoice(TestInvoice):
             response, "invoices/create_sell_person_to_client_invoice.html"
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_create_with_valid_data_for_client(self):
@@ -449,10 +450,10 @@ class TestCreateBuyInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "invoice_number", "This field is required."
+            response.context["form"], "invoice_number", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "sale_date", "This field is required."
+            response.context["form"], "sale_date", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/create_buy_invoice.html")
 
@@ -900,16 +901,16 @@ class TestReplaceSellPersonToClientInvoice(TestInvoice):
             response, "invoices/replace_sell_person_to_client_invoice.html"
         )
         self.assertFormError(
-            response.context["form"], "person", "This field is required."
+            response.context["form"], "person", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "client", "This field is required."
+            response.context["form"], "client", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "create_date", "This field is required."
+            response.context["form"], "create_date", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "currency", "This field is required."
+            response.context["form"], "currency", _("This field is required.")
         )
 
     def test_replace_with_valid_data(self):
@@ -1064,7 +1065,7 @@ class TestReplaceBuyInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "sale_date", "This field is required."
+            response.context["form"], "sale_date", _("This field is required.")
         )
         self.assertTemplateUsed(response, "invoices/replace_buy_invoice.html")
 

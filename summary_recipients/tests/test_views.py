@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from companies.factories import CompanyFactory
 from summary_recipients.factories import (
@@ -75,14 +76,16 @@ class TestCreateSummaryRecipient(TestSummaryRecipient):
 
         self.assertEqual(response.status_code, 200)
         self.assertFormError(
-            response.context["form"], "description", "This field is required."
-        )
-        self.assertFormError(response.context["form"], "day", "This field is required.")
-        self.assertFormError(
-            response.context["form"], "email", "This field is required."
+            response.context["form"], "description", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "settlement_types", "This field is required."
+            response.context["form"], "day", _("This field is required.")
+        )
+        self.assertFormError(
+            response.context["form"], "email", _("This field is required.")
+        )
+        self.assertFormError(
+            response.context["form"], "settlement_types", _("This field is required.")
         )
         self.assertTemplateUsed(
             response, "summary_recipients/create_summary_recipient.html"
