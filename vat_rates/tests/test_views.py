@@ -1,12 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
 
 from users.factories import UserFactory
 from vat_rates.factories import VatRateFactory
 from vat_rates.models import VatRate
-from django.utils.translation import gettext_lazy as _
 
 
 class TestVatRate(TestCase):
@@ -118,7 +118,9 @@ class TestCreateVatRateAjax(TestVatRate):
 
         response_json = response.json()
         self.assertFalse(response_json["success"])
-        self.assertEqual(response_json["errors"]["rate"], [_("This field is required.")])
+        self.assertEqual(
+            response_json["errors"]["rate"], [_("This field is required.")]
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):
