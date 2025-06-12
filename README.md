@@ -28,7 +28,7 @@ Rectify errors and update accounting records.
 
 * **Revenue Reporting:** The app generates yearly revenue reports and charts from sales invoices, giving users quick access to company revenues.
 
-The app is covered with tests using pytest and unittest, and the coverage is 99% (with some exceptions, such as migrations, configurations).
+The app is covered with tests using pytest and unittest, and the coverage is 100% (with some exceptions, such as migrations, configurations).
 
 ## Built With
 
