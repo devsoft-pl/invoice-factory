@@ -21,6 +21,7 @@ omit =
     base/settings/common.py
     base/settings/dev.py
     base/storages.py
+    base/mixins.py
     */tests/*
     */migrations/*
     factories.py
