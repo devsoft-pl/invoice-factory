@@ -77,7 +77,8 @@ def create_vat_ajax_view(request):
 
 @login_required
 def replace_vat_view(request, vat_id):
-    vat_rate = get_object_or_404(VatRate, pk=vat_id)
+    queryset = VatRate.objects.select_related("user")
+    vat_rate = get_object_or_404(queryset, pk=vat_id)
 
     if vat_rate.user != request.user:
         raise Http404(_("Vat rate does not exist"))
@@ -100,7 +101,8 @@ def replace_vat_view(request, vat_id):
 
 @login_required
 def delete_vat_view(request, vat_id):
-    var_rate = get_object_or_404(VatRate, pk=vat_id)
+    queryset = VatRate.objects.select_related("user")
+    var_rate = get_object_or_404(queryset, pk=vat_id)
 
     if var_rate.user != request.user:
         raise Http404(_("Vat rate does not exist"))

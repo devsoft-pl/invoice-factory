@@ -77,7 +77,8 @@ def create_country_ajax_view(request):
 
 @login_required
 def replace_country_view(request, country_id):
-    country = get_object_or_404(Country, pk=country_id)
+    queryset = Country.objects.select_related("user")
+    country = get_object_or_404(queryset, pk=country_id)
 
     if country.user != request.user:
         raise Http404(_("Country does not exist"))
@@ -100,7 +101,8 @@ def replace_country_view(request, country_id):
 
 @login_required
 def delete_country_view(request, country_id):
-    country = get_object_or_404(Country, pk=country_id)
+    queryset = Country.objects.select_related("user")
+    country = get_object_or_404(queryset, pk=country_id)
 
     if country.user != request.user:
         raise Http404(_("Country does not exist"))

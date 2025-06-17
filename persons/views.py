@@ -38,7 +38,8 @@ def list_persons_view(request):
 
 @login_required
 def detail_person_view(request, person_id):
-    person = get_object_or_404(Person, pk=person_id)
+    queryset = Person.objects.select_related("user", "country")
+    person = get_object_or_404(queryset, pk=person_id)
 
     if person.user != request.user:
         raise Http404(_("Person does not exist"))
@@ -96,7 +97,8 @@ def create_person_ajax_view(request):
 
 @login_required
 def replace_person_view(request, person_id):
-    person = get_object_or_404(Person, pk=person_id)
+    queryset = Person.objects.select_related("user")
+    person = get_object_or_404(queryset, pk=person_id)
 
     if person.user != request.user:
         raise Http404(_("Person does not exist"))
@@ -117,7 +119,8 @@ def replace_person_view(request, person_id):
 
 @login_required
 def delete_person_view(request, person_id):
-    person = get_object_or_404(Person, pk=person_id)
+    queryset = Person.objects.select_related("user")
+    person = get_object_or_404(queryset, pk=person_id)
 
     if person.user != request.user:
         raise Http404(_("Person does not exist"))

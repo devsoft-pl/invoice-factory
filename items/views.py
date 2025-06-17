@@ -31,7 +31,12 @@ def create_item_view(request, invoice_id):
 
 @login_required
 def replace_item_view(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
+    item = get_object_or_404(
+        Item.objects.select_related(
+            "invoice__company__user", "invoice__person__user", "invoice"
+        ),
+        pk=item_id,
+    )
 
     if item.invoice.company:
         if item.invoice.company.user != request.user:
@@ -58,7 +63,12 @@ def replace_item_view(request, item_id):
 
 @login_required
 def delete_item_view(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
+    item = get_object_or_404(
+        Item.objects.select_related(
+            "invoice__company__user", "invoice__person__user", "invoice"
+        ),
+        pk=item_id,
+    )
 
     if item.invoice.company:
         if item.invoice.company.user != request.user:
