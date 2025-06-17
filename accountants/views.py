@@ -10,8 +10,9 @@ from companies.models import Company
 
 @login_required
 def list_accountants_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
-    accountants = Accountant.objects.filter(company=company)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
+    accountants = Accountant.objects.filter(company=company).select_related("company")
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -22,7 +23,8 @@ def list_accountants_view(request, company_id):
 
 @login_required
 def create_accountant_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -46,7 +48,8 @@ def create_accountant_view(request, company_id):
 
 @login_required
 def replace_accountant_view(request, accountant_id):
-    accountant = get_object_or_404(Accountant, pk=accountant_id)
+    queryset = Accountant.objects.select_related("company__user")
+    accountant = get_object_or_404(queryset, pk=accountant_id)
 
     if accountant.company.user != request.user:
         raise Http404(_("Accountant does not exist"))
@@ -71,7 +74,8 @@ def replace_accountant_view(request, accountant_id):
 
 @login_required
 def delete_accountant_view(request, accountant_id):
-    accountant = get_object_or_404(Accountant, pk=accountant_id)
+    queryset = Accountant.objects.select_related("company__user")
+    accountant = get_object_or_404(queryset, pk=accountant_id)
 
     if accountant.company.user != request.user:
         raise Http404(_("Accountant does not exist"))

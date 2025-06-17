@@ -48,7 +48,8 @@ def list_companies_view(request, my_companies=False):
 
 @login_required
 def detail_company_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user", "country")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -114,7 +115,8 @@ def create_company_ajax_view(request, create_my_company=False):
 
 @login_required
 def replace_company_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -140,7 +142,8 @@ def replace_company_view(request, company_id):
 
 @login_required
 def delete_company_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -155,7 +158,8 @@ def delete_company_view(request, company_id):
 
 @login_required
 def settings_company_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))

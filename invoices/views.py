@@ -61,7 +61,10 @@ def list_invoices_view(request):
 
 @login_required
 def detail_invoice_view(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related(
+        "company", "person", "client"
+    ).prefetch_related("items")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company:
         if invoice.company.user != request.user:
@@ -176,7 +179,10 @@ def duplicate_company_invoice_view(request, invoice_id):
     today = datetime.today()
     month = get_right_month_format(today.month)
 
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related(
+        "company", "person", "company__user"
+    ).prefetch_related("items")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company.user != request.user or invoice.is_recurring:
         raise Http404(_("Invoice does not exist"))
@@ -210,7 +216,10 @@ def duplicate_individual_invoice_view(request, invoice_id):
     today = datetime.today()
     month = get_right_month_format(today.month)
 
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related(
+        "company", "person", "person__user"
+    ).prefetch_related("items")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.person:
         if invoice.person.user != request.user or invoice.is_recurring:
@@ -247,7 +256,8 @@ def create_correction_invoice_number(invoice: Invoice):
 
 @login_required
 def replace_sell_invoice_view(request, invoice_id, create_correction=False):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related("company", "person", "company__user")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company.user != request.user or (
         invoice.is_settled and not create_correction
@@ -300,7 +310,8 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
 def replace_sell_person_to_client_invoice_view(
     request, invoice_id, create_correction=False
 ):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related("person", "person__user")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.person:
         if invoice.person.user != request.user or (
@@ -353,7 +364,8 @@ def replace_sell_person_to_client_invoice_view(
 
 @login_required
 def replace_buy_invoice_view(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related("company", "company__user")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company.user != request.user:
         raise Http404(_("Invoice does not exist"))
@@ -376,7 +388,10 @@ def replace_buy_invoice_view(request, invoice_id):
 
 @login_required
 def delete_invoice_view(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related(
+        "company", "company__user", "person", "person__user"
+    )
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company:
         if invoice.company.user != request.user:
@@ -394,7 +409,10 @@ def delete_invoice_view(request, invoice_id):
 
 @login_required
 def pdf_invoice_view(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    queryset = Invoice.objects.select_related(
+        "company", "company__user", "person", "person__user"
+    ).prefetch_related("items")
+    invoice = get_object_or_404(queryset, pk=invoice_id)
 
     if invoice.company:
         if invoice.company.user != request.user:

@@ -10,8 +10,11 @@ from summary_recipients.models import SummaryRecipient
 
 @login_required
 def list_summary_recipients_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
-    summary_recipients = SummaryRecipient.objects.filter(company=company)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
+    summary_recipients = SummaryRecipient.objects.filter(
+        company=company
+    ).select_related("company")
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -23,7 +26,8 @@ def list_summary_recipients_view(request, company_id):
 
 @login_required
 def create_summary_recipient_view(request, company_id):
-    company = get_object_or_404(Company, pk=company_id)
+    queryset = Company.objects.select_related("user")
+    company = get_object_or_404(queryset, pk=company_id)
 
     if company.user != request.user:
         raise Http404(_("Company does not exist"))
@@ -47,7 +51,8 @@ def create_summary_recipient_view(request, company_id):
 
 @login_required
 def replace_summary_recipient_view(request, summary_recipient_id):
-    summary_recipient = get_object_or_404(SummaryRecipient, pk=summary_recipient_id)
+    queryset = SummaryRecipient.objects.select_related("company__user")
+    summary_recipient = get_object_or_404(queryset, pk=summary_recipient_id)
 
     if summary_recipient.company.user != request.user:
         raise Http404(_("Summary recipient does not exist"))
@@ -75,7 +80,8 @@ def replace_summary_recipient_view(request, summary_recipient_id):
 
 @login_required
 def delete_summary_recipient_view(request, summary_recipient_id):
-    summary_recipient = get_object_or_404(SummaryRecipient, pk=summary_recipient_id)
+    queryset = SummaryRecipient.objects.select_related("company__user")
+    summary_recipient = get_object_or_404(queryset, pk=summary_recipient_id)
 
     if summary_recipient.company.user != request.user:
         raise Http404(_("Summary recipient does not exist"))

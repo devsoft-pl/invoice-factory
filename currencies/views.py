@@ -76,7 +76,8 @@ def create_currency_ajax_view(request):
 
 @login_required
 def replace_currency_view(request, currency_id):
-    currency = get_object_or_404(Currency, pk=currency_id)
+    queryset = Currency.objects.select_related("user")
+    currency = get_object_or_404(queryset, pk=currency_id)
 
     if currency.user != request.user:
         raise Http404(_("Currency does not exist"))
@@ -99,7 +100,8 @@ def replace_currency_view(request, currency_id):
 
 @login_required
 def delete_currency_view(request, currency_id):
-    currency = get_object_or_404(Currency, pk=currency_id)
+    queryset = Currency.objects.select_related("user")
+    currency = get_object_or_404(queryset, pk=currency_id)
 
     if currency.user != request.user:
         raise Http404(_("Currency does not exist"))
