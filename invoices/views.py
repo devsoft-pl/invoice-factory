@@ -1,4 +1,3 @@
-import copy
 from datetime import datetime
 from pathlib import Path
 
@@ -18,7 +17,12 @@ from invoices.forms import (
     InvoiceSellPersonToClientForm,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
-from invoices.tasks import get_max_invoice_number, get_right_month_format
+from invoices.utils import (
+    clone,
+    create_correction_invoice_number,
+    get_max_invoice_number,
+    get_right_month_format,
+)
 
 
 def index_view(request):
@@ -164,16 +168,6 @@ def create_buy_invoice_view(request):
     return render(request, "invoices/create_buy_invoice.html", context)
 
 
-def clone(instance):
-    cloned = copy.copy(instance)
-    cloned.pk = None
-    try:
-        delattr(cloned, "_prefetched_objects_cache")
-    except AttributeError:
-        pass
-    return cloned
-
-
 @login_required
 def duplicate_company_invoice_view(request, invoice_id):
     today = datetime.today()
@@ -248,12 +242,6 @@ def duplicate_individual_invoice_view(request, invoice_id):
     return render(
         request, "invoices/replace_sell_person_to_client_invoice.html", context
     )
-
-
-def create_correction_invoice_number(invoice: Invoice):
-    invoice_number_parts = invoice.invoice_number.split("/")
-    invoice_number_parts.insert(3, "k")
-    return "/".join(invoice_number_parts)
 
 
 @login_required
