@@ -199,6 +199,7 @@ def duplicate_company_invoice_view(request, invoice_id):
     new_instance.create_date = today
     new_instance.payment_date = today
     new_instance.is_settled = False
+    new_instance.is_paid = False
     new_instance.save()
     for item in invoice.items.all():
         new_item = clone(item)
@@ -232,6 +233,7 @@ def duplicate_individual_invoice_view(request, invoice_id):
     new_instance.create_date = today
     new_instance.payment_date = today
     new_instance.is_settled = False
+    new_instance.is_paid = False
     new_instance.save()
     for item in invoice.items.all():
         new_item = clone(item)
