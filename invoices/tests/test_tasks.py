@@ -9,9 +9,9 @@ from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
 from invoices.models import Invoice
 from invoices.tasks import (
     create_invoices_for_recurring,
-    get_right_month_format,
     send_monthly_summary_to_recipients,
 )
+from invoices.utils import get_right_month_format
 from items.factories import ItemFactory
 from summary_recipients.factories import SummaryRecipientFactory
 from summary_recipients.models import SummaryRecipient
@@ -26,10 +26,12 @@ class TestRecurrentInvoiceTasks:
         self.client = CompanyFactory.create(is_my_company=False)
 
     @patch("invoices.tasks.datetime")
+    @patch("invoices.utils.datetime")
     def test_returns_first_invoice_number_when_is_first_in_new_year(
-        self, datetime_mock
+        self, datetime_mock, datetime_2_mock
     ):
         datetime_mock.today.return_value = datetime.date(2024, 1, 31)
+        datetime_2_mock.today.return_value = datetime.date(2024, 1, 31)
         InvoiceSellFactory.create(
             is_recurring=True,
             currency=self.currency,
@@ -56,10 +58,12 @@ class TestRecurrentInvoiceTasks:
         assert Invoice.objects.count() == 3
 
     @patch("invoices.tasks.datetime")
+    @patch("invoices.utils.datetime")
     def test_returns_second_invoice_number_when_is_second_in_new_year(
-        self, datetime_mock
+        self, datetime_mock, datetime_2_mock
     ):
         datetime_mock.today.return_value = datetime.date(2024, 1, 31)
+        datetime_2_mock.today.return_value = datetime.date(2024, 1, 31)
         InvoiceSellFactory.create(
             invoice_number="1/01/2024",
             is_recurring=False,
@@ -169,8 +173,12 @@ class TestRecurrentInvoiceTasks:
         assert right_month == expected
 
     @patch("invoices.tasks.datetime")
-    def test_returns_correct_invoice_number_when_month_is_october(self, datetime_mock):
+    @patch("invoices.utils.datetime")
+    def test_returns_correct_invoice_number_when_month_is_october(
+        self, datetime_mock, datetime_2_mock
+    ):
         datetime_mock.today.return_value = datetime.date(2024, 10, 27)
+        datetime_2_mock.today.return_value = datetime.date(2024, 10, 27)
         InvoiceSellFactory.create(
             is_recurring=True,
             currency=self.currency,
