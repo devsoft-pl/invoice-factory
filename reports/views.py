@@ -52,7 +52,6 @@ def list_reports_view(request):
     )
 
     gross_invoices = get_sum_invoices_per_month(gross_invoices)
-
     gross_sum_per_month = dict(
         [str(invoice["month"]), invoice["sum"]] for invoice in gross_invoices
     )
@@ -84,5 +83,4 @@ def list_reports_view(request):
         "current_module": "reports",
     }
     context.update(extra_context)
-
     return render(request, "reports/list_reports.html", context)
