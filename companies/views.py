@@ -65,7 +65,6 @@ def create_company_view(request, create_my_company=False):
         form = CompanyForm(current_user=request.user)
     else:
         form = CompanyForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
@@ -92,6 +91,7 @@ def create_company_ajax_view(request, create_my_company=False):
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
+
             if create_my_company:
                 company.is_my_company = True
 
@@ -123,6 +123,7 @@ def replace_company_view(request, company_id):
         )
         if form.is_valid():
             form.save()
+
             if company.is_my_company:
                 return redirect("companies:list_my_companies")
 

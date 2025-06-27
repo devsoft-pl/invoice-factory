@@ -67,6 +67,7 @@ def list_reports_view(request):
 
     if filter_form.is_valid():
         revenue_type = filter_form.cleaned_data["revenue_type"]
+
         if revenue_type == ReportFilterForm.NETTO:
             extra_context = {
                 "net_invoices": net_invoices,

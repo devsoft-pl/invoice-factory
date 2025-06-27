@@ -1,8 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
 from summary_recipients.forms import SummaryRecipientForm
 from summary_recipients.models import SummaryRecipient
-from summary_recipients.utils import get_user_company_or_404, get_user_summary_recipient_or_404
+from summary_recipients.utils import (
+    get_user_company_or_404,
+    get_user_summary_recipient_or_404,
+)
 
 
 @login_required
@@ -36,7 +40,9 @@ def create_summary_recipient_view(request, company_id):
 
 @login_required
 def replace_summary_recipient_view(request, summary_recipient_id):
-    summary_recipient = get_user_summary_recipient_or_404(summary_recipient_id, request.user)
+    summary_recipient = get_user_summary_recipient_or_404(
+        summary_recipient_id, request.user
+    )
 
     if request.method != "POST":
         form = SummaryRecipientForm(instance=summary_recipient)
@@ -59,7 +65,9 @@ def replace_summary_recipient_view(request, summary_recipient_id):
 
 @login_required
 def delete_summary_recipient_view(request, summary_recipient_id):
-    summary_recipient = get_user_summary_recipient_or_404(summary_recipient_id, request.user)
+    summary_recipient = get_user_summary_recipient_or_404(
+        summary_recipient_id, request.user
+    )
     summary_recipient.delete()
 
     return redirect(
