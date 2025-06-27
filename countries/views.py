@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404, HttpResponseNotAllowed, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.translation import gettext_lazy as _
+from django.http import HttpResponseNotAllowed, JsonResponse
+from django.shortcuts import redirect, render
 
 from countries.forms import CountryForm
 from countries.models import Country
+from countries.utils import get_user_country_or_404
 
 
 @login_required
@@ -37,13 +37,10 @@ def create_country_view(request):
         form = CountryForm(current_user=request.user)
     else:
         form = CountryForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             country = form.save(commit=False)
             country.user = request.user
-
             country.save()
-
             return redirect("countries:list_countries")
 
     context = {"form": form}
@@ -56,13 +53,10 @@ def create_country_ajax_view(request):
         return HttpResponseNotAllowed(permitted_methods=["POST"])
     else:
         form = CountryForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             country = form.save(commit=False)
             country.user = request.user
-
             country.save()
-
             return JsonResponse(
                 {
                     "success": True,
@@ -70,18 +64,13 @@ def create_country_ajax_view(request):
                     "name": country.country.capitalize(),
                 }
             )
-
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
 
 @login_required
 def replace_country_view(request, country_id):
-    queryset = Country.objects.select_related("user")
-    country = get_object_or_404(queryset, pk=country_id)
-
-    if country.user != request.user:
-        raise Http404(_("Country does not exist"))
+    country = get_user_country_or_404(country_id, request.user)
 
     if request.method != "POST":
         form = CountryForm(instance=country, current_user=request.user)
@@ -89,10 +78,8 @@ def replace_country_view(request, country_id):
         form = CountryForm(
             instance=country, data=request.POST, current_user=request.user
         )
-
         if form.is_valid():
             form.save()
-
             return redirect("countries:list_countries")
 
     context = {"country": country, "form": form}
@@ -101,12 +88,7 @@ def replace_country_view(request, country_id):
 
 @login_required
 def delete_country_view(request, country_id):
-    queryset = Country.objects.select_related("user")
-    country = get_object_or_404(queryset, pk=country_id)
-
-    if country.user != request.user:
-        raise Http404(_("Country does not exist"))
-
+    country = get_user_country_or_404(country_id, request.user)
     country.delete()
 
     return redirect("countries:list_countries")

@@ -1,17 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404, HttpResponseNotAllowed, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.translation import gettext_lazy as _
+from django.http import HttpResponseNotAllowed, JsonResponse
+from django.shortcuts import redirect, render
 
 from vat_rates.forms import VatRateForm
 from vat_rates.models import VatRate
+from vat_rates.utils import get_user_vat_rate_or_404
 
 
 @login_required
 def list_vat_rates_view(request):
     vat_list = VatRate.objects.filter(user=request.user)
-
     total_vat_list = vat_list.count()
 
     paginator = Paginator(vat_list, 10)
@@ -37,13 +36,10 @@ def create_vat_view(request):
         form = VatRateForm(current_user=request.user)
     else:
         form = VatRateForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             vat_rate = form.save(commit=False)
             vat_rate.user = request.user
-
             vat_rate.save()
-
             return redirect("vat_rates:list_vat_rates")
 
     context = {"form": form}
@@ -56,13 +52,10 @@ def create_vat_ajax_view(request):
         return HttpResponseNotAllowed(permitted_methods=["POST"])
     else:
         form = VatRateForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             vat_rate = form.save(commit=False)
             vat_rate.user = request.user
-
             vat_rate.save()
-
             return JsonResponse(
                 {
                     "success": True,
@@ -70,18 +63,13 @@ def create_vat_ajax_view(request):
                     "name": vat_rate.rate,
                 }
             )
-
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
 
 @login_required
 def replace_vat_view(request, vat_id):
-    queryset = VatRate.objects.select_related("user")
-    vat_rate = get_object_or_404(queryset, pk=vat_id)
-
-    if vat_rate.user != request.user:
-        raise Http404(_("Vat rate does not exist"))
+    vat_rate = get_user_vat_rate_or_404(vat_id, request.user)
 
     if request.method != "POST":
         form = VatRateForm(instance=vat_rate, current_user=request.user)
@@ -89,10 +77,8 @@ def replace_vat_view(request, vat_id):
         form = VatRateForm(
             instance=vat_rate, data=request.POST, current_user=request.user
         )
-
         if form.is_valid():
             form.save()
-
             return redirect("vat_rates:list_vat_rates")
 
     context = {"vat_rate": vat_rate, "form": form}
@@ -101,12 +87,7 @@ def replace_vat_view(request, vat_id):
 
 @login_required
 def delete_vat_view(request, vat_id):
-    queryset = VatRate.objects.select_related("user")
-    var_rate = get_object_or_404(queryset, pk=vat_id)
-
-    if var_rate.user != request.user:
-        raise Http404(_("Vat rate does not exist"))
-
-    var_rate.delete()
+    vat_rate = get_user_vat_rate_or_404(vat_id, request.user)
+    vat_rate.delete()
 
     return redirect("vat_rates:list_vat_rates")

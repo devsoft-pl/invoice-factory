@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from companies.forms import CompanyFilterForm, CompanyForm
 from companies.models import Company
+from companies.utils import get_user_company_or_404
 
 
 @login_required
@@ -64,11 +65,9 @@ def create_company_view(request, create_my_company=False):
         form = CompanyForm(current_user=request.user)
     else:
         form = CompanyForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
-
             if create_my_company:
                 company.is_my_company = True
 
@@ -89,7 +88,6 @@ def create_company_ajax_view(request, create_my_company=False):
         form = CompanyForm(current_user=request.user)
     else:
         form = CompanyForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             company = form.save(commit=False)
             company.user = request.user
@@ -115,11 +113,7 @@ def create_company_ajax_view(request, create_my_company=False):
 
 @login_required
 def replace_company_view(request, company_id):
-    queryset = Company.objects.select_related("user")
-    company = get_object_or_404(queryset, pk=company_id)
-
-    if company.user != request.user:
-        raise Http404(_("Company does not exist"))
+    company = get_user_company_or_404(company_id, request.user)
 
     if request.method != "POST":
         form = CompanyForm(instance=company, current_user=request.user)
@@ -127,7 +121,6 @@ def replace_company_view(request, company_id):
         form = CompanyForm(
             instance=company, data=request.POST, current_user=request.user
         )
-
         if form.is_valid():
             form.save()
 
@@ -142,12 +135,7 @@ def replace_company_view(request, company_id):
 
 @login_required
 def delete_company_view(request, company_id):
-    queryset = Company.objects.select_related("user")
-    company = get_object_or_404(queryset, pk=company_id)
-
-    if company.user != request.user:
-        raise Http404(_("Company does not exist"))
-
+    company = get_user_company_or_404(company_id, request.user)
     company.delete()
 
     if company.is_my_company:
@@ -158,12 +146,7 @@ def delete_company_view(request, company_id):
 
 @login_required
 def settings_company_view(request, company_id):
-    queryset = Company.objects.select_related("user")
-    company = get_object_or_404(queryset, pk=company_id)
-
-    if company.user != request.user:
-        raise Http404(_("Company does not exist"))
+    company = get_user_company_or_404(company_id, request.user)
 
     context = {"company": company}
-
     return render(request, "companies/settings_company.html", context)

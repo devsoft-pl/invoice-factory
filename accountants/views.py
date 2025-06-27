@@ -1,21 +1,15 @@
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.translation import gettext_lazy as _
+from django.shortcuts import redirect, render
 
 from accountants.forms import AccountantForm
 from accountants.models import Accountant
-from companies.models import Company
+from accountants.utils import get_user_accountant_or_404, get_user_company_or_404
 
 
 @login_required
 def list_accountants_view(request, company_id):
-    queryset = Company.objects.select_related("user")
-    company = get_object_or_404(queryset, pk=company_id)
+    company = get_user_company_or_404(company_id, request.user)
     accountants = Accountant.objects.filter(company=company).select_related("company")
-
-    if company.user != request.user:
-        raise Http404(_("Company does not exist"))
 
     context = {"company": company, "accountants": accountants}
     return render(request, "accountants/list_accountants.html", context)
@@ -23,23 +17,16 @@ def list_accountants_view(request, company_id):
 
 @login_required
 def create_accountant_view(request, company_id):
-    queryset = Company.objects.select_related("user")
-    company = get_object_or_404(queryset, pk=company_id)
-
-    if company.user != request.user:
-        raise Http404(_("Company does not exist"))
+    company = get_user_company_or_404(company_id, request.user)
 
     if request.method != "POST":
         form = AccountantForm()
     else:
         form = AccountantForm(data=request.POST)
-
         if form.is_valid():
             accountant = form.save(commit=False)
             accountant.company = company
-
             accountant.save()
-
             return redirect("accountants:list_accountants", company.pk)
 
     context = {"form": form, "company": company}
@@ -48,20 +35,14 @@ def create_accountant_view(request, company_id):
 
 @login_required
 def replace_accountant_view(request, accountant_id):
-    queryset = Accountant.objects.select_related("company__user")
-    accountant = get_object_or_404(queryset, pk=accountant_id)
-
-    if accountant.company.user != request.user:
-        raise Http404(_("Accountant does not exist"))
+    accountant = get_user_accountant_or_404(accountant_id, request.user)
 
     if request.method != "POST":
         form = AccountantForm(instance=accountant)
     else:
         form = AccountantForm(instance=accountant, data=request.POST)
-
         if form.is_valid():
             form.save()
-
             return redirect("accountants:list_accountants", accountant.company.pk)
 
     context = {
@@ -74,12 +55,7 @@ def replace_accountant_view(request, accountant_id):
 
 @login_required
 def delete_accountant_view(request, accountant_id):
-    queryset = Accountant.objects.select_related("company__user")
-    accountant = get_object_or_404(queryset, pk=accountant_id)
-
-    if accountant.company.user != request.user:
-        raise Http404(_("Accountant does not exist"))
-
+    accountant = get_user_accountant_or_404(accountant_id, request.user)
     accountant.delete()
 
     return redirect("accountants:list_accountants", accountant.company.pk)

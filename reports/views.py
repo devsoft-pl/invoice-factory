@@ -7,18 +7,7 @@ from django.shortcuts import render
 
 from invoices.models import Invoice, Year
 from reports.forms import ReportFilterForm
-
-
-def get_sum_invoices_per_month(invoices):
-    sum_per_month = dict(
-        [str(invoice["month"]), invoice["sum"]] for invoice in invoices
-    )
-    invoices = [
-        {"month": month, "sum": sum_per_month.get(str(month), Decimal("0.00"))}
-        for month in range(1, 13)
-    ]
-
-    return invoices
+from reports.utils import get_sum_invoices_per_month
 
 
 @login_required
@@ -63,7 +52,6 @@ def list_reports_view(request):
     )
 
     gross_invoices = get_sum_invoices_per_month(gross_invoices)
-
     gross_sum_per_month = dict(
         [str(invoice["month"]), invoice["sum"]] for invoice in gross_invoices
     )
@@ -79,6 +67,7 @@ def list_reports_view(request):
 
     if filter_form.is_valid():
         revenue_type = filter_form.cleaned_data["revenue_type"]
+
         if revenue_type == ReportFilterForm.NETTO:
             extra_context = {
                 "net_invoices": net_invoices,
@@ -95,5 +84,4 @@ def list_reports_view(request):
         "current_module": "reports",
     }
     context.update(extra_context)
-
     return render(request, "reports/list_reports.html", context)

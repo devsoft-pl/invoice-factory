@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.translation import gettext_lazy as _
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
 
 from currencies.forms import CurrencyForm
 from currencies.models import Currency
+from currencies.utils import get_user_currency_or_404
 
 
 @login_required
@@ -37,13 +37,10 @@ def create_currency_view(request):
         form = CurrencyForm(current_user=request.user)
     else:
         form = CurrencyForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             currency = form.save(commit=False)
             currency.user = request.user
-
             currency.save()
-
             return redirect("currencies:list_currencies")
 
     context = {"form": form}
@@ -56,17 +53,13 @@ def create_currency_ajax_view(request):
         form = CurrencyForm(current_user=request.user)
     else:
         form = CurrencyForm(data=request.POST, current_user=request.user)
-
         if form.is_valid():
             currency = form.save(commit=False)
             currency.user = request.user
-
             currency.save()
-
             return JsonResponse(
                 {"success": True, "id": currency.id, "name": currency.code.upper()}
             )
-
         else:
             return JsonResponse({"success": False, "errors": form.errors})
 
@@ -76,11 +69,7 @@ def create_currency_ajax_view(request):
 
 @login_required
 def replace_currency_view(request, currency_id):
-    queryset = Currency.objects.select_related("user")
-    currency = get_object_or_404(queryset, pk=currency_id)
-
-    if currency.user != request.user:
-        raise Http404(_("Currency does not exist"))
+    currency = get_user_currency_or_404(currency_id, request.user)
 
     if request.method != "POST":
         form = CurrencyForm(instance=currency, current_user=request.user)
@@ -88,10 +77,8 @@ def replace_currency_view(request, currency_id):
         form = CurrencyForm(
             instance=currency, data=request.POST, current_user=request.user
         )
-
         if form.is_valid():
             form.save()
-
             return redirect("currencies:list_currencies")
 
     context = {"currency": currency, "form": form}
@@ -100,12 +87,7 @@ def replace_currency_view(request, currency_id):
 
 @login_required
 def delete_currency_view(request, currency_id):
-    queryset = Currency.objects.select_related("user")
-    currency = get_object_or_404(queryset, pk=currency_id)
-
-    if currency.user != request.user:
-        raise Http404(_("Currency does not exist"))
-
+    currency = get_user_currency_or_404(currency_id, request.user)
     currency.delete()
 
     return redirect("currencies:list_currencies")

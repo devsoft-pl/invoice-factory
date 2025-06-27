@@ -56,7 +56,6 @@ def replace_user_view(request):
         form = UserForm(instance=user, data=request.POST)
         if form.is_valid():
             form.save()
-
             return redirect("users:detail_user")
 
     context = {"user": user, "form": form}
