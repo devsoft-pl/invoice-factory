@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from persons.forms import PersonFilterForm, PersonForm
 from persons.models import Person
+from persons.utils import get_user_person_or_404
 
 
 @login_required
@@ -54,13 +55,10 @@ def create_person_view(request):
         form = PersonForm(current_user=request.user)
     else:
         form = PersonForm(current_user=request.user, data=request.POST)
-
         if form.is_valid():
             person = form.save(commit=False)
             person.user = request.user
-
             person.save()
-
             return redirect("persons:list_persons")
 
     context = {"form": form}
@@ -73,13 +71,10 @@ def create_person_ajax_view(request):
         form = PersonForm(current_user=request.user)
     else:
         form = PersonForm(current_user=request.user, data=request.POST)
-
         if form.is_valid():
             person = form.save(commit=False)
             person.user = request.user
-
             person.save()
-
             return JsonResponse(
                 {
                     "success": True,
@@ -97,11 +92,7 @@ def create_person_ajax_view(request):
 
 @login_required
 def replace_person_view(request, person_id):
-    queryset = Person.objects.select_related("user")
-    person = get_object_or_404(queryset, pk=person_id)
-
-    if person.user != request.user:
-        raise Http404(_("Person does not exist"))
+    person = get_user_person_or_404(person_id, request.user)
 
     if request.method != "POST":
         form = PersonForm(current_user=request.user, instance=person)
@@ -110,7 +101,6 @@ def replace_person_view(request, person_id):
 
     if form.is_valid():
         form.save()
-
         return redirect("persons:list_persons")
 
     context = {"person": person, "form": form}
@@ -119,12 +109,7 @@ def replace_person_view(request, person_id):
 
 @login_required
 def delete_person_view(request, person_id):
-    queryset = Person.objects.select_related("user")
-    person = get_object_or_404(queryset, pk=person_id)
-
-    if person.user != request.user:
-        raise Http404(_("Person does not exist"))
-
+    person = get_user_person_or_404(person_id, request.user)
     person.delete()
 
     return redirect("persons:list_persons")
