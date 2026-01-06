@@ -29,21 +29,27 @@ def create_correction_invoice_number(invoice: Invoice):
 
 def get_invoice_with_max_sale_date(company, person):
     today = datetime.today()
-    return (
-        Invoice.objects.filter(
-            invoice_type=Invoice.INVOICE_SALES,
-            is_recurring=False,
-            sale_date__year=today.year,
-            sale_date__month=today.month,
-            company=company,
-            person=person,
-        )
-        .order_by("-sale_date", "-pk")
-        .first()
-    )
+
+    query_filter = {
+        "invoice_type": Invoice.INVOICE_SALES,
+        "is_recurring": False,
+        "sale_date__year": today.year,
+        "sale_date__month": today.month,
+    }
+
+    if company:
+        query_filter["company"] = company
+        query_filter["person__isnull"] = True
+    elif person:
+        query_filter["person"] = person
+        query_filter["company__isnull"] = True
+    else:
+        return None
+
+    return Invoice.objects.filter(**query_filter).order_by("-sale_date", "-pk").first()
 
 
-def get_max_invoice_number(company, person):
+def get_max_invoice_number(company=None, person=None):
     max_sale_date_invoice = get_invoice_with_max_sale_date(company, person)
 
     current_year = datetime.today().year
@@ -58,10 +64,7 @@ def get_max_invoice_number(company, person):
 
 
 def get_right_month_format(month_number):
-    if month_number in [10, 11, 12]:
-        return month_number
-    else:
-        return "0" + str(month_number)
+    return str(month_number).zfill(2)
 
 
 def create_recurrent_invoices(invoices):

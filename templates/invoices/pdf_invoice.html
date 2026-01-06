@@ -282,9 +282,15 @@
 
 {% if invoice.currency.code|lower != "pln" %}
     <div>
-        Dokument wystawiony przy kursie:
-        1 {{ invoice.currency }} = {{ invoice.sell_rate_in_pln }} PLN
-        z dnia: {{ invoice.sale_date|date:"d.m.Y" }}
+        {% with exchange_rate=invoice.sell_rate_in_pln %}
+            {% if exchange_rate is not None %}
+                Dokument wystawiony przy kursie:
+                1 {{ invoice.currency }} = {{ exchange_rate }} PLN
+                z dnia: {{ invoice.sale_date|date:"d.m.Y" }}
+            {% else %}
+                <p style="color: red;">UWAGA: Brak kursu waluty dla dnia {{ invoice.sale_date|date:"d.m.Y" }}. Wartość w PLN nie może zostać obliczona.</p>
+            {% endif %}
+        {% endwith %}
     </div>
 {% endif %}
 

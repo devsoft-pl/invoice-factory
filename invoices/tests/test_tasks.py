@@ -166,11 +166,50 @@ class TestRecurrentInvoiceTasks:
 
         assert Invoice.objects.count() == 1
 
-    @pytest.mark.parametrize("month, expected", [[10, 10], [1, "01"]])
+    @pytest.mark.parametrize("month, expected", [[10, "10"], [1, "01"]])
     def test_returns_right_month_format(self, month, expected):
         right_month = get_right_month_format(month)
 
         assert right_month == expected
+
+    @patch("invoices.tasks.datetime")
+    def test_does_not_create_invoice_if_day_does_not_match(self, datetime_mock):
+        datetime_mock.today.return_value = datetime.date(2023, 8, 15)
+        InvoiceSellFactory.create(
+            is_recurring=True,
+            currency=self.currency,
+            sale_date=datetime.date(2023, 1, 20),
+            is_last_day=False,
+            company=self.company,
+            client=self.client,
+        )
+
+        create_invoices_for_recurring()
+
+        assert Invoice.objects.count() == 1
+
+    @patch("users.models.User.send_email")
+    @patch("invoices.tasks.datetime")
+    def test_sends_email_after_creating_recurrent_invoice(
+        self, datetime_mock, send_email_mock
+    ):
+        today = datetime.date(2023, 8, 25)
+        datetime_mock.today.return_value = today
+        InvoiceSellFactory.create(
+            is_recurring=True,
+            currency=self.currency,
+            sale_date=today,
+            is_last_day=False,
+            company=self.company,
+            client=self.client,
+        )
+
+        create_invoices_for_recurring()
+
+        assert Invoice.objects.filter(is_recurring=False).count() == 1
+        send_email_mock.assert_called_once()
+        subject = send_email_mock.call_args[0][0]
+        assert "New recurring invoice" in subject
 
     @patch("invoices.tasks.datetime")
     @patch("invoices.utils.datetime")
@@ -282,3 +321,32 @@ class TestSummaryRecipientTasks:
 
         assert invoice.is_settled is True
         send_email_mock.assert_called_once()
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    def test_does_not_send_email_if_no_invoices_in_period(self, send_email_mock):
+        Invoice.objects.all().delete()
+        SummaryRecipientFactory.create(company=self.company, day=self.today.day)
+
+        send_monthly_summary_to_recipients()
+
+        send_email_mock.assert_not_called()
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    def test_summary_includes_only_invoices_from_previous_month(self, send_email_mock):
+        InvoiceSellFactory.create(company=self.company, create_date=self.today)
+        two_months_ago = self.today - datetime.timedelta(days=60)
+        InvoiceSellFactory.create(
+            company=self.company,
+            create_date=two_months_ago,
+            is_settled=False,
+            currency=self.currency,
+            is_recurring=False,
+        )
+
+        SummaryRecipientFactory.create(company=self.company, day=self.today.day)
+
+        send_monthly_summary_to_recipients()
+
+        send_email_mock.assert_called_once()
+        files = send_email_mock.call_args[0][2]
+        assert len(files) == 2

@@ -2,7 +2,7 @@ import datetime
 from unittest.mock import patch
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from parameterized import parameterized
@@ -43,6 +43,15 @@ class TestInvoice(TestCase):
             reverse=True,
         )
         self.other_sell_invoice = InvoiceSellFactory()
+
+
+class TestIndexView(TestCase):
+    def test_index_view_returns_correct_template(self):
+        url = reverse("index")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "index.html")
 
 
 class TestListInvoices(TestInvoice):
@@ -91,6 +100,30 @@ class TestListInvoices(TestInvoice):
         object_list = response.context["invoices"]
 
         self.assertTrue(len(object_list) == 4)
+
+    def test_list_filter_by_invoice_number(self):
+        self.client.login(username=self.user.email, password="test")
+
+        target_invoice = self.user_sales_invoices[0]
+        search_number = target_invoice.invoice_number
+
+        response = self.client.get(f"{self.url}?invoice_number={search_number}")
+
+        object_list = response.context["invoices"]
+
+        self.assertEqual(len(object_list), 1)
+        self.assertEqual(object_list[0].pk, target_invoice.pk)
+
+    def test_pagination_returns_last_page_if_out_of_range(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(f"{self.url}?page=999")
+
+        self.assertEqual(response.status_code, 200)
+        object_list = response.context["invoices"]
+
+        self.assertTrue(object_list.number == 3)
+        self.assertEqual(len(object_list), 4)
 
 
 class TestDetailInvoice(TestInvoice):
@@ -709,6 +742,76 @@ class TestReplaceSellInvoice(TestInvoice):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_create_correction_invoice_view_initial_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/01/2024",
+            company=self.company,
+            client=self.contractor,
+            currency=self.currency,
+            is_settled=True,
+            is_recurring=False,
+        )
+
+        url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
+        self.assertTrue(response.context["create_correction"])
+
+        form_instance = response.context["form"].instance
+        self.assertNotEqual(form_instance.pk, invoice.pk)
+        self.assertEqual(form_instance.invoice_number, "1/01/2024/k")
+
+    @override_settings(USE_L10N=False, DATE_INPUT_FORMATS=["%Y-%m-%d"])
+    def test_create_correction_creates_relation(self):
+        self.client.login(username=self.user.email, password="test")
+
+        self.currency.user = self.user
+        self.currency.save()
+
+        invoice = InvoiceSellFactory.create(
+            invoice_number="2/01/2024",
+            company=self.company,
+            client=self.contractor,
+            currency=self.currency,
+            is_recurring=False,
+            is_settled=True,
+        )
+
+        url = reverse("invoices:create_correction_invoice", args=[invoice.pk])
+
+        valid_date_str = datetime.date.today().strftime("%Y-%m-%d")
+        data = InvoiceSellDictFactory(
+            invoice_number="2/01/2024/k",
+            company=self.company.pk,
+            client=self.contractor.pk,
+            currency=self.currency.pk,
+            create_date=valid_date_str,
+            sale_date=valid_date_str,
+            payment_date=valid_date_str,
+            account_number="111111111111111",
+        )
+
+        data.pop("is_recurring", None)
+        data.pop("is_last_day", None)
+        data.pop("is_paid", None)
+        data.pop("is_settled", None)
+
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 302)
+
+        correction = Invoice.objects.get(invoice_number="2/01/2024/k")
+        self.assertTrue(
+            CorrectionInvoiceRelation.objects.filter(
+                invoice=invoice, correction_invoice=correction
+            ).exists()
+        )
+
 
 class TestDuplicateCompanyInvoice(TestInvoice):
     def setUp(self) -> None:
@@ -735,10 +838,10 @@ class TestDuplicateCompanyInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    @patch("invoices.tasks.datetime")
+    @patch("invoices.views.datetime")
     def test_duplicate_company_for_person(self, datetime_mock):
         self.client.login(username=self.user.email, password="test")
-        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
+        datetime_mock.today.return_value = datetime.date(2025, 6, 28)
         person = PersonFactory.create(user=self.user)
         invoice = InvoiceSellPersonFactory.create(
             invoice_number="1/03/2024",
@@ -760,10 +863,10 @@ class TestDuplicateCompanyInvoice(TestInvoice):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
 
-    @patch("invoices.tasks.datetime")
+    @patch("invoices.views.datetime")
     def test_duplicate_company_for_contractor(self, datetime_mock):
         self.client.login(username=self.user.email, password="test")
-        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
+        datetime_mock.today.return_value = datetime.date(2025, 6, 28)
         invoice = InvoiceSellFactory.create(
             invoice_number="1/03/2024",
             company=self.company,
@@ -783,6 +886,35 @@ class TestDuplicateCompanyInvoice(TestInvoice):
         self.assertEqual(new_invoice.items.count(), 1)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "invoices/replace_sell_invoice.html")
+
+    @patch("invoices.views.datetime")
+    def test_duplicate_verifies_item_data_cloning(self, datetime_mock):
+        datetime_mock.today.return_value = datetime.date(2025, 6, 28)
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellFactory.create(
+            invoice_number="1/03/2024",
+            company=self.company,
+            client=self.contractor,
+            currency=self.currency,
+            is_recurring=False,
+        )
+        original_item = ItemFactory.create(
+            invoice=invoice, name="Usługa testowa", net_price=100.00, amount=5
+        )
+
+        url = reverse("invoices:duplicate_company_invoice", args=[invoice.pk])
+
+        response = self.client.get(url)
+
+        new_invoice = response.context["invoice"]
+        new_item = new_invoice.items.first()
+
+        self.assertNotEqual(original_item.pk, new_item.pk)
+        self.assertEqual(original_item.name, new_item.name)
+        self.assertEqual(original_item.net_price, new_item.net_price)
+        self.assertEqual(original_item.amount, new_item.amount)
+        self.assertEqual(new_item.invoice, new_invoice)
 
     def test_no_duplicate_company_invoice_if_is_recurring(self):
         self.client.login(username=self.user.email, password="test")
@@ -836,10 +968,10 @@ class TestDuplicateIndividualInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    @patch("invoices.tasks.datetime")
+    @patch("invoices.views.datetime")
     def test_duplicate_individual_for_contractor(self, datetime_mock):
         self.client.login(username=self.user.email, password="test")
-        datetime_mock.today.return_value = datetime.date(2025, 5, 28)
+        datetime_mock.today.return_value = datetime.date(2025, 6, 28)
 
         ItemFactory.create(invoice=self.invoice)
 
@@ -1044,6 +1176,28 @@ class TestReplaceSellPersonToClientInvoice(TestInvoice):
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_create_correction_person_to_client_initial_data(self):
+        self.client.login(username=self.user.email, password="test")
+
+        invoice = InvoiceSellPersonToClientFactory.create(
+            invoice_number="3/01/2024",
+            person=self.person,
+            client=self.contractor,
+            currency=self.currency,
+            person__user=self.user,
+        )
+
+        url = reverse(
+            "invoices:create_correction_person_to_client_invoice", args=[invoice.pk]
+        )
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["create_correction"])
+        self.assertEqual(
+            response.context["form"].instance.invoice_number, "3/01/2024/k"
+        )
 
 
 class TestReplaceBuyInvoice(TestInvoice):

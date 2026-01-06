@@ -53,6 +53,9 @@ def send_monthly_summary_to_recipients():
             is_recurring=False,
         )
 
+        if not invoices.exists():
+            continue
+
         files = []
 
         for invoice in invoices:
