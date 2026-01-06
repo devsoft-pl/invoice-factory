@@ -8,6 +8,11 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ["name", "pkwiu", "amount", "net_price", "vat"]
+        widgets = {
+            "net_price": forms.TextInput(
+                attrs={"type": "text", "class": "form-control"}
+            ),
+        }
 
     def __init__(self, *args, current_user, **kwargs):
         super().__init__(*args, **kwargs)
@@ -16,8 +21,9 @@ class ItemForm(forms.ModelForm):
             user=current_user
         ).order_by("rate")
 
-        for field in self.Meta.fields:
-            self.fields[field].widget.attrs["class"] = "form-control"
+        for field_name in self.Meta.fields:
+            if field_name not in self.Meta.widgets:
+                self.fields[field_name].widget.attrs["class"] = "form-control"
 
         pkwiu_field: forms.CharField = self.fields["pkwiu"]
         pkwiu_field.required = False
