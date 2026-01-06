@@ -1,5 +1,6 @@
 import decimal
 
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -139,10 +140,18 @@ class Invoice(models.Model):
 
     @property
     def sell_rate_in_pln(self):
-        exchange_rate = ExchangeRate.objects.get(
-            date=self.sale_date, currency=self.currency
-        )
-        return exchange_rate.sell_rate
+        if self.currency.code == settings.BASE_CURRENCY_CODE:
+            return decimal.Decimal("1.00")
+
+        try:
+            exchange_rate = ExchangeRate.objects.get(
+                currency=self.currency,
+                date=self.sale_date,
+            )
+
+            return exchange_rate.sell_rate
+        except ExchangeRate.DoesNotExist:
+            return None
 
     @property
     def is_sell(self):
@@ -150,12 +159,7 @@ class Invoice(models.Model):
 
     @property
     def has_item_with_vat(self):
-        has_vat = False
-        for item in self.items.all():
-            if item.vat:
-                has_vat = True
-
-        return has_vat
+        return self.items.filter(vat__rate__gt=0).exists()
 
     @property
     def has_items(self):
@@ -198,6 +202,7 @@ class Year(models.Model):
     class Meta:
         verbose_name_plural = _("years")
         ordering = ["-year"]
+        unique_together = ["year", "user"]
 
     def __str__(self):
         return str(self.year)
@@ -205,7 +210,14 @@ class Year(models.Model):
 
 @receiver(post_save, sender=Invoice)
 def create_year_on_invoice(sender, instance: Invoice, created=False, **kwargs):
-    Year.objects.get_or_create(year=instance.sale_date.year)
+    user = None
+    if instance.company:
+        user = instance.company.user
+    elif instance.person:
+        user = instance.person.user
+
+    if user:
+        Year.objects.get_or_create(year=instance.sale_date.year, user=user)
 
 
 class CorrectionInvoiceRelation(models.Model):

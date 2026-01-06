@@ -485,6 +485,22 @@ class TestSellInvoiceForm:
         assert not form.is_valid()
         assert form.errors == {"sale_date": ["This field is not last dat of month."]}
 
+    def test_clean_sale_date_is_valid_if_last_day_match(self):
+        data = InvoiceSellDictFactory(
+            invoice_number="1/05/2024",
+            company=self.company_1,
+            client=self.client_1,
+            currency=self.currency_1,
+            is_recurring=True,
+            is_last_day=True,
+            account_number="111111111111111",
+            sale_date=date(2023, 1, 31),
+        )
+
+        form = InvoiceSellForm(current_user=self.user, data=data)
+
+        assert form.is_valid(), form.errors
+
 
 @pytest.mark.django_db
 class TestBuyInvoiceForm:
