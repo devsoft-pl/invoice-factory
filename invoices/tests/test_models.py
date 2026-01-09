@@ -12,7 +12,7 @@ from invoices.factories import (
     InvoiceSellPersonFactory,
     YearFactory,
 )
-from invoices.models import Year
+from invoices.models import Invoice, Year
 from items.factories import ItemFactory
 from persons.factories import PersonFactory
 from users.factories import UserFactory
@@ -183,6 +183,100 @@ class TestInvoiceSignal:
         assert Year.objects.filter(year=2024).count() == 2
         assert Year.objects.filter(year=2024, user=user_a).exists()
         assert Year.objects.filter(year=2024, user=user_b).exists()
+
+    def test_orphaned_year_is_deleted_after_invoice_update(self):
+        user = UserFactory()
+        future_date = datetime.date(2026, 5, 10)
+        invoice = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        assert Year.objects.filter(year=2026, user=user).exists()
+
+        invoice.sale_date = datetime.date(2024, 5, 10)
+        invoice.save()
+
+        assert Year.objects.filter(year=2024, user=user).exists()
+        assert not Year.objects.filter(year=2026, user=user).exists()
+
+    def test_year_is_not_deleted_on_update_if_other_invoices_exist(self):
+        user = UserFactory()
+        future_date = datetime.date(2026, 5, 10)
+        invoice_to_edit = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+        InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date.replace(month=11),
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        assert Year.objects.filter(year=2026, user=user).exists()
+
+        invoice_to_edit.sale_date = datetime.date(2024, 5, 10)
+        invoice_to_edit.save()
+
+        assert Year.objects.filter(year=2024, user=user).exists()
+        assert Year.objects.filter(year=2026, user=user).exists()
+
+    def test_year_is_deleted_after_last_invoice_is_deleted(self):
+        user = UserFactory()
+        future_date = datetime.date(2027, 1, 1)
+        invoice = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        assert Year.objects.filter(year=2027, user=user).exists()
+
+        invoice.delete()
+
+        assert not Year.objects.filter(year=2027, user=user).exists()
+
+    def test_year_is_not_deleted_on_delete_if_other_invoices_exist(self):
+        user = UserFactory()
+        future_date = datetime.date(2028, 1, 1)
+        invoice_to_delete = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+        InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date.replace(month=2),
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        assert Year.objects.filter(year=2028, user=user).exists()
+
+        invoice_to_delete.delete()
+
+        assert Year.objects.filter(year=2028, user=user).exists()
+
+    def test_pre_save_handles_non_existent_pk(self):
+        user = UserFactory()
+        non_existent_pk = 99999
+        invoice = Invoice(
+            pk=non_existent_pk,
+            company=CompanyFactory(user=user),
+            invoice_type=Invoice.INVOICE_SALES,
+            sale_date=datetime.date.today(),
+        )
+
+        invoice.save()
+
+        assert Invoice.objects.filter(pk=non_existent_pk).exists()
 
 
 @pytest.mark.django_db

@@ -116,3 +116,39 @@ class TestListReports(TestReport):
         )
         self.assertEqual(invoices[1], {"month": 2, "sum": 0})
         self.assertEqual(len(invoices), 12)
+
+
+class TestYearSignal(TestCase):
+    def test_orphaned_year_is_deleted_after_invoice_update(self):
+        user = UserFactory()
+        future_date = datetime.date(2026, 5, 10)
+        invoice = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        self.assertTrue(Year.objects.filter(year=2026, user=user).exists())
+
+        invoice.sale_date = datetime.date(2024, 5, 10)
+        invoice.save()
+
+        self.assertTrue(Year.objects.filter(year=2024, user=user).exists())
+        self.assertFalse(Year.objects.filter(year=2026, user=user).exists())
+
+    def test_year_is_deleted_after_last_invoice_is_deleted(self):
+        user = UserFactory()
+        future_date = datetime.date(2027, 1, 1)
+        invoice = InvoiceSellFactory.create(
+            company__user=user,
+            sale_date=future_date,
+            payment_date=future_date + datetime.timedelta(days=7),
+            is_recurring=False,
+        )
+
+        self.assertTrue(Year.objects.filter(year=2027, user=user).exists())
+
+        invoice.delete()
+
+        self.assertFalse(Year.objects.filter(year=2027, user=user).exists())

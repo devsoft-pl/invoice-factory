@@ -15,8 +15,15 @@ class ReportFilterForm(forms.Form):
         label=_("Revenue type"), required=False, choices=REVENUES
     )
     year = forms.ModelChoiceField(
-        queryset=Year.objects.all(), label=_("Year"), required=False, empty_label=None
+        queryset=Year.objects.none(),  # Zmieniamy na pusty queryset
+        label=_("Year"),
+        required=False,
+        empty_label=None,
     )
 
-    revenue_type.widget.attrs.update({"class": "form-select"})
-    year.widget.attrs.update({"class": "form-select"})
+    def __init__(self, *args, user, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["year"].queryset = Year.objects.filter(user=user)
+
+        self.fields["revenue_type"].widget.attrs.update({"class": "form-select"})
+        self.fields["year"].widget.attrs.update({"class": "form-select"})
