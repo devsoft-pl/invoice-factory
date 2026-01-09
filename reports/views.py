@@ -12,9 +12,11 @@ from reports.utils import get_sum_invoices_per_month
 
 @login_required
 def list_reports_view(request):
-    filter_form = ReportFilterForm(request.GET)
+    filter_form = ReportFilterForm(request.GET, user=request.user)
 
-    year = Year.objects.first() or Year(year=datetime.now().year)
+    year = Year.objects.filter(user=request.user).first() or Year(
+        year=datetime.now().year
+    )
 
     if filter_form.is_valid():
         if filter_form.cleaned_data["year"]:
