@@ -37,6 +37,7 @@ boto3 = "^1.35.73"
 uvicorn = "^0.32.1"
 python-bidi = "0.6.3"
 cryptography = "^45.0.3"
+python-dateutil = "^2.9.0.post0"
 
 [tool.poetry.group.semver.dependencies]
 python-semantic-release = "^9.8.7"

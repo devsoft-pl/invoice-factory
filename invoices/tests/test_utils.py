@@ -1,16 +1,25 @@
 import datetime
-from unittest.mock import patch
+from decimal import Decimal
+from unittest.mock import ANY, patch
 
 import pytest
 
 from companies.factories import CompanyFactory
+from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonToClientFactory
 from invoices.utils import (
+    _copy_items_to_new_invoice,
+    _create_new_invoice_from_template,
+    _handle_recurring_invoice_failure,
+    _reschedule_template_for_next_month,
+    _send_success_notification,
     clone,
     create_correction_invoice_number,
+    create_recurrent_invoices,
     get_max_invoice_number,
     get_right_month_format,
 )
+from items.factories import ItemFactory
 from persons.factories import PersonFactory
 from users.factories import UserFactory
 
@@ -20,7 +29,6 @@ class TestCloneUtil:
     def test_clone_returns_new_instance(self):
         invoice = InvoiceSellFactory.create()
         cloned_invoice = clone(invoice)
-
         assert cloned_invoice.pk is None
         assert cloned_invoice.invoice_number == invoice.invoice_number
         assert not hasattr(cloned_invoice, "_prefetched_objects_cache")
@@ -106,3 +114,117 @@ class TestGetRightMonthFormatUtil:
         assert get_right_month_format(9) == "09"
         assert get_right_month_format(10) == "10"
         assert get_right_month_format(12) == "12"
+
+
+@pytest.mark.django_db
+class TestRecurringInvoiceHelpers:
+    @patch("invoices.utils.get_max_invoice_number", return_value=5)
+    def test_create_new_invoice_from_template(self, mock_get_max):
+        today = datetime.date(2024, 3, 15)
+        template = InvoiceSellFactory.create(is_recurring=True)
+
+        new_invoice = _create_new_invoice_from_template(template, today)
+
+        assert new_invoice.pk is not None
+        assert new_invoice.is_recurring is False
+        assert new_invoice.invoice_number == "5/03/2024"
+        assert new_invoice.company == template.company
+        assert new_invoice.client == template.client
+        assert new_invoice.sale_date == today
+
+    def test_copy_items_to_new_invoice(self):
+        template = InvoiceSellFactory.create()
+        ItemFactory.create_batch(3, invoice=template)
+        new_invoice = InvoiceSellFactory.create()
+
+        assert new_invoice.items.count() == 0
+
+        _copy_items_to_new_invoice(template, new_invoice)
+
+        assert new_invoice.items.count() == 3
+        assert template.items.count() == 3
+
+    @patch("invoices.utils.get_user_from_invoice")
+    @patch("users.models.User.send_email")
+    def test_send_success_notification(self, mock_send_email, mock_get_user):
+        user = UserFactory()
+        mock_get_user.return_value = user
+        pln_currency = CurrencyFactory.create(code="PLN")
+        new_invoice = InvoiceSellFactory.create(
+            invoice_number="1/2024",
+            currency=pln_currency,
+            gross_amount=Decimal("123.45"),
+        )
+
+        _send_success_notification(new_invoice)
+
+        mock_send_email.assert_any_call(
+            "New recurring invoice 1/2024",
+            "A new recurring invoice has been created\nBest regards,\nInvoice-Factory",
+            ANY,
+        )
+
+    @pytest.mark.parametrize(
+        "start_date, is_last_day, expected_date",
+        [
+            (datetime.date(2024, 2, 15), False, datetime.date(2024, 3, 15)),
+            (datetime.date(2024, 1, 31), False, datetime.date(2024, 2, 29)),
+            (datetime.date(2024, 3, 31), True, datetime.date(2024, 4, 30)),
+            (datetime.date(2024, 2, 29), True, datetime.date(2024, 3, 31)),
+        ],
+    )
+    def test_reschedule_template_for_next_month(
+        self, start_date, is_last_day, expected_date
+    ):
+        template = InvoiceSellFactory.create(
+            sale_date=start_date, is_last_day=is_last_day
+        )
+
+        _reschedule_template_for_next_month(template)
+
+        template.refresh_from_db()
+        assert template.sale_date == expected_date
+
+    @patch("invoices.utils.logger.error")
+    @patch("invoices.utils.get_user_from_invoice")
+    @patch("users.models.User.send_email")
+    def test_handle_recurring_invoice_failure(
+        self, mock_send_email, mock_get_user, mock_logger
+    ):
+        user = UserFactory()
+        mock_get_user.return_value = user
+        pln_currency = CurrencyFactory.create(code="PLN")
+        template = InvoiceSellFactory.create(
+            sale_date=datetime.date(2024, 1, 1), currency=pln_currency
+        )
+        error = ValueError("Test error")
+
+        _handle_recurring_invoice_failure(template, error)
+
+        mock_logger.assert_called_once()
+        mock_send_email.assert_any_call(
+            "Failed to create recurring invoice",
+            "Dear User,\n\n"
+            "We tried to automatically create a recurring invoice based on template "
+            "from 2024-01-01, but an error occurred.\n\n"
+            "Please log in to the application and create this invoice manually.\n\n"
+            "Best regards,\n"
+            "Invoice-Factory",
+        )
+
+    @patch("invoices.utils._handle_recurring_invoice_failure")
+    @patch(
+        "invoices.utils._create_new_invoice_from_template",
+        side_effect=Exception("DB Error"),
+    )
+    def test_create_recurrent_invoices_handles_exception(
+        self, mock_create, mock_handle_failure
+    ):
+        template = InvoiceSellFactory.create(is_recurring=True)
+
+        create_recurrent_invoices([template])
+
+        mock_create.assert_called_once()
+        mock_handle_failure.assert_called_once()
+        template.refresh_from_db()
+        assert template.is_recurring is True
