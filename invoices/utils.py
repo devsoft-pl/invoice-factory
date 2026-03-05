@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from dateutil.relativedelta import relativedelta
+from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
@@ -157,11 +158,28 @@ def _handle_recurring_invoice_failure(template_invoice, error):
 
 def create_recurrent_invoices(invoices):
     today = datetime.today()
+
     for invoice_template in invoices:
         try:
-            new_invoice = _create_new_invoice_from_template(invoice_template, today)
-            _copy_items_to_new_invoice(invoice_template, new_invoice)
+            with transaction.atomic():
+                invoice_to_process = (
+                    Invoice.objects.select_for_update()
+                    .filter(pk=invoice_template.pk)
+                    .first()
+                )
+
+                if not invoice_to_process:
+                    continue
+
+                if invoice_to_process.sale_date != invoice_template.sale_date:
+                    continue
+
+                new_invoice = _create_new_invoice_from_template(
+                    invoice_to_process, today
+                )
+                _copy_items_to_new_invoice(invoice_to_process, new_invoice)
+                _reschedule_template_for_next_month(invoice_to_process)
+
             _send_success_notification(new_invoice)
-            _reschedule_template_for_next_month(invoice_template)
         except Exception as e:
             _handle_recurring_invoice_failure(invoice_template, e)
