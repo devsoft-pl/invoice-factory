@@ -1,12 +1,14 @@
 import datetime
 from decimal import Decimal
-from unittest.mock import ANY, patch
+from unittest.mock import ANY, MagicMock, patch
 
 import pytest
+from dateutil.relativedelta import relativedelta
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonToClientFactory
+from invoices.models import Invoice
 from invoices.utils import (
     _copy_items_to_new_invoice,
     _create_new_invoice_from_template,
@@ -211,6 +213,86 @@ class TestRecurringInvoiceHelpers:
             "Best regards,\n"
             "Invoice-Factory",
         )
+
+
+@pytest.mark.django_db
+class TestCreateRecurrentInvoices:
+    @patch("invoices.utils._send_success_notification")
+    @patch("invoices.utils.get_max_invoice_number", return_value=1)
+    @patch("invoices.utils.datetime")
+    def test_create_recurrent_invoices_happy_path(
+        self, mock_datetime, mock_max_number, mock_send_notification
+    ):
+        today = datetime.date(2024, 3, 15)
+        mock_datetime.today.return_value = today
+
+        template = InvoiceSellFactory.create(
+            is_recurring=True, sale_date=today, is_last_day=False
+        )
+        initial_invoice_count = Invoice.objects.count()
+
+        create_recurrent_invoices([template])
+
+        assert Invoice.objects.count() == initial_invoice_count + 1
+        new_invoice = Invoice.objects.get(is_recurring=False)
+        assert new_invoice.invoice_number == "1/03/2024"
+        mock_send_notification.assert_called_once_with(new_invoice)
+
+        template.refresh_from_db()
+        assert template.sale_date == today + relativedelta(months=1)
+
+    @patch("invoices.utils._send_success_notification")
+    @patch("invoices.utils._create_new_invoice_from_template")
+    @patch("invoices.utils.Invoice.objects.select_for_update")
+    @patch("invoices.utils.datetime")
+    def test_create_recurrent_invoices_handles_race_condition(
+        self,
+        mock_datetime,
+        mock_select_for_update,
+        mock_create_invoice,
+        mock_send_notification,
+    ):
+        today = datetime.date(2024, 3, 15)
+        mock_datetime.today.return_value = today
+
+        template = InvoiceSellFactory.create(
+            is_recurring=True, sale_date=today, is_last_day=False
+        )
+
+        updated_template = clone(template)
+        updated_template.sale_date = today + relativedelta(months=1)
+
+        mock_manager = MagicMock()
+        mock_manager.filter.return_value.first.return_value = updated_template
+        mock_select_for_update.return_value = mock_manager
+
+        initial_invoice_count = Invoice.objects.count()
+
+        create_recurrent_invoices([template])
+
+        assert Invoice.objects.count() == initial_invoice_count
+        mock_create_invoice.assert_not_called()
+        mock_send_notification.assert_not_called()
+
+    @patch("invoices.utils._send_success_notification")
+    @patch("invoices.utils._create_new_invoice_from_template")
+    @patch("invoices.utils.Invoice.objects.select_for_update")
+    def test_create_recurrent_invoices_skips_deleted_template(
+        self, mock_select_for_update, mock_create_invoice, mock_send_notification
+    ):
+        template = InvoiceSellFactory.build()
+
+        mock_manager = MagicMock()
+        mock_manager.filter.return_value.first.return_value = None
+        mock_select_for_update.return_value = mock_manager
+
+        initial_invoice_count = Invoice.objects.count()
+
+        create_recurrent_invoices([template])
+
+        assert Invoice.objects.count() == initial_invoice_count
+        mock_create_invoice.assert_not_called()
+        mock_send_notification.assert_not_called()
 
     @patch("invoices.utils._handle_recurring_invoice_failure")
     @patch(
