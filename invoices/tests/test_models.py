@@ -131,6 +131,20 @@ class TestInvoiceModel:
         assert invoice.is_sell is False
         assert invoice.invoice_type == Invoice.INVOICE_PURCHASE
 
+    def test_is_owned_by(self):
+        user = UserFactory()
+        company = CompanyFactory(user=user)
+        person = PersonFactory(user=user)
+        other_user = UserFactory()
+
+        invoice_company = InvoiceSellFactory(company=company)
+        invoice_person = InvoiceSellPersonFactory(person=person, company=None)
+
+        assert invoice_company.is_owned_by(user) is True
+        assert invoice_person.is_owned_by(user) is True
+        assert invoice_company.is_owned_by(other_user) is False
+        assert invoice_person.is_owned_by(other_user) is False
+
 
 @pytest.mark.django_db
 class TestYearModel:

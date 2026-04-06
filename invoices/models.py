@@ -120,6 +120,13 @@ class Invoice(models.Model):
     def __str__(self):
         return self.invoice_number or f'{_("Recurring")}'
 
+    def is_owned_by(self, user):
+        if self.company:
+            return self.company.user == user
+        elif self.person:
+            return self.person.user == user
+        return False
+
     def calculate_net_amount(self):
         net_sum = 0
         for item in self.items.all():
