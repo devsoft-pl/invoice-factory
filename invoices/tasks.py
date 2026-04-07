@@ -83,6 +83,4 @@ def send_monthly_summary_to_recipients():
         summary_recipient.send_email(subject, content, files)
 
         if summary_recipient.final_call:
-            for invoice in invoices:
-                invoice.is_settled = True
-                invoice.save()
+            invoices.update(is_settled=True)

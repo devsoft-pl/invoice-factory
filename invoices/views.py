@@ -4,6 +4,7 @@ from pathlib import Path
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
+from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -89,11 +90,13 @@ def _handle_invoice_duplication(request, invoice, form_klass, template_name):
     new_instance.payment_date = today
     new_instance.is_settled = False
     new_instance.is_paid = False
-    new_instance.save()
-    for item in invoice.items.all():
-        new_item = clone(item)
-        new_item.invoice = new_instance
-        new_item.save()
+
+    with transaction.atomic():
+        new_instance.save()
+        for item in invoice.items.all():
+            new_item = clone(item)
+            new_item.invoice = new_instance
+            new_item.save()
 
     form = form_klass(instance=new_instance, current_user=request.user)
 
