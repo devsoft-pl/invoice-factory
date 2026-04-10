@@ -3,8 +3,8 @@ from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Q
 from django.db import transaction
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -97,6 +97,7 @@ def _handle_invoice_duplication(request, invoice, form_klass, template_name):
             new_item = clone(item)
             new_item.invoice = new_instance
             new_item.save()
+        new_instance.update_totals()
 
     form = form_klass(instance=new_instance, current_user=request.user)
 

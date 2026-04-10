@@ -105,9 +105,11 @@ class TestListInvoices(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         target_invoice = self.user_sales_invoices[0]
-        search_number = target_invoice.invoice_number
+        search_number = "UNIQUE-INV-999"
+        target_invoice.invoice_number = search_number
+        target_invoice.save()
 
-        response = self.client.get(f"{self.url}?invoice_number={search_number}")
+        response = self.client.get(self.url, {"invoice_number": search_number})
 
         object_list = response.context["invoices"]
 

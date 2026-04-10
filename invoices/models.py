@@ -135,16 +135,26 @@ class Invoice(models.Model):
 
     @property
     def tax_amount(self):
-        tax_sum = 0
-        for item in self.items.all():
-            tax_sum = tax_sum + item.tax_amount
-        return tax_sum
+        return self.gross_amount - self.net_amount
 
     def calculate_gross_amount(self):
         gross_sum = decimal.Decimal("0")
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
+
+    def update_totals(self):
+        net_sum = decimal.Decimal("0.00")
+        gross_sum = decimal.Decimal("0.00")
+
+        for item in self.items.select_related("vat").all():
+            net_sum += decimal.Decimal(item.net_amount)
+            gross_sum += decimal.Decimal(item.gross_amount)
+
+        self.net_amount = net_sum
+        self.gross_amount = gross_sum
+
+        self.save(update_fields=["net_amount", "gross_amount"])
 
     @property
     def sell_rate_in_pln(self):

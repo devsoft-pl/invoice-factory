@@ -32,6 +32,8 @@ class TestInvoiceModel:
         self.item_2 = ItemFactory.create(
             invoice=self.invoice, amount=1, net_price=800, vat=vat
         )
+        self.invoice.update_totals()
+        self.invoice.refresh_from_db()
 
     def test_returns_str_item_name(self):
         assert self.invoice.__str__() == self.invoice.invoice_number
@@ -144,6 +146,33 @@ class TestInvoiceModel:
         assert invoice_person.is_owned_by(user) is True
         assert invoice_company.is_owned_by(other_user) is False
         assert invoice_person.is_owned_by(other_user) is False
+
+    def test_update_totals(self):
+        invoice = InvoiceSellFactory.create(net_amount=0, gross_amount=0)
+        vat = VatRateFactory.create(rate=23)
+        ItemFactory.create(
+            invoice=invoice, amount=2, net_price=Decimal("100.00"), vat=vat
+        )
+        ItemFactory.create(
+            invoice=invoice, amount=1, net_price=Decimal("50.00"), vat=vat
+        )
+
+        invoice.update_totals()
+        invoice.refresh_from_db()
+
+        expected_net = Decimal("250.00")
+        expected_gross = expected_net * Decimal("1.23")
+
+        assert invoice.net_amount == expected_net
+        assert invoice.gross_amount == expected_gross
+
+    def test_update_totals_with_no_items(self):
+        invoice = InvoiceSellFactory.create(net_amount=100, gross_amount=123)
+        invoice.update_totals()
+        invoice.refresh_from_db()
+
+        assert invoice.net_amount == Decimal("0.00")
+        assert invoice.gross_amount == Decimal("0.00")
 
 
 @pytest.mark.django_db
