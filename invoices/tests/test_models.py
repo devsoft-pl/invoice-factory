@@ -127,8 +127,6 @@ class TestInvoiceModel:
         assert Item.objects.filter(invoice=invoice.pk).count() == 0
 
     def test_returns_false_if_invoice_is_buy(self):
-        from invoices.models import Invoice
-
         invoice = InvoiceBuyFactory.create()
         assert invoice.is_sell is False
         assert invoice.invoice_type == Invoice.INVOICE_PURCHASE
@@ -186,8 +184,8 @@ class TestYearModel:
 
 
 @pytest.mark.django_db
-class TestInvoiceSignal:
-    def test_creates_year_for_company_user_on_invoice_save(self):
+class TestYearManagement:
+    def test_creates_year_for_company_user_on_invoice_create(self):
         user = UserFactory()
         company = CompanyFactory(user=user)
 
@@ -195,7 +193,7 @@ class TestInvoiceSignal:
 
         assert Year.objects.filter(year=2024, user=user).exists()
 
-    def test_creates_year_for_person_user_on_invoice_save(self):
+    def test_creates_year_for_person_user_on_invoice_create(self):
         user = UserFactory()
         person = PersonFactory(user=user)
 
@@ -306,20 +304,6 @@ class TestInvoiceSignal:
         invoice_to_delete.delete()
 
         assert Year.objects.filter(year=2028, user=user).exists()
-
-    def test_pre_save_handles_non_existent_pk(self):
-        user = UserFactory()
-        non_existent_pk = 99999
-        invoice = Invoice(
-            pk=non_existent_pk,
-            company=CompanyFactory(user=user),
-            invoice_type=Invoice.INVOICE_SALES,
-            sale_date=datetime.date.today(),
-        )
-
-        invoice.save()
-
-        assert Invoice.objects.filter(pk=non_existent_pk).exists()
 
 
 @pytest.mark.django_db

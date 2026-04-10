@@ -146,16 +146,16 @@ class TestRecurringInvoiceHelpers:
         assert new_invoice.items.count() == 3
         assert template.items.count() == 3
 
-    @patch("invoices.utils.get_user_from_invoice")
     @patch("users.models.User.send_email")
-    def test_send_success_notification(self, mock_send_email, mock_get_user):
+    def test_send_success_notification(self, mock_send_email):
         user = UserFactory()
-        mock_get_user.return_value = user
+        company = CompanyFactory(user=user)
         pln_currency = CurrencyFactory.create(code="PLN")
         new_invoice = InvoiceSellFactory.create(
             invoice_number="1/2024",
             currency=pln_currency,
             gross_amount=Decimal("123.45"),
+            company=company,
         )
 
         _send_success_notification(new_invoice)
@@ -188,16 +188,15 @@ class TestRecurringInvoiceHelpers:
         assert template.sale_date == expected_date
 
     @patch("invoices.utils.logger.error")
-    @patch("invoices.utils.get_user_from_invoice")
     @patch("users.models.User.send_email")
-    def test_handle_recurring_invoice_failure(
-        self, mock_send_email, mock_get_user, mock_logger
-    ):
+    def test_handle_recurring_invoice_failure(self, mock_send_email, mock_logger):
         user = UserFactory()
-        mock_get_user.return_value = user
+        company = CompanyFactory(user=user)
         pln_currency = CurrencyFactory.create(code="PLN")
         template = InvoiceSellFactory.create(
-            sale_date=datetime.date(2024, 1, 1), currency=pln_currency
+            sale_date=datetime.date(2024, 1, 1),
+            currency=pln_currency,
+            company=company,
         )
         error = ValueError("Test error")
 
