@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_POST
 from xhtml2pdf import pisa
 
 from invoices.forms import (
@@ -295,6 +296,7 @@ def replace_buy_invoice_view(request, invoice_id):
 
 
 @login_required
+@require_POST
 def delete_invoice_view(request, invoice_id):
     queryset = Invoice.objects.select_related(
         "company", "company__user", "person", "person__user"

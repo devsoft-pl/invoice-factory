@@ -211,14 +211,14 @@ class TestDeleteInvoice(TestInvoice):
         self.url = reverse("invoices:delete_invoice", args=[self.invoice.pk])
 
     def test_delete_if_not_logged(self):
-        response = self.client.get(self.url, follow=True)
+        response = self.client.post(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.get(self.url)
+        response = self.client.post(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
             Invoice.objects.get(pk=self.invoice.pk)
@@ -229,7 +229,7 @@ class TestDeleteInvoice(TestInvoice):
 
         url = reverse("invoices:delete_invoice", args=[self.other_sell_invoice.pk])
 
-        response = self.client.get(url)
+        response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
 
@@ -239,7 +239,7 @@ class TestDeleteInvoice(TestInvoice):
         other_sell_invoice = InvoiceSellPersonToClientFactory()
         url = reverse("invoices:delete_invoice", args=[other_sell_invoice.pk])
 
-        response = self.client.get(url)
+        response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
 
@@ -249,7 +249,7 @@ class TestDeleteInvoice(TestInvoice):
         invoice = InvoiceSellPersonFactory(company=None, person=None)
         url = reverse("invoices:delete_invoice", args=[invoice.pk])
 
-        response = self.client.get(url)
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
 
