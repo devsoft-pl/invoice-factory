@@ -63,7 +63,7 @@ jobs:
 
       - name: Pytest
         run: |
-          poetry run python manage.py test
+          poetry run pytest
 
   release:
     name: Release new version
@@ -188,4 +188,3 @@ jobs:
         uses: Ilshidur/action-discord@08d9328877d6954120eef2b07abbc79249bb6210
         with:
           args: "`${{ github.repository }}` New version `${{ env.VERSION }}` has been deployed! :rocket:"
-
