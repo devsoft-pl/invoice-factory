@@ -1,12 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from base.validators import (
-    nip_validator,
-    pesel_validator,
-    phone_number_validator,
-    zip_code_validator,
-)
+from base.validators import pesel_validator, phone_number_validator
 from countries.models import Country
 from persons.models import Person
 
@@ -37,9 +32,7 @@ class PersonForm(forms.ModelForm):
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
-        self.fields["zip_code"].validators = [zip_code_validator]
         self.fields["phone_number"].validators = [phone_number_validator]
-        self.fields["nip"].validators = [nip_validator]
         self.fields["pesel"].validators = [pesel_validator]
 
     def clean_nip(self):
@@ -73,11 +66,13 @@ class PersonForm(forms.ModelForm):
         return pesel
 
     def clean(self):
-        first_name = self.cleaned_data.get("first_name")
-        last_name = self.cleaned_data.get("last_name")
-        address = self.cleaned_data.get("address")
-        zip_code = self.cleaned_data.get("zip_code")
-        city = self.cleaned_data.get("city")
+        cleaned_data = super().clean()
+
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+        address = cleaned_data.get("address")
+        zip_code = cleaned_data.get("zip_code")
+        city = cleaned_data.get("city")
         person = Person.objects.filter(
             first_name=first_name,
             last_name=last_name,
@@ -93,7 +88,7 @@ class PersonForm(forms.ModelForm):
         if person.exists():
             raise forms.ValidationError(_("Person with given data already exists"))
 
-        return self.cleaned_data
+        return cleaned_data
 
 
 class PersonFilterForm(forms.Form):

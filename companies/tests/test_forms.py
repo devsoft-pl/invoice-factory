@@ -9,12 +9,10 @@ from users.factories import UserFactory
 
 
 @pytest.mark.django_db
-class TestCompanyForm:
+class TestCompanyFilterForm:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.user = UserFactory.create()
-        self.country_1 = CountryFactory.create(user=self.user)
-        self.country_2 = CountryFactory.create()
         self.company_1 = CompanyFactory.create(
             name="Devsoft",
             nip="1111111111",
@@ -104,47 +102,97 @@ class TestCompanyForm:
 
         assert filtered_list.count() == 0
 
-    def test_filtered_countries_current_user(self):
-        self.form = CompanyForm(current_user=self.user)
-        form_countries_ids = self.form.fields["country"].queryset.values_list(
-            "id", flat=True
+
+@pytest.mark.django_db
+class TestCompanyFormValidation:
+    @pytest.fixture
+    def user(self):
+        return UserFactory()
+
+    @pytest.fixture
+    def polish_country(self, user):
+        return CountryFactory(country="Polska", user=user)
+
+    @pytest.fixture
+    def foreign_country(self, user):
+        return CountryFactory(country="Germany", user=user)
+
+    def test_valid_polish_company_form(self, user, polish_country):
+        data = CompanyDictFactory(
+            country=polish_country.pk,
+            nip="1234567890",
+            zip_code="12-345",
+            regon="123456789",
+            phone_number="123456789",
         )
-        user_countries_ids = Country.objects.filter(user=self.user).values_list(
-            "id", flat=True
+        form = CompanyForm(data=data, current_user=user)
+        assert form.is_valid(), form.errors
+
+    def test_invalid_polish_nip_in_form(self, user, polish_country):
+        data = CompanyDictFactory(country=polish_country.pk, nip="123")
+        form = CompanyForm(data=data, current_user=user)
+        assert not form.is_valid()
+        assert "nip" in form.errors
+        assert "Polish NIP must consist of 10 digits." in form.errors["nip"][0]
+
+    def test_invalid_polish_zip_code_in_form(self, user, polish_country):
+        data = CompanyDictFactory(country=polish_country.pk, zip_code="12345")
+        form = CompanyForm(data=data, current_user=user)
+        assert not form.is_valid()
+        assert "zip_code" in form.errors
+        assert (
+            "Polish ZIP code must be in the format XX-XXX."
+            in form.errors["zip_code"][0]
         )
 
+    def test_valid_foreign_company_form(self, user, foreign_country):
+        data = CompanyDictFactory(
+            country=foreign_country.pk,
+            nip="DE123456",
+            zip_code="D-12345",
+            regon="123456789",
+            phone_number="123456789",
+        )
+        form = CompanyForm(data=data, current_user=user)
+        assert form.is_valid(), form.errors
+
+    def test_invalid_foreign_nip_in_form(self, user, foreign_country):
+        data = CompanyDictFactory(country=foreign_country.pk, nip="DE123!@#")
+        form = CompanyForm(data=data, current_user=user)
+        assert not form.is_valid()
+        assert "nip" in form.errors
+        assert (
+            "Foreign VAT number contains invalid characters or is incorrect length."
+            in form.errors["nip"][0]
+        )
+
+    def test_clean_nip_returns_error(self, user, polish_country):
+        existing_company = CompanyFactory(user=user, nip="1111111111")
+        data = CompanyDictFactory(country=polish_country.pk, nip=existing_company.nip)
+        form = CompanyForm(data=data, current_user=user)
+        assert not form.is_valid()
+        assert "nip" in form.errors
+        assert "Nip already exists" in form.errors["nip"]
+
+    def test_clean_regon_returns_error(self, user, polish_country):
+        existing_company = CompanyFactory(user=user, regon="123456789")
+        data = CompanyDictFactory(
+            country=polish_country.pk, regon=existing_company.regon
+        )
+        form = CompanyForm(data=data, current_user=user)
+        assert not form.is_valid()
+        assert "regon" in form.errors
+        assert "Regon already exists" in form.errors["regon"]
+
+    def test_filtered_countries_current_user(self, user):
+        CountryFactory(user=user)
+        CountryFactory()  # Another user's country
+        form = CompanyForm(current_user=user)
+        form_countries_ids = form.fields["country"].queryset.values_list(
+            "id", flat=True
+        )
+        user_countries_ids = Country.objects.filter(user=user).values_list(
+            "id", flat=True
+        )
         assert set(form_countries_ids) == set(user_countries_ids)
-        assert form_countries_ids.count() == user_countries_ids.count()
-
-    def test_form_with_not_valid_data(self):
-        data = CompanyDictFactory(country=self.country_1)
-        form = CompanyForm(data=data, current_user=self.user)
-        is_valid = form.is_valid()
-
-        assert form.errors == {
-            "nip": [
-                "Pleas enter a tax ID with a minimum of 8 characters and no special characters"
-            ],
-            "regon": ["Please enter the REGON with a minimum 9 numbers"],
-            "zip_code": [
-                "Please enter the zip code with a numbers in the format xx-xxx"
-            ],
-            "phone_number": ["Please enter a phone with a minimum 9 numbers"],
-        }
-        assert not is_valid
-
-    def test_clean_nip_returns_error(self):
-        data = CompanyDictFactory(country=self.country_1, nip=self.company_1.nip)
-        form = CompanyForm(data=data, current_user=self.user)
-        is_valid = form.is_valid()
-
-        assert form.errors["nip"] == ["Nip already exists"]
-        assert not is_valid
-
-    def test_clean_regon_returns_error(self):
-        data = CompanyDictFactory(country=self.country_1, regon=self.company_1.regon)
-        form = CompanyForm(data=data, current_user=self.user)
-        is_valid = form.is_valid()
-
-        assert form.errors["regon"] == ["Regon already exists"]
-        assert not is_valid
+        assert form_countries_ids.count() == 1
