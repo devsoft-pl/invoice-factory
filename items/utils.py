@@ -19,6 +19,6 @@ def get_user_item_or_404(item_id, user):
         if item.invoice.person.user != user:
             raise Http404(_("Item does not exist"))
     else:
-        raise Exception(_("This should not have happened"))
+        raise Http404(_("This should not have happened"))
 
     return item
