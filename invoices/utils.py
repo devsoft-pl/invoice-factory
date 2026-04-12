@@ -10,7 +10,7 @@ from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
-from invoices.models import Invoice, get_user_from_invoice
+from invoices.models import Invoice
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +122,7 @@ def _send_success_notification(new_invoice):
                 "content": invoice_file.read(),
             }
         ]
-        user = get_user_from_invoice(new_invoice)
+        user = new_invoice.get_user()
         if user:
             user.send_email(subject, content, files)
 
@@ -142,7 +142,7 @@ def _handle_recurring_invoice_failure(template_invoice, error):
         f"Failed to create recurring invoice from template #{template_invoice.pk}. Error: {error}",
         exc_info=True,
     )
-    user = get_user_from_invoice(template_invoice)
+    user = template_invoice.get_user()
     if user:
         subject = _("Failed to create recurring invoice")
         content = _(

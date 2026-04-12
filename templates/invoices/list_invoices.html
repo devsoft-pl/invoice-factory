@@ -144,7 +144,10 @@
                                         {% endif %}
                                     {% endif %}
                                     {% if not invoice.is_settled %}
-                                        <a href="{% url 'invoices:delete_invoice' invoice.pk %}">Usuń</a>
+                                        <form method="post" action="{% url 'invoices:delete_invoice' invoice.pk %}" style="display: inline;" onsubmit="return confirm('Czy na pewno chcesz usunąć tę fakturę?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-link p-0" style="text-decoration: underline; color: #0d6efd;">Usuń</button>
+                                        </form>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -199,4 +202,3 @@
         {% endif %}
     </div>
 {% endblock content %}
-

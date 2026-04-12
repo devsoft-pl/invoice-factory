@@ -3,10 +3,12 @@ from pathlib import Path
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_POST
 from xhtml2pdf import pisa
 
 from invoices.forms import (
@@ -23,6 +25,85 @@ from invoices.utils import (
     get_max_invoice_number,
     get_right_month_format,
 )
+
+
+def _handle_invoice_creation(request, form_class, template_name, invoice_type):
+    if request.method == "POST":
+        form = form_class(
+            data=request.POST, files=request.FILES, current_user=request.user
+        )
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.invoice_type = invoice_type
+            invoice.save()
+            return redirect("invoices:list_invoices")
+    else:
+        form = form_class(current_user=request.user)
+
+    return render(request, template_name, {"form": form})
+
+
+def _handle_invoice_replacement(
+    request, invoice, form_class, template_name, create_correction=False
+):
+    if create_correction:
+        new_instance = clone(invoice)
+        new_instance.pk = None
+        new_instance.is_recurring = False
+        new_instance.is_settled = False
+        new_instance.invoice_number = create_correction_invoice_number(new_instance)
+    else:
+        new_instance = invoice
+
+    if request.method == "POST":
+        form = form_class(
+            instance=new_instance,
+            data=request.POST,
+            files=request.FILES,
+            current_user=request.user,
+            create_correction=create_correction,
+        )
+        if form.is_valid():
+            new_invoice = form.save(commit=False)
+            new_invoice.save()
+            if create_correction:
+                CorrectionInvoiceRelation.objects.get_or_create(
+                    invoice=invoice, correction_invoice=new_invoice
+                )
+                return redirect("invoices:list_invoices")
+            return redirect("invoices:detail_invoice", invoice.pk)
+    else:
+        form = form_class(instance=new_instance, current_user=request.user)
+
+    context = {"invoice": invoice, "form": form, "create_correction": create_correction}
+    return render(request, template_name, context)
+
+
+def _handle_invoice_duplication(request, invoice, form_klass, template_name):
+    today = datetime.today()
+    month = get_right_month_format(today.month)
+
+    new_instance: Invoice = clone(invoice)
+    max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
+    new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
+    new_instance.sale_date = today
+    new_instance.create_date = today
+    new_instance.payment_date = today
+    new_instance.is_settled = False
+    new_instance.is_paid = False
+
+    with transaction.atomic():
+        new_instance.save()
+        for item in invoice.items.all():
+            new_item = clone(item)
+            new_item.invoice = new_instance
+            new_item.save()
+        new_instance.update_totals()
+
+    form = form_klass(instance=new_instance, current_user=request.user)
+
+    context = {"invoice": new_instance, "form": form, "duplicate": True}
+    return render(request, template_name, context)
 
 
 def index_view(request):
@@ -70,14 +151,8 @@ def detail_invoice_view(request, invoice_id):
     ).prefetch_related("items")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company:
-        if invoice.company.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    elif invoice.person:
-        if invoice.person.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
+    if not invoice.is_owned_by(request.user):
+        raise Http404(_("Invoice does not exist"))
 
     context = {"invoice": invoice}
     if invoice.invoice_type == Invoice.INVOICE_SALES:
@@ -88,160 +163,74 @@ def detail_invoice_view(request, invoice_id):
 
 @login_required
 def create_sell_invoice_view(request):
-    if request.method != "POST":
-        form = InvoiceSellForm(current_user=request.user)
-    else:
-        form = InvoiceSellForm(data=request.POST, current_user=request.user)
-
-        if form.is_valid():
-            invoice = form.save(commit=False)
-            invoice.invoice_type = Invoice.INVOICE_SALES
-
-            invoice.save()
-
-            return redirect("invoices:list_invoices")
-
-    context = {"form": form}
-    return render(request, "invoices/create_sell_invoice.html", context)
+    return _handle_invoice_creation(
+        request,
+        form_class=InvoiceSellForm,
+        template_name="invoices/create_sell_invoice.html",
+        invoice_type=Invoice.INVOICE_SALES,
+    )
 
 
 @login_required
 def create_sell_person_invoice_view(request):
-    if request.method != "POST":
-        form = InvoiceSellPersonForm(current_user=request.user)
-    else:
-        form = InvoiceSellPersonForm(current_user=request.user, data=request.POST)
-
-        if form.is_valid():
-            invoice = form.save(commit=False)
-            invoice.invoice_type = Invoice.INVOICE_SALES
-
-            invoice.save()
-
-            return redirect("invoices:list_invoices")
-
-    context = {"form": form}
-    return render(request, "invoices/create_sell_person_invoice.html", context)
+    return _handle_invoice_creation(
+        request,
+        form_class=InvoiceSellPersonForm,
+        template_name="invoices/create_sell_person_invoice.html",
+        invoice_type=Invoice.INVOICE_SALES,
+    )
 
 
 @login_required
 def create_sell_person_to_client_invoice_view(request):
-    if request.method != "POST":
-        form = InvoiceSellPersonToClientForm(current_user=request.user)
-    else:
-        form = InvoiceSellPersonToClientForm(
-            current_user=request.user, data=request.POST
-        )
-
-        if form.is_valid():
-            invoice = form.save(commit=False)
-            invoice.invoice_type = Invoice.INVOICE_SALES
-
-            invoice.save()
-
-            return redirect("invoices:list_invoices")
-
-    context = {"form": form}
-    return render(
-        request, "invoices/create_sell_person_to_client_invoice.html", context
+    return _handle_invoice_creation(
+        request,
+        form_class=InvoiceSellPersonToClientForm,
+        template_name="invoices/create_sell_person_to_client_invoice.html",
+        invoice_type=Invoice.INVOICE_SALES,
     )
 
 
 @login_required
 def create_buy_invoice_view(request):
-    if request.method != "POST":
-        form = InvoiceBuyForm(current_user=request.user)
-    else:
-        form = InvoiceBuyForm(
-            data=request.POST, files=request.FILES, current_user=request.user
-        )
-
-        if form.is_valid():
-            invoice = form.save(commit=False)
-            invoice.invoice_type = Invoice.INVOICE_PURCHASE
-
-            invoice.save()
-
-            return redirect("invoices:list_invoices")
-
-    context = {"form": form}
-    return render(request, "invoices/create_buy_invoice.html", context)
+    return _handle_invoice_creation(
+        request,
+        form_class=InvoiceBuyForm,
+        template_name="invoices/create_buy_invoice.html",
+        invoice_type=Invoice.INVOICE_PURCHASE,
+    )
 
 
 @login_required
 def duplicate_company_invoice_view(request, invoice_id):
-    today = datetime.today()
-    month = get_right_month_format(today.month)
-
     queryset = Invoice.objects.select_related(
         "company", "person", "company__user"
     ).prefetch_related("items")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company.user != request.user or invoice.is_recurring:
+    if not invoice.is_owned_by(request.user) or invoice.is_recurring:
         raise Http404(_("Invoice does not exist"))
 
-    if invoice.person:
-        form_klass = InvoiceSellPersonForm
-    else:
-        form_klass = InvoiceSellForm
+    form_klass = InvoiceSellPersonForm if invoice.person else InvoiceSellForm
+    template_name = "invoices/replace_sell_invoice.html"
 
-    new_instance: Invoice = clone(invoice)
-    max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
-    new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
-    new_instance.sale_date = today
-    new_instance.create_date = today
-    new_instance.payment_date = today
-    new_instance.is_settled = False
-    new_instance.is_paid = False
-    new_instance.save()
-    for item in invoice.items.all():
-        new_item = clone(item)
-        new_item.invoice = new_instance
-        new_item.save()
-
-    form = form_klass(instance=new_instance, current_user=request.user)
-
-    context = {"invoice": new_instance, "form": form, "duplicate": True}
-    return render(request, "invoices/replace_sell_invoice.html", context)
+    return _handle_invoice_duplication(request, invoice, form_klass, template_name)
 
 
 @login_required
 def duplicate_individual_invoice_view(request, invoice_id):
-    today = datetime.today()
-    month = get_right_month_format(today.month)
-
     queryset = Invoice.objects.select_related(
         "company", "person", "person__user"
     ).prefetch_related("items")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.person:
-        if invoice.person.user != request.user or invoice.is_recurring:
-            raise Http404(_("Invoice does not exist"))
+    if not invoice.is_owned_by(request.user) or invoice.is_recurring:
+        raise Http404(_("Invoice does not exist"))
 
-    new_instance: Invoice = clone(invoice)
-    max_invoice_number = get_max_invoice_number(invoice.company, invoice.person)
-    new_instance.invoice_number = f"{max_invoice_number}/{month}/{today.year}"
-    new_instance.sale_date = today
-    new_instance.create_date = today
-    new_instance.payment_date = today
-    new_instance.is_settled = False
-    new_instance.is_paid = False
-    new_instance.save()
-    for item in invoice.items.all():
-        new_item = clone(item)
-        new_item.invoice = new_instance
-        new_item.save()
+    form_klass = InvoiceSellPersonToClientForm
+    template_name = "invoices/replace_sell_person_to_client_invoice.html"
 
-    form = InvoiceSellPersonToClientForm(
-        instance=new_instance, current_user=request.user
-    )
-
-    context = {"invoice": new_instance, "form": form, "duplicate": True}
-    return render(
-        request, "invoices/replace_sell_person_to_client_invoice.html", context
-    )
+    return _handle_invoice_duplication(request, invoice, form_klass, template_name)
 
 
 @login_required
@@ -249,51 +238,17 @@ def replace_sell_invoice_view(request, invoice_id, create_correction=False):
     queryset = Invoice.objects.select_related("company", "person", "company__user")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company.user != request.user or (
+    if not invoice.is_owned_by(request.user) or (
         invoice.is_settled and not create_correction
     ):
         raise Http404(_("Invoice does not exist"))
 
-    if invoice.person:
-        form_klass = InvoiceSellPersonForm
-    else:
-        form_klass = InvoiceSellForm
+    form_klass = InvoiceSellPersonForm if invoice.person else InvoiceSellForm
+    template_name = "invoices/replace_sell_invoice.html"
 
-    if create_correction:
-        new_instance = clone(invoice)
-        new_instance.pk = None
-        new_instance.is_recurring = False
-        new_instance.is_settled = False
-        new_instance.invoice_number = create_correction_invoice_number(new_instance)
-    else:
-        new_instance = invoice
-
-    if request.method != "POST":
-        form = form_klass(instance=new_instance, current_user=request.user)
-    else:
-        form = form_klass(
-            instance=new_instance,
-            data=request.POST,
-            files=request.FILES,
-            current_user=request.user,
-            create_correction=create_correction,
-        )
-
-        if form.is_valid():
-            new_invoice = form.save(commit=False)
-            new_invoice.save()
-            if create_correction:
-                CorrectionInvoiceRelation.objects.get_or_create(
-                    invoice=invoice, correction_invoice=new_invoice
-                )
-
-            if create_correction:
-                return redirect("invoices:list_invoices")
-
-            return redirect("invoices:detail_invoice", invoice.pk)
-
-    context = {"invoice": invoice, "form": form, "create_correction": create_correction}
-    return render(request, "invoices/replace_sell_invoice.html", context)
+    return _handle_invoice_replacement(
+        request, invoice, form_klass, template_name, create_correction=create_correction
+    )
 
 
 @login_required
@@ -303,52 +258,16 @@ def replace_sell_person_to_client_invoice_view(
     queryset = Invoice.objects.select_related("person", "person__user")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.person:
-        if invoice.person.user != request.user or (
-            invoice.is_settled and not create_correction
-        ):
-            raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
+    if not invoice.is_owned_by(request.user) or (
+        invoice.is_settled and not create_correction
+    ):
+        raise Http404(_("Invoice does not exist"))
 
-    if create_correction:
-        new_instance = clone(invoice)
-        new_instance.pk = None
-        new_instance.is_recurring = False
-        new_instance.is_settled = False
-        new_instance.invoice_number = create_correction_invoice_number(new_instance)
-    else:
-        new_instance = invoice
+    form_klass = InvoiceSellPersonToClientForm
+    template_name = "invoices/replace_sell_person_to_client_invoice.html"
 
-    if request.method != "POST":
-        form = InvoiceSellPersonToClientForm(
-            instance=new_instance, current_user=request.user
-        )
-    else:
-        form = InvoiceSellPersonToClientForm(
-            instance=new_instance,
-            data=request.POST,
-            files=request.FILES,
-            current_user=request.user,
-            create_correction=create_correction,
-        )
-
-        if form.is_valid():
-            new_invoice = form.save(commit=False)
-            new_invoice.save()
-            if create_correction:
-                CorrectionInvoiceRelation.objects.get_or_create(
-                    invoice=invoice, correction_invoice=new_invoice
-                )
-
-            if create_correction:
-                return redirect("invoices:list_invoices")
-
-            return redirect("invoices:detail_invoice", invoice.pk)
-
-    context = {"invoice": invoice, "form": form, "create_correction": create_correction}
-    return render(
-        request, "invoices/replace_sell_person_to_client_invoice.html", context
+    return _handle_invoice_replacement(
+        request, invoice, form_klass, template_name, create_correction=create_correction
     )
 
 
@@ -357,7 +276,7 @@ def replace_buy_invoice_view(request, invoice_id):
     queryset = Invoice.objects.select_related("company", "company__user")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company.user != request.user:
+    if not invoice.is_owned_by(request.user):
         raise Http404(_("Invoice does not exist"))
 
     if request.method != "POST":
@@ -377,20 +296,15 @@ def replace_buy_invoice_view(request, invoice_id):
 
 
 @login_required
+@require_POST
 def delete_invoice_view(request, invoice_id):
     queryset = Invoice.objects.select_related(
         "company", "company__user", "person", "person__user"
     )
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company:
-        if invoice.company.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    elif invoice.person:
-        if invoice.person.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
+    if not invoice.is_owned_by(request.user):
+        raise Http404(_("Invoice does not exist"))
 
     invoice.delete()
 
@@ -404,14 +318,8 @@ def pdf_invoice_view(request, invoice_id):
     ).prefetch_related("items")
     invoice = get_object_or_404(queryset, pk=invoice_id)
 
-    if invoice.company:
-        if invoice.company.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    elif invoice.person:
-        if invoice.person.user != request.user:
-            raise Http404(_("Invoice does not exist"))
-    else:
-        raise Exception(_("This should not have happened"))
+    if not invoice.is_owned_by(request.user):
+        raise Http404(_("Invoice does not exist"))
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="invoice.pdf"'
