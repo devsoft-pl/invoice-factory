@@ -84,6 +84,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "10/minute", "user": "1000/day"},
 }
 
 WSGI_APPLICATION = "base.wsgi.application"
@@ -114,7 +119,7 @@ USE_TZ = True
 USE_I18N = True
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
-THOUSAND_SEPARATOR = "$"
+THOUSAND_SEPARATOR = " "
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 

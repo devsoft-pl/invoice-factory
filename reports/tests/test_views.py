@@ -74,9 +74,9 @@ class TestListReports(TestReport):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context["gross_invoices"]), 12)
 
-        invoice_gross_amount_expected = self.invoice.gross_amount.quantize(
-            Decimal("0.01")
-        )
+        invoice_gross_amount_expected = Decimal(
+            str(self.invoice.gross_amount)
+        ).quantize(Decimal("0.01"))
         invoice_gross_amount = response.context["gross_invoices"][0]["sum"].quantize(
             Decimal("0.01")
         )
@@ -106,7 +106,7 @@ class TestListReports(TestReport):
         )
 
         invoices = get_sum_invoices_per_month(invoices)
-        expected_sum = self.invoice.gross_amount.quantize(Decimal("0.01"))
+        expected_sum = Decimal(str(self.invoice.gross_amount)).quantize(Decimal("0.01"))
         invoice_sum = invoices[0]["sum"].quantize(Decimal("0.01"))
         month = invoices[0]["month"]
 

@@ -105,9 +105,11 @@ class TestListInvoices(TestInvoice):
         self.client.login(username=self.user.email, password="test")
 
         target_invoice = self.user_sales_invoices[0]
-        search_number = target_invoice.invoice_number
+        search_number = "UNIQUE-INV-999"
+        target_invoice.invoice_number = search_number
+        target_invoice.save()
 
-        response = self.client.get(f"{self.url}?invoice_number={search_number}")
+        response = self.client.get(self.url, {"invoice_number": search_number})
 
         object_list = response.context["invoices"]
 
@@ -192,15 +194,14 @@ class TestDetailInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person_edge_case(self):
         self.client.login(username=self.user.email, password="test")
 
         invoice = InvoiceSellPersonFactory(company=None, person=None)
         url = reverse("invoices:detail_invoice", args=[invoice.pk])
 
-        with self.assertRaises(Exception) as context:
-            self.client.get(url)
-        self.assertEqual(str(context.exception), "This should not have happened")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
 
 class TestDeleteInvoice(TestInvoice):
@@ -210,14 +211,14 @@ class TestDeleteInvoice(TestInvoice):
         self.url = reverse("invoices:delete_invoice", args=[self.invoice.pk])
 
     def test_delete_if_not_logged(self):
-        response = self.client.get(self.url, follow=True)
+        response = self.client.post(self.url, follow=True)
 
         self.assertRedirects(response, f"/users/login/?next={self.url}")
 
     def test_delete_if_logged(self):
         self.client.login(username=self.user.email, password="test")
 
-        response = self.client.get(self.url)
+        response = self.client.post(self.url)
 
         with self.assertRaises(ObjectDoesNotExist):
             Invoice.objects.get(pk=self.invoice.pk)
@@ -228,7 +229,7 @@ class TestDeleteInvoice(TestInvoice):
 
         url = reverse("invoices:delete_invoice", args=[self.other_sell_invoice.pk])
 
-        response = self.client.get(url)
+        response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
 
@@ -238,19 +239,18 @@ class TestDeleteInvoice(TestInvoice):
         other_sell_invoice = InvoiceSellPersonToClientFactory()
         url = reverse("invoices:delete_invoice", args=[other_sell_invoice.pk])
 
-        response = self.client.get(url)
+        response = self.client.post(url)
 
         self.assertEqual(response.status_code, 404)
 
-    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person_edge_case(self):
         self.client.login(username=self.user.email, password="test")
 
         invoice = InvoiceSellPersonFactory(company=None, person=None)
         url = reverse("invoices:delete_invoice", args=[invoice.pk])
 
-        with self.assertRaises(Exception) as context:
-            self.client.get(url)
-        self.assertEqual(str(context.exception), "This should not have happened")
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 404)
 
 
 class TestCreateSellInvoice(TestInvoice):
@@ -1086,7 +1086,7 @@ class TestReplaceSellPersonToClientInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_raise_exception_if_invoice_is_not_issued_by_person_or_client(self):
+    def test_return_404_if_invoice_is_not_issued_by_person_or_client_edge_case(self):
         self.client.login(username=self.user.email, password="test")
 
         invoice = InvoiceSellPersonToClientFactory(person=None)
@@ -1094,9 +1094,8 @@ class TestReplaceSellPersonToClientInvoice(TestInvoice):
             "invoices:replace_sell_person_to_client_invoice", args=[invoice.pk]
         )
 
-        with self.assertRaises(Exception) as context:
-            self.client.get(url)
-        self.assertEqual(str(context.exception), "This should not have happened")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
     def test_return_404_if_invoice_is_settled_and_is_replace(self):
         self.client.login(username=self.user.email, password="test")
@@ -1302,15 +1301,14 @@ class TestPdfInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_raise_exception_if_invoice_is_not_issued_by_company_or_person(self):
+    def test_return_404_if_invoice_is_not_issued_by_company_or_person_edge_case(self):
         self.client.login(username=self.user.email, password="test")
 
         invoice = InvoiceSellPersonToClientFactory(client=None, person=None)
         url = reverse("invoices:pdf_invoice", args=[invoice.pk])
 
-        with self.assertRaises(Exception) as context:
-            self.client.get(url)
-        self.assertEqual(str(context.exception), "This should not have happened")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
     def test_return_errors_when_pisa_failed(self):
         self.client.login(username=self.user.email, password="test")

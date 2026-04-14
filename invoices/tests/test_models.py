@@ -32,6 +32,8 @@ class TestInvoiceModel:
         self.item_2 = ItemFactory.create(
             invoice=self.invoice, amount=1, net_price=800, vat=vat
         )
+        self.invoice.update_totals()
+        self.invoice.refresh_from_db()
 
     def test_returns_str_item_name(self):
         assert self.invoice.__str__() == self.invoice.invoice_number
@@ -125,11 +127,50 @@ class TestInvoiceModel:
         assert Item.objects.filter(invoice=invoice.pk).count() == 0
 
     def test_returns_false_if_invoice_is_buy(self):
-        from invoices.models import Invoice
-
         invoice = InvoiceBuyFactory.create()
         assert invoice.is_sell is False
         assert invoice.invoice_type == Invoice.INVOICE_PURCHASE
+
+    def test_is_owned_by(self):
+        user = UserFactory()
+        company = CompanyFactory(user=user)
+        person = PersonFactory(user=user)
+        other_user = UserFactory()
+
+        invoice_company = InvoiceSellFactory(company=company)
+        invoice_person = InvoiceSellPersonFactory(person=person, company=None)
+
+        assert invoice_company.is_owned_by(user) is True
+        assert invoice_person.is_owned_by(user) is True
+        assert invoice_company.is_owned_by(other_user) is False
+        assert invoice_person.is_owned_by(other_user) is False
+
+    def test_update_totals(self):
+        invoice = InvoiceSellFactory.create(net_amount=0, gross_amount=0)
+        vat = VatRateFactory.create(rate=23)
+        ItemFactory.create(
+            invoice=invoice, amount=2, net_price=Decimal("100.00"), vat=vat
+        )
+        ItemFactory.create(
+            invoice=invoice, amount=1, net_price=Decimal("50.00"), vat=vat
+        )
+
+        invoice.update_totals()
+        invoice.refresh_from_db()
+
+        expected_net = Decimal("250.00")
+        expected_gross = expected_net * Decimal("1.23")
+
+        assert invoice.net_amount == expected_net
+        assert invoice.gross_amount == expected_gross
+
+    def test_update_totals_with_no_items(self):
+        invoice = InvoiceSellFactory.create(net_amount=100, gross_amount=123)
+        invoice.update_totals()
+        invoice.refresh_from_db()
+
+        assert invoice.net_amount == Decimal("0.00")
+        assert invoice.gross_amount == Decimal("0.00")
 
 
 @pytest.mark.django_db
@@ -143,8 +184,8 @@ class TestYearModel:
 
 
 @pytest.mark.django_db
-class TestInvoiceSignal:
-    def test_creates_year_for_company_user_on_invoice_save(self):
+class TestYearManagement:
+    def test_creates_year_for_company_user_on_invoice_create(self):
         user = UserFactory()
         company = CompanyFactory(user=user)
 
@@ -152,7 +193,7 @@ class TestInvoiceSignal:
 
         assert Year.objects.filter(year=2024, user=user).exists()
 
-    def test_creates_year_for_person_user_on_invoice_save(self):
+    def test_creates_year_for_person_user_on_invoice_create(self):
         user = UserFactory()
         person = PersonFactory(user=user)
 
@@ -263,20 +304,6 @@ class TestInvoiceSignal:
         invoice_to_delete.delete()
 
         assert Year.objects.filter(year=2028, user=user).exists()
-
-    def test_pre_save_handles_non_existent_pk(self):
-        user = UserFactory()
-        non_existent_pk = 99999
-        invoice = Invoice(
-            pk=non_existent_pk,
-            company=CompanyFactory(user=user),
-            invoice_type=Invoice.INVOICE_SALES,
-            sale_date=datetime.date.today(),
-        )
-
-        invoice.save()
-
-        assert Invoice.objects.filter(pk=non_existent_pk).exists()
 
 
 @pytest.mark.django_db

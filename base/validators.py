@@ -11,11 +11,6 @@ correction_invoice_number_validator = RegexValidator(
     _("Please enter the correction invoice number in the format number/mm/yyyy/c"),
 )
 
-nip_validator = RegexValidator(
-    r"^[0-9a-zA-Z]{8,16}$",
-    _("Pleas enter a tax ID with a minimum of 8 characters and no special characters"),
-)
-
 pesel_validator = RegexValidator(
     r"^[0-9]{11}$",
     _("Please enter Pesel with 11 numbers"),
@@ -38,11 +33,6 @@ account_number_validator = RegexValidator(
 )
 
 rate_validator = MaxValueValidator(99)
-
-zip_code_validator = RegexValidator(
-    r"^[0-9]{2}-[0-9]{3}$",
-    _("Please enter the zip code with a numbers in the format xx-xxx"),
-)
 
 phone_number_validator = RegexValidator(
     r"^[0-9]{9,}$", _("Please enter a phone with a minimum 9 numbers")

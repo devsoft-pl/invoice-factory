@@ -3,8 +3,6 @@ import decimal
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete, post_save, pre_save
-from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -120,6 +118,52 @@ class Invoice(models.Model):
     def __str__(self):
         return self.invoice_number or f'{_("Recurring")}'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_sale_date = self.sale_date
+
+    def get_user(self):
+        if self.company:
+            return self.company.user
+        if self.person:
+            return self.person.user
+        return None
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        old_year = self._original_sale_date.year if self._original_sale_date else None
+        new_year = self.sale_date.year
+
+        super().save(*args, **kwargs)
+
+        update_fields = kwargs.get("update_fields")
+        is_sale_date_saved = not update_fields or "sale_date" in update_fields
+
+        if is_sale_date_saved and (is_new or old_year != new_year):
+            user = self.get_user()
+            if user:
+                Year.update_years_for_user(
+                    user, new_year, old_year if not is_new else None
+                )
+
+        if is_sale_date_saved:
+            self._original_sale_date = self.sale_date
+
+    def delete(self, *args, **kwargs):
+        sale_date_year = self.sale_date.year
+        user = self.get_user()
+        super().delete(*args, **kwargs)
+        if user:
+            Year.update_years_for_user(user, None, sale_date_year)
+
+    def is_owned_by(self, user):
+        if self.company:
+            return self.company.user == user
+        elif self.person:
+            return self.person.user == user
+        return False
+
     def calculate_net_amount(self):
         net_sum = 0
         for item in self.items.all():
@@ -128,16 +172,26 @@ class Invoice(models.Model):
 
     @property
     def tax_amount(self):
-        tax_sum = 0
-        for item in self.items.all():
-            tax_sum = tax_sum + item.tax_amount
-        return tax_sum
+        return self.gross_amount - self.net_amount
 
     def calculate_gross_amount(self):
         gross_sum = decimal.Decimal("0")
         for item in self.items.all():
             gross_sum = gross_sum + item.gross_amount
         return gross_sum
+
+    def update_totals(self):
+        net_sum = decimal.Decimal("0.00")
+        gross_sum = decimal.Decimal("0.00")
+
+        for item in self.items.select_related("vat").all():
+            net_sum += decimal.Decimal(item.net_amount)
+            gross_sum += decimal.Decimal(item.gross_amount)
+
+        self.net_amount = net_sum
+        self.gross_amount = gross_sum
+
+        self.save(update_fields=["net_amount", "gross_amount"])
 
     @property
     def sell_rate_in_pln(self):
@@ -206,57 +260,16 @@ class Year(models.Model):
     def __str__(self):
         return str(self.year)
 
+    @classmethod
+    def update_years_for_user(cls, user, new_year, old_year=None):
+        if new_year:
+            cls.objects.get_or_create(year=new_year, user=user)
 
-def get_user_from_invoice(invoice_instance):
-    if invoice_instance.company:
-        return invoice_instance.company.user
-    elif invoice_instance.person:
-        return invoice_instance.person.user
-    return None
-
-
-def cleanup_orphaned_year(user, year_value):
-    if user and year_value:
-        if not Invoice.objects.filter(
-            Q(company__user=user) | Q(person__user=user), sale_date__year=year_value
-        ).exists():
-            Year.objects.filter(year=year_value, user=user).delete()
-
-
-@receiver(pre_save, sender=Invoice)
-def store_old_sale_date(sender, instance, **kwargs):
-    if instance.pk:
-        try:
-            old_instance = sender.objects.get(pk=instance.pk)
-            instance._old_sale_date = old_instance.sale_date
-        except sender.DoesNotExist:
-            instance._old_sale_date = None
-    else:
-        instance._old_sale_date = None
-
-
-@receiver(post_save, sender=Invoice)
-def handle_year_after_save(sender, instance, **kwargs):
-    user = get_user_from_invoice(instance)
-    if not user:
-        return
-
-    Year.objects.get_or_create(year=instance.sale_date.year, user=user)
-
-    old_sale_date = getattr(instance, "_old_sale_date", None)
-    if old_sale_date:
-        old_year = old_sale_date.year
-        new_year = instance.sale_date.year
-
-        if old_year != new_year:
-            cleanup_orphaned_year(user, old_year)
-
-
-@receiver(post_delete, sender=Invoice)
-def handle_year_after_delete(sender, instance, **kwargs):
-    user = get_user_from_invoice(instance)
-    year_to_check = instance.sale_date.year
-    cleanup_orphaned_year(user, year_to_check)
+        if old_year and old_year != new_year:
+            if not Invoice.objects.filter(
+                Q(company__user=user) | Q(person__user=user), sale_date__year=old_year
+            ).exists():
+                cls.objects.filter(year=old_year, user=user).delete()
 
 
 class CorrectionInvoiceRelation(models.Model):
