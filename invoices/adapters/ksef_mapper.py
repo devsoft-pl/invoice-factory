@@ -10,9 +10,9 @@ from invoices.models import Invoice
 
 def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> dict:
     """
-    Mapuje fakturę z KSeF na słownik gotowy do utworzenia Invoice.
-    Nie zapisuje do bazy — zwraca dict z polami modelu Invoice.
-    Jeśli podany xml — uzupełnia account_number i payment_method.
+    Map a KSeF invoice metadata dict to a field dict ready to create an Invoice instance.
+    Does not write to the database. If xml is provided, account_number and payment_method
+    are populated from the FA(3) document.
     """
     payment = (
         map_ksef_xml_to_payment(xml)
@@ -39,16 +39,12 @@ def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> di
 
 
 def map_ksef_invoice_to_items(xml: str) -> list:
-    """
-    Zwraca listę słowników z pozycjami faktury z XML FA(3).
-    """
+    """Return a list of item dicts parsed from the FA(3) XML."""
     return map_ksef_xml_to_items(xml)
 
 
 def map_ksef_invoice_to_seller_dict(ksef_invoice: dict) -> dict:
-    """
-    Zwraca dane sprzedawcy z faktury KSeF — do ewentualnego utworzenia Company.
-    """
+    """Return seller data from a KSeF invoice — for optional Company creation."""
     seller = ksef_invoice.get("seller", {})
     return {
         "nip": seller.get("nip"),

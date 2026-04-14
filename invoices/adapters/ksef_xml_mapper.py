@@ -12,8 +12,8 @@ def _tag(name):
 
 def map_ksef_xml_to_items(xml_string: str) -> list:
     """
-    Parsuje XML FA(3) i zwraca listę słowników gotowych do utworzenia Item.
-    Pola: name, amount, net_price, vat_rate (procent jako int)
+    Parse FA(3) XML and return a list of dicts ready to create Item instances.
+    Keys: name, amount, net_price, vat_rate (percentage as int).
     """
     root = ET.fromstring(xml_string)
     fa = root.find(_tag("Fa"))
@@ -41,8 +41,8 @@ def map_ksef_xml_to_items(xml_string: str) -> list:
 
 def map_ksef_xml_to_payment(xml_string: str) -> dict:
     """
-    Parsuje XML FA(3) i zwraca słownik z danymi płatności.
-    Pola: account_number (str|None), payment_method (int|None)
+    Parse FA(3) XML and return a dict with payment data.
+    Keys: account_number (str|None), payment_method (int|None).
     """
     root = ET.fromstring(xml_string)
     fa = root.find(_tag("Fa"))

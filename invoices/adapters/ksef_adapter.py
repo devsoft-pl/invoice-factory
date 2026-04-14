@@ -12,6 +12,13 @@ logger = logging.getLogger(__name__)
 KSEF_API_URL_TEST = "https://api-test.ksef.mf.gov.pl"
 KSEF_API_URL_PRODUCTION = "https://api.ksef.mf.gov.pl"
 
+DEFAULT_PAGE_SIZE = 100
+AUTH_POLL_MAX_RETRIES = 10
+AUTH_POLL_INTERVAL = 1  # seconds
+
+KSEF_AUTH_STATUS_OK = 200
+KSEF_AUTH_STATUS_FAILED = 400
+
 
 class KSeFAdapter:
     def __init__(self, token, nip, base_url=KSEF_API_URL_TEST):
@@ -27,7 +34,7 @@ class KSeFAdapter:
         }
 
     def _get_public_key(self):
-        """Pobiera aktualny klucz publiczny KSeF do szyfrowania tokenu."""
+        """Fetch the current KSeF public key used to encrypt the token."""
         url = f"{self.base_url}/api/v2/security/public-key-certificates"
         response = requests.get(url, headers={"Accept": "application/json"})
 
@@ -49,7 +56,7 @@ class KSeFAdapter:
         return None
 
     def _encrypt_token(self, public_key_b64, timestamp_ms):
-        """Szyfruje 'token|timestampMs' kluczem publicznym RSA-OAEP (SHA-256)."""
+        """Encrypt '{token}|{timestampMs}' with the RSA-OAEP SHA-256 public key."""
         cert_der = base64.b64decode(public_key_b64)
         cert = x509.load_der_x509_certificate(cert_der)
         public_key = cert.public_key()
@@ -67,7 +74,7 @@ class KSeFAdapter:
         return base64.b64encode(encrypted).decode()
 
     def _get_challenge(self):
-        """Pobiera challenge do autentykacji."""
+        """Request an authentication challenge from KSeF."""
         url = f"{self.base_url}/api/v2/auth/challenge"
         response = requests.post(url, headers={"Accept": "application/json"})
 
@@ -88,7 +95,7 @@ class KSeFAdapter:
         return response.json()
 
     def authenticate(self):
-        """Przeprowadza pełny flow autentykacji tokenem i ustawia self.session_token."""
+        """Run the full token authentication flow and store the session token."""
         public_key_b64 = self._get_public_key()
         if not public_key_b64:
             return False
@@ -136,7 +143,7 @@ class KSeFAdapter:
             "Authorization": f"Bearer {authentication_token}",
         }
 
-        for _ in range(10):
+        for _ in range(AUTH_POLL_MAX_RETRIES):
             status_response = requests.get(status_url, headers=auth_headers)
             logger.debug(
                 "KSeF auth status: status=%s body=%s",
@@ -151,14 +158,14 @@ class KSeFAdapter:
                 return False
 
             status_code = status_response.json()["status"]["code"]
-            if status_code == 200:
+            if status_code == KSEF_AUTH_STATUS_OK:
                 break
-            if status_code == 400:
+            if status_code == KSEF_AUTH_STATUS_FAILED:
                 logger.error("KSeF auth failed: %s", status_response.json()["status"])
                 return False
 
             logger.debug("KSeF auth in progress (status=%s), retrying...", status_code)
-            time.sleep(1)
+            time.sleep(AUTH_POLL_INTERVAL)
         else:
             logger.error("KSeF auth timed out")
             return False
@@ -187,8 +194,10 @@ class KSeFAdapter:
         )
         return True
 
-    def get_purchase_invoices(self, date_from, date_to, page_size=100, page_offset=0):
-        """Pobiera jedną stronę faktur kosztowych (nabywca = subject2)."""
+    def get_purchase_invoices(
+        self, date_from, date_to, page_size=DEFAULT_PAGE_SIZE, page_offset=0
+    ):
+        """Fetch a single page of purchase invoices (company is the buyer)."""
         url = f"{self.base_url}/api/v2/invoices/query/metadata"
         body = {
             "pageSize": page_size,
@@ -216,8 +225,7 @@ class KSeFAdapter:
         return response.json()
 
     def get_invoice_xml(self, ksef_number):
-        """Pobiera pełny XML faktury po numerze KSeF (FA(3)).
-        Zawiera szczegóły: pozycje, numer konta, metodę płatności."""
+        """Fetch the full FA(3) XML of an invoice by its KSeF number."""
         url = f"{self.base_url}/api/v2/invoices/ksef/{ksef_number}"
         response = requests.get(
             url, headers={**self._get_headers(), "Accept": "application/xml"}
@@ -239,21 +247,19 @@ class KSeFAdapter:
         return response.text
 
     def get_all_purchase_invoices(self, date_from, date_to):
-        """Generator — yield-uje strony (listy) metadanych faktur, po 100 na stronę.
-        Nie ładuje wszystkich faktur do pamięci naraz."""
-        page_size = 100
+        """Generator yielding pages of invoice metadata, DEFAULT_PAGE_SIZE per page."""
         page_offset = 0
 
         while True:
             data = self.get_purchase_invoices(
-                date_from, date_to, page_size, page_offset
+                date_from, date_to, DEFAULT_PAGE_SIZE, page_offset
             )
             if not data:
                 return
             yield data.get("invoices", [])
             if not data.get("hasMore"):
                 return
-            page_offset += page_size
+            page_offset += DEFAULT_PAGE_SIZE
 
 
 if __name__ == "__main__":  # pragma: no cover
@@ -269,18 +275,18 @@ if __name__ == "__main__":  # pragma: no cover
     adapter = KSeFAdapter(token, nip, base_url)
 
     if not adapter.authenticate():
-        print("Autentykacja nieudana")
-        exit(1)
+        print("Authentication failed")
+        raise SystemExit(1)
 
     first_invoice = None
     for page in adapter.get_all_purchase_invoices(date(2026, 4, 1), date(2026, 4, 14)):
-        print(f"Strona: {len(page)} faktur")
+        print(f"Page: {len(page)} invoices")
         for invoice in page:
             print(f"  {invoice.get('ksefNumber')} — {invoice.get('invoiceNumber')}")
             if first_invoice is None:
                 first_invoice = invoice
 
     if first_invoice:
-        print(f"\nPobieranie XML pierwszej faktury: {first_invoice['ksefNumber']}")
+        print(f"\nFetching XML for first invoice: {first_invoice['ksefNumber']}")
         xml = adapter.get_invoice_xml(first_invoice["ksefNumber"])
         print(xml)
