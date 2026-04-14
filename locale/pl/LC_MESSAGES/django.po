@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-12 12:02+0200\n"
+"POT-Creation-Date: 2026-04-14 09:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,17 @@ msgstr ""
 msgid "Basic information"
 msgstr "Podstawowe informacje"
 
-#: accountants/models.py:8 companies/forms.py:73 companies/models.py:10
+#: accountants/models.py:8 companies/forms.py:66 companies/models.py:13
 #: items/models.py:17
 msgid "Name"
 msgstr "Nazwa"
 
-#: accountants/models.py:9 companies/models.py:23 persons/models.py:21
+#: accountants/models.py:9 companies/models.py:26 persons/models.py:24
 #: summary_recipients/models.py:26 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
-#: accountants/models.py:11 companies/models.py:25 persons/models.py:23
+#: accountants/models.py:11 companies/models.py:28 persons/models.py:26
 msgid "Phone number"
 msgstr "Numer telefonu"
 
@@ -111,26 +111,18 @@ msgid ""
 msgstr "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k"
 
 #: base/validators.py:16
-msgid ""
-"Please enter a tax ID with a minimum of 8 characters and no special "
-"characters"
-msgstr ""
-"Wprowadź numer identyfikatora podatkowego składającego się minimum 8 znaków, "
-"bez znaków specjalnych"
-
-#: base/validators.py:21
 msgid "Please enter Pesel with 11 numbers"
 msgstr "Wprowadź PESEL składający się z 11 cyfr"
 
-#: base/validators.py:26
+#: base/validators.py:21
 msgid "Please enter the REGON with a minimum 9 numbers"
 msgstr "Wprowadź REGON składający się z minimum 9 cyfr"
 
-#: base/validators.py:30
+#: base/validators.py:25
 msgid "Please enter the code with 3 letters"
 msgstr "Wprowadź kod z 3 liter"
 
-#: base/validators.py:36
+#: base/validators.py:31
 msgid ""
 "Please enter the account number with a minimum of 15 characters and no "
 "special characters"
@@ -138,11 +130,7 @@ msgstr ""
 "Wprowadź numer konta zawierający co najmniej 15 znaków, bez znaków "
 "specjalnych"
 
-#: base/validators.py:44
-msgid "Please enter the zip code with a numbers in the format xx-xxx"
-msgstr "Wprowadź kod pocztowy używając tylko cyfr w formacie xx-xxx"
-
-#: base/validators.py:48
+#: base/validators.py:38
 msgid "Please enter a phone with a minimum 9 numbers"
 msgstr "Wprowadź numer telefonu składający się z 9 cyfr"
 
@@ -154,50 +142,66 @@ msgstr "Informacje o użytkowniku"
 msgid "Address data"
 msgstr "Dane adresowe"
 
-#: companies/forms.py:55 persons/forms.py:56
+#: companies/forms.py:48 persons/forms.py:49
 msgid "Nip already exists"
 msgstr "Nip już istnieje"
 
-#: companies/forms.py:67
+#: companies/forms.py:60
 msgid "Regon already exists"
 msgstr "Regon już istnieje"
 
-#: companies/models.py:11 persons/models.py:11
+#: companies/models.py:14 persons/models.py:14
 msgid "NIP"
 msgstr "NIP"
 
-#: companies/models.py:13
+#: companies/models.py:16
 msgid "Regon"
 msgstr "Regon"
 
-#: companies/models.py:18 countries/models.py:8 persons/models.py:19
+#: companies/models.py:21 countries/models.py:8 persons/models.py:22
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:20 persons/forms.py:102 persons/models.py:15
+#: companies/models.py:23 persons/forms.py:97 persons/models.py:18
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:21 persons/models.py:16
+#: companies/models.py:24 persons/models.py:19
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:22 persons/models.py:17
+#: companies/models.py:25 persons/models.py:20
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:28 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:252 persons/models.py:26 vat_rates/models.py:12
+#: companies/models.py:31 countries/models.py:10 currencies/models.py:12
+#: invoices/models.py:252 persons/models.py:29 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
-#: companies/models.py:31
+#: companies/models.py:34
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:38
+#: companies/models.py:41
 msgid "companies"
 msgstr "firmy"
+
+#: companies/models.py:51 persons/models.py:54
+msgid "Polish NIP must consist of 10 digits."
+msgstr "Polski NIP musi składać się z 10 cyfr."
+
+#: companies/models.py:53 persons/models.py:56
+msgid "Polish ZIP code must be in the format XX-XXX."
+msgstr "Polski kod pocztowy musi być w formacie XX-XXX."
+
+#: companies/models.py:62 persons/models.py:65
+msgid "Foreign NIP number contains invalid characters or is incorrect length."
+msgstr "Zagraniczny numer NIP zawiera nieprawidłowe znaki lub ma nieprawidłową długość."
+
+#: companies/models.py:67 persons/models.py:70
+msgid "Foreign ZIP code contains invalid characters or is incorrect length."
+msgstr "Zagraniczny kod pocztowy zawiera nieprawidłowe znaki lub ma nieprawidłową długość."
 
 #: companies/tasks.py:43
 msgid "Contractor's company status"
@@ -491,27 +495,27 @@ msgstr "Informacje o konsumencie"
 msgid "Additional information"
 msgstr "Dodatkowe opcje"
 
-#: persons/forms.py:71
+#: persons/forms.py:64
 msgid "Pesel already exists"
 msgstr "Pesel już istnieje"
 
-#: persons/forms.py:94
+#: persons/forms.py:89
 msgid "Person with given data already exists"
 msgstr "Osoba o podanych danych już istnieje"
 
-#: persons/forms.py:100 persons/models.py:9 users/models.py:15
+#: persons/forms.py:95 persons/models.py:12 users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: persons/forms.py:101 persons/models.py:10 users/models.py:16
+#: persons/forms.py:96 persons/models.py:13 users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: persons/models.py:13
+#: persons/models.py:16
 msgid "PESEL"
 msgstr "PESEL"
 
-#: persons/models.py:30
+#: persons/models.py:33
 msgid "persons"
 msgstr "konsumenci"
 
@@ -635,6 +639,16 @@ msgstr "stawki vat"
 #: vat_rates/utils.py:11
 msgid "Vat rate does not exist"
 msgstr "Stawka VAT nie istnieje"
+
+#~ msgid ""
+#~ "Please enter a tax ID with a minimum of 8 characters and no special "
+#~ "characters"
+#~ msgstr ""
+#~ "Wprowadź numer identyfikatora podatkowego składającego się minimum 8 "
+#~ "znaków, bez znaków specjalnych"
+
+#~ msgid "Please enter the zip code with a numbers in the format xx-xxx"
+#~ msgstr "Wprowadź kod pocztowy używając tylko cyfr w formacie xx-xxx"
 
 #~ msgid ""
 #~ "Please enter the invoice number in numeric format only, following the "

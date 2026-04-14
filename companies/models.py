@@ -59,7 +59,7 @@ class Company(models.Model):
             clean_nip = self.nip.replace(" ", "").replace("-", "")
             if not re.match(r"^[A-Za-z0-9]{4,20}$", clean_nip):
                 errors["nip"] = _(
-                    "Foreign VAT number contains invalid characters or is incorrect length."
+                    "Foreign NIP number contains invalid characters or is incorrect length."
                 )
         if self.zip_code:
             if not re.match(r"^[A-Za-z0-9\-\s]{2,15}$", self.zip_code):

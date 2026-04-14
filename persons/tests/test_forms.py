@@ -172,7 +172,7 @@ class TestPersonFormValidation:
         assert not form.is_valid()
         assert "nip" in form.errors
         assert (
-            "Foreign VAT number contains invalid characters or is incorrect length."
+            "Foreign NIP number contains invalid characters or is incorrect length."
             in form.errors["nip"][0]
         )
 
