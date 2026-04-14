@@ -24,6 +24,9 @@ from vat_rates.models import VatRate
 
 logger = logging.getLogger(__name__)
 
+KSEF_FETCH_START_DATE = date(2026, 1, 1)
+DEFAULT_CURRENCY_CODE = "PLN"
+
 
 @app.task(name="create_invoices_for_recurring")
 def create_invoices_for_recurring():
@@ -108,7 +111,7 @@ def fetch_purchase_invoices_from_ksef():
             logger.error("KSeF authentication failed for %s", company.name)
             continue
 
-        date_from = company.ksef_last_fetched_at or date(2026, 1, 1)
+        date_from = company.ksef_last_fetched_at or KSEF_FETCH_START_DATE
         current_day = date_from
         while current_day <= today:
             total = 0
@@ -140,7 +143,7 @@ def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
     invoice_dict = map_ksef_invoice_to_dict(ksef_invoice, company, xml)
     items_data = map_ksef_invoice_to_items(xml) if xml else []
 
-    currency_code = ksef_invoice.get("currency", "PLN")
+    currency_code = ksef_invoice.get("currency", DEFAULT_CURRENCY_CODE)
     currency, _ = Currency.objects.get_or_create(code=currency_code, user=company.user)
     invoice_dict["currency"] = currency
 
