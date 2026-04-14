@@ -1,0 +1,19 @@
+{
+    "pageOffset": 0,
+    "pageSize": 100,
+    "hasMore": false,
+    "invoiceMetadata": [
+        {
+            "ksefNumber": "1234567890123456789012345678901234567",
+            "invoiceNumber": "FV/2026/001",
+            "issuerNip": "1234567890",
+            "buyerNip": "9876543210",
+            "issueDate": "2026-04-14T00:00:00Z",
+            "acquisitionDate": "2026-04-14T00:00:00Z",
+            "invoiceStatus": "issued",
+            "invoiceAmount": "1230.00",
+            "currency": "PLN",
+            "faFormCode": "FA(2)"
+        }
+    ]
+}

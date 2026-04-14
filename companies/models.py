@@ -37,6 +37,17 @@ class Company(models.Model):
     is_my_company = models.BooleanField(
         verbose_name=_("Is my company"), default=False, editable=False
     )
+    ksef_token = models.CharField(
+        verbose_name=_("KSeF token"),
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    ksef_last_fetched_at = models.DateField(
+        verbose_name=_("KSeF last fetched at"),
+        null=True,
+        blank=True,
+    )
 
     objects = models.Manager()
     my_clients = MyClientsManager()
