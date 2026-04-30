@@ -1,19 +1,41 @@
 {
-    "pageOffset": 0,
-    "pageSize": 100,
-    "hasMore": false,
-    "invoiceMetadata": [
-        {
-            "ksefNumber": "1234567890123456789012345678901234567",
-            "invoiceNumber": "FV/2026/001",
-            "issuerNip": "1234567890",
-            "buyerNip": "9876543210",
-            "issueDate": "2026-04-14T00:00:00Z",
-            "acquisitionDate": "2026-04-14T00:00:00Z",
-            "invoiceStatus": "issued",
-            "invoiceAmount": "1230.00",
-            "currency": "PLN",
-            "faFormCode": "FA(2)"
-        }
-    ]
+  "hasMore": false,
+  "isTruncated": false,
+  "permanentStorageHwmDate": "2025-08-28T09:23:55.388+00:00",
+  "invoices": [
+    {
+      "ksefNumber": "5555555555-20250828-010080615740-E4",
+      "invoiceNumber": "FA/KUDYO1a7dddfe-610e-4843-84ba-6b887e35266e",
+      "issueDate": "2025-08-27",
+      "invoicingDate": "2025-08-28T09:22:13.3881234+00:00",
+      "acquisitionDate": "2025-08-28T09:22:56.3881234+00:00",
+      "permanentStorageDate": "2025-08-28T09:23:01.388123+00:00",
+      "seller": {
+        "nip": "5555555555",
+        "name": "Test Company 1"
+      },
+      "buyer": {
+        "identifier": {
+          "type": "Nip",
+          "value": "7352765225"
+        },
+        "name": "Test Company 4"
+      },
+      "netAmount": 35260.63,
+      "grossAmount": 43370.57,
+      "vatAmount": 8109.94,
+      "currency": "PLN",
+      "invoicingMode": "Offline",
+      "invoiceType": "Vat",
+      "formCode": {
+        "systemCode": "FA (3)",
+        "schemaVersion": "1-0E",
+        "value": "FA"
+      },
+      "isSelfInvoicing": false,
+      "hasAttachment": false,
+      "invoiceHash": "mkht+3m5trnfxlTYhq3QFn74LkEO69MFNlsMAkCDSPA=",
+      "thirdSubjects": []
+    }
+  ]
 }

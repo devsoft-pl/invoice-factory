@@ -1,7 +1,10 @@
+import logging
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 
 from invoices.models import Invoice
+
+logger = logging.getLogger(__name__)
 
 NS = "http://crd.gov.pl/wzor/2025/06/25/13775/"
 
@@ -15,7 +18,12 @@ def map_ksef_xml_to_items(xml_string: str) -> list:
     Parse FA(3) XML and return a list of dicts ready to create Item instances.
     Keys: name, amount, net_price, vat_rate (percentage as int).
     """
-    root = ET.fromstring(xml_string)
+    try:
+        root = ET.fromstring(xml_string)
+    except ET.ParseError as e:
+        logger.error("KSeF XML parsing failed: %s", e)
+        return []
+
     fa = root.find(_tag("Fa"))
     if fa is None:
         return []
@@ -44,7 +52,12 @@ def map_ksef_xml_to_payment(xml_string: str) -> dict:
     Parse FA(3) XML and return a dict with payment data.
     Keys: account_number (str|None), payment_method (int|None).
     """
-    root = ET.fromstring(xml_string)
+    try:
+        root = ET.fromstring(xml_string)
+    except ET.ParseError as e:
+        logger.error("KSeF XML parsing failed: %s", e)
+        return {"account_number": None, "payment_method": None}
+
     fa = root.find(_tag("Fa"))
     if fa is None:
         return {"account_number": None, "payment_method": None}
