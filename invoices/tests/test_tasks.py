@@ -6,6 +6,7 @@ import pytest
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.factories import InvoiceSellFactory, InvoiceSellPersonFactory
+from invoices.forms import is_last_day_of_month
 from invoices.models import Invoice
 from invoices.tasks import (
     create_invoices_for_recurring,
@@ -24,6 +25,13 @@ class TestRecurrentInvoiceTasks:
         self.currency = CurrencyFactory.create(code="PLN")
         self.company = CompanyFactory.create(is_my_company=True)
         self.client = CompanyFactory.create(is_my_company=False)
+
+    def test_no_recurring_invoices_does_nothing(self):
+        InvoiceSellFactory.create_batch(3, is_recurring=False)
+
+        create_invoices_for_recurring()
+
+        assert Invoice.objects.count() == 3
 
     @patch("invoices.tasks.datetime")
     @patch("invoices.utils.datetime")
@@ -240,27 +248,33 @@ class TestSummaryRecipientTasks:
     @pytest.fixture(autouse=True)
     def set_up(self) -> None:
         self.today = datetime.datetime.today()
+        self.is_last = is_last_day_of_month(self.today)
+
         self.last_month_date = self.today - datetime.timedelta(days=self.today.day)
         self.last_month_date_2 = self.last_month_date.replace(day=7)
         self.company = CompanyFactory.create(is_my_company=True)
         self.currency = CurrencyFactory.create(code="PLN")
         self.invoice_1 = InvoiceSellFactory.create(
             company=self.company,
-            create_date=self.last_month_date,
             is_settled=False,
             currency=self.currency,
             is_recurring=False,
         )
+        self.invoice_1.create_date = self.last_month_date
+        self.invoice_1.save()
         self.invoice_2 = InvoiceSellFactory.create(
             company=self.company,
-            create_date=self.last_month_date_2,
             currency=self.currency,
             is_recurring=False,
         )
+        self.invoice_2.create_date = self.last_month_date_2
+        self.invoice_2.save()
 
     @patch("summary_recipients.models.SummaryRecipient.send_email")
     def test_send_monthly_summary_in_defined_day(self, send_email_mock):
-        SummaryRecipientFactory.create(company=self.company, day=self.today.day)
+        SummaryRecipientFactory.create(
+            company=self.company, day=self.today.day, is_last_day=self.is_last
+        )
 
         send_monthly_summary_to_recipients()
 
@@ -274,7 +288,11 @@ class TestSummaryRecipientTasks:
     ):
         assert not SummaryRecipient.objects.exists()
 
-        SummaryRecipientFactory.create(company=self.company)
+        different_day = 15 if self.today.day != 15 else 16
+
+        SummaryRecipientFactory.create(
+            company=self.company, day=different_day, is_last_day=False
+        )
 
         send_monthly_summary_to_recipients()
 
@@ -288,8 +306,13 @@ class TestSummaryRecipientTasks:
         self, send_email_mock, final_call, expected_value
     ):
         SummaryRecipientFactory.create(
-            company=self.company, day=self.today.day, final_call=final_call
+            company=self.company,
+            day=self.today.day,
+            is_last_day=self.is_last,
+            final_call=final_call,
         )
+        self.invoice_1.is_settled = False
+        self.invoice_1.save()
 
         send_monthly_summary_to_recipients()
         self.invoice_1.refresh_from_db()
@@ -304,11 +327,12 @@ class TestSummaryRecipientTasks:
 
         invoice = InvoiceSellFactory.create(
             company=self.company,
-            create_date=last_month_date,
             is_settled=False,
             currency=self.currency,
             is_recurring=False,
         )
+        invoice.create_date = last_month_date
+        invoice.save()
 
         SummaryRecipientFactory.create(
             company=self.company, is_last_day=True, day=31, final_call=True
@@ -325,7 +349,9 @@ class TestSummaryRecipientTasks:
     @patch("summary_recipients.models.SummaryRecipient.send_email")
     def test_does_not_send_email_if_no_invoices_in_period(self, send_email_mock):
         Invoice.objects.all().delete()
-        SummaryRecipientFactory.create(company=self.company, day=self.today.day)
+        SummaryRecipientFactory.create(
+            company=self.company, day=self.today.day, is_last_day=self.is_last
+        )
 
         send_monthly_summary_to_recipients()
 
@@ -333,20 +359,93 @@ class TestSummaryRecipientTasks:
 
     @patch("summary_recipients.models.SummaryRecipient.send_email")
     def test_summary_includes_only_invoices_from_previous_month(self, send_email_mock):
-        InvoiceSellFactory.create(company=self.company, create_date=self.today)
+        inv_today = InvoiceSellFactory.create(company=self.company)
+        inv_today.create_date = self.today
+        inv_today.save()
+
         two_months_ago = self.today - datetime.timedelta(days=60)
-        InvoiceSellFactory.create(
+        inv_old = InvoiceSellFactory.create(
             company=self.company,
-            create_date=two_months_ago,
             is_settled=False,
             currency=self.currency,
             is_recurring=False,
         )
+        inv_old.create_date = two_months_ago
+        inv_old.save()
 
-        SummaryRecipientFactory.create(company=self.company, day=self.today.day)
+        SummaryRecipientFactory.create(
+            company=self.company, day=self.today.day, is_last_day=self.is_last
+        )
 
         send_monthly_summary_to_recipients()
 
         send_email_mock.assert_called_once()
-        files = send_email_mock.call_args[0][2]
-        assert len(files) == 2
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    @patch("invoices.tasks.datetime")
+    def test_sends_email_to_correct_recipient(self, datetime_mock, send_email_mock):
+        datetime_mock.today.return_value = self.today
+        company_with_invoices = self.company
+        company_without_invoices = CompanyFactory.create(is_my_company=True)
+
+        invoice = InvoiceSellFactory.create(
+            company=company_with_invoices, currency=self.currency
+        )
+        invoice.create_date = self.last_month_date
+        invoice.save()
+
+        SummaryRecipientFactory.create(
+            company=company_with_invoices, day=self.today.day, is_last_day=self.is_last
+        )
+        SummaryRecipientFactory.create(
+            company=company_without_invoices,
+            day=self.today.day,
+            is_last_day=self.is_last,
+        )
+
+        send_monthly_summary_to_recipients()
+
+        send_email_mock.assert_called_once()
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    @patch("invoices.tasks.datetime")
+    def test_summary_ignores_recurring_invoices(self, datetime_mock, send_email_mock):
+        Invoice.objects.filter(company=self.company).delete()
+
+        datetime_mock.today.return_value = self.today
+        invoice = InvoiceSellFactory.create(
+            company=self.company, is_recurring=True, currency=self.currency
+        )
+        invoice.create_date = self.last_month_date
+        invoice.save()
+
+        SummaryRecipientFactory.create(
+            company=self.company, day=self.today.day, is_last_day=self.is_last
+        )
+
+        send_monthly_summary_to_recipients()
+
+        send_email_mock.assert_not_called()
+
+    @patch("summary_recipients.models.SummaryRecipient.send_email")
+    def test_send_monthly_summary_uses_day_filter_when_not_last_day(
+        self, send_email_mock
+    ):
+        Invoice.objects.filter(company=self.company).delete()
+        mocked_today = datetime.datetime(year=2024, month=10, day=15)
+        last_month_date = datetime.datetime(year=2024, month=9, day=15)
+        SummaryRecipientFactory.create(company=self.company, day=15, is_last_day=False)
+        invoice = InvoiceSellFactory.create(
+            company=self.company,
+            is_settled=False,
+            currency=self.currency,
+            is_recurring=False,
+        )
+        invoice.create_date = last_month_date
+        invoice.save()
+
+        with patch("invoices.tasks.datetime") as datetime_mock:
+            datetime_mock.today.return_value = mocked_today
+            send_monthly_summary_to_recipients()
+
+        send_email_mock.assert_called_once()

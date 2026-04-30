@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from base.validators import (
@@ -47,6 +48,9 @@ class Company(models.Model):
         verbose_name=_("KSeF last fetched at"),
         null=True,
         blank=True,
+    )
+    created_at = models.DateTimeField(
+        verbose_name=_("Created at"), default=timezone.now, editable=False
     )
 
     objects = models.Manager()

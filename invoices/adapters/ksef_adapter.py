@@ -1,61 +1,91 @@
 import base64
 import logging
 import time
+from datetime import date, datetime
+from datetime import time as datetime_time
+from typing import Any, Dict, Iterator, List, Optional
 
 import requests
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+from django.conf import settings
+from django.utils import timezone
+
+from base.settings.common import KSEF_API_URL_TEST
 
 logger = logging.getLogger(__name__)
 
-KSEF_API_URL_TEST = "https://api-test.ksef.mf.gov.pl"
-KSEF_API_URL_PRODUCTION = "https://api.ksef.mf.gov.pl"
-
 DEFAULT_PAGE_SIZE = 100
 AUTH_POLL_MAX_RETRIES = 10
-AUTH_POLL_INTERVAL = 1  # seconds
+AUTH_POLL_INTERVAL = 1
+DEFAULT_TIMEOUT = 15
 
 KSEF_AUTH_STATUS_OK = 200
 KSEF_AUTH_STATUS_FAILED = 400
 
 
 class KSeFAdapter:
-    def __init__(self, token, nip, base_url=KSEF_API_URL_TEST):
+    def __init__(self, token: str, nip: str) -> None:
         self.token = token
         self.nip = nip
-        self.base_url = base_url
-        self.session_token = None
+        self.base_url = (
+            settings.KSEF_API_URL_TEST
+            if settings.KSEF_IS_TEST
+            else settings.KSEF_API_URL_PRODUCTION
+        )
+        self.session_token: Optional[str] = None
+        self.client = requests.Session()
 
-    def _get_headers(self):
+    # --- Wsparcie dla Context Managera (blok "with") ---
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.client.close()
+
+    def _get_headers(self) -> Dict[str, str]:
+        if not self.session_token:
+            raise ValueError(
+                "KSeF adapter is not authenticated. Call authenticate() first."
+            )
         return {
             "Accept": "application/json",
             "Authorization": f"Bearer {self.session_token}",
         }
 
-    def _get_public_key(self):
-        """Fetch the current KSeF public key used to encrypt the token."""
-        url = f"{self.base_url}/api/v2/security/public-key-certificates"
-        response = requests.get(url, headers={"Accept": "application/json"})
-
-        logger.debug("KSeF public key response: status=%s", response.status_code)
-
-        if response.status_code != 200:
-            logger.error(
-                "KSeF failed to get public key: status=%s body=%s",
-                response.status_code,
-                response.text,
-            )
+    # --- NOWA UNIWERSALNA METODA DO ZAPYTAŃ ---
+    def _request(
+        self, method: str, url: str, error_msg: str = "KSeF request failed", **kwargs
+    ) -> Optional[requests.Response]:
+        """Ujednolicona metoda do odpytywania API z wbudowaną obsługą wyjątków sieciowych."""
+        kwargs.setdefault("timeout", DEFAULT_TIMEOUT)
+        try:
+            response = self.client.request(method, url, **kwargs)
+            response.raise_for_status()
+            return response
+        except requests.RequestException as e:
+            logger.error("%s: %s", error_msg, e)
             return None
 
-        certs = response.json()
-        for cert in certs:
+    def _get_public_key(self) -> Optional[str]:
+        """Fetch the current KSeF public key used to encrypt the token."""
+        url = f"{self.base_url}/api/v2/security/public-key-certificates"
+        response = self._request(
+            "GET",
+            url,
+            error_msg="KSeF failed to get public key",
+            headers={"Accept": "application/json"},
+        )
+        if not response:
+            return None
+
+        for cert in response.json():
             if "KsefTokenEncryption" in cert.get("usage", []):
                 return cert["certificate"]
-
         return None
 
-    def _encrypt_token(self, public_key_b64, timestamp_ms):
+    def _encrypt_token(self, public_key_b64: str, timestamp_ms: int) -> str:
         """Encrypt '{token}|{timestampMs}' with the RSA-OAEP SHA-256 public key."""
         cert_der = base64.b64decode(public_key_b64)
         cert = x509.load_der_x509_certificate(cert_der)
@@ -73,28 +103,51 @@ class KSeFAdapter:
         )
         return base64.b64encode(encrypted).decode()
 
-    def _get_challenge(self):
+    def _get_challenge(self) -> Optional[Dict[str, Any]]:
         """Request an authentication challenge from KSeF."""
         url = f"{self.base_url}/api/v2/auth/challenge"
-        response = requests.post(url, headers={"Accept": "application/json"})
-
-        logger.debug(
-            "KSeF challenge response: status=%s body=%s",
-            response.status_code,
-            response.text,
+        response = self._request(
+            "POST",
+            url,
+            error_msg="KSeF failed to get challenge",
+            headers={"Accept": "application/json"},
         )
+        return response.json() if response else None
 
-        if response.status_code != 200:
-            logger.error(
-                "KSeF failed to get challenge: status=%s body=%s",
-                response.status_code,
-                response.text,
+    def _poll_for_auth_status(
+        self, reference_number: str, authentication_token: str
+    ) -> bool:
+        """Poll KSeF for the status of an asynchronous authentication operation."""
+        status_url = f"{self.base_url}/api/v2/auth/{reference_number}"
+        auth_headers = {
+            "Accept": "application/json",
+            "Authorization": f"Bearer {authentication_token}",
+        }
+
+        for _ in range(AUTH_POLL_MAX_RETRIES):
+            response = self._request(
+                "GET",
+                status_url,
+                error_msg="KSeF auth status failed",
+                headers=auth_headers,
             )
-            return None
+            if not response:
+                return False
 
-        return response.json()
+            status_code = response.json()["status"]["code"]
+            if status_code == KSEF_AUTH_STATUS_OK:
+                return True
+            if status_code == KSEF_AUTH_STATUS_FAILED:
+                logger.error("KSeF auth failed: %s", response.json()["status"])
+                return False
 
-    def authenticate(self):
+            logger.debug("KSeF auth in progress (status=%s), retrying...", status_code)
+            time.sleep(AUTH_POLL_INTERVAL)
+
+        logger.error("KSeF auth timed out")
+        return False
+
+    def authenticate(self) -> bool:
         """Run the full token authentication flow and store the session token."""
         public_key_b64 = self._get_public_key()
         if not public_key_b64:
@@ -111,79 +164,38 @@ class KSeFAdapter:
         url = f"{self.base_url}/api/v2/auth/ksef-token"
         body = {
             "challenge": challenge_data["challenge"],
-            "contextIdentifier": {
-                "type": "Nip",
-                "value": self.nip,
-            },
+            "contextIdentifier": {"type": "Nip", "value": self.nip},
             "encryptedToken": encrypted_token,
         }
 
         logger.debug("KSeF auth request: POST %s", url)
-        response = requests.post(url, json=body, headers={"Accept": "application/json"})
-        logger.debug(
-            "KSeF auth response: status=%s body=%s", response.status_code, response.text
+        response = self._request(
+            "POST",
+            url,
+            error_msg="KSeF auth failed",
+            json=body,
+            headers={"Accept": "application/json"},
         )
-
-        if response.status_code not in (200, 202):
-            logger.error(
-                "KSeF auth failed: status=%s body=%s",
-                response.status_code,
-                response.text,
-            )
+        if not response:
             return False
 
         data = response.json()
         reference_number = data["referenceNumber"]
         authentication_token = data["authenticationToken"]["token"]
 
-        # poll authentication status — the operation is asynchronous
-        status_url = f"{self.base_url}/api/v2/auth/{reference_number}"
+        if not self._poll_for_auth_status(reference_number, authentication_token):
+            return False
+
+        redeem_url = f"{self.base_url}/api/v2/auth/token/redeem"
         auth_headers = {
             "Accept": "application/json",
             "Authorization": f"Bearer {authentication_token}",
         }
 
-        for _ in range(AUTH_POLL_MAX_RETRIES):
-            status_response = requests.get(status_url, headers=auth_headers)
-            logger.debug(
-                "KSeF auth status: status=%s body=%s",
-                status_response.status_code,
-                status_response.text,
-            )
-
-            if status_response.status_code != 200:
-                logger.error(
-                    "KSeF auth status failed: status=%s", status_response.status_code
-                )
-                return False
-
-            status_code = status_response.json()["status"]["code"]
-            if status_code == KSEF_AUTH_STATUS_OK:
-                break
-            if status_code == KSEF_AUTH_STATUS_FAILED:
-                logger.error("KSeF auth failed: %s", status_response.json()["status"])
-                return False
-
-            logger.debug("KSeF auth in progress (status=%s), retrying...", status_code)
-            time.sleep(AUTH_POLL_INTERVAL)
-        else:
-            logger.error("KSeF auth timed out")
-            return False
-
-        redeem_url = f"{self.base_url}/api/v2/auth/token/redeem"
-        redeem_response = requests.post(redeem_url, headers=auth_headers)
-        logger.debug(
-            "KSeF redeem response: status=%s body=%s",
-            redeem_response.status_code,
-            redeem_response.text,
+        redeem_response = self._request(
+            "POST", redeem_url, error_msg="KSeF redeem failed", headers=auth_headers
         )
-
-        if redeem_response.status_code != 200:
-            logger.error(
-                "KSeF redeem failed: status=%s body=%s",
-                redeem_response.status_code,
-                redeem_response.text,
-            )
+        if not redeem_response:
             return False
 
         redeem_data = redeem_response.json()
@@ -195,58 +207,55 @@ class KSeFAdapter:
         return True
 
     def get_purchase_invoices(
-        self, date_from, date_to, page_size=DEFAULT_PAGE_SIZE, page_offset=0
-    ):
+        self,
+        date_from: date,
+        date_to: date,
+        page_size: int = DEFAULT_PAGE_SIZE,
+        page_offset: int = 0,
+    ) -> Optional[Dict[str, Any]]:
         """Fetch a single page of purchase invoices (company is the buyer)."""
         url = f"{self.base_url}/api/v2/invoices/query/metadata"
+        params = {"pageSize": page_size, "pageOffset": page_offset}
+
+        naive_dt_from = datetime.combine(date_from, datetime_time.min)
+        naive_dt_to = datetime.combine(date_to, datetime_time(23, 59, 59))
+        dt_from = timezone.make_aware(naive_dt_from)
+        dt_to = timezone.make_aware(naive_dt_to)
+
         body = {
-            "pageSize": page_size,
-            "pageOffset": page_offset,
             "subjectType": "Subject2",
             "dateRange": {
                 "dateType": "Issue",
-                "from": f"{date_from}T00:00:00+00:00",
-                "to": f"{date_to}T23:59:59+00:00",
+                "from": dt_from.isoformat(),
+                "to": dt_to.isoformat(),
             },
         }
         logger.debug("KSeF request: POST %s body=%s", url, body)
 
-        response = requests.post(url, json=body, headers=self._get_headers())
-        logger.debug(
-            "KSeF response: status=%s body=%s", response.status_code, response.text
+        response = self._request(
+            "POST",
+            url,
+            error_msg="KSeF error",
+            params=params,
+            json=body,
+            headers=self._get_headers(),
         )
+        return response.json() if response else None
 
-        if response.status_code != 200:
-            logger.error(
-                "KSeF error: status=%s body=%s", response.status_code, response.text
-            )
-            return None
-
-        return response.json()
-
-    def get_invoice_xml(self, ksef_number):
+    def get_invoice_xml(self, ksef_number: str) -> Optional[str]:
         """Fetch the full FA(3) XML of an invoice by its KSeF number."""
         url = f"{self.base_url}/api/v2/invoices/ksef/{ksef_number}"
-        response = requests.get(
-            url, headers={**self._get_headers(), "Accept": "application/xml"}
+        response = self._request(
+            "GET",
+            url,
+            error_msg="KSeF invoice XML error",
+            headers={**self._get_headers(), "Accept": "application/xml"},
         )
-        logger.debug(
-            "KSeF invoice XML: status=%s ksefNumber=%s",
-            response.status_code,
-            ksef_number,
-        )
+        return response.text if response else None
 
-        if response.status_code != 200:
-            logger.error(
-                "KSeF invoice XML error: status=%s body=%s",
-                response.status_code,
-                response.text,
-            )
-            return None
-
-        return response.text
-
-    def get_all_purchase_invoices(self, date_from, date_to):
+    def get_all_purchase_invoices(
+        self, date_from: date, date_to: date
+    ) -> Iterator[List[Dict[str, Any]]]:
         """Generator yielding pages of invoice metadata, DEFAULT_PAGE_SIZE per page."""
         page_offset = 0
 
@@ -263,30 +272,40 @@ class KSeFAdapter:
 
 
 if __name__ == "__main__":  # pragma: no cover
+    import logging
     import os
     from datetime import date
 
     logging.basicConfig(level=logging.DEBUG)
 
-    token = os.environ["KSEF_TOKEN"]
-    nip = os.environ["KSEF_NIP"]
-    base_url = os.environ.get("KSEF_API_URL", KSEF_API_URL_TEST)
+    if not settings.configured:
+        settings.configure(
+            KSEF_API_URL_TEST=KSEF_API_URL_TEST,
+            KSEF_API_URL_PRODUCTION="https://ksef.mf.gov.pl",
+            KSEF_IS_TEST=True,
+            TIME_ZONE="Europe/Warsaw",
+            USE_TZ=True,
+        )
 
-    adapter = KSeFAdapter(token, nip, base_url)
+    token = os.environ.get("KSEF_TOKEN", "test_token")
+    nip = os.environ.get("KSEF_NIP", "1111111111")
 
-    if not adapter.authenticate():
-        print("Authentication failed")
-        raise SystemExit(1)
+    with KSeFAdapter(token, nip) as adapter:
+        if not adapter.authenticate():
+            print("Authentication failed")
+            raise SystemExit(1)
 
-    first_invoice = None
-    for page in adapter.get_all_purchase_invoices(date(2026, 4, 1), date(2026, 4, 14)):
-        print(f"Page: {len(page)} invoices")
-        for invoice in page:
-            print(f"  {invoice.get('ksefNumber')} — {invoice.get('invoiceNumber')}")
-            if first_invoice is None:
-                first_invoice = invoice
+        first_invoice = None
+        for page in adapter.get_all_purchase_invoices(
+            date(2026, 4, 1), date(2026, 4, 14)
+        ):
+            print(f"Page: {len(page)} invoices")
+            for invoice in page:
+                print(f"  {invoice.get('ksefNumber')} — {invoice.get('invoiceNumber')}")
+                if first_invoice is None:
+                    first_invoice = invoice
 
-    if first_invoice:
-        print(f"\nFetching XML for first invoice: {first_invoice['ksefNumber']}")
-        xml = adapter.get_invoice_xml(first_invoice["ksefNumber"])
-        print(xml)
+        if first_invoice:
+            print(f"\nFetching XML for first invoice: {first_invoice['ksefNumber']}")
+            xml = adapter.get_invoice_xml(first_invoice["ksefNumber"])
+            print(xml)

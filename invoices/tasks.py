@@ -1,7 +1,7 @@
 import calendar
 import logging
 import tempfile
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
@@ -24,7 +24,6 @@ from vat_rates.models import VatRate
 
 logger = logging.getLogger(__name__)
 
-KSEF_FETCH_START_DATE = date(2026, 1, 1)
 DEFAULT_CURRENCY_CODE = "PLN"
 
 
@@ -102,7 +101,9 @@ def send_monthly_summary_to_recipients():
 @app.task(name="fetch_purchase_invoices_from_ksef")
 def fetch_purchase_invoices_from_ksef():
     today = datetime.today().date()
-    companies = Company.objects.filter(is_my_company=True, ksef_token__isnull=False)
+    companies = Company.objects.filter(
+        is_my_company=True, ksef_token__isnull=False
+    ).exclude(ksef_token="")
 
     for company in companies:
         adapter = KSeFAdapter(company.ksef_token, company.nip)
@@ -111,25 +112,37 @@ def fetch_purchase_invoices_from_ksef():
             logger.error("KSeF authentication failed for %s", company.name)
             continue
 
-        date_from = company.ksef_last_fetched_at or KSEF_FETCH_START_DATE
+        date_from = company.ksef_last_fetched_at or company.created_at.date()
         current_day = date_from
         while current_day <= today:
             total = 0
-            for page in adapter.get_all_purchase_invoices(current_day, current_day):
-                for ksef_invoice in page:
-                    _save_ksef_invoice(ksef_invoice, company, adapter)
-                    total += 1
+            fetch_successful = False
+            try:
+                for page in adapter.get_all_purchase_invoices(current_day, current_day):
+                    for ksef_invoice in page:
+                        _save_ksef_invoice(ksef_invoice, company, adapter)
+                        total += 1
+                fetch_successful = True
+            except Exception as e:
+                logger.error(
+                    "Failed to fetch or save KSeF invoices for %s on %s: %s",
+                    company.name,
+                    current_day,
+                    e,
+                )
 
-            logger.info(
-                "Saved %d KSeF invoices for %s on %s",
-                total,
-                company.name,
-                current_day,
-            )
-
-            company.ksef_last_fetched_at = current_day
-            company.save(update_fields=["ksef_last_fetched_at"])
-            current_day += timedelta(days=1)
+            if fetch_successful:
+                logger.info(
+                    "Saved %d KSeF invoices for %s on %s",
+                    total,
+                    company.name,
+                    current_day,
+                )
+                company.ksef_last_fetched_at = current_day
+                company.save(update_fields=["ksef_last_fetched_at"])
+                current_day += timedelta(days=1)
+            else:
+                break
 
 
 def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
@@ -140,22 +153,32 @@ def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
         return
 
     xml = adapter.get_invoice_xml(ksef_invoice["ksefNumber"])
+    if xml is None:
+        raise Exception(
+            f"Failed to fetch XML for KSeF invoice {ksef_invoice['ksefNumber']}"
+        )
+
     invoice_dict = map_ksef_invoice_to_dict(ksef_invoice, company, xml)
-    items_data = map_ksef_invoice_to_items(xml) if xml else []
+    items_data = map_ksef_invoice_to_items(xml)
 
     currency_code = ksef_invoice.get("currency", DEFAULT_CURRENCY_CODE)
     currency, _ = Currency.objects.get_or_create(code=currency_code, user=company.user)
     invoice_dict["currency"] = currency
 
     user = company.user
+    vat_rate_cache = {}
 
     with transaction.atomic():
         invoice = Invoice.objects.create(**invoice_dict)
 
         for item_data in items_data:
-            vat_rate, _ = VatRate.objects.get_or_create(
-                rate=item_data["vat_rate"], user=user
-            )
+            rate = item_data["vat_rate"]
+            if rate not in vat_rate_cache:
+                vat_rate, _ = VatRate.objects.get_or_create(rate=rate, user=user)
+                vat_rate_cache[rate] = vat_rate
+            else:
+                vat_rate = vat_rate_cache[rate]
+
             Item.objects.create(
                 invoice=invoice,
                 name=item_data["name"],
