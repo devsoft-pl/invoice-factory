@@ -355,7 +355,7 @@ class InvoiceBuyForm(forms.ModelForm):
         ).order_by("name")
 
         for field in self.Meta.fields:
-            if field == "is_paid":
+            if field in ["is_paid", "invoice_file"]:
                 continue
             self.fields[field].widget.attrs["class"] = "form-control"
             self.fields[field].required = True

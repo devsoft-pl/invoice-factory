@@ -159,6 +159,10 @@ AWS_SECRET_ACCESS_KEY = env(  # noqa: F405
 
 CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="")
 
+KSEF_API_URL_TEST = "https://api-test.ksef.mf.gov.pl"
+KSEF_API_URL_PRODUCTION = "https://api.ksef.mf.gov.pl"
+KSEF_IS_TEST = env.bool("KSEF_IS_TEST", default=True)
+
 CELERY_BEAT_SCHEDULE = {
     "create-recurring-invoices": {
         "task": "create_invoices_for_recurring",
@@ -171,6 +175,10 @@ CELERY_BEAT_SCHEDULE = {
     "get-exchange-rates-from-nbp": {
         "task": "get_exchange_rates_for_all",
         "schedule": crontab(minute="0", hour="9"),
+    },
+    "fetch-purchase-invoices-from-ksef": {
+        "task": "fetch_purchase_invoices_from_ksef",
+        "schedule": crontab(minute="0", hour="8"),
     },
 }
 

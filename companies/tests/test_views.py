@@ -127,7 +127,14 @@ class TestCreateCompany(TestCompany):
             response.context["form"], "name", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "nip", _("This field is required.")
+            response.context["form"],
+            "nip",
+            [
+                _("This field is required."),
+                _(
+                    "Foreign NIP number contains invalid characters or is incorrect length."
+                ),
+            ],
         )
 
     def test_create_with_valid_data(self):
@@ -217,7 +224,15 @@ class TestCreateCompanyAjax(TestCompany):
         self.assertEqual(
             response_json["errors"]["name"], [_("This field is required.")]
         )
-        self.assertEqual(response_json["errors"]["nip"], [_("This field is required.")])
+        self.assertEqual(
+            response_json["errors"]["nip"],
+            [
+                _("This field is required."),
+                _(
+                    "Foreign NIP number contains invalid characters or is incorrect length."
+                ),
+            ],
+        )
         self.assertEqual(
             response_json["errors"]["regon"], [_("This field is required.")]
         )
@@ -228,7 +243,13 @@ class TestCreateCompanyAjax(TestCompany):
             response_json["errors"]["address"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["zip_code"], [_("This field is required.")]
+            response_json["errors"]["zip_code"],
+            [
+                _("This field is required."),
+                _(
+                    "Foreign ZIP code contains invalid characters or is incorrect length."
+                ),
+            ],
         )
         self.assertEqual(
             response_json["errors"]["city"], [_("This field is required.")]

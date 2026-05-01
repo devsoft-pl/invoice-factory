@@ -121,7 +121,14 @@ class TestCreatePerson(TestPerson):
             response.context["form"], "address", _("This field is required.")
         )
         self.assertFormError(
-            response.context["form"], "zip_code", _("This field is required.")
+            response.context["form"],
+            "zip_code",
+            [
+                _("This field is required."),
+                _(
+                    "Foreign ZIP code contains invalid characters or is incorrect length."
+                ),
+            ],
         )
         self.assertFormError(
             response.context["form"], "city", _("This field is required.")
@@ -218,7 +225,13 @@ class TestCreatePersonAjax(TestPerson):
             response_json["errors"]["address"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["zip_code"], [_("This field is required.")]
+            response_json["errors"]["zip_code"],
+            [
+                _("This field is required."),
+                _(
+                    "Foreign ZIP code contains invalid characters or is incorrect length."
+                ),
+            ],
         )
         self.assertEqual(
             response_json["errors"]["city"], [_("This field is required.")]
