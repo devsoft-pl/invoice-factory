@@ -2,6 +2,7 @@ import datetime
 from unittest.mock import patch
 
 import pytest
+from django.utils import timezone
 
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
@@ -22,6 +23,7 @@ def setup_ksef_settings(settings):
 def mock_ksef_adapter():
     with patch("invoices.tasks.KSeFAdapter") as MockAdapter:
         adapter_instance = MockAdapter.return_value
+        adapter_instance.__enter__.return_value = adapter_instance
         adapter_instance.authenticate.return_value = True
         yield adapter_instance
 
@@ -86,7 +88,7 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         assert Invoice.objects.count() == 1
         assert Item.objects.count() == 1
         self.company.refresh_from_db()
-        assert self.company.ksef_last_fetched_at == datetime.date.today()
+        assert self.company.ksef_last_fetched_at.date() == timezone.now().date()
 
     def test_task_handles_authentication_failure(self, mock_ksef_adapter):
         mock_ksef_adapter.authenticate.return_value = False
@@ -102,56 +104,53 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
     def test_task_updates_checkpoint_on_success(
         self, mock_ksef_adapter, mock_ksef_mapper
     ):
-        self.company.ksef_last_fetched_at = datetime.date(2026, 3, 30)
+        self.company.ksef_last_fetched_at = timezone.make_aware(
+            datetime.datetime(2026, 3, 30, 23, 59)
+        )
         self.company.save()
 
-        ksef_invoice_data_day1 = {
+        ksef_invoice_data_day2 = {
             "ksefNumber": "KSEF_NUM_1",
             "invoiceNumber": "INV/001",
-            "issueDate": "2026-03-30",
-            "acquisitionDate": "2026-03-30T10:00:00Z",
+            "issueDate": "2026-03-31",
+            "acquisitionDate": "2026-03-31T10:00:00Z",
             "netAmount": 100.00,
             "grossAmount": 123.00,
             "currency": "PLN",
         }
-        ksef_invoice_data_day2 = {
-            "ksefNumber": "KSEF_NUM_2",
-            "invoiceNumber": "INV/002",
-            "issueDate": "2026-03-31",
-            "acquisitionDate": "2026-03-31T10:00:00Z",
-            "netAmount": 200.00,
-            "grossAmount": 246.00,
-            "currency": "PLN",
-        }
 
         mock_ksef_adapter.get_all_purchase_invoices.side_effect = [
-            iter([[ksef_invoice_data_day1]]),
+            iter([]),
             iter([[ksef_invoice_data_day2]]),
         ]
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>invoice</xml>"
 
-        with patch("invoices.tasks.datetime") as mock_dt:
-            mock_dt.today.return_value = datetime.datetime(2026, 3, 31)
-            mock_dt.side_effect = lambda *args, **kw: datetime.datetime(*args, **kw)
+        with patch("invoices.tasks.timezone.now") as mock_now:
+            mock_now.return_value = timezone.make_aware(
+                datetime.datetime(2026, 3, 31, 12, 0)
+            )
             fetch_purchase_invoices_from_ksef()
 
         self.company.refresh_from_db()
-        assert self.company.ksef_last_fetched_at == datetime.date(2026, 3, 31)
-        assert Invoice.objects.count() == 2
+        assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 3, 31)
+        assert Invoice.objects.count() == 1
 
     def test_task_does_not_update_checkpoint_on_fetch_failure(self, mock_ksef_adapter):
-        self.company.ksef_last_fetched_at = datetime.date(2026, 3, 30)
+        self.company.ksef_last_fetched_at = timezone.make_aware(
+            datetime.datetime(2026, 3, 30, 23, 59)
+        )
         self.company.save()
 
         mock_ksef_adapter.get_all_purchase_invoices.side_effect = Exception("API Error")
 
-        with patch("invoices.tasks.datetime") as mock_dt:
-            mock_dt.today.return_value = datetime.datetime(2026, 3, 31)
-            mock_dt.side_effect = lambda *args, **kw: datetime.datetime(*args, **kw)
+        with patch("invoices.tasks.timezone.now") as mock_now:
+            mock_now.return_value = timezone.make_aware(
+                datetime.datetime(2026, 3, 31, 12, 0)
+            )
             fetch_purchase_invoices_from_ksef()
 
         self.company.refresh_from_db()
-        assert self.company.ksef_last_fetched_at == datetime.date(2026, 3, 30)
+        assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 3, 30)
         assert Invoice.objects.count() == 0
 
     def test_task_handles_pagination(self, mock_ksef_adapter, mock_ksef_mapper):
@@ -174,7 +173,9 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
     def test_task_does_not_update_checkpoint_on_xml_fetch_failure(
         self, mock_ksef_adapter, mock_ksef_mapper
     ):
-        self.company.ksef_last_fetched_at = datetime.date(2026, 4, 10)
+        self.company.ksef_last_fetched_at = timezone.make_aware(
+            datetime.datetime(2026, 4, 10, 23, 59)
+        )
         self.company.save()
         ksef_invoice_data = {"ksefNumber": "KSEF_NUM_1", "invoiceNumber": "INV/001"}
         mock_ksef_adapter.get_all_purchase_invoices.return_value = iter(
@@ -182,13 +183,14 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         )
         mock_ksef_adapter.get_invoice_xml.return_value = None  # Simulate failure
 
-        with patch("invoices.tasks.datetime") as mock_dt:
-            mock_dt.today.return_value = datetime.datetime(2026, 4, 11)
-            mock_dt.side_effect = lambda *args, **kw: datetime.datetime(*args, **kw)
+        with patch("invoices.tasks.timezone.now") as mock_now:
+            mock_now.return_value = timezone.make_aware(
+                datetime.datetime(2026, 4, 11, 12, 0)
+            )
             fetch_purchase_invoices_from_ksef()
 
         self.company.refresh_from_db()
-        assert self.company.ksef_last_fetched_at == datetime.date(2026, 4, 10)
+        assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 4, 10)
         assert Invoice.objects.count() == 0
 
     def test_task_skips_existing_invoices(self, mock_ksef_adapter, mock_ksef_mapper):

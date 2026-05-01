@@ -4,6 +4,7 @@ import tempfile
 from datetime import datetime, timedelta
 
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
 
@@ -100,56 +101,63 @@ def send_monthly_summary_to_recipients():
 
 @app.task(name="fetch_purchase_invoices_from_ksef")
 def fetch_purchase_invoices_from_ksef():
-    today = datetime.today().date()
+    today = timezone.now().date()
     companies = Company.objects.filter(
         is_my_company=True, ksef_token__isnull=False
     ).exclude(ksef_token="")
 
     for company in companies:
-        adapter = KSeFAdapter(company.ksef_token, company.nip)
+        with KSeFAdapter(company.ksef_token, company.nip) as adapter:
+            if not adapter.authenticate():
+                logger.error("KSeF authentication failed for %s", company.name)
+                continue
 
-        if not adapter.authenticate():
-            logger.error("KSeF authentication failed for %s", company.name)
-            continue
-
-        date_from = company.ksef_last_fetched_at or company.created_at.date()
-        current_day = date_from
-        while current_day <= today:
-            total = 0
-            fetch_successful = False
-            try:
-                for page in adapter.get_all_purchase_invoices(current_day, current_day):
-                    for ksef_invoice in page:
-                        _save_ksef_invoice(ksef_invoice, company, adapter)
-                        total += 1
-                fetch_successful = True
-            except Exception as e:
-                logger.error(
-                    "Failed to fetch or save KSeF invoices for %s on %s: %s",
-                    company.name,
-                    current_day,
-                    e,
-                )
-
-            if fetch_successful:
-                logger.info(
-                    "Saved %d KSeF invoices for %s on %s",
-                    total,
-                    company.name,
-                    current_day,
-                )
-                company.ksef_last_fetched_at = current_day
-                company.save(update_fields=["ksef_last_fetched_at"])
-                current_day += timedelta(days=1)
+            if company.ksef_last_fetched_at:
+                current_day = company.ksef_last_fetched_at.date()
             else:
-                break
+                current_day = company.created_at.date()
+
+            while current_day <= today:
+                total = 0
+                fetch_successful = False
+                try:
+                    for page in adapter.get_all_purchase_invoices(
+                        current_day, current_day
+                    ):
+                        with transaction.atomic():
+                            for ksef_invoice in page:
+                                _save_ksef_invoice(ksef_invoice, company, adapter)
+                                total += 1
+                    fetch_successful = True
+                except Exception as e:
+                    logger.error(
+                        "Failed to fetch or save KSeF invoices for %s on %s: %s",
+                        company.name,
+                        current_day,
+                        e,
+                    )
+
+                if fetch_successful:
+                    logger.info(
+                        "Saved %d new/checked KSeF invoices for %s on %s",
+                        total,
+                        company.name,
+                        current_day,
+                    )
+                    end_of_day = datetime.combine(current_day, datetime.max.time())
+                    company.ksef_last_fetched_at = timezone.make_aware(end_of_day)
+                    company.save(update_fields=["ksef_last_fetched_at"])
+
+                    current_day += timedelta(days=1)
+                else:
+                    break
 
 
 def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
     invoice_number = ksef_invoice.get("invoiceNumber")
 
     if Invoice.objects.filter(invoice_number=invoice_number, company=company).exists():
-        logger.info("KSeF invoice %s already exists, skipping", invoice_number)
+        logger.debug("KSeF invoice %s already exists, skipping", invoice_number)
         return
 
     xml = adapter.get_invoice_xml(ksef_invoice["ksefNumber"])
@@ -168,25 +176,24 @@ def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
     user = company.user
     vat_rate_cache = {}
 
-    with transaction.atomic():
-        invoice = Invoice.objects.create(**invoice_dict)
+    invoice = Invoice.objects.create(**invoice_dict)
 
-        for item_data in items_data:
-            rate = item_data["vat_rate"]
-            if rate not in vat_rate_cache:
-                vat_rate, _ = VatRate.objects.get_or_create(rate=rate, user=user)
-                vat_rate_cache[rate] = vat_rate
-            else:
-                vat_rate = vat_rate_cache[rate]
+    for item_data in items_data:
+        rate = item_data["vat_rate"]
+        if rate not in vat_rate_cache:
+            vat_rate, _ = VatRate.objects.get_or_create(rate=rate, user=user)
+            vat_rate_cache[rate] = vat_rate
+        else:
+            vat_rate = vat_rate_cache[rate]
 
-            Item.objects.create(
-                invoice=invoice,
-                name=item_data["name"],
-                amount=item_data["amount"],
-                net_price=item_data["net_price"],
-                vat=vat_rate,
-            )
+        Item.objects.create(
+            invoice=invoice,
+            name=item_data["name"],
+            amount=item_data["amount"],
+            net_price=item_data["net_price"],
+            vat=vat_rate,
+        )
 
-        invoice.update_totals()
+    invoice.update_totals()
 
     logger.info("Saved KSeF invoice %s for %s", invoice_number, company.name)
