@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 09:30+0200\n"
+"POT-Creation-Date: 2026-05-01 13:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,17 @@ msgstr ""
 msgid "Basic information"
 msgstr "Podstawowe informacje"
 
-#: accountants/models.py:8 companies/forms.py:66 companies/models.py:13
+#: accountants/models.py:8 companies/forms.py:67 companies/models.py:18
 #: items/models.py:17
 msgid "Name"
 msgstr "Nazwa"
 
-#: accountants/models.py:9 companies/models.py:26 persons/models.py:24
+#: accountants/models.py:9 companies/models.py:31 persons/models.py:28
 #: summary_recipients/models.py:26 users/models.py:14
 msgid "Email"
 msgstr "Email"
 
-#: accountants/models.py:11 companies/models.py:28 persons/models.py:26
+#: accountants/models.py:11 companies/models.py:33 persons/models.py:30
 msgid "Phone number"
 msgstr "Numer telefonu"
 
@@ -45,41 +45,41 @@ msgstr "księgowi"
 
 #: accountants/tests/test_views.py:66 accountants/tests/test_views.py:69
 #: accountants/tests/test_views.py:129 accountants/tests/test_views.py:132
-#: companies/tests/test_views.py:127 companies/tests/test_views.py:130
-#: companies/tests/test_views.py:218 companies/tests/test_views.py:220
-#: companies/tests/test_views.py:222 companies/tests/test_views.py:225
-#: companies/tests/test_views.py:228 companies/tests/test_views.py:231
-#: companies/tests/test_views.py:234 companies/tests/test_views.py:321
-#: companies/tests/test_views.py:324 countries/tests/test_views.py:81
+#: companies/tests/test_views.py:127 companies/tests/test_views.py:133
+#: companies/tests/test_views.py:225 companies/tests/test_views.py:230
+#: companies/tests/test_views.py:237 companies/tests/test_views.py:240
+#: companies/tests/test_views.py:243 companies/tests/test_views.py:248
+#: companies/tests/test_views.py:255 companies/tests/test_views.py:342
+#: companies/tests/test_views.py:345 countries/tests/test_views.py:81
 #: countries/tests/test_views.py:127 countries/tests/test_views.py:175
 #: currencies/tests/test_views.py:80 currencies/tests/test_views.py:123
 #: currencies/tests/test_views.py:170 invoices/forms.py:202
-#: invoices/forms.py:303 invoices/tests/test_views.py:277
-#: invoices/tests/test_views.py:280 invoices/tests/test_views.py:283
-#: invoices/tests/test_views.py:286 invoices/tests/test_views.py:299
-#: invoices/tests/test_views.py:302 invoices/tests/test_views.py:305
-#: invoices/tests/test_views.py:308 invoices/tests/test_views.py:322
-#: invoices/tests/test_views.py:325 invoices/tests/test_views.py:328
-#: invoices/tests/test_views.py:331 invoices/tests/test_views.py:486
-#: invoices/tests/test_views.py:489 invoices/tests/test_views.py:556
-#: invoices/tests/test_views.py:559 invoices/tests/test_views.py:562
-#: invoices/tests/test_views.py:565 invoices/tests/test_views.py:582
-#: invoices/tests/test_views.py:585 invoices/tests/test_views.py:588
-#: invoices/tests/test_views.py:591 invoices/tests/test_views.py:1036
-#: invoices/tests/test_views.py:1039 invoices/tests/test_views.py:1042
-#: invoices/tests/test_views.py:1045 invoices/tests/test_views.py:1221
+#: invoices/forms.py:303 invoices/tests/test_views.py:295
+#: invoices/tests/test_views.py:298 invoices/tests/test_views.py:301
+#: invoices/tests/test_views.py:304 invoices/tests/test_views.py:317
+#: invoices/tests/test_views.py:320 invoices/tests/test_views.py:323
+#: invoices/tests/test_views.py:326 invoices/tests/test_views.py:340
+#: invoices/tests/test_views.py:343 invoices/tests/test_views.py:346
+#: invoices/tests/test_views.py:349 invoices/tests/test_views.py:504
+#: invoices/tests/test_views.py:507 invoices/tests/test_views.py:574
+#: invoices/tests/test_views.py:577 invoices/tests/test_views.py:580
+#: invoices/tests/test_views.py:583 invoices/tests/test_views.py:600
+#: invoices/tests/test_views.py:603 invoices/tests/test_views.py:606
+#: invoices/tests/test_views.py:609 invoices/tests/test_views.py:1054
+#: invoices/tests/test_views.py:1057 invoices/tests/test_views.py:1060
+#: invoices/tests/test_views.py:1063 invoices/tests/test_views.py:1239
 #: items/tests/test_views.py:47 items/tests/test_views.py:50
 #: items/tests/test_views.py:53 items/tests/test_views.py:56
 #: items/tests/test_views.py:102 items/tests/test_views.py:105
 #: items/tests/test_views.py:108 items/tests/test_views.py:111
 #: persons/tests/test_views.py:115 persons/tests/test_views.py:118
-#: persons/tests/test_views.py:121 persons/tests/test_views.py:124
-#: persons/tests/test_views.py:127 persons/tests/test_views.py:212
-#: persons/tests/test_views.py:215 persons/tests/test_views.py:218
-#: persons/tests/test_views.py:221 persons/tests/test_views.py:224
-#: persons/tests/test_views.py:227 persons/tests/test_views.py:304
-#: persons/tests/test_views.py:307 persons/tests/test_views.py:310
-#: persons/tests/test_views.py:313 persons/tests/test_views.py:316
+#: persons/tests/test_views.py:121 persons/tests/test_views.py:127
+#: persons/tests/test_views.py:134 persons/tests/test_views.py:219
+#: persons/tests/test_views.py:222 persons/tests/test_views.py:225
+#: persons/tests/test_views.py:230 persons/tests/test_views.py:237
+#: persons/tests/test_views.py:240 persons/tests/test_views.py:317
+#: persons/tests/test_views.py:320 persons/tests/test_views.py:323
+#: persons/tests/test_views.py:326 persons/tests/test_views.py:329
 #: summary_recipients/tests/test_views.py:79
 #: summary_recipients/tests/test_views.py:82
 #: summary_recipients/tests/test_views.py:85
@@ -101,28 +101,28 @@ msgstr "Firma nie istnieje"
 msgid "Accountant does not exist"
 msgstr "Księgowa/y nie istnieje"
 
-#: base/validators.py:6
+#: base/validators.py:9
 msgid "Please  enter the invoice number in the format number/mm/yyyy"
 msgstr "Wprowadź numer faktury w formacie numer/mm/rrrr"
 
-#: base/validators.py:11
+#: base/validators.py:14
 msgid ""
 "Please enter the correction invoice number in the format number/mm/yyyy/c"
 msgstr "Wprowadź numer faktury korygującej w formacie numer/mm/rrrr/k"
 
-#: base/validators.py:16
+#: base/validators.py:19
 msgid "Please enter Pesel with 11 numbers"
 msgstr "Wprowadź PESEL składający się z 11 cyfr"
 
-#: base/validators.py:21
+#: base/validators.py:24
 msgid "Please enter the REGON with a minimum 9 numbers"
 msgstr "Wprowadź REGON składający się z minimum 9 cyfr"
 
-#: base/validators.py:25
+#: base/validators.py:28
 msgid "Please enter the code with 3 letters"
 msgstr "Wprowadź kod z 3 liter"
 
-#: base/validators.py:31
+#: base/validators.py:34
 msgid ""
 "Please enter the account number with a minimum of 15 characters and no "
 "special characters"
@@ -130,9 +130,31 @@ msgstr ""
 "Wprowadź numer konta zawierający co najmniej 15 znaków, bez znaków "
 "specjalnych"
 
-#: base/validators.py:38
+#: base/validators.py:41
 msgid "Please enter a phone with a minimum 9 numbers"
 msgstr "Wprowadź numer telefonu składający się z 9 cyfr"
+
+#: base/validators.py:48
+msgid "Polish NIP must consist of 10 digits."
+msgstr "Polski NIP musi składać się z 10 cyfr."
+
+#: base/validators.py:53
+msgid "Polish ZIP code must be in the format XX-XXX."
+msgstr "Polski kod pocztowy musi być w formacie XX-XXX."
+
+#: base/validators.py:58 companies/tests/test_views.py:250
+#: persons/tests/test_views.py:129 persons/tests/test_views.py:232
+msgid "Foreign ZIP code contains invalid characters or is incorrect length."
+msgstr ""
+"Zagraniczny kod pocztowy zawiera nieprawidłowe znaki lub ma nieprawidłową "
+"długość."
+
+#: base/validators.py:68 companies/tests/test_views.py:135
+#: companies/tests/test_views.py:232
+msgid "Foreign NIP number contains invalid characters or is incorrect length."
+msgstr ""
+"Zagraniczny numer NIP zawiera nieprawidłowe znaki lub ma nieprawidłową "
+"długość."
 
 #: companies/admin.py:15
 msgid "User info"
@@ -142,66 +164,66 @@ msgstr "Informacje o użytkowniku"
 msgid "Address data"
 msgstr "Dane adresowe"
 
-#: companies/forms.py:48 persons/forms.py:49
+#: companies/admin.py:38
+msgid "KSeF information"
+msgstr "KSeF informacje"
+
+#: companies/forms.py:49 persons/forms.py:49
 msgid "Nip already exists"
 msgstr "Nip już istnieje"
 
-#: companies/forms.py:60
+#: companies/forms.py:61
 msgid "Regon already exists"
 msgstr "Regon już istnieje"
 
-#: companies/models.py:14 persons/models.py:14
+#: companies/models.py:19 persons/models.py:18
 msgid "NIP"
 msgstr "NIP"
 
-#: companies/models.py:16
+#: companies/models.py:21
 msgid "Regon"
 msgstr "Regon"
 
-#: companies/models.py:21 countries/models.py:8 persons/models.py:22
+#: companies/models.py:26 countries/models.py:8 persons/models.py:26
 msgid "Country"
 msgstr "Kraj"
 
-#: companies/models.py:23 persons/forms.py:97 persons/models.py:18
+#: companies/models.py:28 persons/forms.py:97 persons/models.py:22
 msgid "Address"
 msgstr "Adres"
 
-#: companies/models.py:24 persons/models.py:19
+#: companies/models.py:29 persons/models.py:23
 msgid "ZIP Code"
 msgstr "Kod pocztowy"
 
-#: companies/models.py:25 persons/models.py:20
+#: companies/models.py:30 persons/models.py:24
 msgid "City"
 msgstr "Miasto"
 
-#: companies/models.py:31 countries/models.py:10 currencies/models.py:12
-#: invoices/models.py:252 persons/models.py:29 vat_rates/models.py:12
+#: companies/models.py:36 countries/models.py:10 currencies/models.py:12
+#: invoices/models.py:252 persons/models.py:33 vat_rates/models.py:12
 msgid "User"
 msgstr "Użytkownik"
 
-#: companies/models.py:34
+#: companies/models.py:39
 msgid "Is my company"
 msgstr "Czy moja firma"
 
-#: companies/models.py:41
+#: companies/models.py:42
+msgid "KSeF token"
+msgstr ""
+
+#: companies/models.py:48
+msgid "KSeF last fetched at"
+msgstr ""
+
+#: companies/models.py:53
+msgid "Created at"
+msgstr "Data utworzenia"
+
+#: companies/models.py:60
 msgid "companies"
 msgstr "firmy"
-
-#: companies/models.py:51 persons/models.py:54
-msgid "Polish NIP must consist of 10 digits."
-msgstr "Polski NIP musi składać się z 10 cyfr."
-
-#: companies/models.py:53 persons/models.py:56
-msgid "Polish ZIP code must be in the format XX-XXX."
-msgstr "Polski kod pocztowy musi być w formacie XX-XXX."
-
-#: companies/models.py:62 persons/models.py:65
-msgid "Foreign NIP number contains invalid characters or is incorrect length."
-msgstr "Zagraniczny numer NIP zawiera nieprawidłowe znaki lub ma nieprawidłową długość."
-
-#: companies/models.py:67 persons/models.py:70
-msgid "Foreign ZIP code contains invalid characters or is incorrect length."
-msgstr "Zagraniczny kod pocztowy zawiera nieprawidłowe znaki lub ma nieprawidłową długość."
 
 #: companies/tasks.py:43
 msgid "Contractor's company status"
@@ -399,11 +421,11 @@ msgstr "Faktura korygująca"
 msgid "correction invoices relation"
 msgstr "relacja faktur korygujących"
 
-#: invoices/tasks.py:76
+#: invoices/tasks.py:89
 msgid "Month summary"
 msgstr "Podsumowanie miesiąca"
 
-#: invoices/tasks.py:78
+#: invoices/tasks.py:91
 msgid ""
 "A monthly summary has been created for company\n"
 "Best regards,\n"
@@ -457,9 +479,9 @@ msgstr ""
 "Z wyrazami szacunku,\n"
 "Invoice-Factory"
 
-#: invoices/views.py:155 invoices/views.py:212 invoices/views.py:228
-#: invoices/views.py:244 invoices/views.py:264 invoices/views.py:280
-#: invoices/views.py:307 invoices/views.py:322
+#: invoices/views.py:165 invoices/views.py:222 invoices/views.py:238
+#: invoices/views.py:254 invoices/views.py:274 invoices/views.py:290
+#: invoices/views.py:317 invoices/views.py:332
 msgid "Invoice does not exist"
 msgstr "Faktura nie istnieje"
 
@@ -503,19 +525,19 @@ msgstr "Pesel już istnieje"
 msgid "Person with given data already exists"
 msgstr "Osoba o podanych danych już istnieje"
 
-#: persons/forms.py:95 persons/models.py:12 users/models.py:15
+#: persons/forms.py:95 persons/models.py:16 users/models.py:15
 msgid "First name"
 msgstr "Imię"
 
-#: persons/forms.py:96 persons/models.py:13 users/models.py:16
+#: persons/forms.py:96 persons/models.py:17 users/models.py:16
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: persons/models.py:16
+#: persons/models.py:20
 msgid "PESEL"
 msgstr "PESEL"
 
-#: persons/models.py:33
+#: persons/models.py:37
 msgid "persons"
 msgstr "konsumenci"
 
