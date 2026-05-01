@@ -44,7 +44,7 @@ class Company(models.Model):
         null=True,
         blank=True,
     )
-    ksef_last_fetched_at = models.DateField(
+    ksef_last_fetched_at = models.DateTimeField(
         verbose_name=_("KSeF last fetched at"),
         null=True,
         blank=True,
