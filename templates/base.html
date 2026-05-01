@@ -105,6 +105,18 @@
                 </nav>
             {% endblock %}
         </div>
+        {% if messages %}
+            <div class="row mt-2">
+                <div class="col-12">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             {% block content %}{% endblock content %}
         </div>
