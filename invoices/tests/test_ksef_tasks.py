@@ -7,7 +7,11 @@ from django.utils import timezone
 from companies.factories import CompanyFactory
 from currencies.factories import CurrencyFactory
 from invoices.models import Invoice
-from invoices.tasks import _save_ksef_invoice, fetch_purchase_invoices_from_ksef
+from invoices.tasks import (
+    _save_ksef_invoice,
+    _send_ksef_notification_email,
+    fetch_purchase_invoices_from_ksef,
+)
 from items.models import Item
 from vat_rates.factories import VatRateFactory
 
@@ -17,6 +21,7 @@ def setup_ksef_settings(settings):
     settings.KSEF_API_URL_TEST = "http://test-ksef-api.com"
     settings.KSEF_API_URL_PRODUCTION = "http://prod-ksef-api.com"
     settings.KSEF_IS_TEST = True
+    settings.EMAIL_SENDER = "test@invoice-factory.pl"
 
 
 @pytest.fixture
@@ -80,7 +85,9 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         mock_ksef_adapter.get_all_purchase_invoices.return_value = [[ksef_invoice_data]]
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>invoice</xml>"
 
-        fetch_purchase_invoices_from_ksef()
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_called_once()
 
         mock_ksef_adapter.authenticate.assert_called_once()
         mock_ksef_adapter.get_all_purchase_invoices.assert_called_once()
@@ -93,7 +100,9 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
     def test_task_handles_authentication_failure(self, mock_ksef_adapter):
         mock_ksef_adapter.authenticate.return_value = False
 
-        fetch_purchase_invoices_from_ksef()
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
 
         mock_ksef_adapter.authenticate.assert_called_once()
         mock_ksef_adapter.get_all_purchase_invoices.assert_not_called()
@@ -125,11 +134,14 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         ]
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>invoice</xml>"
 
-        with patch("invoices.tasks.timezone.now") as mock_now:
+        with patch("invoices.tasks.timezone.now") as mock_now, patch(
+            "invoices.tasks.send_mail"
+        ) as mock_send_mail:
             mock_now.return_value = timezone.make_aware(
                 datetime.datetime(2026, 3, 31, 12, 0)
             )
             fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_called_once()
 
         self.company.refresh_from_db()
         assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 3, 31)
@@ -143,11 +155,14 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
 
         mock_ksef_adapter.get_all_purchase_invoices.side_effect = Exception("API Error")
 
-        with patch("invoices.tasks.timezone.now") as mock_now:
+        with patch("invoices.tasks.timezone.now") as mock_now, patch(
+            "invoices.tasks.send_mail"
+        ) as mock_send_mail:
             mock_now.return_value = timezone.make_aware(
                 datetime.datetime(2026, 3, 31, 12, 0)
             )
             fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
 
         self.company.refresh_from_db()
         assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 3, 30)
@@ -165,7 +180,9 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         mock_ksef_adapter.get_all_purchase_invoices.return_value = iter([page1, page2])
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>invoice</xml>"
 
-        fetch_purchase_invoices_from_ksef()
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_called_once()
 
         assert Invoice.objects.count() == 5
         assert mock_ksef_adapter.get_invoice_xml.call_count == 5
@@ -183,11 +200,14 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         )
         mock_ksef_adapter.get_invoice_xml.return_value = None  # Simulate failure
 
-        with patch("invoices.tasks.timezone.now") as mock_now:
+        with patch("invoices.tasks.timezone.now") as mock_now, patch(
+            "invoices.tasks.send_mail"
+        ) as mock_send_mail:
             mock_now.return_value = timezone.make_aware(
                 datetime.datetime(2026, 4, 11, 12, 0)
             )
             fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
 
         self.company.refresh_from_db()
         assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 4, 10)
@@ -215,10 +235,31 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         )
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>invoice</xml>"
 
-        fetch_purchase_invoices_from_ksef()
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
 
         assert Invoice.objects.count() == 1
         mock_ksef_mapper[0].assert_not_called()
+
+    def test_save_ksef_invoice_returns_false_if_exists(self, mock_ksef_adapter):
+        Invoice.objects.create(
+            company=self.company,
+            invoice_number="INV/001",
+            invoice_type=Invoice.INVOICE_PURCHASE,
+            sale_date=datetime.date(2026, 4, 1),
+            create_date=datetime.date(2026, 4, 1),
+            payment_date=datetime.date(2026, 4, 1),
+            settlement_date=datetime.date(2026, 4, 1),
+            net_amount=100.00,
+            gross_amount=123.00,
+            currency=self.currency,
+        )
+        ksef_invoice_data = {"ksefNumber": "123", "invoiceNumber": "INV/001"}
+
+        result = _save_ksef_invoice(ksef_invoice_data, self.company, mock_ksef_adapter)
+
+        assert result is False
 
     def test_save_ksef_invoice_creates_invoice_and_items(
         self, mock_ksef_adapter, mock_ksef_mapper
@@ -251,8 +292,9 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         mock_ksef_mapper[1].return_value = items_data
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>new_invoice</xml>"
 
-        _save_ksef_invoice(ksef_invoice_data, self.company, mock_ksef_adapter)
+        result = _save_ksef_invoice(ksef_invoice_data, self.company, mock_ksef_adapter)
 
+        assert result is True
         assert Invoice.objects.count() == 1
         invoice = Invoice.objects.first()
         assert invoice.invoice_number == "INV/NEW"
@@ -312,11 +354,31 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         mock_ksef_mapper[1].return_value = items_data
         mock_ksef_adapter.get_invoice_xml.return_value = "<xml>cache_invoice</xml>"
 
-        _save_ksef_invoice(ksef_invoice_data, self.company, mock_ksef_adapter)
+        result = _save_ksef_invoice(ksef_invoice_data, self.company, mock_ksef_adapter)
 
+        assert result is True
         assert Invoice.objects.count() == 1
         assert Item.objects.count() == 2
 
         items = Item.objects.all()
         assert items[0].vat == items[1].vat
         assert items[0].vat.rate == 23
+
+    def test_send_ksef_notification_email_sends_email(self):
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            _send_ksef_notification_email(self.user, self.company, 5)
+
+            mock_send_mail.assert_called_once()
+            args, kwargs = mock_send_mail.call_args
+            assert "New purchase invoices from KSeF" in args[0]
+            assert "5 new purchase invoice(s)" in args[1]
+            assert args[3] == [self.user.email]
+            assert kwargs.get("fail_silently") is True
+
+    def test_send_ksef_notification_email_handles_smtp_error(self):
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            mock_send_mail.side_effect = Exception("Fake SMTP Error")
+
+            _send_ksef_notification_email(self.user, self.company, 2)
+
+            mock_send_mail.assert_called_once()
