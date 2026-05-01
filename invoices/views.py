@@ -1,12 +1,14 @@
 from datetime import datetime
 from pathlib import Path
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
 from xhtml2pdf import pisa
@@ -19,6 +21,7 @@ from invoices.forms import (
     InvoiceSellPersonToClientForm,
 )
 from invoices.models import CorrectionInvoiceRelation, Invoice
+from invoices.tasks import fetch_purchase_invoices_from_ksef
 from invoices.utils import (
     clone,
     create_correction_invoice_number,
@@ -135,11 +138,18 @@ def list_invoices_view(request):
     except EmptyPage:
         invoices = paginator.page(paginator.num_pages)
 
+    has_ksef_token = (
+        request.user.company_set.filter(is_my_company=True, ksef_token__isnull=False)
+        .exclude(ksef_token="")
+        .exists()
+    )
+
     context = {
         "invoices": invoices,
         "total_invoices": total_invoices,
         "filter_form": filter_form,
         "current_module": "invoices",
+        "has_ksef_token": has_ksef_token,
     }
     return render(request, "invoices/list_invoices.html", context)
 
@@ -334,3 +344,15 @@ def pdf_invoice_view(request, invoice_id):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
+
+
+@login_required
+def trigger_ksef_fetch_view(request):
+    if request.method == "POST":
+        fetch_purchase_invoices_from_ksef.delay()
+
+        messages.success(
+            request,
+            "Wysłano żądanie synchronizacji z KSeF. Faktury pojawią się na liście w ciągu kilku minut.",
+        )
+    return redirect(reverse("invoices:list_invoices"))

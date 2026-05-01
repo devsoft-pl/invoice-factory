@@ -127,6 +127,24 @@ class TestListInvoices(TestInvoice):
         self.assertTrue(object_list.number == 3)
         self.assertEqual(len(object_list), 4)
 
+    def test_list_context_has_ksef_token_false_by_default(self):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        self.assertFalse(response.context["has_ksef_token"])
+
+    def test_list_context_has_ksef_token_true_when_configured(self):
+        self.client.login(username=self.user.email, password="test")
+
+        CompanyFactory(
+            user=self.user, is_my_company=True, ksef_token="secret_token_123"
+        )
+
+        response = self.client.get(self.url)
+
+        self.assertTrue(response.context["has_ksef_token"])
+
 
 class TestDetailInvoice(TestInvoice):
     def setUp(self) -> None:
@@ -1319,3 +1337,41 @@ class TestPdfInvoice(TestInvoice):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "We had some errors")
+
+
+class TestTriggerKsefFetchView(TestInvoice):
+    def setUp(self) -> None:
+        super().setUp()
+        self.url = reverse("invoices:trigger_ksef_fetch")
+
+    def test_trigger_if_not_logged(self):
+        response = self.client.post(self.url, follow=True)
+
+        self.assertRedirects(response, f"/users/login/?next={self.url}")
+
+    @patch("invoices.views.fetch_purchase_invoices_from_ksef.delay")
+    def test_trigger_get_request_redirects_without_calling_task(self, mock_delay):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.get(self.url)
+
+        mock_delay.assert_not_called()
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+
+    @patch("invoices.views.fetch_purchase_invoices_from_ksef.delay")
+    def test_trigger_post_request_calls_task_and_sets_message(self, mock_delay):
+        self.client.login(username=self.user.email, password="test")
+
+        response = self.client.post(self.url)
+
+        mock_delay.assert_called_once()
+        self.assertRedirects(response, reverse("invoices:list_invoices"))
+
+        from django.contrib.messages import get_messages
+
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(
+            str(messages[0]),
+            "Wysłano żądanie synchronizacji z KSeF. Faktury pojawią się na liście w ciągu kilku minut.",
+        )
