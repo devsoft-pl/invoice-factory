@@ -3,6 +3,8 @@ import logging
 import tempfile
 from datetime import datetime, timedelta
 
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -107,58 +109,99 @@ def fetch_purchase_invoices_from_ksef():
     ).exclude(ksef_token="")
 
     for company in companies:
-        with KSeFAdapter(company.ksef_token, company.nip) as adapter:
-            if not adapter.authenticate():
-                logger.error("KSeF authentication failed for %s", company.name)
-                continue
+        new_invoices_count = _fetch_invoices_for_company(company, today)
 
-            if company.ksef_last_fetched_at:
-                current_day = company.ksef_last_fetched_at.date()
+        if new_invoices_count > 0:
+            _send_ksef_notification_email(company.user, company, new_invoices_count)
+
+
+def _fetch_invoices_for_company(company: Company, today) -> int:
+    new_invoices_count = 0
+
+    with KSeFAdapter(company.ksef_token, company.nip) as adapter:
+        if not adapter.authenticate():
+            logger.error("KSeF authentication failed for %s", company.name)
+            return 0
+
+        if company.ksef_last_fetched_at:
+            current_day = company.ksef_last_fetched_at.date()
+        else:
+            current_day = company.created_at.date()
+
+        while current_day <= today:
+            total_processed = 0
+            fetch_successful = False
+
+            try:
+                for page in adapter.get_all_purchase_invoices(current_day, current_day):
+                    with transaction.atomic():
+                        for ksef_invoice in page:
+                            is_created = _save_ksef_invoice(
+                                ksef_invoice, company, adapter
+                            )
+                            if is_created:
+                                new_invoices_count += 1
+                            total_processed += 1
+                fetch_successful = True
+            except Exception as e:
+                logger.error(
+                    "Failed to fetch or save KSeF invoices for %s on %s: %s",
+                    company.name,
+                    current_day,
+                    e,
+                )
+
+            if fetch_successful:
+                logger.info(
+                    "Processed %d KSeF invoices for %s on %s",
+                    total_processed,
+                    company.name,
+                    current_day,
+                )
+                end_of_day = datetime.combine(current_day, datetime.max.time())
+                company.ksef_last_fetched_at = timezone.make_aware(end_of_day)
+                company.save(update_fields=["ksef_last_fetched_at"])
+
+                current_day += timedelta(days=1)
             else:
-                current_day = company.created_at.date()
+                break
 
-            while current_day <= today:
-                total = 0
-                fetch_successful = False
-                try:
-                    for page in adapter.get_all_purchase_invoices(
-                        current_day, current_day
-                    ):
-                        with transaction.atomic():
-                            for ksef_invoice in page:
-                                _save_ksef_invoice(ksef_invoice, company, adapter)
-                                total += 1
-                    fetch_successful = True
-                except Exception as e:
-                    logger.error(
-                        "Failed to fetch or save KSeF invoices for %s on %s: %s",
-                        company.name,
-                        current_day,
-                        e,
-                    )
-
-                if fetch_successful:
-                    logger.info(
-                        "Saved %d new/checked KSeF invoices for %s on %s",
-                        total,
-                        company.name,
-                        current_day,
-                    )
-                    end_of_day = datetime.combine(current_day, datetime.max.time())
-                    company.ksef_last_fetched_at = timezone.make_aware(end_of_day)
-                    company.save(update_fields=["ksef_last_fetched_at"])
-
-                    current_day += timedelta(days=1)
-                else:
-                    break
+    return new_invoices_count
 
 
-def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
+def _send_ksef_notification_email(user, company, new_invoices_count):
+    subject = _("New purchase invoices from KSeF")
+    message = _(
+        "Hello,\n\n"
+        "We have automatically downloaded %(count)d new purchase invoice(s) from KSeF for your company %(company)s.\n"
+        "Please log in to the application to review them.\n\n"
+        "Best regards,\n"
+        "Invoice-Factory"
+    ) % {"count": new_invoices_count, "company": company.name}
+
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_SENDER,
+            [user.email],
+            fail_silently=True,
+        )
+        logger.info(
+            "Sent KSeF notification email to %s (invoices: %d)",
+            user.email,
+            new_invoices_count,
+        )
+    except Exception as e:
+        logger.error("Failed to send KSeF notification to %s: %s", user.email, e)
+
+
+def _save_ksef_invoice(ksef_invoice: dict, company, adapter) -> bool:
     invoice_number = ksef_invoice.get("invoiceNumber")
 
     if Invoice.objects.filter(invoice_number=invoice_number, company=company).exists():
         logger.debug("KSeF invoice %s already exists, skipping", invoice_number)
-        return
+        return False
 
     xml = adapter.get_invoice_xml(ksef_invoice["ksefNumber"])
     if xml is None:
@@ -197,3 +240,4 @@ def _save_ksef_invoice(ksef_invoice: dict, company, adapter):
     invoice.update_totals()
 
     logger.info("Saved KSeF invoice %s for %s", invoice_number, company.name)
+    return True
