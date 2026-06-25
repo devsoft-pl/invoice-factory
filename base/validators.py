@@ -1,8 +1,9 @@
 import re
 
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, RegexValidator
+from django.core.validators import MaxValueValidator
 from django.utils.translation import gettext_lazy as _
+
 
 def optional_regex_validator(regex, message):
     def validator(value):
@@ -10,7 +11,9 @@ def optional_regex_validator(regex, message):
             return
         if not re.match(regex, str(value)):
             raise ValidationError(message)
+
     return validator
+
 
 invoice_number_validator = optional_regex_validator(
     r"^[0-9]+/(0[1-9]|1[0-2])/[0-9]{4}$",
