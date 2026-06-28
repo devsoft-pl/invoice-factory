@@ -110,9 +110,20 @@ class TestRegisterUser(TestUser):
     def test_register_with_valid_data(self):
         email = "test@test.pl"
         password = "Test_password1!"
+        import time
+
+        from django.core.signing import TimestampSigner
+
+        timestamp = TimestampSigner().sign(str(time.time() - 5))
         response = self.client.post(
             self.url,
-            {"email": email, "password1": password, "password2": password},
+            {
+                "email": email,
+                "password1": password,
+                "password2": password,
+                "timestamp": timestamp,
+                "honeypot": "",
+            },
         )
 
         self.assertEqual(response.status_code, 302)
