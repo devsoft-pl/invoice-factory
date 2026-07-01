@@ -22,6 +22,7 @@ class CompanyForm(forms.ModelForm):
             "city",
             "email",
             "phone_number",
+            "ksef_token",
         ]
 
     def __init__(self, current_user, *args, **kwargs):

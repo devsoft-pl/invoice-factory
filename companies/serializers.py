@@ -18,4 +18,7 @@ class CompanySerializer(serializers.ModelSerializer):
             "email",
             "phone_number",
             "is_my_company",
+            "ksef_token",
+            "ksef_last_fetched_at",
+            "created_at",
         ]
