@@ -9,6 +9,7 @@ from invoices.adapters.ksef_adapter import (
     KSEF_AUTH_STATUS_FAILED,
     KSEF_AUTH_STATUS_OK,
     KSeFAdapter,
+    KSeFException,
 )
 
 
@@ -61,7 +62,7 @@ class TestKSeFAdapter:
             "GET",
             f"{self.adapter.base_url}/api/v2/security/public-key-certificates",
             headers={"Accept": "application/json"},
-            timeout=15,
+            timeout=(5, 15),
         )
 
     @patch("requests.Session.request")
@@ -111,7 +112,8 @@ class TestKSeFAdapter:
     def test_get_challenge_request_exception(self, mock_request):
         mock_request.side_effect = requests.RequestException("API error")
 
-        assert self.adapter._get_challenge() is None
+        with pytest.raises(KSeFException):
+            self.adapter._get_challenge()
 
     @patch("requests.Session.request")
     def test_poll_for_auth_status_success_on_first_try(self, mock_request):
@@ -159,9 +161,7 @@ class TestKSeFAdapter:
     ):
         mock_request.side_effect = requests.RequestException("Network timeout")
 
-        result = self.adapter._poll_for_auth_status("ref123", "auth_token")
-
-        assert result is False
+        assert self.adapter._poll_for_auth_status("ref123", "auth_token") is False
 
     @patch.object(KSeFAdapter, "_get_public_key")
     @patch.object(KSeFAdapter, "_get_challenge")
@@ -289,8 +289,8 @@ class TestKSeFAdapter:
 
         from datetime import date
 
-        result = self.adapter.get_purchase_invoices(date(2026, 4, 1), date(2026, 4, 30))
-        assert result is None
+        with pytest.raises(KSeFException):
+            self.adapter.get_purchase_invoices(date(2026, 4, 1), date(2026, 4, 30))
 
     @patch("requests.Session.request")
     def test_get_invoice_xml_success(self, mock_request):
@@ -309,8 +309,9 @@ class TestKSeFAdapter:
     def test_get_invoice_xml_request_exception(self, mock_request):
         self.adapter.session_token = "token"
         mock_request.side_effect = requests.RequestException("Failed to download XML")
-        result = self.adapter.get_invoice_xml("KSEF_123")
-        assert result is None
+
+        with pytest.raises(KSeFException):
+            self.adapter.get_invoice_xml("KSEF_123")
 
     @patch.object(KSeFAdapter, "get_purchase_invoices")
     def test_get_all_purchase_invoices_pagination(self, mock_get_purchase):

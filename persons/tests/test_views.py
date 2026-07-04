@@ -121,17 +121,28 @@ class TestCreatePerson(TestPerson):
             response.context["form"], "address", _("This field is required.")
         )
         self.assertFormError(
+            response.context["form"], "zip_code", _("This field is required.")
+        )
+
+    def test_invalid_zip_code_format(self):
+        self.client.login(username=self.user.email, password="test")
+        country = CountryFactory.create(user=self.user)
+        # Invalid zip (too short) to trigger validator
+        data = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "address": "Test",
+            "zip_code": "1",
+            "city": "Test",
+            "country": country.pk,
+            "email": "test@test.pl",
+        }
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
             response.context["form"],
             "zip_code",
-            [
-                _("This field is required."),
-                _(
-                    "Foreign ZIP code contains invalid characters or is incorrect length."
-                ),
-            ],
-        )
-        self.assertFormError(
-            response.context["form"], "city", _("This field is required.")
+            _("Foreign ZIP code contains invalid characters or is incorrect length."),
         )
 
     def test_create_with_valid_data(self):
@@ -225,20 +236,33 @@ class TestCreatePersonAjax(TestPerson):
             response_json["errors"]["address"], [_("This field is required.")]
         )
         self.assertEqual(
+            response_json["errors"]["zip_code"], [_("This field is required.")]
+        )
+
+    def test_invalid_zip_code_format_ajax(self):
+        self.client.login(username=self.user.email, password="test")
+        country = CountryFactory.create(user=self.user)
+        # Invalid zip to trigger format error
+        data = {
+            "first_name": "Test",
+            "last_name": "Test",
+            "address": "Test",
+            "zip_code": "1",
+            "city": "Test",
+            "country": country.pk,
+            "email": "test@test.pl",
+        }
+
+        response = self.client.post(self.url, data)
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(
             response_json["errors"]["zip_code"],
-            [
-                _("This field is required."),
-                _(
-                    "Foreign ZIP code contains invalid characters or is incorrect length."
-                ),
-            ],
+            [_("Foreign ZIP code contains invalid characters or is incorrect length.")],
         )
-        self.assertEqual(
-            response_json["errors"]["city"], [_("This field is required.")]
-        )
-        self.assertEqual(
-            response_json["errors"]["country"], [_("This field is required.")]
-        )
+        self.assertNotIn("city", response_json["errors"])
+        self.assertNotIn("country", response_json["errors"])
         self.assertEqual(response.status_code, 200)
 
     def test_create_with_valid_data(self):

@@ -20,14 +20,10 @@ def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> di
         else {"account_number": None, "payment_method": None}
     )
 
-    return {
+    data = {
         "invoice_number": ksef_invoice.get("invoiceNumber"),
         "invoice_type": Invoice.INVOICE_PURCHASE,
         "company": company,
-        "sale_date": _parse_date(ksef_invoice.get("issueDate")),
-        "create_date": _parse_date(ksef_invoice.get("acquisitionDate")),
-        "payment_date": _parse_date(ksef_invoice.get("issueDate")),
-        "settlement_date": _parse_date(ksef_invoice.get("issueDate")),
         "net_amount": Decimal(str(ksef_invoice.get("netAmount") or 0)),
         "gross_amount": Decimal(str(ksef_invoice.get("grossAmount") or 0)),
         "is_recurring": False,
@@ -36,6 +32,18 @@ def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> di
         "account_number": payment["account_number"],
         "payment_method": payment["payment_method"],
     }
+
+    for field in ["sale_date", "create_date", "payment_date", "settlement_date"]:
+        # issueDate -> sale_date, acquisitionDate -> create_date
+        val = _parse_date(
+            ksef_invoice.get(
+                "issueDate" if field != "create_date" else "acquisitionDate"
+            )
+        )
+        if val:
+            data[field] = val
+
+    return data
 
 
 def map_ksef_invoice_to_items(xml: str) -> list:
@@ -54,6 +62,6 @@ def map_ksef_invoice_to_seller_dict(ksef_invoice: dict) -> dict:
 
 def _parse_date(value: str) -> date:
     if not value:
-        return date.today()
+        return None
     # issueDate format: "2026-04-01", acquisitionDate format: ISO datetime
     return date.fromisoformat(value[:10])

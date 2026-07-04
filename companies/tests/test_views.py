@@ -127,14 +127,20 @@ class TestCreateCompany(TestCompany):
             response.context["form"], "name", _("This field is required.")
         )
         self.assertFormError(
+            response.context["form"], "nip", _("This field is required.")
+        )
+
+    def test_create_invalid_nip_format(self):
+        self.client.login(username=self.user.email, password="test")
+        country = CountryFactory.create(user=self.user)
+        # Using a very short NIP to trigger foreign NIP validator
+        data = CompanyDictFactory(nip="123", country=country.pk)
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
             response.context["form"],
             "nip",
-            [
-                _("This field is required."),
-                _(
-                    "Foreign NIP number contains invalid characters or is incorrect length."
-                ),
-            ],
+            _("Foreign NIP number contains invalid characters or is incorrect length."),
         )
 
     def test_create_with_valid_data(self):
@@ -224,15 +230,7 @@ class TestCreateCompanyAjax(TestCompany):
         self.assertEqual(
             response_json["errors"]["name"], [_("This field is required.")]
         )
-        self.assertEqual(
-            response_json["errors"]["nip"],
-            [
-                _("This field is required."),
-                _(
-                    "Foreign NIP number contains invalid characters or is incorrect length."
-                ),
-            ],
-        )
+        self.assertEqual(response_json["errors"]["nip"], [_("This field is required.")])
         self.assertEqual(
             response_json["errors"]["regon"], [_("This field is required.")]
         )
@@ -243,17 +241,36 @@ class TestCreateCompanyAjax(TestCompany):
             response_json["errors"]["address"], [_("This field is required.")]
         )
         self.assertEqual(
-            response_json["errors"]["zip_code"],
-            [
-                _("This field is required."),
-                _(
-                    "Foreign ZIP code contains invalid characters or is incorrect length."
-                ),
-            ],
+            response_json["errors"]["zip_code"], [_("This field is required.")]
         )
         self.assertEqual(
             response_json["errors"]["city"], [_("This field is required.")]
         )
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_invalid_nip_format_ajax(self):
+        self.client.login(username=self.user.email, password="test")
+        country = CountryFactory.create(user=self.user)
+        # Short NIP to trigger error, valid REGON to avoid error
+        data = CompanyDictFactory(
+            nip="123", regon="123456789", phone_number="123456789", country=country.pk
+        )
+
+        response = self.client.post(self.url, data)
+
+        response_json = response.json()
+        self.assertFalse(response_json["success"])
+        self.assertEqual(
+            response_json["errors"]["nip"],
+            [
+                _(
+                    "Foreign NIP number contains invalid characters or is incorrect length."
+                )
+            ],
+        )
+        self.assertNotIn("name", response_json["errors"])
+        self.assertNotIn("regon", response_json["errors"])
+        self.assertNotIn("phone_number", response_json["errors"])
         self.assertEqual(response.status_code, 200)
 
     def test_create_my_company_with_valid_data(self):

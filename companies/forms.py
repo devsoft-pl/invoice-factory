@@ -35,6 +35,8 @@ class CompanyForm(forms.ModelForm):
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
+        self.fields["ksef_token"].required = False
+
         self.fields["regon"].validators = [regon_validator]
         self.fields["phone_number"].validators = [phone_number_validator]
 

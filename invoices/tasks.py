@@ -2,6 +2,7 @@ import calendar
 import logging
 import tempfile
 from datetime import datetime, timedelta
+from typing import Optional
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -13,7 +14,7 @@ from xhtml2pdf import pisa
 from base.celery import app
 from companies.models import Company
 from currencies.models import Currency
-from invoices.adapters.ksef_adapter import KSeFAdapter
+from invoices.adapters.ksef_adapter import KSeFAdapter, KSeFException
 from invoices.adapters.ksef_mapper import (
     map_ksef_invoice_to_dict,
     map_ksef_invoice_to_items,
@@ -123,50 +124,51 @@ def _fetch_invoices_for_company(company: Company, today) -> int:
             logger.error("KSeF authentication failed for %s", company.name)
             return 0
 
-        if company.ksef_last_fetched_at:
-            current_day = company.ksef_last_fetched_at.date()
-        else:
-            current_day = company.created_at.date()
+        current_day = (
+            company.ksef_last_fetched_at.date()
+            if company.ksef_last_fetched_at
+            else company.created_at.date()
+        )
 
         while current_day <= today:
-            total_processed = 0
-            fetch_successful = False
-
-            try:
-                for page in adapter.get_all_purchase_invoices(current_day, current_day):
-                    with transaction.atomic():
-                        for ksef_invoice in page:
-                            is_created = _save_ksef_invoice(
-                                ksef_invoice, company, adapter
-                            )
-                            if is_created:
-                                new_invoices_count += 1
-                            total_processed += 1
-                fetch_successful = True
-            except Exception as e:
-                logger.error(
-                    "Failed to fetch or save KSeF invoices for %s on %s: %s",
-                    company.name,
-                    current_day,
-                    e,
-                )
-
-            if fetch_successful:
-                logger.info(
-                    "Processed %d KSeF invoices for %s on %s",
-                    total_processed,
-                    company.name,
-                    current_day,
-                )
-                end_of_day = datetime.combine(current_day, datetime.max.time())
-                company.ksef_last_fetched_at = timezone.make_aware(end_of_day)
-                company.save(update_fields=["ksef_last_fetched_at"])
-
-                current_day += timedelta(days=1)
-            else:
+            processed = _fetch_invoices_for_day(adapter, company, current_day)
+            if processed is None:  # Failure
                 break
+            new_invoices_count += processed
+            _update_company_checkpoint(company, current_day)
+            current_day += timedelta(days=1)
 
     return new_invoices_count
+
+
+def _fetch_invoices_for_day(adapter, company, day) -> Optional[int]:
+    new_count = 0
+    total_processed = 0
+    try:
+        for page in adapter.get_all_purchase_invoices(day, day):
+            with transaction.atomic():
+                for ksef_invoice in page:
+                    if _save_ksef_invoice(ksef_invoice, company, adapter):
+                        new_count += 1
+                    total_processed += 1
+        logger.info(
+            "Processed %d KSeF invoices for %s on %s",
+            total_processed,
+            company.name,
+            day,
+        )
+        return new_count
+    except (KSeFException, Exception) as e:
+        logger.error(
+            "Failed to fetch KSeF invoices for %s on %s: %s", company.name, day, e
+        )
+        return None
+
+
+def _update_company_checkpoint(company, day):
+    end_of_day = datetime.combine(day, datetime.max.time())
+    company.ksef_last_fetched_at = timezone.make_aware(end_of_day)
+    company.save(update_fields=["ksef_last_fetched_at"])
 
 
 def _send_ksef_notification_email(user, company, new_invoices_count):
@@ -213,6 +215,7 @@ def _save_ksef_invoice(ksef_invoice: dict, company, adapter) -> bool:
     items_data = map_ksef_invoice_to_items(xml)
 
     currency_code = ksef_invoice.get("currency", DEFAULT_CURRENCY_CODE)
+    currency_code = str(currency_code).strip().upper()
     currency, _ = Currency.objects.get_or_create(code=currency_code, user=company.user)
     invoice_dict["currency"] = currency
 

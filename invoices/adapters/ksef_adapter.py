@@ -19,17 +19,21 @@ logger = logging.getLogger(__name__)
 DEFAULT_PAGE_SIZE = 100
 AUTH_POLL_MAX_RETRIES = 10
 AUTH_POLL_INTERVAL = 1
-DEFAULT_TIMEOUT = 15
+DEFAULT_TIMEOUT = (5, 15)
 
 KSEF_AUTH_STATUS_OK = 200
 KSEF_AUTH_STATUS_FAILED = 400
 
 
+class KSeFException(Exception):
+    pass
+
+
 class KSeFAdapter:
-    def __init__(self, token: str, nip: str) -> None:
+    def __init__(self, token: str, nip: str, base_url: str = None) -> None:
         self.token = token
         self.nip = nip
-        self.base_url = (
+        self.base_url = base_url or (
             settings.KSEF_API_URL_TEST
             if settings.KSEF_IS_TEST
             else settings.KSEF_API_URL_PRODUCTION
@@ -57,7 +61,7 @@ class KSeFAdapter:
     # --- NOWA UNIWERSALNA METODA DO ZAPYTAŃ ---
     def _request(
         self, method: str, url: str, error_msg: str = "KSeF request failed", **kwargs
-    ) -> Optional[requests.Response]:
+    ) -> requests.Response:
         """Ujednolicona metoda do odpytywania API z wbudowaną obsługą wyjątków sieciowych."""
         kwargs.setdefault("timeout", DEFAULT_TIMEOUT)
         try:
@@ -66,18 +70,19 @@ class KSeFAdapter:
             return response
         except requests.RequestException as e:
             logger.error("%s: %s", error_msg, e)
-            return None
+            raise KSeFException(f"{error_msg}: {e}")
 
     def _get_public_key(self) -> Optional[str]:
         """Fetch the current KSeF public key used to encrypt the token."""
         url = f"{self.base_url}/api/v2/security/public-key-certificates"
-        response = self._request(
-            "GET",
-            url,
-            error_msg="KSeF failed to get public key",
-            headers={"Accept": "application/json"},
-        )
-        if not response:
+        try:
+            response = self._request(
+                "GET",
+                url,
+                error_msg="KSeF failed to get public key",
+                headers={"Accept": "application/json"},
+            )
+        except KSeFException:
             return None
 
         for cert in response.json():
@@ -125,13 +130,14 @@ class KSeFAdapter:
         }
 
         for _ in range(AUTH_POLL_MAX_RETRIES):
-            response = self._request(
-                "GET",
-                status_url,
-                error_msg="KSeF auth status failed",
-                headers=auth_headers,
-            )
-            if not response:
+            try:
+                response = self._request(
+                    "GET",
+                    status_url,
+                    error_msg="KSeF auth status failed",
+                    headers=auth_headers,
+                )
+            except KSeFException:
                 return False
 
             status_code = response.json()["status"]["code"]
@@ -169,33 +175,32 @@ class KSeFAdapter:
         }
 
         logger.debug("KSeF auth request: POST %s", url)
-        response = self._request(
-            "POST",
-            url,
-            error_msg="KSeF auth failed",
-            json=body,
-            headers={"Accept": "application/json"},
-        )
-        if not response:
-            return False
+        try:
+            response = self._request(
+                "POST",
+                url,
+                error_msg="KSeF auth failed",
+                json=body,
+                headers={"Accept": "application/json"},
+            )
 
-        data = response.json()
-        reference_number = data["referenceNumber"]
-        authentication_token = data["authenticationToken"]["token"]
+            data = response.json()
+            reference_number = data["referenceNumber"]
+            authentication_token = data["authenticationToken"]["token"]
 
-        if not self._poll_for_auth_status(reference_number, authentication_token):
-            return False
+            if not self._poll_for_auth_status(reference_number, authentication_token):
+                return False
 
-        redeem_url = f"{self.base_url}/api/v2/auth/token/redeem"
-        auth_headers = {
-            "Accept": "application/json",
-            "Authorization": f"Bearer {authentication_token}",
-        }
+            redeem_url = f"{self.base_url}/api/v2/auth/token/redeem"
+            auth_headers = {
+                "Accept": "application/json",
+                "Authorization": f"Bearer {authentication_token}",
+            }
 
-        redeem_response = self._request(
-            "POST", redeem_url, error_msg="KSeF redeem failed", headers=auth_headers
-        )
-        if not redeem_response:
+            redeem_response = self._request(
+                "POST", redeem_url, error_msg="KSeF redeem failed", headers=auth_headers
+            )
+        except KSeFException:
             return False
 
         redeem_data = redeem_response.json()

@@ -19,11 +19,9 @@ class TestKSeFMapper:
         self.mock_company = MagicMock(name="CompanyMock")
 
     @patch("invoices.adapters.ksef_mapper.date")
-    def test_parse_date_returns_today_on_empty_value(self, mock_date):
-        mock_date.today.return_value = datetime.date(2026, 4, 30)
-
-        assert _parse_date(None) == datetime.date(2026, 4, 30)
-        assert _parse_date("") == datetime.date(2026, 4, 30)
+    def test_parse_date_returns_none_on_empty_value(self, mock_date):
+        assert _parse_date(None) is None
+        assert _parse_date("") is None
 
     def test_parse_date_parses_issue_date_format(self):
         result = _parse_date("2026-04-01")
