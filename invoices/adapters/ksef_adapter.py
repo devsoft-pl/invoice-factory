@@ -41,7 +41,7 @@ class KSeFAdapter:
         self.session_token: Optional[str] = None
         self.client = requests.Session()
 
-    # --- Wsparcie dla Context Managera (blok "with") ---
+    # --- Support for Context Manager ("with" block) ---
     def __enter__(self):
         return self
 
@@ -58,11 +58,11 @@ class KSeFAdapter:
             "Authorization": f"Bearer {self.session_token}",
         }
 
-    # --- NOWA UNIWERSALNA METODA DO ZAPYTAŃ ---
+    # --- NEW UNIVERSAL REQUEST METHOD ---
     def _request(
         self, method: str, url: str, error_msg: str = "KSeF request failed", **kwargs
     ) -> requests.Response:
-        """Ujednolicona metoda do odpytywania API z wbudowaną obsługą wyjątków sieciowych."""
+        """Unified method for querying API with built-in network exception handling."""
         kwargs.setdefault("timeout", DEFAULT_TIMEOUT)
         try:
             response = self.client.request(method, url, **kwargs)
