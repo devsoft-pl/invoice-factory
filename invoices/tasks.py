@@ -7,6 +7,7 @@ from typing import Optional
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from xhtml2pdf import pisa
@@ -103,11 +104,14 @@ def send_monthly_summary_to_recipients():
 
 
 @app.task(name="fetch_purchase_invoices_from_ksef")
-def fetch_purchase_invoices_from_ksef():
+def fetch_purchase_invoices_from_ksef(user_id=None):
     today = timezone.now().date()
-    companies = Company.objects.filter(
-        is_my_company=True, ksef_token__isnull=False
-    ).exclude(ksef_token="")
+
+    query = Q(is_my_company=True, ksef_token__isnull=False) & ~Q(ksef_token="")
+    if user_id:
+        query &= Q(user_id=user_id)
+
+    companies = Company.objects.filter(query)
 
     for company in companies:
         new_invoices_count = _fetch_invoices_for_company(company, today)

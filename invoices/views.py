@@ -349,7 +349,7 @@ def pdf_invoice_view(request, invoice_id):
 @login_required
 def trigger_ksef_fetch_view(request):
     if request.method == "POST":
-        fetch_purchase_invoices_from_ksef.delay()
+        fetch_purchase_invoices_from_ksef.delay(user_id=request.user.id)
 
         messages.success(
             request,

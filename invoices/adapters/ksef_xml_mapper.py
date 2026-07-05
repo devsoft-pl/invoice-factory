@@ -29,11 +29,11 @@ def map_ksef_xml_to_items(xml_string: str) -> list:
         return []
 
     items = []
-    for wiersz in fa.findall(_tag("FaWiersz")):
-        name = _text(wiersz, "P_7") or ""
-        amount = int(Decimal(_text(wiersz, "P_8B") or "1"))
-        net_price = Decimal(_text(wiersz, "P_9A") or "0")
-        vat_rate = int(_text(wiersz, "P_12") or "0")
+    for row in fa.findall(_tag("FaWiersz")):
+        name = _text(row, "P_7") or ""
+        amount = int(Decimal(_text(row, "P_8B") or "1"))
+        net_price = Decimal(_text(row, "P_9A") or "0")
+        vat_rate = int(_text(row, "P_12") or "0")
 
         items.append(
             {
