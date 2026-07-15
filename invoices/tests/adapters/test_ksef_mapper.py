@@ -72,6 +72,11 @@ class TestKSeFMapper:
         assert result["company"] == self.mock_company  # ZMIANA: self.mock_company
         assert result["sale_date"] == datetime.date(2026, 4, 1)
         assert result["create_date"] == datetime.date(2026, 4, 2)
+        # KSeF metadata has no real due date, so payment_date/settlement_date
+        # fall back to the issue date rather than being left unset (which
+        # would default to today's date on the model instead).
+        assert result["payment_date"] == datetime.date(2026, 4, 1)
+        assert result["settlement_date"] == datetime.date(2026, 4, 1)
         assert result["account_number"] is None
         assert result["payment_method"] is None
         assert result["net_amount"] == Decimal("100.50")
@@ -99,3 +104,43 @@ class TestKSeFMapper:
         assert result["payment_method"] == Invoice.BANK_TRANSFER
         assert result["net_amount"] == Decimal("0")
         mock_xml_to_payment.assert_called_once_with("<FA3>...</FA3>")
+
+    @patch("invoices.adapters.ksef_mapper.map_ksef_xml_to_payment")
+    def test_map_ksef_invoice_to_dict_uses_due_date_from_xml(self, mock_xml_to_payment):
+        ksef_invoice = {
+            "invoiceNumber": "FA/2026/04/01",
+            "issueDate": "2026-04-01",
+        }
+        mock_xml_to_payment.return_value = {
+            "account_number": None,
+            "payment_method": None,
+            "due_date": "2026-05-01",
+        }
+
+        result = map_ksef_invoice_to_dict(
+            ksef_invoice, self.mock_company, xml="<FA3>...</FA3>"
+        )
+
+        assert result["sale_date"] == datetime.date(2026, 4, 1)
+        assert result["payment_date"] == datetime.date(2026, 5, 1)
+        assert result["settlement_date"] == datetime.date(2026, 4, 1)
+
+    @patch("invoices.adapters.ksef_mapper.map_ksef_xml_to_payment")
+    def test_map_ksef_invoice_to_dict_falls_back_to_sale_date_without_due_date(
+        self, mock_xml_to_payment
+    ):
+        ksef_invoice = {
+            "invoiceNumber": "FA/2026/04/01",
+            "issueDate": "2026-04-01",
+        }
+        mock_xml_to_payment.return_value = {
+            "account_number": None,
+            "payment_method": None,
+            "due_date": None,
+        }
+
+        result = map_ksef_invoice_to_dict(
+            ksef_invoice, self.mock_company, xml="<FA3>...</FA3>"
+        )
+
+        assert result["payment_date"] == datetime.date(2026, 4, 1)

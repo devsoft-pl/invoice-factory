@@ -15,7 +15,7 @@ from xhtml2pdf import pisa
 from base.celery import app
 from companies.models import Company
 from currencies.models import Currency
-from invoices.adapters.ksef_adapter import KSeFAdapter, KSeFException
+from invoices.adapters.ksef_adapter import KSeFAdapter
 from invoices.adapters.ksef_mapper import (
     map_ksef_invoice_to_dict,
     map_ksef_invoice_to_items,
@@ -150,11 +150,23 @@ def _fetch_invoices_for_day(adapter, company, day) -> Optional[int]:
     total_processed = 0
     try:
         for page in adapter.get_all_purchase_invoices(day, day):
-            with transaction.atomic():
-                for ksef_invoice in page:
-                    if _save_ksef_invoice(ksef_invoice, company, adapter):
-                        new_count += 1
-                    total_processed += 1
+            for ksef_invoice in page:
+                try:
+                    with transaction.atomic():
+                        if _save_ksef_invoice(ksef_invoice, company, adapter):
+                            new_count += 1
+                except Exception as e:
+                    # A single malformed/unfetchable invoice must not block the
+                    # rest of the day (or, via the checkpoint, every following
+                    # day) — log it and keep going.
+                    logger.error(
+                        "Failed to save KSeF invoice %s for %s on %s: %s",
+                        ksef_invoice.get("ksefNumber"),
+                        company.name,
+                        day,
+                        e,
+                    )
+                total_processed += 1
         logger.info(
             "Processed %d KSeF invoices for %s on %s",
             total_processed,
@@ -162,7 +174,7 @@ def _fetch_invoices_for_day(adapter, company, day) -> Optional[int]:
             day,
         )
         return new_count
-    except (KSeFException, Exception) as e:
+    except Exception as e:
         logger.error(
             "Failed to fetch KSeF invoices for %s on %s: %s", company.name, day, e
         )

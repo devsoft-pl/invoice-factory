@@ -17,7 +17,7 @@ def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> di
     payment = (
         map_ksef_xml_to_payment(xml)
         if xml
-        else {"account_number": None, "payment_method": None}
+        else {"account_number": None, "payment_method": None, "due_date": None}
     )
 
     data = {
@@ -33,15 +33,20 @@ def map_ksef_invoice_to_dict(ksef_invoice: dict, company, xml: str = None) -> di
         "payment_method": payment["payment_method"],
     }
 
-    for field in ["sale_date", "create_date", "payment_date", "settlement_date"]:
-        # issueDate -> sale_date, acquisitionDate -> create_date
-        val = _parse_date(
-            ksef_invoice.get(
-                "issueDate" if field != "create_date" else "acquisitionDate"
-            )
-        )
-        if val:
-            data[field] = val
+    sale_date = _parse_date(ksef_invoice.get("issueDate"))
+    create_date = _parse_date(ksef_invoice.get("acquisitionDate"))
+    due_date = _parse_date(payment.get("due_date"))
+
+    if sale_date:
+        data["sale_date"] = sale_date
+        # Prefer the real due date from the FA(3) XML (Platnosc/TerminPlatnosci
+        # /Termin). KSeF metadata alone exposes no payment date at all, and the
+        # XML may also omit it (e.g. cash payment), so fall back to the issue
+        # date as the best available approximation.
+        data["payment_date"] = due_date or sale_date
+        data["settlement_date"] = sale_date
+    if create_date:
+        data["create_date"] = create_date
 
     return data
 

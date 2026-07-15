@@ -97,6 +97,32 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         self.company.refresh_from_db()
         assert self.company.ksef_last_fetched_at.date() == timezone.now().date()
 
+    def test_task_filters_companies_by_user_id_when_provided(self, mock_ksef_adapter):
+        CompanyFactory(is_my_company=True, ksef_token="other_token", nip="9876543210")
+        mock_ksef_adapter.get_all_purchase_invoices.return_value = iter([])
+
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef(user_id=self.user.id)
+            mock_send_mail.assert_not_called()
+
+        # Only self.company (owned by self.user) should have been processed;
+        # the other user's company must be skipped by the user_id filter.
+        mock_ksef_adapter.authenticate.assert_called_once()
+
+    def test_task_processes_all_users_companies_when_user_id_not_provided(
+        self, mock_ksef_adapter
+    ):
+        CompanyFactory(is_my_company=True, ksef_token="other_token", nip="9876543210")
+        mock_ksef_adapter.get_all_purchase_invoices.return_value = iter([])
+
+        with patch("invoices.tasks.send_mail") as mock_send_mail:
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
+
+        # No user_id filter (e.g. the periodic beat task) means every
+        # company with a KSeF token is processed, regardless of owner.
+        assert mock_ksef_adapter.authenticate.call_count == 2
+
     def test_task_handles_authentication_failure(self, mock_ksef_adapter):
         mock_ksef_adapter.authenticate.return_value = False
 
@@ -187,7 +213,7 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
         assert Invoice.objects.count() == 5
         assert mock_ksef_adapter.get_invoice_xml.call_count == 5
 
-    def test_task_does_not_update_checkpoint_on_xml_fetch_failure(
+    def test_task_skips_single_failing_invoice_without_blocking_the_day(
         self, mock_ksef_adapter, mock_ksef_mapper
     ):
         self.company.ksef_last_fetched_at = timezone.make_aware(
@@ -209,6 +235,36 @@ class TestFetchPurchaseInvoicesFromKSeFTask:
             fetch_purchase_invoices_from_ksef()
             mock_send_mail.assert_not_called()
 
+        # A single invoice that can't be saved (e.g. XML fetch failure) is
+        # logged and skipped, but must not permanently stall the checkpoint —
+        # otherwise every later run would retry the same poison invoice
+        # forever and never ingest newer ones.
+        self.company.refresh_from_db()
+        assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 4, 11)
+        assert Invoice.objects.count() == 0
+
+    def test_task_does_not_update_checkpoint_on_day_fetch_failure(
+        self, mock_ksef_adapter
+    ):
+        self.company.ksef_last_fetched_at = timezone.make_aware(
+            datetime.datetime(2026, 4, 10, 23, 59)
+        )
+        self.company.save()
+        mock_ksef_adapter.get_all_purchase_invoices.side_effect = Exception(
+            "Network error"
+        )
+
+        with patch("invoices.tasks.timezone.now") as mock_now, patch(
+            "invoices.tasks.send_mail"
+        ) as mock_send_mail:
+            mock_now.return_value = timezone.make_aware(
+                datetime.datetime(2026, 4, 11, 12, 0)
+            )
+            fetch_purchase_invoices_from_ksef()
+            mock_send_mail.assert_not_called()
+
+        # A failure fetching the day's data itself (network/auth/API-level)
+        # still stops that day and is retried on the next run.
         self.company.refresh_from_db()
         assert self.company.ksef_last_fetched_at.date() == datetime.date(2026, 4, 10)
         assert Invoice.objects.count() == 0
