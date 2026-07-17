@@ -6,6 +6,7 @@ from accountants.models import Accountant
 
 @admin.register(Accountant)
 class AccountantAdmin(admin.ModelAdmin):
+    list_select_related = ("company",)
     list_display = ("name", "email", "phone_number", "company")
     list_filter = ("name", "email")
     fieldsets = (

@@ -5,6 +5,7 @@ from summary_recipients.models import SummaryRecipient
 
 @admin.register(SummaryRecipient)
 class SummaryRecipientAdmin(admin.ModelAdmin):
+    list_select_related = ("company",)
     list_display = (
         "description",
         "day",

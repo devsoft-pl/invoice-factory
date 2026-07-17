@@ -8,6 +8,7 @@ from .models import CorrectionInvoiceRelation, Invoice, Year
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
+    list_select_related = ("company", "client", "person", "currency")
     list_display = (
         "invoice_number",
         "company",
@@ -65,6 +66,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 @admin.register(Year)
 class YearAdmin(admin.ModelAdmin):
+    list_select_related = ("user",)
     list_display = (
         "year",
         "user",
@@ -73,6 +75,7 @@ class YearAdmin(admin.ModelAdmin):
 
 @admin.register(CorrectionInvoiceRelation)
 class CorrectionInvoiceRelationAdmin(admin.ModelAdmin):
+    list_select_related = ("invoice", "correction_invoice")
     list_display = (
         "invoice",
         "correction_invoice",

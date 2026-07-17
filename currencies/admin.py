@@ -6,6 +6,7 @@ from currencies.models import Currency, ExchangeRate
 
 @admin.register(Currency)
 class CurrencyAdmin(admin.ModelAdmin):
+    list_select_related = ("user",)
     list_display = ("code", "user")
     list_filter = ("user",)
     fieldsets = (
@@ -20,6 +21,7 @@ class CurrencyAdmin(admin.ModelAdmin):
 
 @admin.register(ExchangeRate)
 class ExchangeRateAdmin(admin.ModelAdmin):
+    list_select_related = ("currency",)
     list_display = ("date", "currency", "buy_rate", "sell_rate")
     list_filter = ("date", "currency__code")
     search_fields = ("currency__code",)
