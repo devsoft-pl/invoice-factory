@@ -6,6 +6,7 @@ from companies.models import Company
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
+    list_select_related = ("user",)
     list_display = ("name", "nip", "email", "phone_number", "user")
     search_fields = ("name", "nip", "regon", "user__username")
     list_filter = ("user",)

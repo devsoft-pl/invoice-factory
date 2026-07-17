@@ -6,6 +6,7 @@ from countries.models import Country
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
+    list_select_related = ("user",)
     list_display = ("country", "user")
     list_filter = ("user",)
     fieldsets = (
