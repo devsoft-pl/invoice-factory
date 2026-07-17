@@ -6,6 +6,7 @@ from persons.models import Person
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
+    list_select_related = ("user",)
     list_display = ("first_name", "last_name", "address", "zip_code", "city", "user")
     search_fields = ("first_name", "last_name", "nip", "pesel")
 
