@@ -20,6 +20,8 @@ class CompanyFactory(factory.django.DjangoModelFactory):
     phone_number = factory.Sequence(lambda n: "Phone %03d" % n)
     is_my_company = factory.fuzzy.FuzzyChoice([True, False])
     user = factory.SubFactory(UserFactory)
+    ksef_token = ""
+    ksef_last_fetched_at = None
 
 
 class CompanyDictFactory(factory.DictFactory):
@@ -32,3 +34,5 @@ class CompanyDictFactory(factory.DictFactory):
     email = factory.Sequence(lambda n: "test_%03d@test.pl" % n)
     phone_number = factory.Sequence(lambda n: "Phone %03d" % n)
     is_my_company = factory.fuzzy.FuzzyChoice([True, False])
+    ksef_token = ""
+    ksef_last_fetched_at = ""

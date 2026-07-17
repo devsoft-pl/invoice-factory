@@ -22,6 +22,7 @@ class CompanyForm(forms.ModelForm):
             "city",
             "email",
             "phone_number",
+            "ksef_token",
         ]
 
     def __init__(self, current_user, *args, **kwargs):
@@ -33,6 +34,8 @@ class CompanyForm(forms.ModelForm):
 
         for field in self.Meta.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
+
+        self.fields["ksef_token"].required = False
 
         self.fields["regon"].validators = [regon_validator]
         self.fields["phone_number"].validators = [phone_number_validator]

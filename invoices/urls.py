@@ -14,6 +14,7 @@ from invoices.views import (
     replace_buy_invoice_view,
     replace_sell_invoice_view,
     replace_sell_person_to_client_invoice_view,
+    trigger_ksef_fetch_view,
 )
 
 app_name = "invoices"
@@ -71,4 +72,5 @@ urlpatterns = [
     ),
     path("delete/<int:invoice_id>/", delete_invoice_view, name="delete_invoice"),
     path("pdf/<int:invoice_id>/", pdf_invoice_view, name="pdf_invoice"),
+    path("ksef/trigger/", trigger_ksef_fetch_view, name="trigger_ksef_fetch"),
 ]

@@ -173,6 +173,24 @@
                         </div>
                     </div>
                 {% endif %}
+                {% if create_my_company %}
+                    <div class="row mb-2">
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center"
+                             style="font-weight: bold;">
+                            {{ form.ksef_token.label_tag }}
+                        </div>
+                        <div class="col-12 col-md-5 col-lg-4 d-flex align-items-center">
+                            {{ form.ksef_token }}
+                        </div>
+                    </div>
+                    {% if form.ksef_token %}
+                        <div class="row">
+                            <div class="col-12 col-md-6 offset-md-6 text-danger">
+                                {{ form.ksef_token.errors }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
                 <div class="row mt-4 justify-content-center">
                     <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                         <button class="btn btn-primary w-100 w-md-auto" name="submit">Zapisz</button>

@@ -57,6 +57,25 @@
             <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Numer telefonu:</div>
             <div class="col-12 col-md-6">{{ company.phone_number|default_if_none:"-" }}</div>
         </div>
+        {% if company.is_my_company %}
+            <div class="row mb-2">
+                <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">KSeF token:</div>
+                <div class="col-12 col-md-6">{{ company.ksef_token|default_if_none:"-" }}</div>
+            </div>
+        {% endif %}
+        {% if company.is_my_company %}
+            {% if company.ksef_last_fetched_at %}
+                <div class="row mb-2">
+                    <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Ostatnia synchronizacja z KSeF:</div>
+                    <div class="col-12 col-md-6">{{ company.ksef_last_fetched_at|date:"d.m.Y H:i" }}</div>
+                </div>
+            {% else %}
+                <div class="row mb-2">
+                    <div class="col-12 col-md-6 text-md-end" style="font-weight: bold;">Ostatnia synchronizacja z KSeF:</div>
+                    <div class="col-12 col-md-6">Nigdy</div>
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="row mt-3 justify-content-center">
             <div class="col-12 col-md-auto d-flex flex-column flex-md-row gap-2">
                 {% if company.is_my_company %}

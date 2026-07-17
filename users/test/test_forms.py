@@ -109,6 +109,20 @@ class TestUserCreationForm:
         assert not form.is_valid()
         assert "Registration too fast, possible bot." in form.non_field_errors()
 
+    def test_invalid_timestamp_signature(self):
+        # Sending a random string instead of a valid signed timestamp
+        form = UserCreationForm(
+            data={
+                "email": "test@test.pl",
+                "password1": "Password123!",
+                "password2": "Password123!",
+                "timestamp": "invalid_signature",
+                "honeypot": "",
+            }
+        )
+        assert not form.is_valid()
+        assert "Invalid form submission." in form.non_field_errors()
+
 
 @pytest.mark.django_db
 class TestUserForm:

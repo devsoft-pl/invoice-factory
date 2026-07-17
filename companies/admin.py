@@ -21,7 +21,7 @@ class CompanyAdmin(admin.ModelAdmin):
         (
             _("Basic information"),
             {
-                "fields": ("name", "nip", "regon"),
+                "fields": ("name", "nip", "regon", "created_at"),
             },
         ),
         (
@@ -33,6 +33,12 @@ class CompanyAdmin(admin.ModelAdmin):
                     ("country",),
                     ("email", "phone_number"),
                 )
+            },
+        ),
+        (
+            _("KSeF information"),
+            {
+                "fields": ("ksef_token", "ksef_last_fetched_at"),
             },
         ),
     )
